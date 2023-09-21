@@ -1,0 +1,1 @@
+enum StorageTypes { sql, kvs }
