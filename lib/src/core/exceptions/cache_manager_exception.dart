@@ -1,11 +1,11 @@
-abstract class CacheManagerException {
+abstract class AutoCacheManagerException {
   final String message;
   final StackTrace stackTrace;
   final String errorCode;
 
-  const CacheManagerException({
+  AutoCacheManagerException({
     required this.message,
-    required this.stackTrace,
+    StackTrace? stackTrace,
     required this.errorCode,
-  });
+  }) : stackTrace = stackTrace ?? StackTrace.current;
 }

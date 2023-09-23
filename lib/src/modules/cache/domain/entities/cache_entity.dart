@@ -1,15 +1,18 @@
+import '../enums/invalidation_types.dart';
 import '../enums/storage_types.dart';
 
 class CacheEntity<T> {
   final String id;
   final T data;
   final StorageTypes storageType;
+  final InvalidationTypes invalidationType;
   final DateTime createdAt;
 
   CacheEntity({
     required this.id,
     required this.data,
     required this.storageType,
+    this.invalidationType = InvalidationTypes.refresh,
     DateTime? createdAt,
   }) : createdAt = createdAt ?? DateTime.now();
 

@@ -1,11 +1,10 @@
 import '../../../../core/exceptions/cache_manager_exception.dart';
 import '../../../../core/logic/either.dart';
 import '../dtos/save_cache_dto.dart';
-import '../exceptions/key_already_in_use_exception.dart';
 import '../repositories/i_cache_repository.dart';
 
 abstract class ISaveCacheItemUsecase {
-  Future<Either<CacheManagerException, Unit>> execute(SaveCacheDTO dto);
+  Future<Either<AutoCacheManagerException, Unit>> execute(SaveCacheDTO dto);
 }
 
 class SaveCacheItemUsecase implements ISaveCacheItemUsecase {
@@ -14,7 +13,7 @@ class SaveCacheItemUsecase implements ISaveCacheItemUsecase {
   const SaveCacheItemUsecase(this._repository);
 
   @override
-  Future<Either<CacheManagerException, Unit>> execute(SaveCacheDTO dto) async {
+  Future<Either<AutoCacheManagerException, Unit>> execute(SaveCacheDTO dto) async {
     final responseCached = await _repository.findById(dto.id);
 
     // if (isIdAlreadyInUse && dto.invalidationTypes.isNotSubstitute) {
@@ -27,13 +26,8 @@ class SaveCacheItemUsecase implements ISaveCacheItemUsecase {
 }
 
 
-
-
-
-
-
-
-///Ver se o item do cache já existe pelo id (key)
-///Se o cache já existir e o método se substituição n seja purge, erro de key inválida
-
-///Se o item em cache não existir, apenas salva-lo
+///Busca pela key
+///Se não existir nada, salvar no cache
+///Se já existir, verificar método de invalidação/substituição
+///Se for refresh, atualizar o cache baseado na key
+///Se for TTL, dar throw em erro dizendo que a key já é utilizada

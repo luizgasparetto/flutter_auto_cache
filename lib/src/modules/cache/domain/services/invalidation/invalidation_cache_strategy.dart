@@ -1,11 +1,8 @@
-import '../../../../../core/logic/either.dart';
+import '../../../../../core/core.dart';
+
 import '../../entities/cache_entity.dart';
 
 abstract class InvalidationCacheStrategy {
-  final CacheEntity cache;
-
-  const InvalidationCacheStrategy(this.cache);
-
-  Either<Exception, Unit> validate();
-  bool get isCacheValid => validate().isRight;
+  Either<AutoCacheManagerException, Unit> validate<T>(CacheEntity<T> cache);
+  //bool get isCacheValid => validate().isRight;
 }
