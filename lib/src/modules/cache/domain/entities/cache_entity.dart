@@ -1,6 +1,9 @@
+import 'package:flutter/foundation.dart';
+
 import '../enums/invalidation_types.dart';
 import '../enums/storage_types.dart';
 
+@immutable
 class CacheEntity<T> {
   final String id;
   final T data;

@@ -4,6 +4,10 @@ import '../../../entities/cache_entity.dart';
 import '../invalidation_cache_strategy.dart';
 
 class TTLInvalidationStrategy implements InvalidationCacheStrategy {
+  const TTLInvalidationStrategy._create();
+
+  static const instance = TTLInvalidationStrategy._create();
+
   DateTime get maxTime => DateTime.now().add(const Duration(days: 300));
 
   @override

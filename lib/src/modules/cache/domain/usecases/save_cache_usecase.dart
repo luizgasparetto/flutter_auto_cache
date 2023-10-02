@@ -14,13 +14,6 @@ class SaveCacheItemUsecase implements ISaveCacheItemUsecase {
 
   @override
   Future<Either<AutoCacheManagerException, Unit>> execute(SaveCacheDTO dto) async {
-    final responseCached = await _repository.findById(dto.id);
-
-    // if (isIdAlreadyInUse && dto.invalidationTypes.isNotSubstitute) {
-    //   return left(KeyAlreadyInUseException());
-    // }
-
-    // TODO: implement execute
     throw UnimplementedError();
   }
 }
@@ -31,3 +24,4 @@ class SaveCacheItemUsecase implements ISaveCacheItemUsecase {
 ///Se já existir, verificar método de invalidação/substituição
 ///Se for refresh, atualizar o cache baseado na key
 ///Se for TTL, dar throw em erro dizendo que a key já é utilizada
+///
