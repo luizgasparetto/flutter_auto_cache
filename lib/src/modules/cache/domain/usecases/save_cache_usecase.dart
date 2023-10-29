@@ -1,27 +1,35 @@
+import 'dart:js_interop';
+
 import '../../../../core/exceptions/cache_manager_exception.dart';
 import '../../../../core/logic/either.dart';
 import '../dtos/save_cache_dto.dart';
 import '../repositories/i_cache_repository.dart';
 
-abstract class ISaveCacheItemUsecase {
-  Future<Either<AutoCacheManagerException, Unit>> execute(SaveCacheDTO dto);
+abstract class ISaveCacheUsecase {
+  Future<Either<AutoCacheManagerException, Unit>> execute<T>(
+      SaveCacheDTO<T> dto);
 }
 
-class SaveCacheItemUsecase implements ISaveCacheItemUsecase {
-  final ICacheRepository _repository;
+class SaveCacheUsecase implements ISaveCacheUsecase {
+  final ICacheRepository repository;
 
-  const SaveCacheItemUsecase(this._repository);
+  const SaveCacheUsecase(this.repository);
 
   @override
-  Future<Either<AutoCacheManagerException, Unit>> execute(SaveCacheDTO dto) async {
+  Future<Either<AutoCacheManagerException, Unit>> execute<T>(
+      SaveCacheDTO<T> dto) async {
+    final previousCacheItem = await this.repository.findById<T>(dto.id);
+
+    if (previousCacheItem.isLeft) {
+      return left(previousCacheItem.asLeft());
+    }
+
+    final successResponse = previousCacheItem.asRight();
+
+    if (successResponse.isNull) {
+      return this.repository.save(dto);
+    }
+
     throw UnimplementedError();
   }
 }
-
-
-///Busca pela key
-///Se não existir nada, salvar no cache
-///Se já existir, verificar método de invalidação/substituição
-///Se for refresh, atualizar o cache baseado na key
-///Se for TTL, dar throw em erro dizendo que a key já é utilizada
-///

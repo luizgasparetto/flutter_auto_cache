@@ -8,7 +8,7 @@ class TTLInvalidationStrategy implements InvalidationCacheStrategy {
 
   static const instance = TTLInvalidationStrategy._create();
 
-  DateTime get maxTime => DateTime.now().add(const Duration(days: 300));
+  DateTime get maxTime => DateTime.now().add(const Duration(days: 3));
 
   @override
   Either<AutoCacheManagerException, Unit> validate<T>(CacheEntity<T> cache) {

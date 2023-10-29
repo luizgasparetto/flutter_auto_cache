@@ -1,9 +1,9 @@
-import '../../../../core/logic/either.dart';
+import '../../../../core/core.dart';
 
 import '../dtos/save_cache_dto.dart';
 import '../entities/cache_entity.dart';
 
 abstract class ICacheRepository {
-  Future<Either<Exception, CacheEntity>> findById(String key);
-  Future<Either<Exception, Unit>> save(SaveCacheDTO dto);
+  Future<Either<AutoCacheManagerException, CacheEntity<T>?>> findById<T>(String key);
+  Future<Either<AutoCacheManagerException, Unit>> save(SaveCacheDTO dto);
 }
