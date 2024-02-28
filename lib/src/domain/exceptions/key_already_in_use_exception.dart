@@ -1,4 +1,4 @@
-import '../../../../core/exceptions/cache_manager_exception.dart';
+import '../../core/exceptions/cache_manager_exception.dart';
 
 class KeyAlreadyInUseException implements AutoCacheManagerException {
   @override

@@ -1,6 +1,9 @@
 abstract class Either<TLeft, TRight> {
-  bool get isLeft;
-  bool get isRight;
+  bool get isError;
+  bool get isSuccess;
+
+  TLeft get error;
+  TRight get success;
 
   T fold<T>(T Function(TLeft l) leftFn, T Function(TRight r) rightFn);
 
@@ -26,10 +29,10 @@ class _Left<TLeft, TRight> extends Either<TLeft, TRight> {
   final TLeft _value;
 
   @override
-  final bool isLeft = true;
+  final bool isError = true;
 
   @override
-  final bool isRight = false;
+  final bool isSuccess = false;
 
   _Left(this._value);
 
@@ -42,16 +45,22 @@ class _Left<TLeft, TRight> extends Either<TLeft, TRight> {
   TRight getOrElse(TRight Function(TLeft l) orElse) {
     return orElse(_value);
   }
+
+  @override
+  TLeft get error => _value;
+
+  @override
+  TRight get success => throw UnimplementedError();
 }
 
 class _Right<TLeft, TRight> extends Either<TLeft, TRight> {
   final TRight _value;
 
   @override
-  final bool isLeft = false;
+  final bool isError = false;
 
   @override
-  final bool isRight = true;
+  final bool isSuccess = true;
 
   _Right(this._value);
 
@@ -64,6 +73,12 @@ class _Right<TLeft, TRight> extends Either<TLeft, TRight> {
   TRight getOrElse(TRight Function(TLeft l) orElse) {
     return _value;
   }
+
+  @override
+  TLeft get error => throw UnimplementedError();
+
+  @override
+  TRight get success => _value;
 }
 
 Either<TLeft, TRight> right<TLeft, TRight>(TRight r) {

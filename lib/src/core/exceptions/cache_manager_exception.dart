@@ -1,4 +1,4 @@
-abstract class AutoCacheManagerException {
+abstract class AutoCacheManagerException implements Exception {
   final String message;
   final StackTrace stackTrace;
   final String errorCode;

@@ -1,4 +1,4 @@
-import '../../../../../../core/core.dart';
+import '../../../../core/core.dart';
 
 import '../../../entities/cache_entity.dart';
 import '../invalidation_cache_strategy.dart';
