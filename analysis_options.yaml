@@ -3,3 +3,13 @@ include: package:flutterando_analysis/flutter.yaml
 linter:
   rules:
     lines_longer_than_80_chars: false
+    annotate_overrides: true
+    avoid_as: true
+    avoid_empty_else: true
+    avoid_relative_lib_imports: true
+    avoid_print: true
+    flutter_style_todos: true
+    no_default_cases: true
+    cascade_invocations: false
+    unnecessary_this: false
+    use_setters_to_change_properties: false
