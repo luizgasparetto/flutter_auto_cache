@@ -1,4 +1,4 @@
-import '../../../../core/services/kvs/i_storage_service.dart';
+import '../../../../core/services/kvs/i_key_value_storage_service.dart';
 import '../../../domain/dtos/save_cache_dto.dart';
 import '../../domain/entities/cache_entity.dart';
 import '../../infra/datasources/i_key_value_storage_datasource.dart';

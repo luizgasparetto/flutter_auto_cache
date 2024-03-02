@@ -1,8 +1,9 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../i_storage_service.dart';
+import '../i_key_value_storage_service.dart';
 
-class SharedPreferencesKeyValueStorageService implements IKeyValueStorageService {
+class SharedPreferencesKeyValueStorageService
+    implements IKeyValueStorageService {
   final SharedPreferences prefs;
 
   const SharedPreferencesKeyValueStorageService(this.prefs);

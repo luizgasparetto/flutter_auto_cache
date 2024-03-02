@@ -1,12 +1,16 @@
+import '../../../../../auto_cache_manager.dart';
+import '../../../../core/core.dart';
 import '../../domain/dtos/save_cache_dto.dart';
+import '../../domain/exceptions/cache_exceptions.dart';
 import '../../domain/usecases/get_cache_usecase.dart';
 import '../../domain/usecases/save_cache_usecase.dart';
 
 class AutoCacheManager {
-  final GetCacheUsecase _getCacheUsecase;
-  final SaveCacheUsecase _saveCacheUsecase;
+  AutoCacheManager._();
 
-  const AutoCacheManager(this._getCacheUsecase, this._saveCacheUsecase);
+  static final AutoCacheManager _instance = AutoCacheManager._();
+
+  static AutoCacheManager get instance => _instance;
 
   Future<String?> getString({required String key}) async {
     return get<String>(key: key);
@@ -41,7 +45,14 @@ class AutoCacheManager {
   }
 
   Future<T?> get<T>({required String key}) async {
-    final response = await _getCacheUsecase.execute<T>(key: key);
+    final isInitialized = AutoCacheManagerInitialazer.instance.isInitialized;
+
+    if (!isInitialized) {
+      throw NotInitializedAutoCacheManagerException();
+    }
+
+    final usecase = Injector.instance.get<GetCacheUsecase>();
+    final response = await usecase.execute<T>(key: key);
 
     return response.fold(
       (error) => throw error,
@@ -50,9 +61,16 @@ class AutoCacheManager {
   }
 
   Future<void> save<T>({required String key, required T data}) async {
+    final isInitialized = AutoCacheManagerInitialazer.instance.isInitialized;
+
+    if (!isInitialized) {
+      throw NotInitializedAutoCacheManagerException();
+    }
+
+    final usecase = Injector.instance.get<SaveCacheUsecase>();
     final dto = SaveCacheDTO<T>(key: key, data: data);
 
-    final response = await _saveCacheUsecase.execute(dto);
+    final response = await usecase.execute(dto);
 
     if (response.isError) {
       throw response.error;

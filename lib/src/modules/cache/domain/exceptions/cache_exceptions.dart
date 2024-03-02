@@ -6,3 +6,14 @@ class CacheNotExistsException extends AutoCacheManagerException {
     required super.stackTrace,
   }) : super(code: 'cache-not-exists');
 }
+
+class NotInitializedAutoCacheManagerException implements AutoCacheManagerException {
+  @override
+  String get code => 'not_initialized_auto_cache_manager_exception';
+
+  @override
+  String get message => 'Auto cache manager is not initialized yet';
+
+  @override
+  StackTrace get stackTrace => StackTrace.current;
+}
