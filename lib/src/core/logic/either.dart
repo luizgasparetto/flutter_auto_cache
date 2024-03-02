@@ -50,7 +50,7 @@ class _Left<TLeft, TRight> extends Either<TLeft, TRight> {
   }
 
   @override
-  TLeft get error => _value;
+  TLeft get error => value;
 
   @override
   TRight get success => throw UnimplementedError();
@@ -81,7 +81,7 @@ class _Right<TLeft, TRight> extends Either<TLeft, TRight> {
   TLeft get error => throw UnimplementedError();
 
   @override
-  TRight get success => _value;
+  TRight get success => value;
 }
 
 Either<TLeft, TRight> right<TLeft, TRight>(TRight r) {
