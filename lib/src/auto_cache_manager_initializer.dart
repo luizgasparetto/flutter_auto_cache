@@ -1,3 +1,5 @@
+import 'package:flutter/foundation.dart';
+
 import 'core/core.dart';
 
 class AutoCacheManagerInitialazer {
@@ -7,9 +9,19 @@ class AutoCacheManagerInitialazer {
 
   static AutoCacheManagerInitialazer get instance => _instance;
 
-  Future<void> init() async {
-    await PackageInjections.registerBinds();
-  }
+  final _defaultConfig = ValueNotifier(BaseConfig.defaultConfig());
 
   bool get isInitialized => Injector.instance.hasBinds;
+  BaseConfig get config => _defaultConfig.value;
+
+  Future<void> init({BaseConfig? config}) async {
+    await PackageInjections.registerBinds();
+    _setConfig(config);
+  }
+
+  void _setConfig(BaseConfig? config) {
+    if (config != null) {
+      _defaultConfig.value = config;
+    }
+  }
 }

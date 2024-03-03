@@ -5,23 +5,23 @@ class Injector {
 
   static Injector get instance => _instance;
 
-  final _dependencies = <Type, dynamic>{};
+  final _dependencies = <Type, Object>{};
+
+  bool get hasBinds => _dependencies.isNotEmpty;
 
   T get<T>() {
     return _dependencies[T] as T;
   }
 
-  void bindSingleton<T>(Object instance) {
+  void bindSingleton<T extends Object>(Object instance) {
     _dependencies[T] = instance;
   }
 
-  void bindFactory<T>(T Function() factory) {
+  void bindFactory<T extends Object>(Object Function() factory) {
     _dependencies[T] = factory();
   }
 
-  Future<void> asyncBind<T>(Future<T> Function() factory) async {
+  Future<void> asyncBind<T extends Object>(Future<T> Function() factory) async {
     _dependencies[T] = await factory();
   }
-
-  bool get hasBinds => _dependencies.isNotEmpty;
 }

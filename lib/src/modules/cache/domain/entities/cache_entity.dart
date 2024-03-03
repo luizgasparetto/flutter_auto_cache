@@ -1,6 +1,5 @@
 import 'package:flutter/foundation.dart';
 
-import '../constants/cache_constants.dart';
 import '../enums/invalidation_type.dart';
 import '../enums/storage_type.dart';
 
@@ -16,7 +15,7 @@ class CacheEntity<T> {
     required this.id,
     required this.data,
     required this.storageType,
-    this.invalidationType = CacheConstants.defaultInvalidationType,
+    required this.invalidationType,
     DateTime? createdAt,
   }) : createdAt = createdAt ?? DateTime.now();
 

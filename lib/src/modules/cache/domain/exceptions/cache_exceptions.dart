@@ -9,7 +9,7 @@ class CacheNotExistsException extends AutoCacheManagerException {
 
 class NotInitializedAutoCacheManagerException implements AutoCacheManagerException {
   @override
-  String get code => 'not_initialized_auto_cache_manager_exception';
+  String get code => 'not_initialized_auto_cache_manager';
 
   @override
   String get message => 'Auto cache manager is not initialized yet';
