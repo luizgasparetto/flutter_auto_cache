@@ -1,7 +1,10 @@
+import 'package:flutter/foundation.dart';
+
 import '../../../../../auto_cache_manager_library.dart';
 import '../enums/invalidation_type.dart';
 import '../enums/storage_type.dart';
 
+@immutable
 class SaveCacheDTO<T> {
   final String key;
   final T data;
@@ -24,5 +27,20 @@ class SaveCacheDTO<T> {
       invalidationType: config.invalidationType,
       storageType: config.storageType,
     );
+  }
+
+  @override
+  bool operator ==(covariant SaveCacheDTO<T> other) {
+    if (identical(this, other)) return true;
+
+    return other.key == key &&
+        other.data == data &&
+        other.invalidationType == invalidationType &&
+        other.storageType == storageType;
+  }
+
+  @override
+  int get hashCode {
+    return key.hashCode ^ data.hashCode ^ invalidationType.hashCode ^ storageType.hashCode;
   }
 }

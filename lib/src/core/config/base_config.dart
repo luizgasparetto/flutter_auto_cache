@@ -18,5 +18,12 @@ class BaseConfig {
     );
   }
 
+  bool get isDefaultConfig {
+    final isDefaultStorage = storageType == CacheConstants.defaultStorageType;
+    final isDefaultInvalidation = invalidationType == CacheConstants.defaultInvalidationType;
+
+    return isDefaultStorage && isDefaultInvalidation;
+  }
+
   bool get isKvsSelected => this.storageType == StorageType.kvs;
 }

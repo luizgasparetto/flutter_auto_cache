@@ -24,4 +24,6 @@ class Injector {
   Future<void> asyncBind<T extends Object>(Future<T> Function() factory) async {
     _dependencies[T] = await factory();
   }
+
+  void clear() => _dependencies.clear();
 }

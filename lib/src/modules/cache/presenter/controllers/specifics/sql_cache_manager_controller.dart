@@ -7,14 +7,14 @@ part of '../base_cache_manager_controller.dart';
 /// by `_BaseCacheManagerController`. It is designed to work with SQL databases
 /// to cache data, making data retrieval and storage operations more efficient.
 class SQLCacheManagerController {
-  final _BaseCacheManagerController _baseCacheManagerController;
+  final BaseCacheManagerController _baseCacheManagerController;
 
   /// Constructs a singleton instance of `SQLCacheManagerController`.
   ///
   /// This constructor is private to ensure that `SQLCacheManagerController`
   /// can only be accessed through its singleton instance, maintaining a single
   /// point of interaction with the SQL-based cache system.
-  SQLCacheManagerController._() : _baseCacheManagerController = _BaseCacheManagerController.instance;
+  SQLCacheManagerController._() : _baseCacheManagerController = BaseCacheManagerController._fromInjector();
 
   /// The singleton instance of `SQLCacheManagerController`.
   ///

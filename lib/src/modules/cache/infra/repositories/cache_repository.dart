@@ -19,14 +19,14 @@ class CacheRepository implements ICacheRepository {
 
     try {
       if (config.isKvsSelected) {
-        final response = _kvsDatasource.findByKey<T>(key);
+        final kvsResponse = _kvsDatasource.findByKey<T>(key);
 
-        return right(response);
+        return right(kvsResponse);
       }
 
-      final response = await _sqlDatasource.findByKey<T>(key);
+      final sqlResponse = await _sqlDatasource.findByKey<T>(key);
 
-      return right(response);
+      return right(sqlResponse);
     } on AutoCacheManagerException catch (exception) {
       return left(exception);
     }

@@ -16,10 +16,10 @@ class AutoCacheManagerInitialazer {
 
   Future<void> init({BaseConfig? config}) async {
     await PackageInjections.registerBinds();
-    _setConfig(config);
+    setConfig(config);
   }
 
-  void _setConfig(BaseConfig? config) {
+  void setConfig(BaseConfig? config) {
     if (config != null) {
       _defaultConfig.value = config;
     }

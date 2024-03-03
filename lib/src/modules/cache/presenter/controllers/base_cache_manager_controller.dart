@@ -8,18 +8,14 @@ import '../../domain/usecases/save_cache_usecase.dart';
 part 'specifics/kvs_cache_manager_controller.dart';
 part 'specifics/sql_cache_manager_controller.dart';
 
-class _BaseCacheManagerController {
+class BaseCacheManagerController {
   final GetCacheUsecase _getCacheUsecase;
   final SaveCacheUsecase _saveCacheUsecase;
 
-  _BaseCacheManagerController(this._getCacheUsecase, this._saveCacheUsecase);
+  const BaseCacheManagerController(this._getCacheUsecase, this._saveCacheUsecase);
 
-  static final _BaseCacheManagerController _instance = _BaseCacheManagerController.fromInjector();
-
-  static _BaseCacheManagerController get instance => _instance;
-
-  factory _BaseCacheManagerController.fromInjector() {
-    return _BaseCacheManagerController(
+  factory BaseCacheManagerController._fromInjector() {
+    return BaseCacheManagerController(
       Injector.instance.get<GetCacheUsecase>(),
       Injector.instance.get<SaveCacheUsecase>(),
     );
