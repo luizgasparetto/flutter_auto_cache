@@ -1,0 +1,23 @@
+# Handle line endings automatically for files detected as text
+# and leave all binary files untouched.
+* text=auto
+
+# Custom for Visual Studio
+*.cs     diff=csharp
+
+# These files are text and should be normalized (convert crlf => lf)
+*.dart text
+*.yaml text
+*.json text
+*.md text
+
+# These files are binary and should be left untouched
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.webp binary
+*.svg binary
+*.ttf binary
+*.otf binary
