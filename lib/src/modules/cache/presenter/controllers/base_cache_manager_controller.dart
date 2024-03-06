@@ -21,7 +21,7 @@ class BaseCacheManagerController {
     );
   }
 
-  Future<T?> get<T>({required String key}) async {
+  Future<T?> get<T extends Object>({required String key}) async {
     final isInitialized = AutoCacheManagerInitialazer.instance.isInitialized;
 
     if (!isInitialized) {
@@ -36,7 +36,7 @@ class BaseCacheManagerController {
     );
   }
 
-  Future<void> save<T>({required String key, required T data}) async {
+  Future<void> save<T extends Object>({required String key, required T data}) async {
     final isInitialized = AutoCacheManagerInitialazer.instance.isInitialized;
 
     if (!isInitialized) {

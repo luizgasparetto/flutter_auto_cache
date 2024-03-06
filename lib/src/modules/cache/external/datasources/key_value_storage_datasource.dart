@@ -10,13 +10,13 @@ class KeyValueStorageDatasource implements IKeyValueStorageDatasource {
   const KeyValueStorageDatasource(this._service);
 
   @override
-  CacheEntity<T>? findByKey<T>(String key) {
+  CacheEntity<T>? findByKey<T extends Object>(String key) {
     final response = _service.get<T>(key: key);
     throw UnimplementedError();
   }
 
   @override
-  Future<void> save<T>(SaveCacheDTO dto) async {
+  Future<void> save<T extends Object>(SaveCacheDTO<T> dto) async {
     await _service.save<T>(key: dto.key, value: dto.data);
     throw UnimplementedError();
   }

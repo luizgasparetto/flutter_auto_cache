@@ -5,7 +5,7 @@ import '../enums/invalidation_type.dart';
 import '../enums/storage_type.dart';
 
 @immutable
-class SaveCacheDTO<T> {
+class SaveCacheDTO<T extends Object> {
   final String key;
   final T data;
   final InvalidationType invalidationType;

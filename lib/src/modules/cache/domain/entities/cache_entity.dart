@@ -4,7 +4,7 @@ import '../enums/invalidation_type.dart';
 import '../enums/storage_type.dart';
 
 @immutable
-class CacheEntity<T> {
+class CacheEntity<T extends Object> {
   final String id;
   final T data;
   final StorageType storageType;

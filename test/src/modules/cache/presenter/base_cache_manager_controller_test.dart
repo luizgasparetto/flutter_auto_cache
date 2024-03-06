@@ -15,7 +15,7 @@ class SaveCacheUsecaseMock extends Mock implements SaveCacheUsecase {}
 
 class FakeBindClass extends Fake {}
 
-class CacheEntityFake<T> extends Fake implements CacheEntity<T> {
+class CacheEntityFake<T extends Object> extends Fake implements CacheEntity<T> {
   final T fakeData;
 
   CacheEntityFake({required this.fakeData});

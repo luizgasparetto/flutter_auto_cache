@@ -11,7 +11,7 @@ class TTLInvalidationStrategy implements InvalidationCacheStrategy {
   DateTime get maxTime => DateTime.now().add(const Duration(days: 3));
 
   @override
-  Either<AutoCacheManagerException, Unit> validate<T>(CacheEntity<T> cache) {
+  Either<AutoCacheManagerException, Unit> validate<T extends Object>(CacheEntity<T> cache) {
     final isCacheAfterMaxTime = cache.createdAt.isAfter(maxTime);
 
     if (isCacheAfterMaxTime) {}
