@@ -51,3 +51,14 @@ jobs:
           name: Tests Results
           path: test-results.json
           reporter: flutter-json
+
+      - uses: actions/github-script@v5
+        if: success()
+        with:
+          script: |
+            github.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: '🎉 Your code passed all our tests!',
+            })
