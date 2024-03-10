@@ -14,6 +14,12 @@ jobs:
     name: Analyzer & Tests Reporter
 
     runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+      contents: write
+      statuses: write
+      checks: write
+      actions: write
 
     steps:
       - uses: actions/checkout@v4
