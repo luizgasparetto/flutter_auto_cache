@@ -69,7 +69,7 @@ void main() {
       Injector.instance.clear();
 
       expect(Injector.instance.hasBinds, equals(false));
-      expect(AutoCacheManagerInitialazer.instance.isInitialized, equals(false));
+      expect(AutoCacheManagerInitialazer.I.isInitialized, equals(false));
       expect(() => sut.get<String>(key: 'my_key'), throwsA(isA<NotInitializedAutoCacheManagerException>()));
       verifyNever(() => getCacheUsecase.execute<String>(key: 'my_key'));
     });
@@ -99,7 +99,7 @@ void main() {
       Injector.instance.clear();
 
       expect(Injector.instance.hasBinds, equals(false));
-      expect(AutoCacheManagerInitialazer.instance.isInitialized, equals(false));
+      expect(AutoCacheManagerInitialazer.I.isInitialized, equals(false));
 
       expect(
         () => sut.save<String>(key: 'my_key', data: 'my_data'),

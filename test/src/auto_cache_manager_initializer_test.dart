@@ -5,7 +5,7 @@ import 'package:auto_cache_manager/src/modules/cache/domain/enums/storage_type.d
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  final sut = AutoCacheManagerInitialazer.instance;
+  final sut = AutoCacheManagerInitialazer.I;
 
   const newConfig = BaseConfig(storageType: StorageType.sql, invalidationType: InvalidationType.ttl);
 

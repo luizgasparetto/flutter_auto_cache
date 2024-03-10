@@ -1,4 +1,4 @@
-import '../../../../core/services/kvs/i_key_value_storage_service.dart';
+import '../../../../core/services/storages/kvs/i_key_value_storage_service.dart';
 
 import '../../domain/dtos/save_cache_dto.dart';
 import '../../domain/entities/cache_entity.dart';
@@ -12,12 +12,14 @@ class KeyValueStorageDatasource implements IKeyValueStorageDatasource {
   @override
   CacheEntity<T>? findByKey<T extends Object>(String key) {
     final response = _service.get<T>(key: key);
-    throw UnimplementedError();
+
+    if (response == null) return null;
+
+    return null;
   }
 
   @override
   Future<void> save<T extends Object>(SaveCacheDTO<T> dto) async {
-    await _service.save<T>(key: dto.key, value: dto.data);
-    throw UnimplementedError();
+    await _service.save<T>(key: dto.key, data: dto.data);
   }
 }
