@@ -9,8 +9,9 @@ abstract class GetCacheUsecase {
 
 class GetCache implements GetCacheUsecase {
   final ICacheRepository _repository;
+  final InvalidationCacheContext _invalidationContext;
 
-  const GetCache(this._repository);
+  const GetCache(this._repository, this._invalidationContext);
 
   @override
   Future<Either<AutoCacheManagerException, CacheEntity<T>?>> execute<T>({required String key}) async {
@@ -25,8 +26,7 @@ class GetCache implements GetCacheUsecase {
     }
 
     final cache = searchResponse.success!;
-
-    final validation = InvalidationCacheContext.execute(cache);
+    final validation = _invalidationContext.execute(cache);
 
     if (validation.isError) {
       return left(validation.error);
