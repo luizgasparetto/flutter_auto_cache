@@ -11,8 +11,9 @@ abstract interface class SaveCacheUsecase {
 
 class SaveCache implements SaveCacheUsecase {
   final ICacheRepository _repository;
+  final InvalidationCacheContext _invalidationCacheContext;
 
-  const SaveCache(this._repository);
+  const SaveCache(this._repository, this._invalidationCacheContext);
 
   @override
   Future<Either<AutoCacheManagerException, Unit>> execute<T extends Object>(SaveCacheDTO<T> dto) async {
@@ -34,7 +35,7 @@ class SaveCache implements SaveCacheUsecase {
   }
 
   Either<AutoCacheManagerException, Unit> _validate(CacheEntity cache) {
-    final validation = InvalidationCacheContext.execute(cache);
+    final validation = _invalidationCacheContext.execute(cache);
 
     if (validation.isError) {
       return left(validation.error);
