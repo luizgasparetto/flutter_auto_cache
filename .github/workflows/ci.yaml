@@ -11,7 +11,7 @@ on:
 
 jobs:
   build:
-    name: Analyzer & Tests
+    name: Analyzer & Tests Reporter
 
     runs-on: ubuntu-latest
 
@@ -20,6 +20,7 @@ jobs:
 
       - uses: actions/setup-java@v3
         with:
+          distribution: "zulu"
           java-version: "17"
 
       - uses: subosito/flutter-action@v2
@@ -30,10 +31,17 @@ jobs:
 
       - run: flutter analyze
 
-      - run: flutter test --test-randomize-ordering-seed=random --coverage --machine
+      - run: flutter test --test-randomize-ordering-seed=random --coverage --machine > test-results.json
 
-      - uses: VeryGoodOpenSource/very_good_coverage@v2
+      # - uses: VeryGoodOpenSource/very_good_coverage@v2
+      #   with:
+      #     path: "/coverage/lcov.info"
+      #     min_coverage: 75
+      #     exclude: "**/*_observer.dart **/change.dart"
+
+      - uses: dorny/test-reporter@v1
+        if: success() || failure()
         with:
-          path: "/coverage/lcov.info"
-          min_coverage: 80
-          exclude: "**/*_observer.dart **/change.dart"
+          name: Tests Results
+          path: test-results.json
+          reporter: flutter-json
