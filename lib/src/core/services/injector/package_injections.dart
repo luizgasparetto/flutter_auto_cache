@@ -6,11 +6,11 @@ import 'injector.dart';
 
 class PackageInjections {
   static Future<void> registerBinds() async {
-    await Injector.instance.asyncBind(SharedPreferences.getInstance);
+    await Injector.I.asyncBind(SharedPreferences.getInstance);
 
-    Injector.instance.bindSingleton<IKeyValueStorageDatasource>(
+    Injector.I.bindSingleton<IKeyValueStorageDatasource>(
       SharedPreferencesKeyValueStorageService(
-        Injector.instance.get<SharedPreferences>(),
+        Injector.I.get<SharedPreferences>(),
       ),
     );
   }

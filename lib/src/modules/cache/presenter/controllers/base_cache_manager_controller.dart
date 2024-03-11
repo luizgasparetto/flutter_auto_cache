@@ -16,8 +16,8 @@ class BaseCacheManagerController {
 
   factory BaseCacheManagerController._fromInjector() {
     return BaseCacheManagerController(
-      Injector.instance.get<GetCacheUsecase>(),
-      Injector.instance.get<SaveCacheUsecase>(),
+      Injector.I.get<GetCacheUsecase>(),
+      Injector.I.get<SaveCacheUsecase>(),
     );
   }
 

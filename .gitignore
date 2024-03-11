@@ -26,6 +26,7 @@ migrate_working_dir/
 /pubspec.lock
 **/doc/api/
 .packages
+.dart_tool
 build/
 
 # Generated Files

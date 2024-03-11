@@ -11,7 +11,7 @@ class AutoCacheManagerInitialazer {
 
   final _configListenable = ValueNotifier(BaseConfig.defaultConfig());
 
-  bool get isInitialized => Injector.instance.hasBinds;
+  bool get isInitialized => Injector.I.hasBinds;
   BaseConfig get config => _configListenable.value;
 
   Future<void> init({BaseConfig? config}) async {

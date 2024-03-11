@@ -33,13 +33,13 @@ void main() {
   final sut = BaseCacheManagerController(getCacheUsecase, saveCacheUsecase);
 
   setUp(() {
-    Injector.instance.bindFactory(FakeBindClass.new);
+    Injector.I.bindFactory(FakeBindClass.new);
   });
 
   tearDown(() {
     reset(getCacheUsecase);
     reset(saveCacheUsecase);
-    Injector.instance.clear();
+    Injector.I.clear();
   });
 
   group('BaseCacheManagerController.get |', () {
@@ -66,9 +66,9 @@ void main() {
     });
 
     test('should NOT be able to get data in cache when AutoCacheManager is not initialized', () async {
-      Injector.instance.clear();
+      Injector.I.clear();
 
-      expect(Injector.instance.hasBinds, equals(false));
+      expect(Injector.I.hasBinds, equals(false));
       expect(AutoCacheManagerInitialazer.I.isInitialized, equals(false));
       expect(() => sut.get<String>(key: 'my_key'), throwsA(isA<NotInitializedAutoCacheManagerException>()));
       verifyNever(() => getCacheUsecase.execute<String>(key: 'my_key'));
@@ -96,9 +96,9 @@ void main() {
     });
 
     test('should NOT be able to save data in cache when AutoCacheManager is not initialized', () async {
-      Injector.instance.clear();
+      Injector.I.clear();
 
-      expect(Injector.instance.hasBinds, equals(false));
+      expect(Injector.I.hasBinds, equals(false));
       expect(AutoCacheManagerInitialazer.I.isInitialized, equals(false));
 
       expect(
