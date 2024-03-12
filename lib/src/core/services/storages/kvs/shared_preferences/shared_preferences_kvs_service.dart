@@ -39,7 +39,7 @@ class SharedPreferencesKeyValueStorageService implements IKeyValueStorageService
         createdAt: DateTime.now(),
       );
 
-      final dtoMap = StorageDTOAdapter.toJson<T>(dto);
+      final dtoMap = StorageDTOAdapter.toJson(dto);
       final jsonEncoded = jsonEncode(dtoMap);
 
       await prefs.setString(key, jsonEncoded);
