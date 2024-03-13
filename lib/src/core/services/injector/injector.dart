@@ -3,7 +3,7 @@ class Injector {
 
   static final Injector _instance = Injector._();
 
-  static Injector get instance => _instance;
+  static Injector get I => _instance;
 
   final _dependencies = <Type, Object>{};
 
