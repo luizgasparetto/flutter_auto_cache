@@ -39,11 +39,11 @@ jobs:
 
       - run: flutter test --test-randomize-ordering-seed=random --coverage --machine > test-results.json
 
-      # - uses: VeryGoodOpenSource/very_good_coverage@v2
-      #   with:
-      #     path: "/coverage/lcov.info"
-      #     min_coverage: 75
-      #     exclude: "**/*_observer.dart **/change.dart"
+      - uses: VeryGoodOpenSource/very_good_coverage@v2
+        with:
+          path: "/coverage/lcov.info"
+          min_coverage: 75
+          exclude: "**/*_observer.dart **/change.dart"
 
       - uses: dorny/test-reporter@v1
         if: success() || failure()
