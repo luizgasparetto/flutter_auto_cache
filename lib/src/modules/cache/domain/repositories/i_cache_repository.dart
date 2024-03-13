@@ -1,9 +1,9 @@
 import '../../../../core/core.dart';
 
 import '../dtos/save_cache_dto.dart';
-import '../entities/cache_entity.dart';
+import '../types/cache_types.dart';
 
 abstract interface class ICacheRepository {
-  Future<Either<AutoCacheManagerException, CacheEntity<T>?>> findByKey<T>(String key);
-  Future<Either<AutoCacheManagerException, Unit>> save<T>(SaveCacheDTO<T> dto);
+  Future<GetCacheResponse<T>> findByKey<T extends Object>(String key);
+  Future<Either<AutoCacheManagerException, Unit>> save<T extends Object>(SaveCacheDTO<T> dto);
 }

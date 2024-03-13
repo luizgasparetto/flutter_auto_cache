@@ -1,3 +1,5 @@
+// coverage:ignore-file
+
 abstract class Either<TLeft, TRight> {
   bool get isError;
   bool get isSuccess;
@@ -6,26 +8,6 @@ abstract class Either<TLeft, TRight> {
   TRight get success;
 
   T fold<T>(T Function(TLeft l) leftFn, T Function(TRight r) rightFn);
-
-  TRight getOrElse(TRight Function(TLeft left) orElse);
-
-  Either<TLeft, T> map<T>(T Function(TRight r) fn) {
-    return fold(left, (r) {
-      return right(fn(r));
-    });
-  }
-
-  Either<T, TRight> leftMap<T>(T Function(TLeft l) fn) {
-    return fold(
-      (l) {
-        return left(fn(l));
-      },
-      right,
-    );
-  }
-
-  TRight asRight() => (this as _Right).value;
-  TLeft asLeft() => (this as _Left).value;
 }
 
 class _Left<TLeft, TRight> extends Either<TLeft, TRight> {
@@ -42,11 +24,6 @@ class _Left<TLeft, TRight> extends Either<TLeft, TRight> {
   @override
   T fold<T>(T Function(TLeft l) leftFn, T Function(TRight r) rightFn) {
     return leftFn(value);
-  }
-
-  @override
-  TRight getOrElse(TRight Function(TLeft l) orElse) {
-    return orElse(value);
   }
 
   @override
@@ -70,11 +47,6 @@ class _Right<TLeft, TRight> extends Either<TLeft, TRight> {
   @override
   T fold<T>(T Function(TLeft l) leftFn, T Function(TRight r) rightFn) {
     return rightFn(value);
-  }
-
-  @override
-  TRight getOrElse(TRight Function(TLeft l) orElse) {
-    return value;
   }
 
   @override

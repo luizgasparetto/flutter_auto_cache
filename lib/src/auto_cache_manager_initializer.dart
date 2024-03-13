@@ -7,12 +7,12 @@ class AutoCacheManagerInitialazer {
 
   static final AutoCacheManagerInitialazer _instance = AutoCacheManagerInitialazer._();
 
-  static AutoCacheManagerInitialazer get instance => _instance;
+  static AutoCacheManagerInitialazer get I => _instance;
 
-  final _defaultConfig = ValueNotifier(BaseConfig.defaultConfig());
+  final _configListenable = ValueNotifier(BaseConfig.defaultConfig());
 
-  bool get isInitialized => Injector.instance.hasBinds;
-  BaseConfig get config => _defaultConfig.value;
+  bool get isInjectorInitialized => Injector.I.hasBinds;
+  BaseConfig get config => _configListenable.value;
 
   Future<void> init({BaseConfig? config}) async {
     await PackageInjections.registerBinds();
@@ -21,7 +21,7 @@ class AutoCacheManagerInitialazer {
 
   void setConfig(BaseConfig? config) {
     if (config != null) {
-      _defaultConfig.value = config;
+      _configListenable.value = config;
     }
   }
 }

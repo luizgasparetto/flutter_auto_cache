@@ -4,7 +4,7 @@ import '../../domain/enums/storage_type.dart';
 import 'enums/invalidation_type_adapter.dart';
 
 class CacheAdapter {
-  static CacheEntity<T> fromJson<T>(Map<String, dynamic> json, {required StorageType storageType}) {
+  static CacheEntity<T> fromJson<T extends Object>(Map<String, dynamic> json, {required StorageType storageType}) {
     return CacheEntity<T>(
       id: json['id'],
       data: json['data'],
@@ -14,7 +14,7 @@ class CacheAdapter {
     );
   }
 
-  static Map<String, dynamic> toJson<T>(CacheEntity<T> cache) {
+  static Map<String, dynamic> toJson<T extends Object>(CacheEntity<T> cache) {
     return {
       'id': cache.id,
       'data': cache.data,

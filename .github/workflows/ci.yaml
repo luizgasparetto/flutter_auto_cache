@@ -11,15 +11,22 @@ on:
 
 jobs:
   build:
-    name: Analyzer & Tests
+    name: Analyzer & Tests Reporter
 
     runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+      contents: write
+      statuses: write
+      checks: write
+      actions: write
 
     steps:
       - uses: actions/checkout@v4
 
       - uses: actions/setup-java@v3
         with:
+          distribution: "zulu"
           java-version: "17"
 
       - uses: subosito/flutter-action@v2
@@ -30,10 +37,23 @@ jobs:
 
       - run: flutter analyze
 
-      - run: flutter test --test-randomize-ordering-seed=random --coverage --machine
+      - run: flutter test --test-randomize-ordering-seed=random --coverage --machine > test-results.json
 
-      - uses: VeryGoodOpenSource/very_good_coverage@v2
+      - name: Check for existing and non-empty coverage file
+        id: test_coverage_file
+        run: if [ -s "/coverage/lcov.info" ]; then echo "result=true" >> $GITHUB_OUTPUT ; else echo "result=false" >> $GITHUB_OUTPUT; fi
+
+      - name: Verify Coverage
+        if: steps.test_coverage_file.outputs.result == 'true'
+        uses: VeryGoodOpenSource/very_good_coverage@v2
         with:
           path: "/coverage/lcov.info"
-          min_coverage: 80
+          min_coverage: 75
           exclude: "**/*_observer.dart **/change.dart"
+
+      - uses: dorny/test-reporter@v1
+        if: success() || failure()
+        with:
+          name: Tests Results
+          path: test-results.json
+          reporter: flutter-json

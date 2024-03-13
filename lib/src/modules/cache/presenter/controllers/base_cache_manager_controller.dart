@@ -16,13 +16,13 @@ class BaseCacheManagerController {
 
   factory BaseCacheManagerController._fromInjector() {
     return BaseCacheManagerController(
-      Injector.instance.get<GetCacheUsecase>(),
-      Injector.instance.get<SaveCacheUsecase>(),
+      Injector.I.get<GetCacheUsecase>(),
+      Injector.I.get<SaveCacheUsecase>(),
     );
   }
 
-  Future<T?> get<T>({required String key}) async {
-    final isInitialized = AutoCacheManagerInitialazer.instance.isInitialized;
+  Future<T?> get<T extends Object>({required String key}) async {
+    final isInitialized = AutoCacheManagerInitialazer.I.isInjectorInitialized;
 
     if (!isInitialized) {
       throw NotInitializedAutoCacheManagerException();
@@ -36,8 +36,8 @@ class BaseCacheManagerController {
     );
   }
 
-  Future<void> save<T>({required String key, required T data}) async {
-    final isInitialized = AutoCacheManagerInitialazer.instance.isInitialized;
+  Future<void> save<T extends Object>({required String key, required T data}) async {
+    final isInitialized = AutoCacheManagerInitialazer.I.isInjectorInitialized;
 
     if (!isInitialized) {
       throw NotInitializedAutoCacheManagerException();

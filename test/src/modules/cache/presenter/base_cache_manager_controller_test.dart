@@ -15,7 +15,7 @@ class SaveCacheUsecaseMock extends Mock implements SaveCacheUsecase {}
 
 class FakeBindClass extends Fake {}
 
-class CacheEntityFake<T> extends Fake implements CacheEntity<T> {
+class CacheEntityFake<T extends Object> extends Fake implements CacheEntity<T> {
   final T fakeData;
 
   CacheEntityFake({required this.fakeData});
@@ -33,13 +33,13 @@ void main() {
   final sut = BaseCacheManagerController(getCacheUsecase, saveCacheUsecase);
 
   setUp(() {
-    Injector.instance.bindFactory(FakeBindClass.new);
+    Injector.I.bindFactory(FakeBindClass.new);
   });
 
   tearDown(() {
     reset(getCacheUsecase);
     reset(saveCacheUsecase);
-    Injector.instance.clear();
+    Injector.I.clear();
   });
 
   group('BaseCacheManagerController.get |', () {
@@ -66,10 +66,10 @@ void main() {
     });
 
     test('should NOT be able to get data in cache when AutoCacheManager is not initialized', () async {
-      Injector.instance.clear();
+      Injector.I.clear();
 
-      expect(Injector.instance.hasBinds, equals(false));
-      expect(AutoCacheManagerInitialazer.instance.isInitialized, equals(false));
+      expect(Injector.I.hasBinds, equals(false));
+      expect(AutoCacheManagerInitialazer.I.isInjectorInitialized, equals(false));
       expect(() => sut.get<String>(key: 'my_key'), throwsA(isA<NotInitializedAutoCacheManagerException>()));
       verifyNever(() => getCacheUsecase.execute<String>(key: 'my_key'));
     });
@@ -96,10 +96,10 @@ void main() {
     });
 
     test('should NOT be able to save data in cache when AutoCacheManager is not initialized', () async {
-      Injector.instance.clear();
+      Injector.I.clear();
 
-      expect(Injector.instance.hasBinds, equals(false));
-      expect(AutoCacheManagerInitialazer.instance.isInitialized, equals(false));
+      expect(Injector.I.hasBinds, equals(false));
+      expect(AutoCacheManagerInitialazer.I.isInjectorInitialized, equals(false));
 
       expect(
         () => sut.save<String>(key: 'my_key', data: 'my_data'),

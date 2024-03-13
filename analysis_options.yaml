@@ -13,3 +13,4 @@ linter:
     cascade_invocations: false
     unnecessary_this: false
     use_setters_to_change_properties: false
+    avoid_catching_errors: false
