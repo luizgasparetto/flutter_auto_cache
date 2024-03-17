@@ -1,4 +1,4 @@
-import 'package:auto_cache_manager/auto_cache_manager_library.dart';
+import 'package:auto_cache_manager/auto_cache_manager.dart';
 import 'package:auto_cache_manager/src/core/core.dart';
 import 'package:auto_cache_manager/src/core/extensions/when_extensions.dart';
 import 'package:auto_cache_manager/src/modules/cache/domain/dtos/save_cache_dto.dart';
@@ -32,8 +32,8 @@ void main() {
 
   final sut = CacheRepository(kvsDatasource, sqlDatasource);
 
-  const sqlConfig = BaseConfig(storageType: StorageType.sql, invalidationType: InvalidationType.ttl);
-  final kvsConfig = BaseConfig.defaultConfig();
+  const sqlConfig = CacheConfig(storageType: StorageType.sql, invalidationType: InvalidationType.ttl);
+  final kvsConfig = CacheConfig.defaultConfig();
 
   tearDown(() {
     reset(kvsDatasource);
@@ -41,7 +41,7 @@ void main() {
   });
 
   tearDownAll(() {
-    AutoCacheManagerInitialazer.I.setConfig(BaseConfig.defaultConfig());
+    AutoCacheManagerInitialazer.I.setConfig(CacheConfig.defaultConfig());
   });
 
   group('CacheRepository.findByKey |', () {

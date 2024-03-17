@@ -2,17 +2,17 @@ import '../../modules/cache/domain/enums/invalidation_type.dart';
 import '../../modules/cache/domain/enums/storage_type.dart';
 import '../constants/cache_constants.dart';
 
-class BaseConfig {
+class CacheConfig {
   final StorageType storageType;
   final InvalidationType invalidationType;
 
-  const BaseConfig({
+  const CacheConfig({
     required this.storageType,
     required this.invalidationType,
   });
 
-  factory BaseConfig.defaultConfig() {
-    return const BaseConfig(
+  factory CacheConfig.defaultConfig() {
+    return const CacheConfig(
       storageType: CacheConstants.defaultStorageType,
       invalidationType: CacheConstants.defaultInvalidationType,
     );

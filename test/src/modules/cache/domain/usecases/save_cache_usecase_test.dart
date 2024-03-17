@@ -1,4 +1,4 @@
-import 'package:auto_cache_manager/auto_cache_manager_library.dart';
+import 'package:auto_cache_manager/auto_cache_manager.dart';
 import 'package:auto_cache_manager/src/core/core.dart';
 import 'package:auto_cache_manager/src/modules/cache/domain/dtos/save_cache_dto.dart';
 import 'package:auto_cache_manager/src/modules/cache/domain/entities/cache_entity.dart';
@@ -25,7 +25,7 @@ class CacheEntityFake<T extends Object> extends Fake implements CacheEntity<T> {
   T get data => fakeData;
 }
 
-class BaseConfigFake extends Fake implements BaseConfig {
+class BaseConfigFake extends Fake implements CacheConfig {
   @override
   StorageType get storageType => StorageType.kvs;
 

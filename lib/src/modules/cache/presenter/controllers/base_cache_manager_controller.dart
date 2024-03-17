@@ -1,4 +1,4 @@
-import '../../../../../auto_cache_manager_library.dart';
+import '../../../../../auto_cache_manager.dart';
 import '../../../../core/core.dart';
 import '../../domain/dtos/save_cache_dto.dart';
 import '../../domain/exceptions/cache_exceptions.dart';

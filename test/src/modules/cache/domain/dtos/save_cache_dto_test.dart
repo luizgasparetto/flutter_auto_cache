@@ -1,4 +1,4 @@
-import 'package:auto_cache_manager/auto_cache_manager_library.dart';
+import 'package:auto_cache_manager/auto_cache_manager.dart';
 import 'package:auto_cache_manager/src/core/core.dart';
 import 'package:auto_cache_manager/src/modules/cache/domain/dtos/save_cache_dto.dart';
 import 'package:auto_cache_manager/src/modules/cache/domain/enums/invalidation_type.dart';
@@ -9,7 +9,7 @@ void main() {
   final initialized = AutoCacheManagerInitialazer.I;
 
   group('SaveCacheDTO.withConfig |', () {
-    const config = BaseConfig(storageType: StorageType.sql, invalidationType: InvalidationType.ttl);
+    const config = CacheConfig(storageType: StorageType.sql, invalidationType: InvalidationType.ttl);
 
     test('should be able to create a SaveCacheDTO with config settings', () {
       initialized.setConfig(config);
