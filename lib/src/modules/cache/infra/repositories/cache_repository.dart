@@ -1,3 +1,5 @@
+import 'package:auto_cache_manager/src/modules/cache/domain/dtos/clear_cache_dto.dart';
+
 import '../../../../auto_cache_manager_initializer.dart';
 import '../../../../core/core.dart';
 
@@ -34,6 +36,19 @@ class CacheRepository implements ICacheRepository {
       final action = config.isKvsSelected ? _kvsDatasource.save : _sqlDatasource.save;
 
       await action.call<T>(dto);
+
+      return right(unit);
+    } on AutoCacheManagerException catch (exception) {
+      return left(exception);
+    }
+  }
+
+  @override
+  Future<Either<AutoCacheManagerException, Unit>> clear(ClearCacheDTO dto) async {
+    try {
+      final action = dto.storageType.isKvs ? _kvsDatasource.clear : _sqlDatasource.clear;
+
+      await action.call();
 
       return right(unit);
     } on AutoCacheManagerException catch (exception) {
