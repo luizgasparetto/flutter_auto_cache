@@ -1,11 +1,12 @@
 import 'dart:io';
-import 'package:path_provider/path_provider.dart';
+
+import '../../directory_provider/directory_provider.dart';
 
 /// An abstract class defining the interface for cache detail services.
 ///
 /// This interface requires implementing classes to provide functionality
 /// for retrieving the total size of cache used by the application.
-abstract class ICacheDetailsService {
+abstract interface class ICacheSizeAnalyzerService {
   /// Returns the total cache size used by the application in megabytes (MB).
   ///
   /// The method should asynchronously calculate and return the total size
@@ -19,7 +20,11 @@ abstract class ICacheDetailsService {
 /// the size of cache used by the application. It works by assessing
 /// the size of files stored in the application's documents and support
 /// directories, typically used for key-value storage (KVS) and SQL storage.
-sealed class CacheDetailsService implements ICacheDetailsService {
+final class CacheSizeAnalyzerService implements ICacheSizeAnalyzerService {
+  final IDirectoryProvider directoryProvider;
+
+  const CacheSizeAnalyzerService(this.directoryProvider);
+
   /// Retrieves the total cache size used by the application.
   ///
   /// It calculates the cache size by summing up the sizes of files
@@ -30,8 +35,8 @@ sealed class CacheDetailsService implements ICacheDetailsService {
   /// A `Future<double>` representing the total cache size used in megabytes (MB).
   @override
   Future<double> getCacheSizeUsed() async {
-    final kvsDirectory = await getApplicationDocumentsDirectory();
-    final sqlDirectory = await getApplicationSupportDirectory();
+    final kvsDirectory = await directoryProvider.getApplicationDocumentsDirectory();
+    final sqlDirectory = await directoryProvider.getApplicationSupportDirectory();
 
     final totalKvsSize = _calculeCacheSizeInMb(kvsDirectory);
     final totalSqlSize = _calculeCacheSizeInMb(sqlDirectory);
@@ -55,7 +60,6 @@ sealed class CacheDetailsService implements ICacheDetailsService {
     final files = directory.listSync(recursive: true);
 
     final total = files.whereType<File>().fold(0, (acc, file) => acc + file.lengthSync());
-
     return total / (1024 * 1024);
   }
 }

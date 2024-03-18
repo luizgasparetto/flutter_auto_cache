@@ -1,4 +1,4 @@
-import '../../../core.dart';
+import '../../../../core.dart';
 
 class GetStorageException extends AutoCacheManagerException {
   GetStorageException({

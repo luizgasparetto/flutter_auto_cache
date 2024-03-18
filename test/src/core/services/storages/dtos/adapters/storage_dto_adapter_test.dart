@@ -1,6 +1,6 @@
-import 'package:auto_cache_manager/src/core/services/storages/dtos/adapters/storage_dto_adapter.dart';
-import 'package:auto_cache_manager/src/core/services/storages/dtos/storage_dto.dart';
-import 'package:auto_cache_manager/src/core/services/storages/exceptions/adapters_exceptions.dart';
+import 'package:auto_cache_manager/src/core/services/cache/storages/dtos/adapters/storage_dto_adapter.dart';
+import 'package:auto_cache_manager/src/core/services/cache/storages/dtos/storage_dto.dart';
+import 'package:auto_cache_manager/src/core/services/cache/storages/exceptions/adapters_exceptions.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../../../../../auto_cache_manager.dart';
+import '../../../../../../../auto_cache_manager.dart';
 import '../../dtos/adapters/storage_dto_adapter.dart';
 import '../../dtos/storage_dto.dart';
 import '../../exceptions/storage_exceptions.dart';
