@@ -32,7 +32,7 @@ void main() {
 
   final sut = CacheRepository(kvsDatasource, sqlDatasource);
 
-  const sqlConfig = CacheConfig(storageType: StorageType.sql, invalidationType: InvalidationType.ttl);
+  final sqlConfig = CacheConfig(storageType: StorageType.sql, invalidationType: InvalidationType.ttl);
   final kvsConfig = CacheConfig.defaultConfig();
 
   tearDown(() {

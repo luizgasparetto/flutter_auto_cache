@@ -13,7 +13,7 @@ void main() {
   WidgetsFlutterBinding.ensureInitialized();
 
   final sut = AutoCacheManagerInitialazer.I;
-  const newConfig = CacheConfig(storageType: StorageType.sql, invalidationType: InvalidationType.ttl);
+  final newConfig = CacheConfig(storageType: StorageType.sql, invalidationType: InvalidationType.ttl);
 
   setUpAll(() {
     SharedPreferences.setMockInitialValues({});

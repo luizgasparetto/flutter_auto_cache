@@ -9,7 +9,7 @@ void main() {
   final initialized = AutoCacheManagerInitialazer.I;
 
   group('SaveCacheDTO.withConfig |', () {
-    const config = CacheConfig(storageType: StorageType.sql, invalidationType: InvalidationType.ttl);
+    final config = CacheConfig(storageType: StorageType.sql, invalidationType: InvalidationType.ttl);
 
     test('should be able to create a SaveCacheDTO with config settings', () {
       initialized.setConfig(config);
