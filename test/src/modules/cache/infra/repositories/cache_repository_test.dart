@@ -1,6 +1,7 @@
 import 'package:auto_cache_manager/auto_cache_manager.dart';
 import 'package:auto_cache_manager/src/core/core.dart';
 import 'package:auto_cache_manager/src/core/extensions/when_extensions.dart';
+import 'package:auto_cache_manager/src/modules/cache/domain/dtos/clear_cache_dto.dart';
 import 'package:auto_cache_manager/src/modules/cache/domain/dtos/save_cache_dto.dart';
 import 'package:auto_cache_manager/src/modules/cache/domain/entities/cache_entity.dart';
 import 'package:auto_cache_manager/src/modules/cache/domain/enums/invalidation_type.dart';
@@ -167,6 +168,53 @@ void main() {
       expect(response.error, isA<AutoCacheManagerException>());
       verify(() => sqlDatasource.save<String>(dto)).called(1);
       verifyNever(() => kvsDatasource.save<String>(dto));
+    });
+  });
+
+  group('CacheRepository.clear |', () {
+    const kvsDTO = ClearCacheDTO(storageType: StorageType.kvs);
+    const sqlDTO = ClearCacheDTO(storageType: StorageType.sql);
+
+    test('should be able to clear KVS data successfully', () async {
+      when(kvsDatasource.clear).thenAsyncVoid();
+
+      final response = await sut.clear(kvsDTO);
+
+      expect(response.isSuccess, isTrue);
+      verify(kvsDatasource.clear).called(1);
+      verifyNever(sqlDatasource.clear);
+    });
+
+    test('should be able to clear SQL data successfully', () async {
+      when(sqlDatasource.clear).thenAsyncVoid();
+
+      final response = await sut.clear(sqlDTO);
+
+      expect(response.isSuccess, isTrue);
+      verify(sqlDatasource.clear).called(1);
+      verifyNever(kvsDatasource.clear);
+    });
+
+    test('should NOT be able to clear KVS data when datasource fails', () async {
+      when(kvsDatasource.clear).thenThrow(FakeAutoCacheManagerException());
+
+      final response = await sut.clear(kvsDTO);
+
+      expect(response.isError, isTrue);
+      expect(response.error, isA<AutoCacheManagerException>());
+      verify(kvsDatasource.clear).called(1);
+      verifyNever(sqlDatasource.clear);
+    });
+
+    test('should NOT be able to clear SQL data when datasource fails', () async {
+      when(sqlDatasource.clear).thenThrow(FakeAutoCacheManagerException());
+
+      final response = await sut.clear(sqlDTO);
+
+      expect(response.isError, isTrue);
+      expect(response.error, isA<AutoCacheManagerException>());
+      verify(sqlDatasource.clear).called(1);
+      verifyNever(kvsDatasource.clear);
     });
   });
 }
