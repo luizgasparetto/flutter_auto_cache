@@ -1,4 +1,4 @@
-import '../../../../core.dart';
+import '../../../core.dart';
 
 class StorageAdapterException extends AutoCacheManagerException {
   const StorageAdapterException({

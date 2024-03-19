@@ -1,9 +1,7 @@
 import 'dart:io';
 
-import 'package:auto_cache_manager/src/core/core.dart';
-
-import '../../directory_provider/directory_provider.dart';
-import 'exceptions/cache_size_analyzer_exceptions.dart';
+import '../../../../../core/core.dart';
+import '../../exceptions/cache_size_analyzer_exceptions.dart';
 
 /// An abstract class defining the interface for cache detail services.
 ///
@@ -78,7 +76,7 @@ final class CacheSizeAnalyzerService implements ICacheSizeAnalyzerService {
       final files = directory.listSync(recursive: true);
 
       final total = files.whereType<File>().fold(0, (acc, file) => acc + file.lengthSync());
-      return total / (1024 * 1024);
+      return total / CacheConstants.bytesPerMb;
     } catch (e, stackTrace) {
       throw CalculateCacheSizeException(
         code: 'calculte_cache_size',

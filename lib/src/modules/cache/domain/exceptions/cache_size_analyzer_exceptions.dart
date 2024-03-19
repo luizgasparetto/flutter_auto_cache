@@ -1,4 +1,4 @@
-import '../../../../core.dart';
+import '../../../../core/core.dart';
 
 class CacheSizeAnalyzerException extends AutoCacheManagerException {
   CacheSizeAnalyzerException({
