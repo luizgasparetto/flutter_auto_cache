@@ -2,6 +2,7 @@ import 'package:auto_cache_manager/auto_cache_manager.dart';
 import 'package:auto_cache_manager/src/core/core.dart';
 import 'package:auto_cache_manager/src/modules/cache/domain/dtos/save_cache_dto.dart';
 import 'package:auto_cache_manager/src/modules/cache/domain/entities/cache_entity.dart';
+import 'package:auto_cache_manager/src/modules/cache/domain/enums/storage_type.dart';
 import 'package:auto_cache_manager/src/modules/cache/domain/exceptions/cache_exceptions.dart';
 import 'package:auto_cache_manager/src/modules/cache/domain/usecases/get_cache_usecase.dart';
 import 'package:auto_cache_manager/src/modules/cache/domain/usecases/save_cache_usecase.dart';
@@ -30,7 +31,7 @@ void main() {
   final getCacheUsecase = GetCacheUsecaseMock();
   final saveCacheUsecase = SaveCacheUsecaseMock();
 
-  final sut = BaseCacheManagerController(getCacheUsecase, saveCacheUsecase);
+  final sut = BaseCacheManagerController(getCacheUsecase, saveCacheUsecase, storageType: StorageType.kvs);
 
   setUp(() {
     Injector.I.bindFactory(FakeBindClass.new);

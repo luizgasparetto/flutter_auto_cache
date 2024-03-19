@@ -1,3 +1,5 @@
+import 'package:auto_cache_manager/src/modules/cache/domain/enums/storage_type.dart';
+
 import '../../../../../auto_cache_manager.dart';
 import '../../../../core/core.dart';
 import '../../domain/dtos/save_cache_dto.dart';
@@ -11,13 +13,27 @@ part 'specifics/sql_cache_manager_controller.dart';
 class BaseCacheManagerController {
   final GetCacheUsecase _getCacheUsecase;
   final SaveCacheUsecase _saveCacheUsecase;
+  final StorageType storageType;
 
-  const BaseCacheManagerController(this._getCacheUsecase, this._saveCacheUsecase);
+  const BaseCacheManagerController(
+    this._getCacheUsecase,
+    this._saveCacheUsecase, {
+    required this.storageType,
+  });
 
-  factory BaseCacheManagerController._fromInjector() {
+  factory BaseCacheManagerController._kvs() {
     return BaseCacheManagerController(
       Injector.I.get<GetCacheUsecase>(),
       Injector.I.get<SaveCacheUsecase>(),
+      storageType: StorageType.kvs,
+    );
+  }
+
+  factory BaseCacheManagerController._sql() {
+    return BaseCacheManagerController(
+      Injector.I.get<GetCacheUsecase>(),
+      Injector.I.get<SaveCacheUsecase>(),
+      storageType: StorageType.sql,
     );
   }
 

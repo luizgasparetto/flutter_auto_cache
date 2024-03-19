@@ -14,7 +14,7 @@ abstract interface class ICacheSizeAnalyzerService {
   ///
   /// The method should asynchronously calculate and return the total size
   /// of the cache used, facilitating the management of application cache.
-  Future<double> getCacheSizeUsed();
+  Future<Either<AutoCacheManagerException, double>> getCacheSizeUsed();
 }
 
 /// A service class for managing cache details.
@@ -37,7 +37,7 @@ final class CacheSizeAnalyzerService implements ICacheSizeAnalyzerService {
   /// Returns:
   /// A `Future<double>` representing the total cache size used in megabytes (MB).
   @override
-  Future<double> getCacheSizeUsed() async {
+  Future<Either<AutoCacheManagerException, double>> getCacheSizeUsed() async {
     try {
       final kvsDirectory = await directoryProvider.getApplicationDocumentsDirectory();
       final sqlDirectory = await directoryProvider.getApplicationSupportDirectory();
@@ -45,14 +45,18 @@ final class CacheSizeAnalyzerService implements ICacheSizeAnalyzerService {
       final totalKvsSize = _calculeCacheSizeInMb(kvsDirectory);
       final totalSqlSize = _calculeCacheSizeInMb(sqlDirectory);
 
-      return totalSqlSize + totalKvsSize;
-    } on AutoCacheManagerException {
-      rethrow;
+      final total = totalSqlSize + totalKvsSize;
+
+      return right(total);
+    } on AutoCacheManagerException catch (e) {
+      return left(e);
     } catch (e, stackTrace) {
-      throw CacheSizeAnalyzerException(
-        code: 'get_cache_size',
-        message: 'Failed to get size of cache',
-        stackTrace: stackTrace,
+      return left(
+        CacheSizeAnalyzerException(
+          code: 'get_cache_size',
+          message: 'Failed to get size of cache',
+          stackTrace: stackTrace,
+        ),
       );
     }
   }
