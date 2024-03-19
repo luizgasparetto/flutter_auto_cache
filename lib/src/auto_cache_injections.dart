@@ -1,10 +1,11 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../../modules/cache/infra/datasources/i_key_value_storage_datasource.dart';
-import '../cache/storages/kvs/shared_preferences/shared_preferences_kvs_service.dart';
-import 'injector.dart';
+import 'core/core.dart';
+import 'core/services/cache/storages/kvs/shared_preferences/shared_preferences_kvs_service.dart';
 
-class PackageInjections {
+import 'modules/cache/infra/datasources/i_key_value_storage_datasource.dart';
+
+class AutoCacheInjections {
   static Future<void> registerBinds() async {
     await Injector.I.asyncBind(SharedPreferences.getInstance);
 

@@ -1,5 +1,6 @@
-import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 
+import 'auto_cache_injections.dart';
 import 'core/core.dart';
 
 class AutoCacheManagerInitialazer {
@@ -15,7 +16,7 @@ class AutoCacheManagerInitialazer {
   CacheConfig get config => _configListenable.value;
 
   Future<void> init({CacheConfig? config}) async {
-    await PackageInjections.registerBinds();
+    await AutoCacheInjections.registerBinds();
     setConfig(config);
   }
 

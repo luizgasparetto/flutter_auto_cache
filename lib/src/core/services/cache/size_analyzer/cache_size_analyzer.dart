@@ -1,6 +1,9 @@
 import 'dart:io';
 
+import 'package:auto_cache_manager/src/core/core.dart';
+
 import '../../directory_provider/directory_provider.dart';
+import 'exceptions/cache_size_analyzer_exceptions.dart';
 
 /// An abstract class defining the interface for cache detail services.
 ///
@@ -35,13 +38,23 @@ final class CacheSizeAnalyzerService implements ICacheSizeAnalyzerService {
   /// A `Future<double>` representing the total cache size used in megabytes (MB).
   @override
   Future<double> getCacheSizeUsed() async {
-    final kvsDirectory = await directoryProvider.getApplicationDocumentsDirectory();
-    final sqlDirectory = await directoryProvider.getApplicationSupportDirectory();
+    try {
+      final kvsDirectory = await directoryProvider.getApplicationDocumentsDirectory();
+      final sqlDirectory = await directoryProvider.getApplicationSupportDirectory();
 
-    final totalKvsSize = _calculeCacheSizeInMb(kvsDirectory);
-    final totalSqlSize = _calculeCacheSizeInMb(sqlDirectory);
+      final totalKvsSize = _calculeCacheSizeInMb(kvsDirectory);
+      final totalSqlSize = _calculeCacheSizeInMb(sqlDirectory);
 
-    return totalSqlSize + totalKvsSize;
+      return totalSqlSize + totalKvsSize;
+    } on AutoCacheManagerException {
+      rethrow;
+    } catch (e, stackTrace) {
+      throw CacheSizeAnalyzerException(
+        code: 'get_cache_size',
+        message: 'Failed to get size of cache',
+        stackTrace: stackTrace,
+      );
+    }
   }
 
   /// Calculates the cache size in megabytes (MB) for a given directory.
@@ -57,9 +70,17 @@ final class CacheSizeAnalyzerService implements ICacheSizeAnalyzerService {
   /// Returns:
   /// A `double` representing the size of the cache in megabytes (MB).
   double _calculeCacheSizeInMb(Directory directory) {
-    final files = directory.listSync(recursive: true);
+    try {
+      final files = directory.listSync(recursive: true);
 
-    final total = files.whereType<File>().fold(0, (acc, file) => acc + file.lengthSync());
-    return total / (1024 * 1024);
+      final total = files.whereType<File>().fold(0, (acc, file) => acc + file.lengthSync());
+      return total / (1024 * 1024);
+    } catch (e, stackTrace) {
+      throw CalculateCacheSizeException(
+        code: 'calculte_cache_size',
+        message: 'Failed to calculate cache size',
+        stackTrace: stackTrace,
+      );
+    }
   }
 }
