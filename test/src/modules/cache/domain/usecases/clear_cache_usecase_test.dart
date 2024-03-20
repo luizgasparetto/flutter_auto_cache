@@ -25,7 +25,7 @@ void main() {
     test('should be able to clear cache successfully', () async {
       when(() => repository.clear(dto)).thenAnswer((_) async => right(unit));
 
-      final response = await sut.clear(dto);
+      final response = await sut.execute(dto);
 
       expect(response.isSuccess, isTrue);
       expect(response.success, isA<Unit>());
@@ -37,7 +37,7 @@ void main() {
         return left(AutoCacheManagerExceptionFake());
       });
 
-      final response = await sut.clear(dto);
+      final response = await sut.execute(dto);
 
       expect(response.isError, isTrue);
       expect(response.error, isA<AutoCacheManagerException>());

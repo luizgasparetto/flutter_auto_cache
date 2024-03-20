@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import '../../../../../core/core.dart';
+import '../../constants/cache_size_constants.dart';
 import '../../exceptions/cache_size_analyzer_exceptions.dart';
 
 /// An abstract class defining the interface for cache detail services.
@@ -51,7 +52,6 @@ final class CacheSizeAnalyzerService implements ICacheSizeAnalyzerService {
     } catch (e, stackTrace) {
       return left(
         CacheSizeAnalyzerException(
-          code: 'get_cache_size',
           message: 'Failed to get size of cache',
           stackTrace: stackTrace,
         ),
@@ -76,10 +76,9 @@ final class CacheSizeAnalyzerService implements ICacheSizeAnalyzerService {
       final files = directory.listSync(recursive: true);
 
       final total = files.whereType<File>().fold(0, (acc, file) => acc + file.lengthSync());
-      return total / CacheConstants.bytesPerMb;
+      return total / CacheSizeConstants.bytesPerMb;
     } catch (e, stackTrace) {
       throw CalculateCacheSizeException(
-        code: 'calculte_cache_size',
         message: 'Failed to calculate cache size',
         stackTrace: stackTrace,
       );

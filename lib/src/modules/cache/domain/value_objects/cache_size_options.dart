@@ -1,5 +1,6 @@
-import 'package:auto_cache_manager/src/modules/cache/domain/constants/cache_constants.dart';
 import 'package:flutter/foundation.dart';
+
+import '../constants/cache_size_constants.dart';
 
 /// Represents cache size options with configurable maximum sizes in kilobytes (KB) and megabytes (MB).
 ///
@@ -21,8 +22,8 @@ class CacheSizeOptions {
   ///   - maxKb: The maximum cache size in kilobytes. Must be non-negative.
   ///   - maxMb: The maximum cache size in megabytes. Must be non-negative.
   const CacheSizeOptions({
-    this.maxKb = CacheConstants.defaultMaxKb,
-    this.maxMb = CacheConstants.defaultMaxMb,
+    this.maxKb = CacheSizeConstants.defaultMaxKb,
+    this.maxMb = CacheSizeConstants.defaultMaxMb,
   })  : assert(maxKb >= 0, 'maxKb must be non-negative'),
         assert(maxMb >= 0, 'maxMb must be non-negative');
 
@@ -41,13 +42,13 @@ class CacheSizeOptions {
   /// Returns:
   ///   The total cache size in megabytes (double).
   double get totalMb {
-    final totalMbBytes = maxMb * CacheConstants.bytesPerMb;
-    final totalKbBytes = maxKb * CacheConstants.bytesPerKb;
+    final totalMbBytes = maxMb * CacheSizeConstants.bytesPerMb;
+    final totalKbBytes = maxKb * CacheSizeConstants.bytesPerKb;
 
     final total = totalMbBytes + totalKbBytes;
 
     // Convert the total bytes back to megabytes for the return value.
-    return total.toDouble() / CacheConstants.bytesPerMb;
+    return total.toDouble() / CacheSizeConstants.bytesPerMb;
   }
 
   @override

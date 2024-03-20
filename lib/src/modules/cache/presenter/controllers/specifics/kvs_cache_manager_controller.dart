@@ -8,7 +8,7 @@ part of '../base_cache_manager_controller.dart';
 class KVSCacheManagerController {
   final BaseCacheManagerController _baseCacheManagerController;
 
-  KVSCacheManagerController._() : _baseCacheManagerController = BaseCacheManagerController._kvs();
+  KVSCacheManagerController._() : _baseCacheManagerController = BaseCacheManagerController.kvs();
 
   static final KVSCacheManagerController _instance = KVSCacheManagerController._();
 
