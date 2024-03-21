@@ -47,7 +47,7 @@ void main() {
     test('should NOT be able to GET cache data when prefs throws an Exception', () async {
       when(() => prefs.getString('my_key')).thenThrow(Exception());
 
-      expect(() => sut.get<String>(key: 'my_key'), throwsA(isA<GetStorageException>()));
+      expect(() => sut.get<String>(key: 'my_key'), throwsA(isA<GetKVSStorageException>()));
       verify(() => prefs.getString('my_key')).called(1);
     });
   });
@@ -63,7 +63,7 @@ void main() {
     test('should NOT be able to SAVE cache data with key when prefs throws an Exception', () async {
       when(() => prefs.setString('my_key', any(that: isA<String>()))).thenThrow(Exception());
 
-      expect(() => sut.save<String>(key: 'my_key', data: 'my_data'), throwsA(isA<SaveStorageException>()));
+      expect(() => sut.save<String>(key: 'my_key', data: 'my_data'), throwsA(isA<SaveKVSStorageException>()));
       verify(() => prefs.setString('my_key', any(that: isA<String>()))).called(1);
     });
   });
