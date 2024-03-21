@@ -24,7 +24,7 @@ class SaveCache implements SaveCacheUsecase {
     }
 
     if (findByKeyResponse.success != null) {
-      final validateResponse = _validate(findByKeyResponse.success!);
+      final validateResponse = _validate<T>(findByKeyResponse.success!);
 
       if (validateResponse.isError) {
         return left(validateResponse.error);
@@ -34,7 +34,7 @@ class SaveCache implements SaveCacheUsecase {
     return _repository.save<T>(dto);
   }
 
-  Either<AutoCacheManagerException, Unit> _validate(CacheEntity cache) {
+  Either<AutoCacheManagerException, Unit> _validate<T extends Object>(CacheEntity<T> cache) {
     final validation = _invalidationCacheContext.execute(cache);
 
     if (validation.isError) {

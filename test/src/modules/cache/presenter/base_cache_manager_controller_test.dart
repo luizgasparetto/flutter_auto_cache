@@ -1,8 +1,10 @@
-import 'package:auto_cache_manager/auto_cache_manager_library.dart';
+import 'package:auto_cache_manager/auto_cache_manager.dart';
 import 'package:auto_cache_manager/src/core/core.dart';
+import 'package:auto_cache_manager/src/core/exceptions/initializer_exceptions.dart';
 import 'package:auto_cache_manager/src/modules/cache/domain/dtos/save_cache_dto.dart';
 import 'package:auto_cache_manager/src/modules/cache/domain/entities/cache_entity.dart';
-import 'package:auto_cache_manager/src/modules/cache/domain/exceptions/cache_exceptions.dart';
+import 'package:auto_cache_manager/src/modules/cache/domain/enums/storage_type.dart';
+import 'package:auto_cache_manager/src/modules/cache/domain/usecases/clear_cache_usecase.dart';
 import 'package:auto_cache_manager/src/modules/cache/domain/usecases/get_cache_usecase.dart';
 import 'package:auto_cache_manager/src/modules/cache/domain/usecases/save_cache_usecase.dart';
 import 'package:auto_cache_manager/src/modules/cache/presenter/controllers/base_cache_manager_controller.dart';
@@ -12,6 +14,8 @@ import 'package:mocktail/mocktail.dart';
 class GetCacheUsecaseMock extends Mock implements GetCacheUsecase {}
 
 class SaveCacheUsecaseMock extends Mock implements SaveCacheUsecase {}
+
+class ClearCacheUsecaseMock extends Mock implements ClearCacheUsecase {}
 
 class FakeBindClass extends Fake {}
 
@@ -29,8 +33,14 @@ class FakeAutoCacheManagerException extends Fake implements AutoCacheManagerExce
 void main() {
   final getCacheUsecase = GetCacheUsecaseMock();
   final saveCacheUsecase = SaveCacheUsecaseMock();
+  final clearCacheUsecase = ClearCacheUsecaseMock();
 
-  final sut = BaseCacheManagerController(getCacheUsecase, saveCacheUsecase);
+  final sut = BaseCacheManagerController(
+    getCacheUsecase,
+    saveCacheUsecase,
+    clearCacheUsecase,
+    storageType: StorageType.kvs,
+  );
 
   setUp(() {
     Injector.I.bindFactory(FakeBindClass.new);

@@ -22,4 +22,9 @@ class KeyValueStorageDatasource implements IKeyValueStorageDatasource {
   Future<void> save<T extends Object>(SaveCacheDTO<T> dto) async {
     await _service.save<T>(key: dto.key, data: dto.data);
   }
+
+  @override
+  Future<void> clear() async {
+    return _service.clear();
+  }
 }

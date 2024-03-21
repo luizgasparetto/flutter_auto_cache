@@ -14,7 +14,7 @@ class SQLCacheManagerController {
   /// This constructor is private to ensure that `SQLCacheManagerController`
   /// can only be accessed through its singleton instance, maintaining a single
   /// point of interaction with the SQL-based cache system.
-  SQLCacheManagerController._() : _baseCacheManagerController = BaseCacheManagerController._fromInjector();
+  SQLCacheManagerController._() : _baseCacheManagerController = BaseCacheManagerController.sql();
 
   /// The singleton instance of `SQLCacheManagerController`.
   ///
@@ -45,10 +45,17 @@ class SQLCacheManagerController {
   /// allowing for efficient data saving operations. The method is generic,
   /// supporting any type that extends `Object`.
   ///
-  /// - Parameters:
-  ///   - key: The unique key to associate with the value in the cache.
-  ///   - data: The data to be saved in the cache. It must extend `Object`.
-  /// - Returns: A `Future<void>` that completes when the operation is finished.
+  /// An `AutoCacheManagerException` may be thrown with the following error codes:
+  /// - **not_initialized_auto_cache_manager**:
+  ///   - Thrown if the `AutoCacheManager` has not been properly initialized through `AutoCacheManagerInitializer`. This error indicates that the cache
+  ///     manager's setup process is incomplete, and cache operations cannot proceed until initialization is successfully completed.
+  /// - **get_cache_size**:
+  ///   - Thrown if there is an error retrieving the current size of the cache.
+  ///     This can occur due to issues accessing the storage medium or if the
+  ///     cache data is corrupted.
+  /// - **calculate_cache_size**:
+  ///   - Thrown if there is an error calculating the size of the cache. This could indicate an issue
+  ///     with the storage calculation algorithm or an unexpected storage limit exceeded.
   Future<void> save<T extends Object>({required String key, required T data}) async {
     return _baseCacheManagerController.save<Object>(key: key, data: data);
   }

@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../../../../../auto_cache_manager_library.dart';
+import '../../../../../../auto_cache_manager.dart';
 import '../../dtos/adapters/storage_dto_adapter.dart';
 import '../../dtos/storage_dto.dart';
 import '../../exceptions/storage_exceptions.dart';
@@ -23,7 +23,7 @@ class SharedPreferencesKeyValueStorageService implements IKeyValueStorageService
       final mapResponse = jsonDecode(response);
       return StorageDTOAdapter.fromJson<T>(mapResponse);
     } catch (e, stackTrace) {
-      throw GetStorageException(stacktrace: stackTrace);
+      throw GetKVSStorageException(stackTrace: stackTrace);
     }
   }
 
@@ -44,7 +44,7 @@ class SharedPreferencesKeyValueStorageService implements IKeyValueStorageService
 
       await prefs.setString(key, jsonEncoded);
     } catch (e, stackTrace) {
-      throw SaveStorageException(stacktrace: stackTrace);
+      throw SaveKVSStorageException(stackTrace: stackTrace);
     }
   }
 

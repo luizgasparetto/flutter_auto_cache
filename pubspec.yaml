@@ -9,7 +9,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  intl: ^0.18.1
+  path_provider: ^2.1.2
   shared_preferences: ^2.2.2
 
 dev_dependencies:
@@ -19,4 +19,10 @@ dev_dependencies:
   flutterando_analysis: ^0.0.2
   mocktail: ^1.0.3
 
-flutter:
+platforms:
+  android:
+  ios:
+  linux:
+  macos:
+  web:
+  windows:

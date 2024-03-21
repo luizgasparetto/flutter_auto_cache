@@ -1,7 +1,7 @@
 // ignore_for_file: avoid_redundant_argument_values
 
-import 'package:auto_cache_manager/auto_cache_manager_library.dart';
-import 'package:auto_cache_manager/src/core/config/base_config.dart';
+import 'package:auto_cache_manager/auto_cache_manager.dart';
+import 'package:auto_cache_manager/src/core/config/cache_config.dart';
 import 'package:auto_cache_manager/src/core/core.dart';
 import 'package:auto_cache_manager/src/modules/cache/domain/enums/invalidation_type.dart';
 import 'package:auto_cache_manager/src/modules/cache/domain/enums/storage_type.dart';
@@ -13,14 +13,14 @@ void main() {
   WidgetsFlutterBinding.ensureInitialized();
 
   final sut = AutoCacheManagerInitialazer.I;
-  const newConfig = BaseConfig(storageType: StorageType.sql, invalidationType: InvalidationType.ttl);
+  final newConfig = CacheConfig(storageType: StorageType.sql, invalidationType: InvalidationType.ttl);
 
   setUpAll(() {
     SharedPreferences.setMockInitialValues({});
   });
 
   tearDown(() {
-    sut.setConfig(BaseConfig.defaultConfig());
+    sut.setConfig(CacheConfig.defaultConfig());
   });
 
   group('AutoCacheManagerInitializer.init |', () {

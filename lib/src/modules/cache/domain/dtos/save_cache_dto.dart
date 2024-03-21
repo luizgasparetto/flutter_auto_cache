@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 
-import '../../../../../auto_cache_manager_library.dart';
+import '../../../../../auto_cache_manager.dart';
 import '../enums/invalidation_type.dart';
 import '../enums/storage_type.dart';
 

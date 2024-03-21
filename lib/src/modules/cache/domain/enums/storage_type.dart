@@ -5,5 +5,8 @@ enum StorageType {
 
   /// KVS (Key Value Store) it's used to store simple values. E.g: Token.
   /// For curious/simplicity purpose, when you use SharedPreferences you're using an KVS, an Key-Value database (NoSQL).
-  kvs
+  kvs;
+
+  bool get isKvs => this == StorageType.kvs;
+  bool get isSql => this == StorageType.sql;
 }
