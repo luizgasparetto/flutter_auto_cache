@@ -19,7 +19,7 @@ class SaveCacheDTO<T extends Object> {
   });
 
   factory SaveCacheDTO.withConfig({required String key, required T data}) {
-    final config = AutoCacheManagerInitialazer.I.config;
+    final config = AutoCacheManagerInitializer.I.config;
 
     return SaveCacheDTO._(
       key: key,

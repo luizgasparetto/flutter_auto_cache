@@ -42,14 +42,14 @@ void main() {
   });
 
   tearDownAll(() {
-    AutoCacheManagerInitialazer.I.setConfig(CacheConfig.defaultConfig());
+    AutoCacheManagerInitializer.I.setConfig(CacheConfig.defaultConfig());
   });
 
   group('CacheRepository.findByKey |', () {
     test('should be able to find cache data by key in KVS successfully', () async {
       when(() => kvsDatasource.findByKey<String>('my_key')).thenReturn(CacheEntityFake<String>(fakeData: 'any_data'));
 
-      AutoCacheManagerInitialazer.I.setConfig(kvsConfig);
+      AutoCacheManagerInitializer.I.setConfig(kvsConfig);
       final response = await sut.findByKey<String>('my_key');
 
       expect(response.isSuccess, isTrue);
@@ -61,7 +61,7 @@ void main() {
     test('should be able to return NULL when cache not found data in KVS', () async {
       when(() => kvsDatasource.findByKey<String>('my_key')).thenReturn(null);
 
-      AutoCacheManagerInitialazer.I.setConfig(kvsConfig);
+      AutoCacheManagerInitializer.I.setConfig(kvsConfig);
       final response = await sut.findByKey<String>('my_key');
 
       expect(response.isSuccess, isTrue);
@@ -73,7 +73,7 @@ void main() {
     test('should NOT be able to find cache data in KVS when datasource throws an AutoCacheManagerException', () async {
       when(() => kvsDatasource.findByKey<String>('my_key')).thenThrow(FakeAutoCacheManagerException());
 
-      AutoCacheManagerInitialazer.I.setConfig(kvsConfig);
+      AutoCacheManagerInitializer.I.setConfig(kvsConfig);
       final response = await sut.findByKey<String>('my_key');
 
       expect(response.isError, isTrue);
@@ -87,7 +87,7 @@ void main() {
         return CacheEntityFake<String>(fakeData: 'any_data');
       });
 
-      AutoCacheManagerInitialazer.I.setConfig(sqlConfig);
+      AutoCacheManagerInitializer.I.setConfig(sqlConfig);
       final response = await sut.findByKey<String>('my_key');
 
       expect(response.isSuccess, isTrue);
@@ -99,7 +99,7 @@ void main() {
     test('should be able to return NULL when cache not found data in SQL', () async {
       when(() => sqlDatasource.findByKey<String>('my_key')).thenAnswer((_) async => null);
 
-      AutoCacheManagerInitialazer.I.setConfig(sqlConfig);
+      AutoCacheManagerInitializer.I.setConfig(sqlConfig);
       final response = await sut.findByKey<String>('my_key');
 
       expect(response.isSuccess, isTrue);
@@ -111,7 +111,7 @@ void main() {
     test('should NOT be able to find cache data in SQL when datasource throws an AutoCacheManagerException', () async {
       when(() => sqlDatasource.findByKey<String>('my_key')).thenThrow(FakeAutoCacheManagerException());
 
-      AutoCacheManagerInitialazer.I.setConfig(sqlConfig);
+      AutoCacheManagerInitializer.I.setConfig(sqlConfig);
       final response = await sut.findByKey<String>('my_key');
 
       expect(response.isError, isTrue);
@@ -127,7 +127,7 @@ void main() {
     test('should be able to save cache data with KVS successfully', () async {
       when(() => kvsDatasource.save<String>(dto)).thenAsyncVoid();
 
-      AutoCacheManagerInitialazer.I.setConfig(kvsConfig);
+      AutoCacheManagerInitializer.I.setConfig(kvsConfig);
       final response = await sut.save<String>(dto);
 
       expect(response.isSuccess, isTrue);
@@ -138,7 +138,7 @@ void main() {
     test('should NOT be able to save cache when KVS datasource throws an AutoCacheManagerException', () async {
       when(() => kvsDatasource.save<String>(dto)).thenThrow(FakeAutoCacheManagerException());
 
-      AutoCacheManagerInitialazer.I.setConfig(kvsConfig);
+      AutoCacheManagerInitializer.I.setConfig(kvsConfig);
       final response = await sut.save<String>(dto);
 
       expect(response.isError, isTrue);
@@ -150,7 +150,7 @@ void main() {
     test('should be able to save cache data with SQL successfully', () async {
       when(() => sqlDatasource.save<String>(dto)).thenAsyncVoid();
 
-      AutoCacheManagerInitialazer.I.setConfig(sqlConfig);
+      AutoCacheManagerInitializer.I.setConfig(sqlConfig);
       final response = await sut.save<String>(dto);
 
       expect(response.isSuccess, isTrue);
@@ -161,7 +161,7 @@ void main() {
     test('should NOT be able to save cache when SQL datasource throws an AutoCacheManagerException', () async {
       when(() => sqlDatasource.save<String>(dto)).thenThrow(FakeAutoCacheManagerException());
 
-      AutoCacheManagerInitialazer.I.setConfig(sqlConfig);
+      AutoCacheManagerInitializer.I.setConfig(sqlConfig);
       final response = await sut.save<String>(dto);
 
       expect(response.isError, isTrue);

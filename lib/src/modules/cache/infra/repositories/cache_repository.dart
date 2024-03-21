@@ -18,7 +18,7 @@ class CacheRepository implements ICacheRepository {
   @override
   Future<GetCacheResponse<T>> findByKey<T extends Object>(String key) async {
     try {
-      final config = AutoCacheManagerInitialazer.I.config;
+      final config = AutoCacheManagerInitializer.I.config;
       final action = config.isKvsSelected ? _kvsDatasource.findByKey : _sqlDatasource.findByKey;
 
       final response = await action.call<T>(key);
@@ -32,7 +32,7 @@ class CacheRepository implements ICacheRepository {
   @override
   Future<Either<AutoCacheManagerException, Unit>> save<T extends Object>(SaveCacheDTO<T> dto) async {
     try {
-      final config = AutoCacheManagerInitialazer.I.config;
+      final config = AutoCacheManagerInitializer.I.config;
       final action = config.isKvsSelected ? _kvsDatasource.save : _sqlDatasource.save;
 
       await action.call<T>(dto);

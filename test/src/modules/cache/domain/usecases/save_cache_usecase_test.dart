@@ -41,7 +41,7 @@ void main() {
   final fakeCache = CacheEntityFake<String>('my_string');
 
   setUpAll(() {
-    AutoCacheManagerInitialazer.I.setConfig(BaseConfigFake());
+    AutoCacheManagerInitializer.I.setConfig(BaseConfigFake());
   });
 
   setUp(() {

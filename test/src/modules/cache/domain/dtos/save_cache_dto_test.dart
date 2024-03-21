@@ -6,7 +6,7 @@ import 'package:auto_cache_manager/src/modules/cache/domain/enums/storage_type.d
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  final initialized = AutoCacheManagerInitialazer.I;
+  final initialized = AutoCacheManagerInitializer.I;
 
   group('SaveCacheDTO.withConfig |', () {
     final config = CacheConfig(storageType: StorageType.sql, invalidationType: InvalidationType.ttl);

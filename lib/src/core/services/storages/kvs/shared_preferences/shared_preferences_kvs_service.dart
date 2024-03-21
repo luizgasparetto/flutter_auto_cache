@@ -30,7 +30,7 @@ class SharedPreferencesKeyValueStorageService implements IKeyValueStorageService
   @override
   Future<void> save<T extends Object>({required String key, required T data}) async {
     try {
-      final config = AutoCacheManagerInitialazer.I.config;
+      final config = AutoCacheManagerInitializer.I.config;
 
       final dto = StorageDTO<T>(
         id: key,
