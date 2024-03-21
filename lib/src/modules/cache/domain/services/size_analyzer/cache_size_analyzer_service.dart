@@ -21,7 +21,7 @@ abstract interface class ICacheSizeAnalyzerService {
 /// This class provides functionalities to calculate and retrieve
 /// the size of cache used by the application. It works by assessing
 /// the size of files stored in the application's documents and support
-/// directories, typically used for key-value storage (KVS) and SQL storage.
+/// directories, typically used for key-value storage (PREFS) and SQL storage.
 final class CacheSizeAnalyzerService implements ICacheSizeAnalyzerService {
   final IDirectoryProvider directoryProvider;
 
@@ -30,7 +30,7 @@ final class CacheSizeAnalyzerService implements ICacheSizeAnalyzerService {
   /// Retrieves the total cache size used by the application.
   ///
   /// It calculates the cache size by summing up the sizes of files
-  /// in the key-value storage (KVS) directory and the SQL storage directory.
+  /// in the key-value storage (PREFS) directory and the SQL storage directory.
   /// The sizes are calculated in megabytes (MB) for easier interpretation.
   ///
   /// Returns:
@@ -38,13 +38,13 @@ final class CacheSizeAnalyzerService implements ICacheSizeAnalyzerService {
   @override
   Future<Either<AutoCacheManagerException, double>> getCacheSizeUsed() async {
     try {
-      final kvsDirectory = await directoryProvider.getApplicationDocumentsDirectory();
+      final prefsDirectory = await directoryProvider.getApplicationDocumentsDirectory();
       final sqlDirectory = await directoryProvider.getApplicationSupportDirectory();
 
-      final totalKvsSize = _calculeCacheSizeInMb(kvsDirectory);
+      final totalPrefsSize = _calculeCacheSizeInMb(prefsDirectory);
       final totalSqlSize = _calculeCacheSizeInMb(sqlDirectory);
 
-      final total = totalSqlSize + totalKvsSize;
+      final total = totalSqlSize + totalPrefsSize;
 
       return right(total);
     } on AutoCacheManagerException catch (e) {

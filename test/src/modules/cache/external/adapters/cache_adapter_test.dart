@@ -10,7 +10,7 @@ import 'package:flutter_test/flutter_test.dart';
 void main() {
   const id = 'zanelladev';
   const data = 'test';
-  const storageType = StorageType.kvs;
+  const storageType = StorageType.prefs;
   const invalidationType = InvalidationType.ttl;
   final createAt = DateTime.utc(2024, 9, 9);
 

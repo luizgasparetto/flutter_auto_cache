@@ -5,6 +5,6 @@ import 'src/modules/cache/presenter/controllers/base_cache_manager_controller.da
 export 'src/auto_cache_manager_initializer.dart';
 
 class AutoCacheManager {
-  static KVSCacheManagerController get kvs => KVSCacheManagerController.instance;
+  static PrefsCacheManagerController get prefs => PrefsCacheManagerController.instance;
   static SQLCacheManagerController get sql => SQLCacheManagerController.instance;
 }

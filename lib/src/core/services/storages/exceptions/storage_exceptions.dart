@@ -16,12 +16,12 @@ class SaveStorageException extends AutoCacheManagerException {
   });
 }
 
-class GetKVSStorageException extends SaveStorageException {
-  GetKVSStorageException({required super.stackTrace})
-      : super(code: 'get_kvs_storage_exception', message: 'Get KVS Storage exception');
+class GetPREFSStorageException extends SaveStorageException {
+  GetPREFSStorageException({required super.stackTrace})
+      : super(code: 'get_prefs_storage_exception', message: 'Get PREFS Storage exception');
 }
 
-class SaveKVSStorageException extends SaveStorageException {
-  SaveKVSStorageException({required super.stackTrace})
-      : super(code: 'save_kvs_storage_exception', message: 'Save KVS Storage exception');
+class SavePREFSStorageException extends SaveStorageException {
+  SavePREFSStorageException({required super.stackTrace})
+      : super(code: 'save_prefs_storage_exception', message: 'Save PREFS Storage exception');
 }

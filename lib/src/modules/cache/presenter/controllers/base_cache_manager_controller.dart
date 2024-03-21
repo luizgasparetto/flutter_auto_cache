@@ -1,7 +1,5 @@
 import '../../../../auto_cache_manager_initializer.dart';
-
 import '../../../../core/core.dart';
-
 import '../../../../core/exceptions/initializer_exceptions.dart';
 import '../../domain/dtos/clear_cache_dto.dart';
 import '../../domain/dtos/save_cache_dto.dart';
@@ -10,7 +8,7 @@ import '../../domain/usecases/clear_cache_usecase.dart';
 import '../../domain/usecases/get_cache_usecase.dart';
 import '../../domain/usecases/save_cache_usecase.dart';
 
-part 'specifics/kvs_cache_manager_controller.dart';
+part 'specifics/prefs_cache_manager_controller.dart';
 part 'specifics/sql_cache_manager_controller.dart';
 
 class BaseCacheManagerController {
@@ -26,7 +24,7 @@ class BaseCacheManagerController {
     required this.storageType,
   });
 
-  factory BaseCacheManagerController.kvs() => _create(StorageType.kvs);
+  factory BaseCacheManagerController.prefs() => _create(StorageType.prefs);
   factory BaseCacheManagerController.sql() => _create(StorageType.sql);
 
   static BaseCacheManagerController _create(StorageType storageType) {

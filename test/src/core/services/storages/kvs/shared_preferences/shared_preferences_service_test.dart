@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:auto_cache_manager/src/core/services/storages/exceptions/storage_exceptions.dart';
-import 'package:auto_cache_manager/src/core/services/storages/kvs/shared_preferences/shared_preferences_kvs_service.dart';
+import 'package:auto_cache_manager/src/core/services/storages/kvs/shared_preferences/shared_preferences_service.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -10,7 +10,7 @@ class SharedPreferencesMock extends Mock implements SharedPreferences {}
 
 void main() {
   final prefs = SharedPreferencesMock();
-  final sut = SharedPreferencesKeyValueStorageService(prefs);
+  final sut = SharedPreferencesService(prefs);
 
   tearDown(() {
     reset(prefs);
@@ -47,7 +47,7 @@ void main() {
     test('should NOT be able to GET cache data when prefs throws an Exception', () async {
       when(() => prefs.getString('my_key')).thenThrow(Exception());
 
-      expect(() => sut.get<String>(key: 'my_key'), throwsA(isA<GetKVSStorageException>()));
+      expect(() => sut.get<String>(key: 'my_key'), throwsA(isA<GetPREFSStorageException>()));
       verify(() => prefs.getString('my_key')).called(1);
     });
   });
@@ -63,7 +63,7 @@ void main() {
     test('should NOT be able to SAVE cache data with key when prefs throws an Exception', () async {
       when(() => prefs.setString('my_key', any(that: isA<String>()))).thenThrow(Exception());
 
-      expect(() => sut.save<String>(key: 'my_key', data: 'my_data'), throwsA(isA<SaveKVSStorageException>()));
+      expect(() => sut.save<String>(key: 'my_key', data: 'my_data'), throwsA(isA<SavePREFSStorageException>()));
       verify(() => prefs.setString('my_key', any(that: isA<String>()))).called(1);
     });
   });

@@ -2,24 +2,23 @@ import 'package:auto_cache_manager/src/modules/cache/domain/dtos/clear_cache_dto
 
 import '../../../../auto_cache_manager_initializer.dart';
 import '../../../../core/core.dart';
-
 import '../../domain/dtos/save_cache_dto.dart';
 import '../../domain/repositories/i_cache_repository.dart';
 import '../../domain/types/cache_types.dart';
-import '../datasources/i_key_value_storage_datasource.dart';
+import '../datasources/i_prefs_datasource.dart';
 import '../datasources/i_sql_storage_datasource.dart';
 
 class CacheRepository implements ICacheRepository {
-  final IKeyValueStorageDatasource _kvsDatasource;
+  final IPrefsDatasource _prefsDatasource;
   final ISQLStorageDatasource _sqlDatasource;
 
-  const CacheRepository(this._kvsDatasource, this._sqlDatasource);
+  const CacheRepository(this._prefsDatasource, this._sqlDatasource);
 
   @override
   Future<GetCacheResponse<T>> findByKey<T extends Object>(String key) async {
     try {
       final config = AutoCacheManagerInitializer.I.config;
-      final action = config.isKvsSelected ? _kvsDatasource.findByKey : _sqlDatasource.findByKey;
+      final action = config.isPrefsSelected ? _prefsDatasource.findByKey : _sqlDatasource.findByKey;
 
       final response = await action.call<T>(key);
 
@@ -33,7 +32,7 @@ class CacheRepository implements ICacheRepository {
   Future<Either<AutoCacheManagerException, Unit>> save<T extends Object>(SaveCacheDTO<T> dto) async {
     try {
       final config = AutoCacheManagerInitializer.I.config;
-      final action = config.isKvsSelected ? _kvsDatasource.save : _sqlDatasource.save;
+      final action = config.isPrefsSelected ? _prefsDatasource.save : _sqlDatasource.save;
 
       await action.call<T>(dto);
 
@@ -46,7 +45,7 @@ class CacheRepository implements ICacheRepository {
   @override
   Future<Either<AutoCacheManagerException, Unit>> clear(ClearCacheDTO dto) async {
     try {
-      final action = dto.storageType.isKvs ? _kvsDatasource.clear : _sqlDatasource.clear;
+      final action = dto.storageType.isPrefs ? _prefsDatasource.clear : _sqlDatasource.clear;
 
       await action.call();
 
