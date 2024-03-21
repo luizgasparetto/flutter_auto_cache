@@ -3,6 +3,7 @@ import '../../../../core/services/storages/kvs/i_key_value_storage_service.dart'
 import '../../domain/dtos/save_cache_dto.dart';
 import '../../domain/entities/cache_entity.dart';
 import '../../infra/datasources/i_key_value_storage_datasource.dart';
+import '../adapters/cache_adapter.dart';
 
 class KeyValueStorageDatasource implements IKeyValueStorageDatasource {
   final IKeyValueStorageService _service;
@@ -15,7 +16,7 @@ class KeyValueStorageDatasource implements IKeyValueStorageDatasource {
 
     if (response == null) return null;
 
-    return null;
+    return CacheAdapter.fromDto<T>(response);
   }
 
   @override

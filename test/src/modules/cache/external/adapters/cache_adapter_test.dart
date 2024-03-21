@@ -1,3 +1,5 @@
+// ignore_for_file: require_trailing_commas
+
 import 'package:auto_cache_manager/src/modules/cache/domain/entities/cache_entity.dart';
 import 'package:auto_cache_manager/src/modules/cache/domain/enums/invalidation_type.dart';
 import 'package:auto_cache_manager/src/modules/cache/domain/enums/storage_type.dart';
@@ -22,14 +24,10 @@ void main() {
         'created_at': createAt.toIso8601String(),
       };
 
-      final cache = CacheAdapter.fromJson(
-        jsonCache,
-        storageType: storageType,
-      );
+      final cache = CacheAdapter.fromJson(jsonCache);
 
       expect(cache.id, equals(id));
       expect(cache.data, equals(data));
-      expect(cache.storageType, equals(storageType));
       expect(cache.invalidationType, equals(invalidationType));
       expect(cache.createdAt, equals(createAt));
     });
@@ -43,13 +41,7 @@ void main() {
         'created_at': 'error value @zanelladev',
       };
 
-      expect(
-        () => CacheAdapter.fromJson(
-          jsonCache,
-          storageType: storageType,
-        ),
-        throwsFormatException,
-      );
+      expect(() => CacheAdapter.fromJson(jsonCache), throwsFormatException);
     });
 
     test('should NOT be able to get CacheEntity from json when invalid keys', () {
@@ -61,13 +53,7 @@ void main() {
         'created_at': createAt.toIso8601String(),
       };
 
-      expect(
-        () => CacheAdapter.fromJson(
-          jsonCache,
-          storageType: storageType,
-        ),
-        throwsA(isA<TypeError>()),
-      );
+      expect(() => CacheAdapter.fromJson(jsonCache), throwsA(isA<TypeError>()));
     });
   });
 
@@ -76,7 +62,6 @@ void main() {
       final cache = CacheEntity(
         id: id,
         data: data,
-        storageType: storageType,
         invalidationType: invalidationType,
         createdAt: createAt,
       );
@@ -88,8 +73,6 @@ void main() {
 
       expect(jsonCache.containsKey('data'), isTrue);
       expect(jsonCache['data'], equals(data));
-
-      expect(jsonCache.containsKey('storage_type'), isFalse);
 
       expect(jsonCache.containsKey('invalidation_type'), isTrue);
       expect(jsonCache['invalidation_type'], equals(InvalidationTypeAdapter.toKey(invalidationType)));
