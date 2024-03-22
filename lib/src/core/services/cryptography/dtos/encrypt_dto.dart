@@ -1,5 +1,7 @@
+import 'package:cryptography/cryptography.dart';
+
 class EncryptData {
-  final dynamic data;
+  final SecretBox data;
 
   const EncryptData({
     required this.data,

@@ -1,5 +1,5 @@
-class DecryptData {
-  final dynamic data;
+class DecryptData<T extends Object> {
+  final T data;
 
   const DecryptData({
     required this.data,

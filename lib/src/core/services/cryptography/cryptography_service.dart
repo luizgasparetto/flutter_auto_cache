@@ -7,43 +7,39 @@ import 'package:cryptography/cryptography.dart';
 import 'i_cryptography_service.dart';
 
 class CryptographyService implements ICryptographyService {
+  final String secret = 'FEc8JIJckcimzWeKc4yZ3FGpS7ShzcXw';
+
   @override
   Future<DecryptData> decrypt(EncryptData encryptData) async {
     final algorithm = AesGcm.with256bits();
-    final secretKey = await algorithm.newSecretKey();
-    final nonce = algorithm.newNonce();
+    final secretKey = await algorithm.newSecretKeyFromBytes(utf8.encode(secret));
 
-    // decryptData.data to Uint8List
-    final dataInBytes = utf8.encode(encryptData.data);
-
-    final secretBox = await algorithm.encrypt(
-      dataInBytes,
+    final secretBox = await algorithm.decrypt(
+      encryptData.data,
       secretKey: secretKey,
-      nonce: nonce,
     );
-    print('Ciphertext: ${secretBox.cipherText}');
-    print('MAC: ${secretBox.mac}');
 
-    return Future.value(const DecryptData(data: ''));
+    final decryptedJson = utf8.decode(secretBox);
+    final jsonString = jsonDecode(decryptedJson);
+
+    return DecryptData(data: jsonString);
   }
 
   @override
   Future<EncryptData> encrypt(DecryptData decryptData) async {
     final algorithm = AesGcm.with256bits();
-    final secretKey = await algorithm.newSecretKey();
+    final secretKey = await algorithm.newSecretKeyFromBytes(utf8.encode(secret));
     final nonce = algorithm.newNonce();
 
-    // decryptData.data to Uint8List
-    final dataInBytes = utf8.encode(decryptData.data);
+    final jsonString = jsonEncode(decryptData.data);
+    final dataInBytes = utf8.encode(jsonString);
 
     final secretBox = await algorithm.encrypt(
       dataInBytes,
       secretKey: secretKey,
       nonce: nonce,
     );
-    print('Ciphertext: ${secretBox.cipherText}');
-    print('MAC: ${secretBox.mac}');
 
-    return Future.value(const EncryptData(data: ''));
+    return EncryptData(data: secretBox);
   }
 }
