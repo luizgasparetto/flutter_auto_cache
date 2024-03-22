@@ -26,7 +26,7 @@ void main() {
 
       expect(stopwatch.elapsedMilliseconds, lessThan(500));
       expect(decryptedData.data, isA<String>());
-      expect(decryptedData.data, equals('testObject'));
+      expect(decryptedData.data, equals('decrypted'));
     });
   });
 }
