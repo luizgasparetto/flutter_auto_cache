@@ -6,12 +6,12 @@ import '../../../../../../auto_cache_manager.dart';
 import '../../dtos/adapters/storage_dto_adapter.dart';
 import '../../dtos/storage_dto.dart';
 import '../../exceptions/storage_exceptions.dart';
-import '../i_key_value_storage_service.dart';
+import '../i_prefs_service.dart';
 
-class SharedPreferencesKeyValueStorageService implements IKeyValueStorageService {
+class SharedPreferencesService implements IPrefsService {
   final SharedPreferences prefs;
 
-  const SharedPreferencesKeyValueStorageService(this.prefs);
+  const SharedPreferencesService(this.prefs);
 
   @override
   StorageDTO<T>? get<T extends Object>({required String key}) {
@@ -23,7 +23,7 @@ class SharedPreferencesKeyValueStorageService implements IKeyValueStorageService
       final mapResponse = jsonDecode(response);
       return StorageDTOAdapter.fromJson<T>(mapResponse);
     } catch (e, stackTrace) {
-      throw GetKVSStorageException(stackTrace: stackTrace);
+      throw GetPrefsStorageException(stackTrace: stackTrace);
     }
   }
 
@@ -44,7 +44,7 @@ class SharedPreferencesKeyValueStorageService implements IKeyValueStorageService
 
       await prefs.setString(key, jsonEncoded);
     } catch (e, stackTrace) {
-      throw SaveKVSStorageException(stackTrace: stackTrace);
+      throw SavePrefsStorageException(stackTrace: stackTrace);
     }
   }
 
