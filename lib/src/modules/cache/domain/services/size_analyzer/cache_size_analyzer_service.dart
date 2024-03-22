@@ -21,7 +21,7 @@ abstract interface class ICacheSizeAnalyzerService {
 /// This class provides functionalities to calculate and retrieve
 /// the size of cache used by the application. It works by assessing
 /// the size of files stored in the application's documents and support
-/// directories, typically used for key-value storage (PREFS) and SQL storage.
+/// directories, typically used for key-value storage (Prefs) and SQL storage.
 final class CacheSizeAnalyzerService implements ICacheSizeAnalyzerService {
   final IDirectoryProvider directoryProvider;
 
@@ -30,7 +30,7 @@ final class CacheSizeAnalyzerService implements ICacheSizeAnalyzerService {
   /// Retrieves the total cache size used by the application.
   ///
   /// It calculates the cache size by summing up the sizes of files
-  /// in the key-value storage (PREFS) directory and the SQL storage directory.
+  /// in the key-value storage (Prefs) directory and the SQL storage directory.
   /// The sizes are calculated in megabytes (MB) for easier interpretation.
   ///
   /// Returns:

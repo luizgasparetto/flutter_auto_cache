@@ -16,12 +16,12 @@ class SaveStorageException extends AutoCacheManagerException {
   });
 }
 
-class GetPREFSStorageException extends SaveStorageException {
-  GetPREFSStorageException({required super.stackTrace})
-      : super(code: 'get_prefs_storage_exception', message: 'Get PREFS Storage exception');
+class GetPrefsStorageException extends SaveStorageException {
+  GetPrefsStorageException({required super.stackTrace})
+      : super(code: 'get_prefs_storage_exception', message: 'Get Prefs Storage exception');
 }
 
-class SavePREFSStorageException extends SaveStorageException {
-  SavePREFSStorageException({required super.stackTrace})
-      : super(code: 'save_prefs_storage_exception', message: 'Save PREFS Storage exception');
+class SavePrefsStorageException extends SaveStorageException {
+  SavePrefsStorageException({required super.stackTrace})
+      : super(code: 'save_prefs_storage_exception', message: 'Save Prefs Storage exception');
 }

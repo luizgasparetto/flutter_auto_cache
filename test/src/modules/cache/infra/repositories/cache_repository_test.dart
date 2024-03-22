@@ -12,7 +12,7 @@ import 'package:auto_cache_manager/src/modules/cache/infra/repositories/cache_re
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
-class PREFSDatasourceMock extends Mock implements IPrefsDatasource {}
+class PrefsDatasourceMock extends Mock implements IPrefsDatasource {}
 
 class SQLDatasourceMock extends Mock implements ISQLStorageDatasource {}
 
@@ -28,7 +28,7 @@ class CacheEntityFake<T extends Object> extends Fake implements CacheEntity<T> {
 class FakeAutoCacheManagerException extends Fake implements AutoCacheManagerException {}
 
 void main() {
-  final prefsDatasource = PREFSDatasourceMock();
+  final prefsDatasource = PrefsDatasourceMock();
   final sqlDatasource = SQLDatasourceMock();
 
   final sut = CacheRepository(prefsDatasource, sqlDatasource);
@@ -46,7 +46,7 @@ void main() {
   });
 
   group('CacheRepository.findByKey |', () {
-    test('should be able to find cache data by key in PREFS successfully', () async {
+    test('should be able to find cache data by key in prefs successfully', () async {
       when(() => prefsDatasource.findByKey<String>('my_key')).thenReturn(CacheEntityFake<String>(fakeData: 'any_data'));
 
       AutoCacheManagerInitializer.I.setConfig(prefsConfig);
@@ -58,7 +58,7 @@ void main() {
       verifyNever(() => sqlDatasource.findByKey<String>('my_key'));
     });
 
-    test('should be able to return NULL when cache not found data in PREFS', () async {
+    test('should be able to return NULL when cache not found data in prefs', () async {
       when(() => prefsDatasource.findByKey<String>('my_key')).thenReturn(null);
 
       AutoCacheManagerInitializer.I.setConfig(prefsConfig);
@@ -70,7 +70,7 @@ void main() {
       verifyNever(() => sqlDatasource.findByKey<String>('my_key'));
     });
 
-    test('should NOT be able to find cache data in PREFS when datasource throws an AutoCacheManagerException',
+    test('should NOT be able to find cache data in prefs when datasource throws an AutoCacheManagerException',
         () async {
       when(() => prefsDatasource.findByKey<String>('my_key')).thenThrow(FakeAutoCacheManagerException());
 
@@ -125,7 +125,7 @@ void main() {
   group('CacheRepository.save |', () {
     final dto = SaveCacheDTO<String>.withConfig(key: 'my_key', data: 'my_data');
 
-    test('should be able to save cache data with PREFS successfully', () async {
+    test('should be able to save cache data with prefs successfully', () async {
       when(() => prefsDatasource.save<String>(dto)).thenAsyncVoid();
 
       AutoCacheManagerInitializer.I.setConfig(prefsConfig);
@@ -136,7 +136,7 @@ void main() {
       verifyNever(() => sqlDatasource.save<String>(dto));
     });
 
-    test('should NOT be able to save cache when PREFS datasource throws an AutoCacheManagerException', () async {
+    test('should NOT be able to save cache when prefs datasource throws an AutoCacheManagerException', () async {
       when(() => prefsDatasource.save<String>(dto)).thenThrow(FakeAutoCacheManagerException());
 
       AutoCacheManagerInitializer.I.setConfig(prefsConfig);
@@ -176,7 +176,7 @@ void main() {
     const prefsDTO = ClearCacheDTO(storageType: StorageType.prefs);
     const sqlDTO = ClearCacheDTO(storageType: StorageType.sql);
 
-    test('should be able to clear PREFS data successfully', () async {
+    test('should be able to clear prefs data successfully', () async {
       when(prefsDatasource.clear).thenAsyncVoid();
 
       final response = await sut.clear(prefsDTO);
@@ -196,7 +196,7 @@ void main() {
       verifyNever(prefsDatasource.clear);
     });
 
-    test('should NOT be able to clear PREFS data when datasource fails', () async {
+    test('should NOT be able to clear prefs data when datasource fails', () async {
       when(prefsDatasource.clear).thenThrow(FakeAutoCacheManagerException());
 
       final response = await sut.clear(prefsDTO);

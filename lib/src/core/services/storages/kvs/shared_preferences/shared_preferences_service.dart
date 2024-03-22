@@ -23,7 +23,7 @@ class SharedPreferencesService implements IPrefsService {
       final mapResponse = jsonDecode(response);
       return StorageDTOAdapter.fromJson<T>(mapResponse);
     } catch (e, stackTrace) {
-      throw GetPREFSStorageException(stackTrace: stackTrace);
+      throw GetPrefsStorageException(stackTrace: stackTrace);
     }
   }
 
@@ -44,7 +44,7 @@ class SharedPreferencesService implements IPrefsService {
 
       await prefs.setString(key, jsonEncoded);
     } catch (e, stackTrace) {
-      throw SavePREFSStorageException(stackTrace: stackTrace);
+      throw SavePrefsStorageException(stackTrace: stackTrace);
     }
   }
 
