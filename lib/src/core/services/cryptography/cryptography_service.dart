@@ -12,7 +12,8 @@ class CryptographyService implements ICryptographyService {
   @override
   Future<DecryptData> decrypt(EncryptData encryptData) async {
     final algorithm = AesGcm.with256bits();
-    final secretKey = await algorithm.newSecretKeyFromBytes(utf8.encode(secret));
+    final hashedSecret = await Blake2s().hash(utf8.encode(secret));
+    final secretKey = await algorithm.newSecretKeyFromBytes(hashedSecret.bytes);
 
     final secretBox = await algorithm.decrypt(
       encryptData.data,
@@ -28,7 +29,8 @@ class CryptographyService implements ICryptographyService {
   @override
   Future<EncryptData> encrypt(DecryptData decryptData) async {
     final algorithm = AesGcm.with256bits();
-    final secretKey = await algorithm.newSecretKeyFromBytes(utf8.encode(secret));
+    final hashedSecret = await Blake2s().hash(utf8.encode(secret));
+    final secretKey = await algorithm.newSecretKeyFromBytes(hashedSecret.bytes);
     final nonce = algorithm.newNonce();
 
     final jsonString = jsonEncode(decryptData.data);
