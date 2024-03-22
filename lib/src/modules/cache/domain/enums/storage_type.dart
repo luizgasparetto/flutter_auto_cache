@@ -3,10 +3,10 @@ enum StorageType {
   ///SQL is used for more "detailed" data, if you wanna store some entity info, VO's info, etc.. this is the most recommended way.
   sql,
 
-  /// KVS (Key Value Store) it's used to store simple values. E.g: Token.
-  /// For curious/simplicity purpose, when you use SharedPreferences you're using an KVS, an Key-Value database (NoSQL).
-  kvs;
+  /// Prefs (Key Value Store) it's used to store simple values. E.g: Token.
+  /// For curious/simplicity purpose, when you use SharedPreferences you're using an Prefs, an Key-Value database (NoSQL).
+  prefs;
 
-  bool get isKvs => this == StorageType.kvs;
+  bool get isPrefs => this == StorageType.prefs;
   bool get isSql => this == StorageType.sql;
 }
