@@ -4,36 +4,29 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   final sut = CryptographyService();
-  final testObject = TestObject('text', 1);
 
   group('CryptographyService.encrypt |', () {
     test('should be able to encrypt data successfully', () async {
-      final encryptData = await sut.encrypt(DecryptData(data: testObject));
+      final stopwatch = Stopwatch()..start();
 
-      print(encryptData.data.cipherText);
-      print(encryptData.data.mac);
-      print(encryptData.data.nonce);
+      final encryptData = await sut.encrypt(const DecryptData(data: 'testObject'));
 
+      stopwatch.stop();
+      expect(stopwatch.elapsedMilliseconds, lessThan(500));
       expect(encryptData, isNotNull);
     });
 
     test('should be able to encrypt and decrypt data successfully', () async {
-      final encryptData = await sut.encrypt(DecryptData(data: testObject));
+      final stopwatch = Stopwatch()..start();
 
-      print(encryptData.data.cipherText);
-      print(encryptData.data.mac);
-      print(encryptData.data.nonce);
+      final encryptData = await sut.encrypt(const DecryptData(data: 'testObject'));
 
       final decryptData = await sut.decrypt(encryptData);
+      stopwatch.stop();
 
-      expect(encryptData, isNotNull);
+      expect(stopwatch.elapsedMilliseconds, lessThan(500));
+      expect(decryptData.data, isA<String>());
+      expect(decryptData.data, equals('testObject'));
     });
   });
-}
-
-class TestObject {
-  final String text;
-  final double number;
-
-  TestObject(this.text, this.number);
 }
