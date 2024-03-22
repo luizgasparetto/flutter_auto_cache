@@ -7,7 +7,7 @@ import 'package:cryptography/cryptography.dart';
 import 'i_cryptography_service.dart';
 
 class CryptographyService implements ICryptographyService {
-  final String secret = 'mySecret';
+  final String secret = 'mySecretKey';
 
   @override
   Future<DecryptData> decrypt(EncryptData encryptData) async {
