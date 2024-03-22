@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import 'package:auto_cache_manager/src/core/services/cryptography/dtos/decrypt_dto.dart';
-import 'package:auto_cache_manager/src/core/services/cryptography/dtos/encrypt_dto.dart';
+import 'package:auto_cache_manager/src/core/services/cryptography/entities/decrypted_data.dart';
+import 'package:auto_cache_manager/src/core/services/cryptography/entities/encrypted_data.dart';
 import 'package:cryptography/cryptography.dart';
 
 import 'i_cryptography_service.dart';
@@ -10,7 +10,7 @@ class CryptographyService implements ICryptographyService {
   final String secret = 'mySecretKey';
 
   @override
-  Future<DecryptData> decrypt(EncryptData encryptData) async {
+  Future<DecryptedData> decrypt(EncryptedData encryptData) async {
     final algorithm = AesGcm.with256bits();
     final hashedSecret = await Blake2s().hash(utf8.encode(secret));
     final secretKey = await algorithm.newSecretKeyFromBytes(hashedSecret.bytes);
@@ -23,11 +23,11 @@ class CryptographyService implements ICryptographyService {
     final decryptedJson = utf8.decode(secretBox);
     final jsonString = jsonDecode(decryptedJson);
 
-    return DecryptData(data: jsonString);
+    return DecryptedData(data: jsonString);
   }
 
   @override
-  Future<EncryptData> encrypt(DecryptData decryptData) async {
+  Future<EncryptedData> encrypt(DecryptedData decryptData) async {
     final algorithm = AesGcm.with256bits();
     final hashedSecret = await Blake2s().hash(utf8.encode(secret));
     final secretKey = await algorithm.newSecretKeyFromBytes(hashedSecret.bytes);
@@ -42,6 +42,6 @@ class CryptographyService implements ICryptographyService {
       nonce: nonce,
     );
 
-    return EncryptData(data: secretBox);
+    return EncryptedData(data: secretBox);
   }
 }

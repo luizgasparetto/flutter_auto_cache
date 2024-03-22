@@ -1,5 +1,5 @@
 import 'package:auto_cache_manager/src/core/services/cryptography/cryptography_service.dart';
-import 'package:auto_cache_manager/src/core/services/cryptography/dtos/decrypt_dto.dart';
+import 'package:auto_cache_manager/src/core/services/cryptography/entities/decrypted_data.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
@@ -9,24 +9,24 @@ void main() {
     test('should be able to encrypt data successfully', () async {
       final stopwatch = Stopwatch()..start();
 
-      final encryptData = await sut.encrypt(const DecryptData(data: 'testObject'));
+      final encryptedData = await sut.encrypt(const DecryptedData(data: 'decrypted'));
 
       stopwatch.stop();
       expect(stopwatch.elapsedMilliseconds, lessThan(500));
-      expect(encryptData, isNotNull);
+      expect(encryptedData, isNotNull);
     });
 
     test('should be able to encrypt and decrypt data successfully', () async {
       final stopwatch = Stopwatch()..start();
 
-      final encryptData = await sut.encrypt(const DecryptData(data: 'testObject'));
+      final encryptedData = await sut.encrypt(const DecryptedData(data: 'decrypted'));
 
-      final decryptData = await sut.decrypt(encryptData);
+      final decryptedData = await sut.decrypt(encryptedData);
       stopwatch.stop();
 
       expect(stopwatch.elapsedMilliseconds, lessThan(500));
-      expect(decryptData.data, isA<String>());
-      expect(decryptData.data, equals('testObject'));
+      expect(decryptedData.data, isA<String>());
+      expect(decryptedData.data, equals('testObject'));
     });
   });
 }

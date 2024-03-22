@@ -1,9 +1,9 @@
 import 'package:cryptography/cryptography.dart';
 
-class EncryptData {
+class EncryptedData {
   final SecretBox data;
 
-  const EncryptData({
+  const EncryptedData({
     required this.data,
   });
 }
