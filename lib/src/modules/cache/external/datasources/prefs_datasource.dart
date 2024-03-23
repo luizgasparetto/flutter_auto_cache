@@ -10,8 +10,8 @@ class PrefsDatasource implements IPrefsDatasource {
   const PrefsDatasource(this._service);
 
   @override
-  CacheEntity<T>? findByKey<T extends Object>(String key) {
-    final response = _service.get<T>(key: key);
+  Future<CacheEntity<T>?> findByKey<T extends Object>(String key) async {
+    final response = await _service.get<T>(key: key);
 
     if (response == null) return null;
 

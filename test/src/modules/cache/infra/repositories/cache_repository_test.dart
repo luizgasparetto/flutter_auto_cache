@@ -47,7 +47,8 @@ void main() {
 
   group('CacheRepository.findByKey |', () {
     test('should be able to find cache data by key in prefs successfully', () async {
-      when(() => prefsDatasource.findByKey<String>('my_key')).thenReturn(CacheEntityFake<String>(fakeData: 'any_data'));
+      when(() => prefsDatasource.findByKey<String>('my_key'))
+          .thenReturn(Future.value(CacheEntityFake<String>(fakeData: 'any_data')));
 
       AutoCacheManagerInitializer.I.setConfig(prefsConfig);
       final response = await sut.findByKey<String>('my_key');
@@ -59,7 +60,7 @@ void main() {
     });
 
     test('should be able to return NULL when cache not found data in prefs', () async {
-      when(() => prefsDatasource.findByKey<String>('my_key')).thenReturn(null);
+      when(() => prefsDatasource.findByKey<String>('my_key')).thenReturn(Future.value());
 
       AutoCacheManagerInitializer.I.setConfig(prefsConfig);
       final response = await sut.findByKey<String>('my_key');

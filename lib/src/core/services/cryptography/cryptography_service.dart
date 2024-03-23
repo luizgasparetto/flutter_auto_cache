@@ -24,7 +24,6 @@ class CryptographyService implements ICryptographyService {
   }
 
   @override
-  @override
   Future<String> encrypt(String value) async {
     final secretKeyHash = md5.convert(utf8.encode(secretKey)).toString();
 

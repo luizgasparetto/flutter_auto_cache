@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:auto_cache_manager/src/core/services/cryptography/i_cryptography_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../../../auto_cache_manager.dart';
@@ -10,17 +11,29 @@ import '../i_prefs_service.dart';
 
 class SharedPreferencesService implements IPrefsService {
   final SharedPreferences prefs;
+  final ICryptographyService cryptoService;
 
-  const SharedPreferencesService(this.prefs);
+  const SharedPreferencesService(
+    this.prefs,
+    this.cryptoService,
+  );
 
   @override
-  StorageDTO<T>? get<T extends Object>({required String key}) {
+  Future<StorageDTO<T>?> get<T extends Object>({required String key}) async {
     try {
+      final config = AutoCacheManagerInitializer.I.config;
+
       final response = prefs.getString(key);
 
       if (response == null) return null;
 
       final mapResponse = jsonDecode(response);
+
+      if (config.cryptographyEnabled) {
+        final decrypted = await cryptoService.decrypt(mapResponse['data']);
+        mapResponse['data'] = decrypted;
+      }
+
       return StorageDTOAdapter.fromJson<T>(mapResponse);
     } catch (e, stackTrace) {
       throw GetPrefsStorageException(stackTrace: stackTrace);
@@ -32,12 +45,25 @@ class SharedPreferencesService implements IPrefsService {
     try {
       final config = AutoCacheManagerInitializer.I.config;
 
-      final dto = StorageDTO<T>(
-        id: key,
-        data: data,
-        invalidationTypeCode: config.invalidationType.name,
-        createdAt: DateTime.now(),
-      );
+      final StorageDTO dto;
+
+      if (config.cryptographyEnabled) {
+        final encrypted = await cryptoService.encrypt(data.toString());
+
+        dto = StorageDTO<String>(
+          id: key,
+          data: encrypted,
+          invalidationTypeCode: config.invalidationType.name,
+          createdAt: DateTime.now(),
+        );
+      } else {
+        dto = StorageDTO<T>(
+          id: key,
+          data: data,
+          invalidationTypeCode: config.invalidationType.name,
+          createdAt: DateTime.now(),
+        );
+      }
 
       final dtoMap = StorageDTOAdapter.toJson(dto);
       final jsonEncoded = jsonEncode(dtoMap);

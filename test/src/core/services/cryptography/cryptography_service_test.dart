@@ -5,10 +5,12 @@ void main() {
   final sut = CryptographyService();
 
   group('CryptographyService.encrypt |', () {
+    const value = 'value';
+
     test('should be able to encrypt data successfully', () async {
       final stopwatch = Stopwatch()..start();
 
-      final encrypted = await sut.encrypt('decrypted');
+      final encrypted = await sut.encrypt(value);
 
       stopwatch.stop();
       expect(stopwatch.elapsedMilliseconds, lessThan(500));
@@ -18,14 +20,14 @@ void main() {
     test('should be able to encrypt and decrypt data successfully', () async {
       final stopwatch = Stopwatch()..start();
 
-      final encryptedData = await sut.encrypt('decrypted');
+      final encryptedData = await sut.encrypt(value);
 
       final decryptedData = await sut.decrypt(encryptedData);
       stopwatch.stop();
 
       expect(stopwatch.elapsedMilliseconds, lessThan(500));
       expect(decryptedData, isA<String>());
-      expect(decryptedData, equals('decrypted'));
+      expect(decryptedData, equals(value));
     });
   });
 }

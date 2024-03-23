@@ -29,5 +29,19 @@ class CacheConfig {
 
   bool get isPrefsSelected => this.storageType == StorageType.prefs;
 
-  bool get isCryptoActive => cryptographyOptions != null;
+  bool get cryptographyEnabled => cryptographyOptions != null;
+
+  CacheConfig copyWith({
+    StorageType? storageType,
+    InvalidationType? invalidationType,
+    CacheSizeOptions? sizeOptions,
+    CacheCryptographyOptions? cryptographyOptions,
+  }) {
+    return CacheConfig(
+      storageType: storageType ?? this.storageType,
+      invalidationType: invalidationType ?? this.invalidationType,
+      sizeOptions: sizeOptions ?? this.sizeOptions,
+      cryptographyOptions: cryptographyOptions ?? this.cryptographyOptions,
+    );
+  }
 }
