@@ -37,6 +37,7 @@ class AutoCacheManagerInitializer {
   /// Updates the current cache configuration with a new `CacheConfig`.
   ///
   /// - [config]: The new `CacheConfig` to apply.
+  @visibleForTesting
   void setConfig(CacheConfig config) {
     _configListenable.value = config;
   }
