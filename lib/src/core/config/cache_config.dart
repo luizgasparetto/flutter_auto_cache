@@ -23,5 +23,5 @@ class CacheConfig {
     return isDefaultStorage && isDefaultInvalidation;
   }
 
-  bool get isKvsSelected => this.storageType == StorageType.kvs;
+  bool get isPrefsSelected => this.storageType == StorageType.prefs;
 }

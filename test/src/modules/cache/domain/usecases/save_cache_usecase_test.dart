@@ -27,7 +27,7 @@ class CacheEntityFake<T extends Object> extends Fake implements CacheEntity<T> {
 
 class BaseConfigFake extends Fake implements CacheConfig {
   @override
-  StorageType get storageType => StorageType.kvs;
+  StorageType get storageType => StorageType.prefs;
 
   @override
   InvalidationType get invalidationType => InvalidationType.ttl;

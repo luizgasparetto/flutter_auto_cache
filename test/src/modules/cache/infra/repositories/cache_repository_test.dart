@@ -6,13 +6,13 @@ import 'package:auto_cache_manager/src/modules/cache/domain/dtos/save_cache_dto.
 import 'package:auto_cache_manager/src/modules/cache/domain/entities/cache_entity.dart';
 import 'package:auto_cache_manager/src/modules/cache/domain/enums/invalidation_type.dart';
 import 'package:auto_cache_manager/src/modules/cache/domain/enums/storage_type.dart';
-import 'package:auto_cache_manager/src/modules/cache/infra/datasources/i_key_value_storage_datasource.dart';
+import 'package:auto_cache_manager/src/modules/cache/infra/datasources/i_prefs_datasource.dart';
 import 'package:auto_cache_manager/src/modules/cache/infra/datasources/i_sql_storage_datasource.dart';
 import 'package:auto_cache_manager/src/modules/cache/infra/repositories/cache_repository.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
-class KVSDatasourceMock extends Mock implements IKeyValueStorageDatasource {}
+class PrefsDatasourceMock extends Mock implements IPrefsDatasource {}
 
 class SQLDatasourceMock extends Mock implements ISQLStorageDatasource {}
 
@@ -28,16 +28,16 @@ class CacheEntityFake<T extends Object> extends Fake implements CacheEntity<T> {
 class FakeAutoCacheManagerException extends Fake implements AutoCacheManagerException {}
 
 void main() {
-  final kvsDatasource = KVSDatasourceMock();
+  final prefsDatasource = PrefsDatasourceMock();
   final sqlDatasource = SQLDatasourceMock();
 
-  final sut = CacheRepository(kvsDatasource, sqlDatasource);
+  final sut = CacheRepository(prefsDatasource, sqlDatasource);
 
   final sqlConfig = CacheConfig(storageType: StorageType.sql, invalidationType: InvalidationType.ttl);
-  final kvsConfig = CacheConfig.defaultConfig();
+  final prefsConfig = CacheConfig.defaultConfig();
 
   tearDown(() {
-    reset(kvsDatasource);
+    reset(prefsDatasource);
     reset(sqlDatasource);
   });
 
@@ -46,39 +46,40 @@ void main() {
   });
 
   group('CacheRepository.findByKey |', () {
-    test('should be able to find cache data by key in KVS successfully', () async {
-      when(() => kvsDatasource.findByKey<String>('my_key')).thenReturn(CacheEntityFake<String>(fakeData: 'any_data'));
+    test('should be able to find cache data by key in prefs successfully', () async {
+      when(() => prefsDatasource.findByKey<String>('my_key')).thenReturn(CacheEntityFake<String>(fakeData: 'any_data'));
 
-      AutoCacheManagerInitializer.I.setConfig(kvsConfig);
+      AutoCacheManagerInitializer.I.setConfig(prefsConfig);
       final response = await sut.findByKey<String>('my_key');
 
       expect(response.isSuccess, isTrue);
       expect(response.success?.data, equals('any_data'));
-      verify(() => kvsDatasource.findByKey<String>('my_key')).called(1);
+      verify(() => prefsDatasource.findByKey<String>('my_key')).called(1);
       verifyNever(() => sqlDatasource.findByKey<String>('my_key'));
     });
 
-    test('should be able to return NULL when cache not found data in KVS', () async {
-      when(() => kvsDatasource.findByKey<String>('my_key')).thenReturn(null);
+    test('should be able to return NULL when cache not found data in prefs', () async {
+      when(() => prefsDatasource.findByKey<String>('my_key')).thenReturn(null);
 
-      AutoCacheManagerInitializer.I.setConfig(kvsConfig);
+      AutoCacheManagerInitializer.I.setConfig(prefsConfig);
       final response = await sut.findByKey<String>('my_key');
 
       expect(response.isSuccess, isTrue);
       expect(response.success, isNull);
-      verify(() => kvsDatasource.findByKey<String>('my_key')).called(1);
+      verify(() => prefsDatasource.findByKey<String>('my_key')).called(1);
       verifyNever(() => sqlDatasource.findByKey<String>('my_key'));
     });
 
-    test('should NOT be able to find cache data in KVS when datasource throws an AutoCacheManagerException', () async {
-      when(() => kvsDatasource.findByKey<String>('my_key')).thenThrow(FakeAutoCacheManagerException());
+    test('should NOT be able to find cache data in prefs when datasource throws an AutoCacheManagerException',
+        () async {
+      when(() => prefsDatasource.findByKey<String>('my_key')).thenThrow(FakeAutoCacheManagerException());
 
-      AutoCacheManagerInitializer.I.setConfig(kvsConfig);
+      AutoCacheManagerInitializer.I.setConfig(prefsConfig);
       final response = await sut.findByKey<String>('my_key');
 
       expect(response.isError, isTrue);
       expect(response.error, isA<AutoCacheManagerException>());
-      verify(() => kvsDatasource.findByKey<String>('my_key')).called(1);
+      verify(() => prefsDatasource.findByKey<String>('my_key')).called(1);
       verifyNever(() => sqlDatasource.findByKey<String>('my_key'));
     });
 
@@ -93,7 +94,7 @@ void main() {
       expect(response.isSuccess, isTrue);
       expect(response.success?.data, equals('any_data'));
       verify(() => sqlDatasource.findByKey<String>('my_key')).called(1);
-      verifyNever(() => kvsDatasource.findByKey<String>('my_key'));
+      verifyNever(() => prefsDatasource.findByKey<String>('my_key'));
     });
 
     test('should be able to return NULL when cache not found data in SQL', () async {
@@ -105,7 +106,7 @@ void main() {
       expect(response.isSuccess, isTrue);
       expect(response.success, isNull);
       verify(() => sqlDatasource.findByKey<String>('my_key')).called(1);
-      verifyNever(() => kvsDatasource.findByKey<String>('my_key'));
+      verifyNever(() => prefsDatasource.findByKey<String>('my_key'));
     });
 
     test('should NOT be able to find cache data in SQL when datasource throws an AutoCacheManagerException', () async {
@@ -117,33 +118,33 @@ void main() {
       expect(response.isError, isTrue);
       expect(response.error, isA<AutoCacheManagerException>());
       verify(() => sqlDatasource.findByKey<String>('my_key')).called(1);
-      verifyNever(() => kvsDatasource.findByKey<String>('my_key'));
+      verifyNever(() => prefsDatasource.findByKey<String>('my_key'));
     });
   });
 
   group('CacheRepository.save |', () {
     final dto = SaveCacheDTO<String>.withConfig(key: 'my_key', data: 'my_data');
 
-    test('should be able to save cache data with KVS successfully', () async {
-      when(() => kvsDatasource.save<String>(dto)).thenAsyncVoid();
+    test('should be able to save cache data with prefs successfully', () async {
+      when(() => prefsDatasource.save<String>(dto)).thenAsyncVoid();
 
-      AutoCacheManagerInitializer.I.setConfig(kvsConfig);
+      AutoCacheManagerInitializer.I.setConfig(prefsConfig);
       final response = await sut.save<String>(dto);
 
       expect(response.isSuccess, isTrue);
-      verify(() => kvsDatasource.save<String>(dto)).called(1);
+      verify(() => prefsDatasource.save<String>(dto)).called(1);
       verifyNever(() => sqlDatasource.save<String>(dto));
     });
 
-    test('should NOT be able to save cache when KVS datasource throws an AutoCacheManagerException', () async {
-      when(() => kvsDatasource.save<String>(dto)).thenThrow(FakeAutoCacheManagerException());
+    test('should NOT be able to save cache when prefs datasource throws an AutoCacheManagerException', () async {
+      when(() => prefsDatasource.save<String>(dto)).thenThrow(FakeAutoCacheManagerException());
 
-      AutoCacheManagerInitializer.I.setConfig(kvsConfig);
+      AutoCacheManagerInitializer.I.setConfig(prefsConfig);
       final response = await sut.save<String>(dto);
 
       expect(response.isError, isTrue);
       expect(response.error, isA<AutoCacheManagerException>());
-      verify(() => kvsDatasource.save<String>(dto)).called(1);
+      verify(() => prefsDatasource.save<String>(dto)).called(1);
       verifyNever(() => sqlDatasource.save<String>(dto));
     });
 
@@ -155,7 +156,7 @@ void main() {
 
       expect(response.isSuccess, isTrue);
       verify(() => sqlDatasource.save<String>(dto)).called(1);
-      verifyNever(() => kvsDatasource.save<String>(dto));
+      verifyNever(() => prefsDatasource.save<String>(dto));
     });
 
     test('should NOT be able to save cache when SQL datasource throws an AutoCacheManagerException', () async {
@@ -167,21 +168,21 @@ void main() {
       expect(response.isError, isTrue);
       expect(response.error, isA<AutoCacheManagerException>());
       verify(() => sqlDatasource.save<String>(dto)).called(1);
-      verifyNever(() => kvsDatasource.save<String>(dto));
+      verifyNever(() => prefsDatasource.save<String>(dto));
     });
   });
 
   group('CacheRepository.clear |', () {
-    const kvsDTO = ClearCacheDTO(storageType: StorageType.kvs);
+    const prefsDTO = ClearCacheDTO(storageType: StorageType.prefs);
     const sqlDTO = ClearCacheDTO(storageType: StorageType.sql);
 
-    test('should be able to clear KVS data successfully', () async {
-      when(kvsDatasource.clear).thenAsyncVoid();
+    test('should be able to clear prefs data successfully', () async {
+      when(prefsDatasource.clear).thenAsyncVoid();
 
-      final response = await sut.clear(kvsDTO);
+      final response = await sut.clear(prefsDTO);
 
       expect(response.isSuccess, isTrue);
-      verify(kvsDatasource.clear).called(1);
+      verify(prefsDatasource.clear).called(1);
       verifyNever(sqlDatasource.clear);
     });
 
@@ -192,17 +193,17 @@ void main() {
 
       expect(response.isSuccess, isTrue);
       verify(sqlDatasource.clear).called(1);
-      verifyNever(kvsDatasource.clear);
+      verifyNever(prefsDatasource.clear);
     });
 
-    test('should NOT be able to clear KVS data when datasource fails', () async {
-      when(kvsDatasource.clear).thenThrow(FakeAutoCacheManagerException());
+    test('should NOT be able to clear prefs data when datasource fails', () async {
+      when(prefsDatasource.clear).thenThrow(FakeAutoCacheManagerException());
 
-      final response = await sut.clear(kvsDTO);
+      final response = await sut.clear(prefsDTO);
 
       expect(response.isError, isTrue);
       expect(response.error, isA<AutoCacheManagerException>());
-      verify(kvsDatasource.clear).called(1);
+      verify(prefsDatasource.clear).called(1);
       verifyNever(sqlDatasource.clear);
     });
 
@@ -214,7 +215,7 @@ void main() {
       expect(response.isError, isTrue);
       expect(response.error, isA<AutoCacheManagerException>());
       verify(sqlDatasource.clear).called(1);
-      verifyNever(kvsDatasource.clear);
+      verifyNever(prefsDatasource.clear);
     });
   });
 }

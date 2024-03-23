@@ -39,7 +39,7 @@ void main() {
     getCacheUsecase,
     saveCacheUsecase,
     clearCacheUsecase,
-    storageType: StorageType.kvs,
+    storageType: StorageType.prefs,
   );
 
   setUp(() {

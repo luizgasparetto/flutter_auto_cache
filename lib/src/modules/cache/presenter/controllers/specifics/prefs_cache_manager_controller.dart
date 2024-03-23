@@ -5,14 +5,14 @@ part of '../base_cache_manager_controller.dart';
 /// This class provides methods to retrieve and save string, integer, and
 /// double values in a cache, abstracting the underlying cache mechanism
 /// provided by [BaseCacheManagerController].
-class KVSCacheManagerController {
+class PrefsCacheManagerController {
   final BaseCacheManagerController _baseCacheManagerController;
 
-  KVSCacheManagerController._() : _baseCacheManagerController = BaseCacheManagerController.kvs();
+  PrefsCacheManagerController._() : _baseCacheManagerController = BaseCacheManagerController.prefs();
 
-  static final KVSCacheManagerController _instance = KVSCacheManagerController._();
+  static final PrefsCacheManagerController _instance = PrefsCacheManagerController._();
 
-  static KVSCacheManagerController get instance => _instance;
+  static PrefsCacheManagerController get instance => _instance;
 
   /// Retrieves a string value from the cache for the given [key].
   ///

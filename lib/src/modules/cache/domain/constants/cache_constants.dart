@@ -3,5 +3,5 @@ import '../enums/storage_type.dart';
 
 final class CacheConstants {
   static const defaultInvalidationType = InvalidationType.refresh;
-  static const defaultStorageType = StorageType.kvs;
+  static const defaultStorageType = StorageType.prefs;
 }
