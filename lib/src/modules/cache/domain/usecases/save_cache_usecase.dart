@@ -1,3 +1,4 @@
+import 'package:auto_cache_manager/src/modules/cache/domain/dtos/get_cache_dto.dart';
 import 'package:auto_cache_manager/src/modules/cache/domain/entities/cache_entity.dart';
 
 import '../../../../core/core.dart';
@@ -17,7 +18,8 @@ class SaveCache implements SaveCacheUsecase {
 
   @override
   Future<Either<AutoCacheManagerException, Unit>> execute<T extends Object>(SaveCacheDTO<T> dto) async {
-    final findByKeyResponse = await _repository.findByKey<T>(dto.key);
+    final findByKeyDto = GetCacheDTO(key: dto.key, storageType: dto.storageType);
+    final findByKeyResponse = await _repository.findByKey<T>(findByKeyDto);
 
     if (findByKeyResponse.isError) {
       return left(findByKeyResponse.error);

@@ -1,6 +1,7 @@
 import 'package:auto_cache_manager/auto_cache_manager.dart';
 import 'package:auto_cache_manager/src/core/core.dart';
 import 'package:auto_cache_manager/src/core/exceptions/initializer_exceptions.dart';
+import 'package:auto_cache_manager/src/modules/cache/domain/dtos/get_cache_dto.dart';
 import 'package:auto_cache_manager/src/modules/cache/domain/dtos/save_cache_dto.dart';
 import 'package:auto_cache_manager/src/modules/cache/domain/entities/cache_entity.dart';
 import 'package:auto_cache_manager/src/modules/cache/domain/enums/storage_type.dart';
@@ -19,6 +20,10 @@ class ClearCacheUsecaseMock extends Mock implements ClearCacheUsecase {}
 
 class FakeBindClass extends Fake {}
 
+class FakeAutoCacheManagerException extends Fake implements AutoCacheManagerException {}
+
+class FakeGetCacheDTO extends Fake implements GetCacheDTO {}
+
 class CacheEntityFake<T extends Object> extends Fake implements CacheEntity<T> {
   final T fakeData;
 
@@ -27,8 +32,6 @@ class CacheEntityFake<T extends Object> extends Fake implements CacheEntity<T> {
   @override
   T get data => fakeData;
 }
-
-class FakeAutoCacheManagerException extends Fake implements AutoCacheManagerException {}
 
 void main() {
   final getCacheUsecase = GetCacheUsecaseMock();
@@ -44,6 +47,7 @@ void main() {
 
   setUp(() {
     Injector.I.bindFactory(FakeBindClass.new);
+    registerFallbackValue(FakeGetCacheDTO());
   });
 
   tearDown(() {
@@ -52,27 +56,31 @@ void main() {
     Injector.I.clear();
   });
 
+  Matcher _cacheDtoMatcher() {
+    return predicate<GetCacheDTO>((dto) => dto.key == 'my_key');
+  }
+
   group('BaseCacheManagerController.get |', () {
     test('should be able to get data in cache with a key successfully', () async {
-      when(() => getCacheUsecase.execute<String>(key: 'my_key')).thenAnswer((_) async {
+      when(() => getCacheUsecase.execute<String>(any(that: _cacheDtoMatcher()))).thenAnswer((_) async {
         return right(CacheEntityFake<String>(fakeData: 'my_string_cached'));
       });
 
       final response = await sut.get<String>(key: 'my_key');
 
       expect(response, equals('my_string_cached'));
-      verify(() => getCacheUsecase.execute<String>(key: 'my_key')).called(1);
+      verify(() => getCacheUsecase.execute<String>(any(that: _cacheDtoMatcher()))).called(1);
     });
 
     test('should be able to get item in cache and return NULL', () async {
-      when(() => getCacheUsecase.execute<String>(key: 'my_key')).thenAnswer((_) async {
+      when(() => getCacheUsecase.execute<String>(any(that: _cacheDtoMatcher()))).thenAnswer((_) async {
         return right(null);
       });
 
       final response = await sut.get<String>(key: 'my_key');
 
       expect(response, isNull);
-      verify(() => getCacheUsecase.execute<String>(key: 'my_key')).called(1);
+      verify(() => getCacheUsecase.execute<String>(any(that: _cacheDtoMatcher()))).called(1);
     });
 
     test('should NOT be able to get data in cache when AutoCacheManager is not initialized', () async {
@@ -81,11 +89,11 @@ void main() {
       expect(Injector.I.hasBinds, equals(false));
       expect(AutoCacheManagerInitializer.I.isInjectorInitialized, equals(false));
       expect(() => sut.get<String>(key: 'my_key'), throwsA(isA<NotInitializedAutoCacheManagerException>()));
-      verifyNever(() => getCacheUsecase.execute<String>(key: 'my_key'));
+      verifyNever(() => getCacheUsecase.execute<String>(any(that: _cacheDtoMatcher())));
     });
 
     test('should NOT be able to get item in cache when UseCase throws an AutoCacheManagerException', () async {
-      when(() => getCacheUsecase.execute<String>(key: 'my_key')).thenAnswer((_) async {
+      when(() => getCacheUsecase.execute<String>(any(that: _cacheDtoMatcher()))).thenAnswer((_) async {
         return left(FakeAutoCacheManagerException());
       });
 
@@ -94,7 +102,7 @@ void main() {
   });
 
   group('BaseCacheManagerController.save |', () {
-    final saveDTO = SaveCacheDTO<String>.withConfig(key: 'my_key', data: 'my_data');
+    const saveDTO = SaveCacheDTO(key: 'my_key', data: 'my_data', storageType: StorageType.prefs);
 
     test('should be able to save a data in cache with a key successfully', () async {
       when(() => saveCacheUsecase.execute<String>(saveDTO)).thenAnswer((_) async {

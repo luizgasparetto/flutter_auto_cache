@@ -1,6 +1,8 @@
 import 'package:auto_cache_manager/src/core/core.dart';
+import 'package:auto_cache_manager/src/modules/cache/domain/dtos/get_cache_dto.dart';
 import 'package:auto_cache_manager/src/modules/cache/domain/entities/cache_entity.dart';
 import 'package:auto_cache_manager/src/modules/cache/domain/enums/invalidation_type.dart';
+import 'package:auto_cache_manager/src/modules/cache/domain/enums/storage_type.dart';
 import 'package:auto_cache_manager/src/modules/cache/domain/services/invalidation/invalidation_cache_context.dart';
 import 'package:auto_cache_manager/src/modules/cache/domain/usecases/get_cache_usecase.dart';
 import 'package:auto_cache_manager/src/modules/cache/infra/repositories/cache_repository.dart';
@@ -33,6 +35,8 @@ void main() {
   });
 
   group('GetCache |', () {
+    const dto = GetCacheDTO(key: 'my_key', storageType: StorageType.prefs);
+
     final successCache = CacheEntity<String>(
       id: 'any_id',
       data: 'cache_data',
@@ -40,7 +44,7 @@ void main() {
     );
 
     test('should be able to get data in cache successfully', () async {
-      when(() => repository.findByKey<String>('my_key')).thenAnswer((_) async {
+      when(() => repository.findByKey<String>(dto)).thenAnswer((_) async {
         return right(successCache);
       });
 
@@ -48,42 +52,42 @@ void main() {
         return right(unit);
       });
 
-      final response = await sut.execute<String>(key: 'my_key');
+      final response = await sut.execute<String>(dto);
 
       expect(response.isSuccess, isTrue);
       expect(response.success, successCache);
-      verify(() => repository.findByKey<String>('my_key')).called(1);
+      verify(() => repository.findByKey<String>(dto)).called(1);
       verify(() => invalidationContext.execute(successCache)).called(1);
     });
 
     test('should be able to get data in cache if data is NULL successfully', () async {
-      when(() => repository.findByKey<String>('my_key')).thenAnswer((_) async {
+      when(() => repository.findByKey<String>(dto)).thenAnswer((_) async {
         return right(null);
       });
 
-      final response = await sut.execute<String>(key: 'my_key');
+      final response = await sut.execute<String>(dto);
 
       expect(response.isSuccess, isTrue);
       expect(response.success, isNull);
-      verify(() => repository.findByKey<String>('my_key')).called(1);
+      verify(() => repository.findByKey<String>(dto)).called(1);
       verifyNever(() => invalidationContext.execute<String>(any<CacheEntity<String>>()));
     });
 
     test('should NOT be able to get data in cache when findByKey retrives an exception', () async {
-      when(() => repository.findByKey<String>('my_key')).thenAnswer((_) async {
+      when(() => repository.findByKey<String>(dto)).thenAnswer((_) async {
         return left(FakeAutoCacheManagerException());
       });
 
-      final response = await sut.execute<String>(key: 'my_key');
+      final response = await sut.execute<String>(dto);
 
       expect(response.isError, isTrue);
       expect(response.error, isA<AutoCacheManagerException>());
-      verify(() => repository.findByKey<String>('my_key')).called(1);
+      verify(() => repository.findByKey<String>(dto)).called(1);
       verifyNever(() => invalidationContext.execute<String>(any<CacheEntity<String>>()));
     });
 
     test('should NOT be able to get data in cache when invalidation context retrives an exception', () async {
-      when(() => repository.findByKey<String>('my_key')).thenAnswer((_) async {
+      when(() => repository.findByKey<String>(dto)).thenAnswer((_) async {
         return right(successCache);
       });
 
@@ -91,11 +95,11 @@ void main() {
         return left(FakeAutoCacheManagerException());
       });
 
-      final response = await sut.execute<String>(key: 'my_key');
+      final response = await sut.execute<String>(dto);
 
       expect(response.isError, isTrue);
       expect(response.error, isA<AutoCacheManagerException>());
-      verify(() => repository.findByKey<String>('my_key')).called(1);
+      verify(() => repository.findByKey<String>(dto)).called(1);
       verify(() => invalidationContext.execute(successCache)).called(1);
     });
   });

@@ -1,10 +1,11 @@
 import '../../../../core/core.dart';
+import '../dtos/get_cache_dto.dart';
 import '../repositories/i_cache_repository.dart';
 import '../services/invalidation/invalidation_cache_context.dart';
 import '../types/cache_types.dart';
 
 abstract class GetCacheUsecase {
-  Future<GetCacheResponse<T>> execute<T extends Object>({required String key});
+  Future<GetCacheResponse<T>> execute<T extends Object>(GetCacheDTO dto);
 }
 
 class GetCache implements GetCacheUsecase {
@@ -14,8 +15,8 @@ class GetCache implements GetCacheUsecase {
   const GetCache(this._repository, this._invalidationContext);
 
   @override
-  Future<GetCacheResponse<T>> execute<T extends Object>({required String key}) async {
-    final searchResponse = await _repository.findByKey<T>(key);
+  Future<GetCacheResponse<T>> execute<T extends Object>(GetCacheDTO dto) async {
+    final searchResponse = await _repository.findByKey<T>(dto);
 
     if (searchResponse.isError) {
       return left(searchResponse.error);
