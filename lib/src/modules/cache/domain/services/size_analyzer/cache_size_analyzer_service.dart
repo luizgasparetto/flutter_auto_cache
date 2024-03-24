@@ -23,7 +23,7 @@ abstract interface class ICacheSizeAnalyzerService {
 /// the size of files stored in the application's documents and support
 /// directories, typically used for key-value storage (Prefs) and SQL storage.
 final class CacheSizeAnalyzerService implements ICacheSizeAnalyzerService {
-  final IDirectoryProvider directoryProvider;
+  final IDirectoryProviderService directoryProvider;
 
   const CacheSizeAnalyzerService(this.directoryProvider);
 
@@ -38,11 +38,8 @@ final class CacheSizeAnalyzerService implements ICacheSizeAnalyzerService {
   @override
   Future<Either<AutoCacheManagerException, double>> getCacheSizeUsed() async {
     try {
-      final prefsDirectory = await directoryProvider.getApplicationDocumentsDirectory();
-      final sqlDirectory = await directoryProvider.getApplicationSupportDirectory();
-
-      final totalPrefsSize = _calculeCacheSizeInMb(prefsDirectory);
-      final totalSqlSize = _calculeCacheSizeInMb(sqlDirectory);
+      final totalPrefsSize = _calculeCacheSizeInMb(directoryProvider.prefsDirectory);
+      final totalSqlSize = _calculeCacheSizeInMb(directoryProvider.sqlDirectory);
 
       final total = totalSqlSize + totalPrefsSize;
 

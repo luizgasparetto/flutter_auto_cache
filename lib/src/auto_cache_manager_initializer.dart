@@ -1,3 +1,5 @@
+// coverage:ignore-file
+
 import 'package:flutter/material.dart';
 
 import 'auto_cache_injections.dart';
