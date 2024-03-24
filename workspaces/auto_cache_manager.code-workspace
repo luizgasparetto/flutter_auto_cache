@@ -5,7 +5,7 @@
       "path": ".."
     },
     {
-      "name": "cache_manager",
+      "name": "cache_module",
       "path": "../lib/src/modules/cache"
     }
   ],

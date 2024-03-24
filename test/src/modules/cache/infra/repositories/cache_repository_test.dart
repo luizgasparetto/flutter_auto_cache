@@ -1,19 +1,22 @@
 import 'package:auto_cache_manager/src/core/core.dart';
-import 'package:auto_cache_manager/src/core/extensions/when_extensions.dart';
 import 'package:auto_cache_manager/src/modules/cache/domain/dtos/clear_cache_dto.dart';
 import 'package:auto_cache_manager/src/modules/cache/domain/dtos/get_cache_dto.dart';
 import 'package:auto_cache_manager/src/modules/cache/domain/dtos/save_cache_dto.dart';
 import 'package:auto_cache_manager/src/modules/cache/domain/entities/cache_entity.dart';
 import 'package:auto_cache_manager/src/modules/cache/domain/enums/storage_type.dart';
-import 'package:auto_cache_manager/src/modules/cache/infra/datasources/i_prefs_datasource.dart';
-import 'package:auto_cache_manager/src/modules/cache/infra/datasources/i_sql_storage_datasource.dart';
+import 'package:auto_cache_manager/src/modules/cache/infra/datasources/i_prefs_cache_datasource.dart';
+import 'package:auto_cache_manager/src/modules/cache/infra/datasources/i_sql_cache_datasource.dart';
 import 'package:auto_cache_manager/src/modules/cache/infra/repositories/cache_repository.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
-class PrefsDatasourceMock extends Mock implements IPrefsDatasource {}
+import '../../../../../extensions/when_extensions.dart';
 
-class SQLDatasourceMock extends Mock implements ISQLStorageDatasource {}
+class PrefsDatasourceMock extends Mock implements IPrefsCacheDatasource {}
+
+class SQLDatasourceMock extends Mock implements ISQLCacheDatasource {}
+
+class FakeAutoCacheManagerException extends Fake implements AutoCacheManagerException {}
 
 class CacheEntityFake<T extends Object> extends Fake implements CacheEntity<T> {
   final T fakeData;
@@ -23,8 +26,6 @@ class CacheEntityFake<T extends Object> extends Fake implements CacheEntity<T> {
   @override
   T get data => fakeData;
 }
-
-class FakeAutoCacheManagerException extends Fake implements AutoCacheManagerException {}
 
 void main() {
   final prefsDatasource = PrefsDatasourceMock();

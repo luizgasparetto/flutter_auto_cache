@@ -5,12 +5,12 @@ import '../../domain/dtos/get_cache_dto.dart';
 import '../../domain/dtos/save_cache_dto.dart';
 import '../../domain/repositories/i_cache_repository.dart';
 import '../../domain/types/cache_types.dart';
-import '../datasources/i_prefs_datasource.dart';
-import '../datasources/i_sql_storage_datasource.dart';
+import '../datasources/i_prefs_cache_datasource.dart';
+import '../datasources/i_sql_cache_datasource.dart';
 
 class CacheRepository implements ICacheRepository {
-  final IPrefsDatasource _prefsDatasource;
-  final ISQLStorageDatasource _sqlDatasource;
+  final IPrefsCacheDatasource _prefsDatasource;
+  final ISQLCacheDatasource _sqlDatasource;
 
   const CacheRepository(this._prefsDatasource, this._sqlDatasource);
 

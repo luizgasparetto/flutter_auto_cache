@@ -1,4 +1,5 @@
 import 'package:auto_cache_manager/src/modules/cache/domain/dtos/get_cache_dto.dart';
+import 'package:flutter/material.dart';
 
 import '../../../../auto_cache_manager_initializer.dart';
 import '../../../../core/core.dart';
