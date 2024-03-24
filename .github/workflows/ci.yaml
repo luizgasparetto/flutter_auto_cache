@@ -38,6 +38,9 @@ jobs:
       - name: "Run Analyze"
         run: flutter analyze
 
+      - name: "Run Format"
+        run: flutter format --set-exit-if-changed .
+
       - name: "Run Tests"
         run: flutter test --test-randomize-ordering-seed=random --coverage --machine > test-results.json
 
