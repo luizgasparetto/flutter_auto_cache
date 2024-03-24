@@ -35,9 +35,11 @@ jobs:
 
       - run: flutter pub get
 
-      - run: flutter analyze
+      - name: "Run Analyze"
+        run: flutter analyze
 
-      - run: flutter test --test-randomize-ordering-seed=random --coverage --machine > test-results.json
+      - name: "Run Tests"
+        run: flutter test --test-randomize-ordering-seed=random --coverage --machine > test-results.json
 
       - name: Check for existing and non-empty coverage file
         id: test_coverage_file
