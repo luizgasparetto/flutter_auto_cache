@@ -5,7 +5,7 @@ import 'package:auto_cache_manager/src/modules/cache/domain/dtos/save_cache_dto.
 import 'package:auto_cache_manager/src/modules/cache/domain/entities/cache_entity.dart';
 import 'package:auto_cache_manager/src/modules/cache/domain/enums/invalidation_type.dart';
 import 'package:auto_cache_manager/src/modules/cache/domain/enums/storage_type.dart';
-import 'package:auto_cache_manager/src/modules/cache/external/datasources/prefs_datasource.dart';
+import 'package:auto_cache_manager/src/modules/cache/external/datasources/prefs_cache_datasource.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
@@ -17,7 +17,7 @@ class FakeAutoCacheManagerException extends Fake implements AutoCacheManagerExce
 
 void main() {
   final service = PrefsServiceMock();
-  final sut = PrefsDatasource(service);
+  final sut = PrefsCacheDatasource(service);
 
   tearDown(() {
     reset(service);
