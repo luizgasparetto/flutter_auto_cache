@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 
+import 'exceptions/directory_provider_exceptions.dart';
 import 'path_provider/path_provider_service.dart';
 import 'states/directory_provider_state.dart';
 
@@ -38,17 +39,27 @@ class DirectoryProviderService extends ValueNotifier<DirectoryProviderState> imp
 
   @override
   Future<void> getCacheDirectories() async {
-    ///Early return if directories are already loaded.
-    if (this.value.isLoaded) return;
+    try {
+      ///Early return if directories are already loaded.
+      if (this.value.isLoaded) return;
 
-    ///Fetch the application document and support directories.
-    final applicationDocumentsDirectory = await _service.getApplicationDocumentsDirectory();
-    final applicationSupportDirectory = await _service.getApplicationSupportDirectory();
+      ///Fetch the application document and support directories.
+      final applicationDocumentsDirectory = await _service.getApplicationDocumentsDirectory();
+      final applicationSupportDirectory = await _service.getApplicationSupportDirectory();
 
-    ///Update the state with the fetched directories.
-    this.value = LoadedDirectoryProviderState(
-      applicationDocumentsDirectory: applicationDocumentsDirectory,
-      applicationSupportDirectory: applicationSupportDirectory,
-    );
+      ///Update the state with the fetched directories.
+      this.value = LoadedDirectoryProviderState(
+        applicationDocumentsDirectory: applicationDocumentsDirectory,
+        applicationSupportDirectory: applicationSupportDirectory,
+      );
+    } catch (e, stackTrace) {
+      throw DirectoryProviderException(
+        message: 'Failed do load directories',
+        stackTrace: stackTrace,
+      );
+    }
   }
+
+  @visibleForTesting
+  void reset() => this.value = DirectoryProviderState.empty();
 }
