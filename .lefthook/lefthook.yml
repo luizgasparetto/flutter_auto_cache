@@ -1,7 +1,7 @@
 pre-commit:
   parallel: true
   commands:
-    flutter-format:
-      run: flutter format --set-exit-if-changed .
+    dart-format:
+      run: dart format --set-exit-if-changed --line-length 120 .
     flutter-analyze:
       run: flutter analyze

@@ -39,7 +39,7 @@ jobs:
         run: flutter analyze
 
       - name: "Run Format"
-        run: flutter format --set-exit-if-changed .
+        run: dart format --set-exit-if-changed --line-length 120 .
 
       - name: "Run Tests"
         run: flutter test --test-randomize-ordering-seed=random --coverage --machine > test-results.json
