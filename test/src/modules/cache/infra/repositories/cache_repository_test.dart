@@ -1,5 +1,5 @@
 import 'package:auto_cache_manager/src/core/core.dart';
-import 'package:auto_cache_manager/src/core/extensions/when_extensions.dart';
+import '../../../../../extensions/when_extensions.dart';
 import 'package:auto_cache_manager/src/modules/cache/domain/dtos/clear_cache_dto.dart';
 import 'package:auto_cache_manager/src/modules/cache/domain/dtos/get_cache_dto.dart';
 import 'package:auto_cache_manager/src/modules/cache/domain/dtos/save_cache_dto.dart';
