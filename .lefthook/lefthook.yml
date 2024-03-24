@@ -1,0 +1,7 @@
+pre-commit:
+  parallel: true
+  commands:
+    flutter-format:
+      run: flutter format --set-exit-if-changed .
+    flutter-analyze:
+      run: flutter analyze
