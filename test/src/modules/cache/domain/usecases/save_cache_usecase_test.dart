@@ -1,5 +1,6 @@
 import 'package:auto_cache_manager/auto_cache_manager.dart';
 import 'package:auto_cache_manager/src/core/core.dart';
+import 'package:auto_cache_manager/src/modules/cache/domain/dtos/get_cache_dto.dart';
 import 'package:auto_cache_manager/src/modules/cache/domain/dtos/save_cache_dto.dart';
 import 'package:auto_cache_manager/src/modules/cache/domain/entities/cache_entity.dart';
 import 'package:auto_cache_manager/src/modules/cache/domain/enums/invalidation_type.dart';
@@ -27,11 +28,10 @@ class CacheEntityFake<T extends Object> extends Fake implements CacheEntity<T> {
 
 class BaseConfigFake extends Fake implements CacheConfig {
   @override
-  StorageType get storageType => StorageType.prefs;
-
-  @override
   InvalidationType get invalidationType => InvalidationType.ttl;
 }
+
+class FakeGetCacheDTO extends Fake implements GetCacheDTO {}
 
 void main() {
   final repository = CacheRepositoryMock();
@@ -39,6 +39,7 @@ void main() {
   final sut = SaveCache(repository, invalidationContext);
 
   final fakeCache = CacheEntityFake<String>('my_string');
+  final fakeGetCacheDto = FakeGetCacheDTO();
 
   setUpAll(() {
     AutoCacheManagerInitializer.I.setConfig(BaseConfigFake());
@@ -46,6 +47,7 @@ void main() {
 
   setUp(() {
     registerFallbackValue(fakeCache);
+    registerFallbackValue(fakeGetCacheDto);
   });
 
   tearDown(() {
@@ -53,11 +55,15 @@ void main() {
     reset(invalidationContext);
   });
 
+  Matcher _cacheDtoMatcher() {
+    return predicate<GetCacheDTO>((dto) => dto.key == 'my_key');
+  }
+
   group('SaveCache |', () {
-    final dto = SaveCacheDTO.withConfig(key: 'my_key', data: 'my_data');
+    const dto = SaveCacheDTO(key: 'my_key', data: 'my_data', storageType: StorageType.prefs);
 
     test('should be able to save cache data successfully when not find any previous cache with same key', () async {
-      when(() => repository.findByKey<String>('my_key')).thenAnswer(
+      when(() => repository.findByKey<String>(any(that: _cacheDtoMatcher()))).thenAnswer(
         (_) async => right(null),
       );
 
@@ -68,13 +74,13 @@ void main() {
       final response = await sut.execute<String>(dto);
 
       expect(response.isSuccess, isTrue);
-      verify(() => repository.findByKey<String>('my_key')).called(1);
+      verify(() => repository.findByKey<String>(any(that: _cacheDtoMatcher()))).called(1);
       verify(() => repository.save<String>(dto)).called(1);
       verifyNever(() => invalidationContext.execute<String>(fakeCache));
     });
 
     test('should NOT be able to save cache repository when findByKey fails', () async {
-      when(() => repository.findByKey<String>('my_key')).thenAnswer(
+      when(() => repository.findByKey<String>(any(that: _cacheDtoMatcher()))).thenAnswer(
         (_) async => left(AutoCacheManagerExceptionFake()),
       );
 
@@ -82,13 +88,13 @@ void main() {
 
       expect(response.isError, isTrue);
       expect(response.error, isA<AutoCacheManagerException>());
-      verify(() => repository.findByKey<String>('my_key')).called(1);
+      verify(() => repository.findByKey<String>(any(that: _cacheDtoMatcher()))).called(1);
       verifyNever(() => invalidationContext.execute<String>(any()));
       verifyNever(() => repository.save<String>(dto));
     });
 
     test('should NOT be able to save cache repository when InvalidationCacheContext fails', () async {
-      when(() => repository.findByKey<String>('my_key')).thenAnswer(
+      when(() => repository.findByKey<String>(any(that: _cacheDtoMatcher()))).thenAnswer(
         (_) async => right(fakeCache),
       );
 
@@ -100,13 +106,13 @@ void main() {
 
       expect(response.isError, isTrue);
       expect(response.error, isA<AutoCacheManagerException>());
-      verify(() => repository.findByKey<String>('my_key')).called(1);
+      verify(() => repository.findByKey<String>(any(that: _cacheDtoMatcher()))).called(1);
       verify(() => invalidationContext.execute<String>(fakeCache)).called(1);
       verifyNever(() => repository.save<String>(dto));
     });
 
     test('should NOT be able to save cache repository when save method fails', () async {
-      when(() => repository.findByKey<String>('my_key')).thenAnswer(
+      when(() => repository.findByKey<String>(any(that: _cacheDtoMatcher()))).thenAnswer(
         (_) async => right(fakeCache),
       );
 
@@ -122,7 +128,7 @@ void main() {
 
       expect(response.isError, isTrue);
       expect(response.error, isA<AutoCacheManagerException>());
-      verify(() => repository.findByKey<String>('my_key')).called(1);
+      verify(() => repository.findByKey<String>(any(that: _cacheDtoMatcher()))).called(1);
       verify(() => invalidationContext.execute<String>(fakeCache)).called(1);
       verify(() => repository.save<String>(dto)).called(1);
     });

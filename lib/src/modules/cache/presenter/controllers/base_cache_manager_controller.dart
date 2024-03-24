@@ -1,3 +1,5 @@
+import 'package:auto_cache_manager/src/modules/cache/domain/dtos/get_cache_dto.dart';
+
 import '../../../../auto_cache_manager_initializer.dart';
 import '../../../../core/core.dart';
 import '../../../../core/exceptions/initializer_exceptions.dart';
@@ -39,7 +41,9 @@ class BaseCacheManagerController {
   Future<T?> get<T extends Object>({required String key}) async {
     _initializedConfigVerification();
 
-    final response = await _getCacheUsecase.execute<T>(key: key);
+    final dto = GetCacheDTO(key: key, storageType: storageType);
+
+    final response = await _getCacheUsecase.execute<T>(dto);
 
     return response.fold(
       (error) => throw error,
@@ -50,7 +54,7 @@ class BaseCacheManagerController {
   Future<void> save<T extends Object>({required String key, required T data}) async {
     _initializedConfigVerification();
 
-    final dto = SaveCacheDTO<T>.withConfig(key: key, data: data);
+    final dto = SaveCacheDTO<T>(key: key, data: data, storageType: storageType);
     final response = await _saveCacheUsecase.execute(dto);
 
     if (response.isError) {

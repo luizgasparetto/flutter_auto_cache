@@ -25,5 +25,9 @@ class Injector {
     _dependencies[T] = await factory();
   }
 
+  void bindInstance<T extends Object>(Object instance) {
+    _dependencies[T] = instance;
+  }
+
   void clear() => _dependencies.clear();
 }

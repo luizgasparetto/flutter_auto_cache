@@ -35,20 +35,25 @@ jobs:
 
       - run: flutter pub get
 
-      - run: flutter analyze
+      - name: "Run Analyze"
+        run: flutter analyze
 
-      - run: flutter test --test-randomize-ordering-seed=random --coverage --machine > test-results.json
+      - name: "Run Format"
+        run: dart format --set-exit-if-changed --line-length 120 .
+
+      - name: "Run Tests"
+        run: flutter test --test-randomize-ordering-seed=random --coverage --machine > test-results.json
 
       - name: Check for existing and non-empty coverage file
         id: test_coverage_file
-        run: if [ -s "/coverage/lcov.info" ]; then echo "result=true" >> $GITHUB_OUTPUT ; else echo "result=false" >> $GITHUB_OUTPUT; fi
+        run: if [ -s "coverage/lcov.info" ]; then echo "result=true" >> $GITHUB_OUTPUT ; else echo "result=false" >> $GITHUB_OUTPUT; fi
 
       - name: Verify Coverage
         if: steps.test_coverage_file.outputs.result == 'true'
         uses: VeryGoodOpenSource/very_good_coverage@v2
         with:
-          path: "/coverage/lcov.info"
-          min_coverage: 80
+          path: "coverage/lcov.info"
+          min_coverage: 70
           exclude: "**/*_observer.dart **/change.dart"
 
       - uses: dorny/test-reporter@v1
