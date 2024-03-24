@@ -41,7 +41,7 @@ jobs:
 
       - name: Check for existing and non-empty coverage file
         id: test_coverage_file
-        run: if [ -s "/coverage/lcov.info" ]; then echo "result=true" >> $GITHUB_OUTPUT ; else echo "result=false" >> $GITHUB_OUTPUT; fi
+        run: if [ -s "coverage/lcov.info" ]; then echo "result=true" >> $GITHUB_OUTPUT ; else echo "result=false" >> $GITHUB_OUTPUT; fi
 
       - name: Verify Coverage
         if: steps.test_coverage_file.outputs.result == 'true'
