@@ -8,7 +8,7 @@ void main() {
 
   group('CacheConfig.defaultConfig |', () {
     test('should be able to validate attributes of default config', () {
-      expect(sut.invalidationType, equals(InvalidationType.refresh));
+      expect(sut.invalidationType, equals(InvalidationType.ttl));
       expect(sut.sizeOptions, equals(CacheSizeOptions.createDefault()));
     });
   });
