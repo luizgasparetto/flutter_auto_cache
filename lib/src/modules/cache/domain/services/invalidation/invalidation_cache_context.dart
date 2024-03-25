@@ -1,9 +1,8 @@
-import 'package:auto_cache_manager/src/modules/cache/domain/services/invalidation/invalidation_cache_strategy.dart';
-import 'package:auto_cache_manager/src/modules/cache/domain/services/invalidation/strategies/ttl_invalidation_cache_strategy.dart';
-
 import '../../../../../core/core.dart';
 
 import '../../entities/cache_entity.dart';
+import 'invalidation_cache_strategy.dart';
+import 'strategies/ttl_invalidation_cache_strategy.dart';
 
 abstract interface class IInvalidationCacheContext {
   Either<AutoCacheManagerException, Unit> execute<T extends Object>(CacheEntity<T> cache);
