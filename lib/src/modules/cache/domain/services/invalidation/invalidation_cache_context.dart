@@ -1,3 +1,5 @@
+import 'package:auto_cache_manager/src/modules/cache/domain/enums/invalidation_type.dart';
+
 import '../../../../../core/core.dart';
 
 import '../../entities/cache_entity.dart';
@@ -15,12 +17,12 @@ final class InvalidationCacheContext implements IInvalidationCacheContext {
 
   @override
   Either<AutoCacheManagerException, Unit> execute<T extends Object>(CacheEntity<T> cache) {
-    final strategy = _getInvalidationCacheStrategy();
-    return strategy.validate<T>(cache);
+    return invalidationCacheStrategy.validate<T>(cache);
   }
 
-  InvalidationCacheStrategy _getInvalidationCacheStrategy() {
+  InvalidationCacheStrategy get invalidationCacheStrategy {
     return switch (config.invalidationType) {
+      InvalidationType.ttl => TTLInvalidationCacheStrategy(config),
       _ => TTLInvalidationCacheStrategy(config),
     };
   }

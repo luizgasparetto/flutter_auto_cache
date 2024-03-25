@@ -18,7 +18,7 @@ final class TTLInvalidationCacheStrategy implements InvalidationCacheStrategy {
       final createdAtWithMaxDuration = cache.createdAt.add(maxDuration);
       final isAfterNow = createdAtWithMaxDuration.isAfter(DateTime.now());
 
-      if (!isAfterNow) {
+      if (isAfterNow) {
         return left(ExpiredTTLException());
       }
 
@@ -26,7 +26,7 @@ final class TTLInvalidationCacheStrategy implements InvalidationCacheStrategy {
     } catch (e, stackTrace) {
       return left(
         TTLInvalidationMethodException(
-          code: 'ttl_invalidation_method_error',
+          code: 'ttl_invalidation_method',
           message: 'Failed to verify TTL of cache data',
           stackTrace: stackTrace,
         ),
