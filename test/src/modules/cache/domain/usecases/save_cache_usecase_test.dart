@@ -13,7 +13,7 @@ import 'package:mocktail/mocktail.dart';
 
 class CacheRepositoryMock extends Mock implements ICacheRepository {}
 
-class InvalidationCacheContextMock extends Mock implements InvalidationCacheContext {}
+class InvalidationCacheContextMock extends Mock implements IInvalidationCacheContext {}
 
 class AutoCacheManagerExceptionFake extends Fake implements AutoCacheManagerException {}
 

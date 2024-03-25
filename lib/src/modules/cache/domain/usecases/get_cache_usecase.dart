@@ -10,7 +10,7 @@ abstract class GetCacheUsecase {
 
 class GetCache implements GetCacheUsecase {
   final ICacheRepository _repository;
-  final InvalidationCacheContext _invalidationContext;
+  final IInvalidationCacheContext _invalidationContext;
 
   const GetCache(this._repository, this._invalidationContext);
 

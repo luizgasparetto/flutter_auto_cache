@@ -3,8 +3,8 @@ import '../../modules/cache/domain/enums/invalidation_type.dart';
 import '../../modules/cache/domain/value_objects/cache_size_options.dart';
 
 class CacheConfig {
-  final InvalidationType invalidationType;
   final CacheSizeOptions sizeOptions;
+  final InvalidationType invalidationType;
 
   CacheConfig({
     this.invalidationType = CacheConstants.defaultInvalidationType,

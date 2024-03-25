@@ -12,7 +12,7 @@ abstract interface class SaveCacheUsecase {
 
 class SaveCache implements SaveCacheUsecase {
   final ICacheRepository _repository;
-  final InvalidationCacheContext _invalidationCacheContext;
+  final IInvalidationCacheContext _invalidationCacheContext;
 
   const SaveCache(this._repository, this._invalidationCacheContext);
 
