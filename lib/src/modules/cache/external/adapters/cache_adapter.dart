@@ -9,6 +9,7 @@ class CacheAdapter {
       id: json['id'],
       data: json['data'],
       createdAt: DateTime.parse(json['created_at']),
+      endAt: DateTime.parse(json['end_at']),
       invalidationType: InvalidationTypeAdapter.fromKey(json['invalidation_type']),
     );
   }
@@ -19,6 +20,7 @@ class CacheAdapter {
       data: dto.data,
       invalidationType: InvalidationTypeAdapter.fromKey(dto.invalidationTypeCode),
       createdAt: dto.createdAt,
+      endAt: dto.endAt,
     );
   }
 
@@ -26,8 +28,9 @@ class CacheAdapter {
     return {
       'id': cache.id,
       'data': cache.data,
-      'created_at': cache.createdAt.toIso8601String(),
       'invalidation_type': InvalidationTypeAdapter.toKey(cache.invalidationType),
+      'created_at': cache.createdAt.toIso8601String(),
+      'end_at': cache.endAt.toIso8601String(),
     };
   }
 }

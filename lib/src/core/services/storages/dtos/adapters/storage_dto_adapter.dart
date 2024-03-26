@@ -9,6 +9,7 @@ class StorageDTOAdapter {
         data: map['data'],
         invalidationTypeCode: map['invalidation_type_code'],
         createdAt: DateTime.parse(map['created_at']),
+        endAt: DateTime.parse(),
       );
     } catch (e, st) {
       throw StorageAdapterException(

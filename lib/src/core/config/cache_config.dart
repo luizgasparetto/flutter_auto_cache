@@ -13,7 +13,7 @@ class CacheConfig {
     CacheSizeOptions? sizeOptions,
   }) : sizeOptions = sizeOptions ?? CacheSizeOptions.createDefault();
 
-  factory CacheConfig.defaultConfig() => CacheConfig(invalidationMethod: TTLInvalidationMethod());
+  factory CacheConfig.defaultConfig() => CacheConfig(invalidationMethod: const TTLInvalidationMethod());
 
   bool get isDefaultConfig {
     final isDefaultInvalidation = invalidationType == CacheConstants.defaultInvalidationType;
@@ -23,4 +23,13 @@ class CacheConfig {
   }
 
   InvalidationType get invalidationType => invalidationMethod.invalidationType;
+
+  Duration get expireMaxDuration {
+    if (invalidationType == InvalidationType.ttl) {
+      final typedInvalidation = invalidationMethod as TTLInvalidationMethod;
+      return typedInvalidation.duration;
+    }
+
+    return CacheConstants.maxTtlDuration;
+  }
 }

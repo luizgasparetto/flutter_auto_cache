@@ -8,13 +8,32 @@ class CacheEntity<T extends Object> {
   final T data;
   final InvalidationType invalidationType;
   final DateTime createdAt;
+  final DateTime endAt;
 
-  CacheEntity({
+  const CacheEntity({
     required this.id,
     required this.data,
     required this.invalidationType,
-    DateTime? createdAt,
-  }) : createdAt = createdAt ?? DateTime.now();
+    required this.createdAt,
+    required this.endAt,
+  });
+
+  factory CacheEntity.generate({
+    required String id,
+    required T data,
+    required InvalidationType invalidationType,
+    required Duration expireMaxDuration,
+  }) {
+    return CacheEntity(
+      id: id,
+      data: data,
+      invalidationType: invalidationType,
+      createdAt: DateTime.now(),
+      endAt: DateTime.now().add(expireMaxDuration),
+    );
+  }
+
+  bool get isExpired => endAt.isBefore(DateTime.now());
 
   @override
   bool operator ==(Object other) {
