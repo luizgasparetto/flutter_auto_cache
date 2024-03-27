@@ -1,9 +1,7 @@
 import 'package:auto_cache_manager/src/core/core.dart';
 import 'package:auto_cache_manager/src/core/services/storages/prefs/i_prefs_service.dart';
-import 'package:auto_cache_manager/src/modules/cache/domain/dtos/save_cache_dto.dart';
 import 'package:auto_cache_manager/src/modules/cache/domain/entities/cache_entity.dart';
 import 'package:auto_cache_manager/src/modules/cache/domain/enums/invalidation_type.dart';
-import 'package:auto_cache_manager/src/modules/cache/domain/enums/storage_type.dart';
 import 'package:auto_cache_manager/src/modules/cache/external/datasources/prefs_cache_datasource.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';

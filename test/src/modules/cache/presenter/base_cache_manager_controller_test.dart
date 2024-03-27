@@ -18,6 +18,8 @@ class SaveCacheUsecaseMock extends Mock implements SaveCacheUsecase {}
 
 class ClearCacheUsecaseMock extends Mock implements ClearCacheUsecase {}
 
+class CacheConfigMock extends Mock implements CacheConfig {}
+
 class FakeBindClass extends Fake {}
 
 class FakeAutoCacheManagerException extends Fake implements AutoCacheManagerException {}
@@ -37,11 +39,13 @@ void main() {
   final getCacheUsecase = GetCacheUsecaseMock();
   final saveCacheUsecase = SaveCacheUsecaseMock();
   final clearCacheUsecase = ClearCacheUsecaseMock();
+  final cacheConfigMock = CacheConfigMock();
 
   final sut = BaseCacheManagerController(
     getCacheUsecase,
     saveCacheUsecase,
     clearCacheUsecase,
+    cacheConfigMock,
     storageType: StorageType.prefs,
   );
 
@@ -53,6 +57,8 @@ void main() {
   tearDown(() {
     reset(getCacheUsecase);
     reset(saveCacheUsecase);
+    reset(clearCacheUsecase);
+    reset(cacheConfigMock);
     Injector.I.clear();
   });
 
@@ -102,7 +108,12 @@ void main() {
   });
 
   group('BaseCacheManagerController.save |', () {
-    const saveDTO = SaveCacheDTO(key: 'my_key', data: 'my_data', storageType: StorageType.prefs);
+    final saveDTO = SaveCacheDTO(
+      key: 'my_key',
+      data: 'my_data',
+      storageType: StorageType.prefs,
+      cacheConfig: cacheConfigMock,
+    );
 
     test('should be able to save a data in cache with a key successfully', () async {
       when(() => saveCacheUsecase.execute<String>(saveDTO)).thenAnswer((_) async {

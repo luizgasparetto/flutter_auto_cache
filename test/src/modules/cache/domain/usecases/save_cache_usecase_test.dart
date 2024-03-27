@@ -17,6 +17,8 @@ class InvalidationCacheContextMock extends Mock implements IInvalidationCacheCon
 
 class AutoCacheManagerExceptionFake extends Fake implements AutoCacheManagerException {}
 
+class FakeCacheConfig extends Fake implements CacheConfig {}
+
 class CacheEntityFake<T extends Object> extends Fake implements CacheEntity<T> {
   final T fakeData;
 
@@ -39,6 +41,7 @@ void main() {
   final sut = SaveCache(repository, invalidationContext);
 
   final fakeCache = CacheEntityFake<String>('my_string');
+  final fakeCacheConfig = FakeCacheConfig();
   final fakeGetCacheDto = FakeGetCacheDTO();
 
   setUpAll(() {
@@ -60,7 +63,12 @@ void main() {
   }
 
   group('SaveCache |', () {
-    const dto = SaveCacheDTO(key: 'my_key', data: 'my_data', storageType: StorageType.prefs);
+    final dto = SaveCacheDTO(
+      key: 'my_key',
+      data: 'my_data',
+      storageType: StorageType.prefs,
+      cacheConfig: fakeCacheConfig,
+    );
 
     test('should be able to save cache data successfully when not find any previous cache with same key', () async {
       when(() => repository.findByKey<String>(any(that: _cacheDtoMatcher()))).thenAnswer(

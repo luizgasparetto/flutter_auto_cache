@@ -18,12 +18,14 @@ class BaseCacheManagerController {
   final GetCacheUsecase _getCacheUsecase;
   final SaveCacheUsecase _saveCacheUsecase;
   final ClearCacheUsecase _clearCacheUsecase;
+  final CacheConfig cacheConfig;
   final StorageType storageType;
 
   const BaseCacheManagerController(
     this._getCacheUsecase,
     this._saveCacheUsecase,
-    this._clearCacheUsecase, {
+    this._clearCacheUsecase,
+    this.cacheConfig, {
     required this.storageType,
   });
 
@@ -35,6 +37,7 @@ class BaseCacheManagerController {
       Injector.I.get<GetCacheUsecase>(),
       Injector.I.get<SaveCacheUsecase>(),
       Injector.I.get<ClearCacheUsecase>(),
+      Injector.I.get<CacheConfig>(),
       storageType: storageType,
     );
   }
@@ -55,7 +58,7 @@ class BaseCacheManagerController {
   Future<void> save<T extends Object>({required String key, required T data}) async {
     _initializedConfigVerification();
 
-    final dto = SaveCacheDTO<T>(key: key, data: data, storageType: storageType);
+    final dto = SaveCacheDTO<T>(key: key, data: data, storageType: storageType, cacheConfig: cacheConfig);
     final response = await _saveCacheUsecase.execute(dto);
 
     if (response.isError) {

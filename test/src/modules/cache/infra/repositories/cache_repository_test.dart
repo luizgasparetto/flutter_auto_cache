@@ -18,6 +18,8 @@ class SQLDatasourceMock extends Mock implements ISQLCacheDatasource {}
 
 class FakeAutoCacheManagerException extends Fake implements AutoCacheManagerException {}
 
+class FakeCacheConfig extends Fake implements CacheConfig {}
+
 class CacheEntityFake<T extends Object> extends Fake implements CacheEntity<T> {
   final T fakeData;
 
@@ -30,6 +32,8 @@ class CacheEntityFake<T extends Object> extends Fake implements CacheEntity<T> {
 void main() {
   final prefsDatasource = PrefsDatasourceMock();
   final sqlDatasource = SQLDatasourceMock();
+
+  final fakeCacheConfig = FakeCacheConfig();
 
   final sut = CacheRepository(prefsDatasource, sqlDatasource);
 
@@ -113,8 +117,19 @@ void main() {
   });
 
   group('CacheRepository.save |', () {
-    const prefsDto = SaveCacheDTO<String>(key: 'my_key', data: 'my_data', storageType: StorageType.prefs);
-    const sqlDto = SaveCacheDTO<String>(key: 'my_key', data: 'my_data', storageType: StorageType.sql);
+    final prefsDto = SaveCacheDTO<String>(
+      key: 'my_key',
+      data: 'my_data',
+      storageType: StorageType.prefs,
+      cacheConfig: fakeCacheConfig,
+    );
+
+    final sqlDto = SaveCacheDTO<String>(
+      key: 'my_key',
+      data: 'my_data',
+      storageType: StorageType.sql,
+      cacheConfig: fakeCacheConfig,
+    );
 
     test('should be able to save cache data with prefs successfully', () async {
       when(() => prefsDatasource.save<String>(prefsDto)).thenAsyncVoid();

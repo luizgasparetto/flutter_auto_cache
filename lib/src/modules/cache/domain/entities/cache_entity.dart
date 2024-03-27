@@ -1,3 +1,4 @@
+import 'package:auto_cache_manager/src/modules/cache/domain/dtos/save_cache_dto.dart';
 import 'package:flutter/foundation.dart';
 
 import '../enums/invalidation_type.dart';
@@ -17,6 +18,15 @@ class CacheEntity<T extends Object> {
     required this.createdAt,
     required this.endAt,
   });
+
+  factory CacheEntity.fromDto(SaveCacheDTO<T> dto) {
+    return CacheEntity.generate(
+      id: dto.key,
+      data: dto.data,
+      invalidationType: dto.cacheConfig.invalidationType,
+      expireMaxDuration: dto.cacheConfig.expireMaxDuration,
+    );
+  }
 
   factory CacheEntity.generate({
     required String id,
