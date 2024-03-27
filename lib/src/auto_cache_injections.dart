@@ -8,16 +8,16 @@ import 'core/services/cryptography/i_cryptography_service.dart';
 import 'core/services/directory_provider/path_provider/path_provider_service.dart';
 import 'core/services/storages/prefs/i_prefs_service.dart';
 import 'core/services/storages/prefs/shared_preferences/shared_preferences_service.dart';
-import 'modules/cache/domain/repositories/i_cache_repository.dart';
-import 'modules/cache/domain/services/invalidation/invalidation_cache_context.dart';
-import 'modules/cache/domain/usecases/clear_cache_usecase.dart';
-import 'modules/cache/domain/usecases/get_cache_usecase.dart';
-import 'modules/cache/domain/usecases/save_cache_usecase.dart';
-import 'modules/cache/external/datasources/prefs_cache_datasource.dart';
-import 'modules/cache/external/datasources/sql_cache_datasource.dart';
-import 'modules/cache/infra/datasources/i_prefs_cache_datasource.dart';
-import 'modules/cache/infra/datasources/i_sql_cache_datasource.dart';
-import 'modules/cache/infra/repositories/cache_repository.dart';
+import 'modules/data_cache/domain/repositories/i_cache_repository.dart';
+import 'modules/data_cache/domain/services/invalidation/invalidation_cache_context.dart';
+import 'modules/data_cache/domain/usecases/clear_cache_usecase.dart';
+import 'modules/data_cache/domain/usecases/get_cache_usecase.dart';
+import 'modules/data_cache/domain/usecases/save_cache_usecase.dart';
+import 'modules/data_cache/external/datasources/prefs_cache_datasource.dart';
+import 'modules/data_cache/external/datasources/sql_cache_datasource.dart';
+import 'modules/data_cache/infra/datasources/i_prefs_cache_datasource.dart';
+import 'modules/data_cache/infra/datasources/i_sql_cache_datasource.dart';
+import 'modules/data_cache/infra/repositories/cache_repository.dart';
 
 class AutoCacheInjections {
   static Future<void> registerBinds() async {

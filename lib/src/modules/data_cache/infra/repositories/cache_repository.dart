@@ -1,4 +1,4 @@
-import 'package:auto_cache_manager/src/modules/cache/domain/dtos/clear_cache_dto.dart';
+import 'package:auto_cache_manager/src/modules/data_cache/domain/dtos/clear_cache_dto.dart';
 
 import '../../../../core/core.dart';
 import '../../domain/dtos/get_cache_dto.dart';

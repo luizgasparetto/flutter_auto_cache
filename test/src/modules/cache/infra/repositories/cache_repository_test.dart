@@ -1,12 +1,12 @@
 import 'package:auto_cache_manager/src/core/core.dart';
-import 'package:auto_cache_manager/src/modules/cache/domain/dtos/clear_cache_dto.dart';
-import 'package:auto_cache_manager/src/modules/cache/domain/dtos/get_cache_dto.dart';
-import 'package:auto_cache_manager/src/modules/cache/domain/dtos/save_cache_dto.dart';
-import 'package:auto_cache_manager/src/modules/cache/domain/entities/cache_entity.dart';
-import 'package:auto_cache_manager/src/modules/cache/domain/enums/storage_type.dart';
-import 'package:auto_cache_manager/src/modules/cache/infra/datasources/i_prefs_cache_datasource.dart';
-import 'package:auto_cache_manager/src/modules/cache/infra/datasources/i_sql_cache_datasource.dart';
-import 'package:auto_cache_manager/src/modules/cache/infra/repositories/cache_repository.dart';
+import 'package:auto_cache_manager/src/modules/data_cache/domain/dtos/clear_cache_dto.dart';
+import 'package:auto_cache_manager/src/modules/data_cache/domain/dtos/get_cache_dto.dart';
+import 'package:auto_cache_manager/src/modules/data_cache/domain/dtos/save_cache_dto.dart';
+import 'package:auto_cache_manager/src/modules/data_cache/domain/entities/cache_entity.dart';
+import 'package:auto_cache_manager/src/modules/data_cache/domain/enums/storage_type.dart';
+import 'package:auto_cache_manager/src/modules/data_cache/infra/datasources/i_prefs_cache_datasource.dart';
+import 'package:auto_cache_manager/src/modules/data_cache/infra/datasources/i_sql_cache_datasource.dart';
+import 'package:auto_cache_manager/src/modules/data_cache/infra/repositories/cache_repository.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 

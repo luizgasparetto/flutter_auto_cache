@@ -1,5 +1,5 @@
-import 'package:auto_cache_manager/src/modules/cache/domain/dtos/get_cache_dto.dart';
-import 'package:auto_cache_manager/src/modules/cache/domain/entities/cache_entity.dart';
+import 'package:auto_cache_manager/src/modules/data_cache/domain/dtos/get_cache_dto.dart';
+import 'package:auto_cache_manager/src/modules/data_cache/domain/entities/cache_entity.dart';
 
 import '../../../../core/core.dart';
 import '../dtos/save_cache_dto.dart';

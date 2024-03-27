@@ -1,8 +1,8 @@
 import 'package:auto_cache_manager/src/core/core.dart';
-import 'package:auto_cache_manager/src/modules/cache/domain/entities/cache_entity.dart';
-import 'package:auto_cache_manager/src/modules/cache/domain/enums/invalidation_type.dart';
-import 'package:auto_cache_manager/src/modules/cache/domain/services/invalidation/invalidation_cache_context.dart';
-import 'package:auto_cache_manager/src/modules/cache/domain/value_objects/invalidation_methods/implementations/ttl_invalidation_method.dart';
+import 'package:auto_cache_manager/src/modules/data_cache/domain/entities/cache_entity.dart';
+import 'package:auto_cache_manager/src/modules/data_cache/domain/enums/invalidation_type.dart';
+import 'package:auto_cache_manager/src/modules/data_cache/domain/services/invalidation/invalidation_cache_context.dart';
+import 'package:auto_cache_manager/src/modules/data_cache/domain/value_objects/invalidation_methods/implementations/ttl_invalidation_method.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
@@ -11,6 +11,9 @@ class CacheConfigMock extends Mock implements CacheConfig {}
 class FakeCacheEntity extends Fake implements CacheEntity<String> {
   @override
   DateTime get createdAt => DateTime.now().subtract(const Duration(days: 10));
+
+  @override
+  DateTime get endAt => DateTime.now().add(const Duration(days: 10));
 }
 
 void main() {
@@ -32,11 +35,6 @@ void main() {
 
       expect(response.isSuccess, isTrue);
       expect(response.fold((l) => l, (r) => r), equals(unit));
-    });
-
-    test('should NOT be able to validate cache by invalidation method when strategy fails', () {
-      when(() => config.invalidationMethod).thenReturn(const TTLInvalidationMethod());
-      when(() => config.invalidationType).thenReturn(InvalidationType.ttl);
     });
   });
 }
