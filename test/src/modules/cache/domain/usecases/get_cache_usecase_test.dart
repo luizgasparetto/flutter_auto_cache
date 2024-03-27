@@ -41,6 +41,8 @@ void main() {
       id: 'any_id',
       data: 'cache_data',
       invalidationType: InvalidationType.refresh,
+      createdAt: DateTime.now(),
+      endAt: DateTime.now(),
     );
 
     test('should be able to get data in cache successfully', () async {

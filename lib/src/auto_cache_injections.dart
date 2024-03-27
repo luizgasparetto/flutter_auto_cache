@@ -7,8 +7,8 @@ import 'package:auto_cache_manager/src/modules/cache/domain/usecases/save_cache_
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'core/core.dart';
-import 'core/services/storages/kvs/i_prefs_service.dart';
-import 'core/services/storages/kvs/shared_preferences/shared_preferences_service.dart';
+import 'core/services/storages/prefs/i_prefs_service.dart';
+import 'core/services/storages/prefs/shared_preferences/shared_preferences_service.dart';
 import 'modules/cache/domain/repositories/i_cache_repository.dart';
 import 'modules/cache/domain/services/invalidation/invalidation_cache_context.dart';
 import 'modules/cache/external/datasources/prefs_cache_datasource.dart';

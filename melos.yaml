@@ -1,0 +1,11 @@
+name: auto_cache_manager
+
+packages:
+  - .
+
+scripts:
+  clean:
+    run: flutter clean && flutter pub get
+
+  test_coverage:
+    run: flutter test --test-randomize-ordering-seed=random --coverage

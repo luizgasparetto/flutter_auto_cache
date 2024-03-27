@@ -1,4 +1,3 @@
-import '../../../../core/services/storages/dtos/storage_dto.dart';
 import '../../domain/entities/cache_entity.dart';
 
 import 'enums/invalidation_type_adapter.dart';
@@ -8,19 +7,9 @@ class CacheAdapter {
     return CacheEntity<T>(
       id: json['id'],
       data: json['data'],
+      invalidationType: InvalidationTypeAdapter.fromKey(json['invalidation_type']),
       createdAt: DateTime.parse(json['created_at']),
       endAt: DateTime.parse(json['end_at']),
-      invalidationType: InvalidationTypeAdapter.fromKey(json['invalidation_type']),
-    );
-  }
-
-  static CacheEntity<T> fromDto<T extends Object>(StorageDTO<T> dto) {
-    return CacheEntity<T>(
-      id: dto.id,
-      data: dto.data,
-      invalidationType: InvalidationTypeAdapter.fromKey(dto.invalidationTypeCode),
-      createdAt: dto.createdAt,
-      endAt: dto.endAt,
     );
   }
 

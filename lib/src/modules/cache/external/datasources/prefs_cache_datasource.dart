@@ -1,4 +1,4 @@
-import '../../../../core/services/storages/kvs/i_prefs_service.dart';
+import '../../../../core/services/storages/prefs/i_prefs_service.dart';
 import '../../domain/dtos/save_cache_dto.dart';
 import '../../domain/entities/cache_entity.dart';
 import '../../infra/datasources/i_prefs_cache_datasource.dart';
@@ -11,16 +11,16 @@ final class PrefsCacheDatasource implements IPrefsCacheDatasource {
 
   @override
   CacheEntity<T>? findByKey<T extends Object>(String key) {
-    final response = _service.get<T>(key: key);
+    final response = _service.get(key: key);
 
     if (response == null) return null;
 
-    return CacheAdapter.fromDto<T>(response);
+    return CacheAdapter.fromJson<T>(response);
   }
 
   @override
   Future<void> save<T extends Object>(SaveCacheDTO<T> dto) async {
-    await _service.save<T>(key: dto.key, data: dto.data);
+    await _service.save(key: dto.key, data: {});
   }
 
   @override
