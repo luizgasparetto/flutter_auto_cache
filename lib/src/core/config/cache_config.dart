@@ -7,10 +7,12 @@ import '../../modules/cache/domain/value_objects/invalidation_methods/invalidati
 class CacheConfig {
   final CacheSizeOptions sizeOptions;
   final InvalidationMethod invalidationMethod;
+  final String? cryptographyKey;
 
   CacheConfig({
     required this.invalidationMethod,
     CacheSizeOptions? sizeOptions,
+    this.cryptographyKey,
   }) : sizeOptions = sizeOptions ?? CacheSizeOptions.createDefault();
 
   factory CacheConfig.defaultConfig() => CacheConfig(invalidationMethod: const TTLInvalidationMethod());

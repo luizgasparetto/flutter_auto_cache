@@ -1,6 +1,6 @@
-import 'package:auto_cache_manager/src/modules/cache/domain/dtos/save_cache_dto.dart';
 import 'package:flutter/foundation.dart';
 
+import '../dtos/save_cache_dto.dart';
 import '../enums/invalidation_type.dart';
 
 @immutable
@@ -19,15 +19,6 @@ class CacheEntity<T extends Object> {
     required this.endAt,
   });
 
-  factory CacheEntity.fromDto(SaveCacheDTO<T> dto) {
-    return CacheEntity.generate(
-      id: dto.key,
-      data: dto.data,
-      invalidationType: dto.cacheConfig.invalidationType,
-      expireMaxDuration: dto.cacheConfig.expireMaxDuration,
-    );
-  }
-
   factory CacheEntity.generate({
     required String id,
     required T data,
@@ -43,7 +34,14 @@ class CacheEntity<T extends Object> {
     );
   }
 
-  bool get isExpired => endAt.isBefore(DateTime.now());
+  factory CacheEntity.fromDto(SaveCacheDTO<T> dto) {
+    return CacheEntity.generate(
+      id: dto.key,
+      data: dto.data,
+      invalidationType: dto.cacheConfig.invalidationType,
+      expireMaxDuration: dto.cacheConfig.expireMaxDuration,
+    );
+  }
 
   @override
   bool operator ==(Object other) {

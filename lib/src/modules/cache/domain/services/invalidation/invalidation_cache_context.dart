@@ -1,8 +1,7 @@
-import 'package:auto_cache_manager/src/modules/cache/domain/enums/invalidation_type.dart';
-
 import '../../../../../core/core.dart';
 
 import '../../entities/cache_entity.dart';
+import '../../enums/invalidation_type.dart';
 import 'invalidation_cache_strategy.dart';
 import 'strategies/ttl_invalidation_cache_strategy.dart';
 
@@ -22,8 +21,8 @@ final class InvalidationCacheContext implements IInvalidationCacheContext {
 
   InvalidationCacheStrategy get invalidationCacheStrategy {
     return switch (config.invalidationType) {
-      InvalidationType.ttl => TTLInvalidationCacheStrategy(config),
-      _ => TTLInvalidationCacheStrategy(config),
+      InvalidationType.ttl => TTLInvalidationCacheStrategy(),
+      _ => TTLInvalidationCacheStrategy(),
     };
   }
 }
