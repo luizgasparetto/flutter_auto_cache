@@ -1,4 +1,4 @@
-// ignore_for_file: require_trailing_commas
+import 'package:auto_cache_manager/src/core/core.dart';
 
 import '../../../enums/invalidation_type.dart';
 import '../invalidation_method.dart';
@@ -6,7 +6,7 @@ import '../invalidation_method.dart';
 class TTLInvalidationMethod extends InvalidationMethod {
   final Duration duration;
 
-  const TTLInvalidationMethod({this.duration = const Duration(days: 1)});
+  const TTLInvalidationMethod({this.duration = CacheConstants.maxTtlDuration});
 
   @override
   InvalidationType get invalidationType => InvalidationType.ttl;

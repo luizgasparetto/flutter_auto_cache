@@ -13,13 +13,13 @@ class EncryptCryptographyService implements ICryptographyService {
 
   @override
   Future<String> decrypt(String value) async {
-    final cryptographyKey = cacheConfig.cryptographyKey;
+    final cryptographyOptions = cacheConfig.cryptographyOptions;
 
-    if (cryptographyKey != null) {
-      final secretKeyHash = md5.convert(utf8.encode(cryptographyKey)).toString();
+    if (cryptographyOptions != null) {
+      final secretKeyHash = sha256.convert(utf8.encode(cryptographyOptions.secretKey)).toString();
 
       final key = Key.fromUtf8(secretKeyHash);
-      final iv = IV.fromBase64(base64Encode(utf8.encode(cryptographyKey)));
+      final iv = IV.fromBase64(base64Encode(utf8.encode(cryptographyOptions.secretKey)));
 
       final encrypter = Encrypter(AES(key));
 
@@ -34,13 +34,13 @@ class EncryptCryptographyService implements ICryptographyService {
 
   @override
   Future<String> encrypt(String value) async {
-    final cryptographyKey = cacheConfig.cryptographyKey;
+    final cryptographyOptions = cacheConfig.cryptographyOptions;
 
-    if (cryptographyKey != null) {
-      final secretKeyHash = md5.convert(utf8.encode(cryptographyKey)).toString();
+    if (cryptographyOptions != null) {
+      final secretKeyHash = sha256.convert(utf8.encode(cryptographyOptions.secretKey)).toString();
 
       final key = Key.fromUtf8(secretKeyHash);
-      final iv = IV.fromBase64(base64Encode(utf8.encode(cryptographyKey)));
+      final iv = IV.fromBase64(base64Encode(utf8.encode(cryptographyOptions.secretKey)));
 
       final encrypter = Encrypter(AES(key));
       final encrypted = encrypter.encrypt(value, iv: iv);

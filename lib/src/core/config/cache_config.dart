@@ -1,6 +1,7 @@
 import '../../modules/data_cache/domain/constants/cache_constants.dart';
 import '../../modules/data_cache/domain/enums/invalidation_type.dart';
 
+import '../../modules/data_cache/domain/value_objects/cache_cryptography_options.dart';
 import '../../modules/data_cache/domain/value_objects/cache_size_options.dart';
 import '../../modules/data_cache/domain/value_objects/invalidation_methods/implementations/ttl_invalidation_method.dart';
 import '../../modules/data_cache/domain/value_objects/invalidation_methods/invalidation_method.dart';
@@ -8,12 +9,12 @@ import '../../modules/data_cache/domain/value_objects/invalidation_methods/inval
 class CacheConfig {
   final CacheSizeOptions sizeOptions;
   final InvalidationMethod invalidationMethod;
-  final String? cryptographyKey;
+  final CacheCryptographyOptions? cryptographyOptions;
 
   CacheConfig({
     required this.invalidationMethod,
     CacheSizeOptions? sizeOptions,
-    this.cryptographyKey,
+    this.cryptographyOptions,
   }) : sizeOptions = sizeOptions ?? CacheSizeOptions.createDefault();
 
   factory CacheConfig.defaultConfig() => CacheConfig(invalidationMethod: const TTLInvalidationMethod());
