@@ -2,13 +2,15 @@ import 'dart:convert';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../../compresser/compresser_service.dart';
 import '../../exceptions/storage_exceptions.dart';
 import '../i_prefs_service.dart';
 
 class SharedPreferencesService implements IPrefsService {
   final SharedPreferences prefs;
+  final ICompresserService compresserService;
 
-  const SharedPreferencesService(this.prefs);
+  const SharedPreferencesService(this.prefs, this.compresserService);
 
   @override
   Map<String, dynamic>? get({required String key}) {
@@ -17,7 +19,9 @@ class SharedPreferencesService implements IPrefsService {
 
       if (response == null) return null;
 
-      return jsonDecode(response);
+      final decompressed = compresserService.decompressJson(response);
+
+      return jsonDecode(decompressed);
     } catch (e, stackTrace) {
       throw GetStorageException(
         code: 'get_prefs_storage_exception',
@@ -32,7 +36,9 @@ class SharedPreferencesService implements IPrefsService {
     try {
       final jsonEncoded = jsonEncode(data);
 
-      await prefs.setString(key, jsonEncoded);
+      final compressed = compresserService.compressJson(jsonEncoded);
+
+      await prefs.setString(key, compressed);
     } catch (e, stackTrace) {
       throw SaveStorageException(
         code: 'save_prefs_storage',

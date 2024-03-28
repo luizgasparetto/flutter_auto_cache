@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 abstract interface class ICompresserService {
-  String compressJson(String jsonEnconded);
+  String compressJson(String jsonEncoded);
   String decompressJson(String compress);
 }
 

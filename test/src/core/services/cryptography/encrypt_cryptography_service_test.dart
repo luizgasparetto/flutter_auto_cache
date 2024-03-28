@@ -20,7 +20,7 @@ void main() {
 
   group('CryptographyService.encrypt |', () {
     test('should be able to encrypt data successfully', () async {
-      when(() => cacheConfig.cryptographyKey).thenReturn('mySecretKey');
+      when(() => cacheConfig.cryptographyOptions?.secretKey).thenReturn('mySecretKey');
 
       final stopwatch = Stopwatch()..start();
 
@@ -34,7 +34,7 @@ void main() {
 
   group('CryptographyService.decrypt |', () {
     test('should be able to decrypt data successfully', () async {
-      when(() => cacheConfig.cryptographyKey).thenReturn('mySecretKey');
+      when(() => cacheConfig.cryptographyOptions?.secretKey).thenReturn('mySecretKey');
 
       final stopwatch = Stopwatch()..start();
 
@@ -48,7 +48,7 @@ void main() {
 
   group('CryptographyService.integration |', () {
     test('should be able to encrypt and decrypt data successfully', () async {
-      when(() => cacheConfig.cryptographyKey).thenReturn('mySecretKey');
+      when(() => cacheConfig.cryptographyOptions?.secretKey).thenReturn('mySecretKey');
 
       final stopwatch = Stopwatch()..start();
 
