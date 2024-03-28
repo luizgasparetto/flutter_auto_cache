@@ -1,5 +1,6 @@
 import 'package:auto_cache_manager/src/core/core.dart';
 import 'package:auto_cache_manager/src/core/services/cryptography/encrypt/encrypt_cryptography_service.dart';
+import 'package:auto_cache_manager/src/modules/data_cache/domain/value_objects/cache_cryptography_options.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
@@ -11,6 +12,8 @@ void main() {
   final cacheConfig = CacheConfigMock();
   final sut = EncryptCryptographyService(cacheConfig);
 
+  const options = CacheCryptographyOptions(secretKey: 'mySecretKey');
+
   const decryptedStringValue = CacheTestConstants.decryptedStringValue;
   const encryptedStringValue = CacheTestConstants.encryptedStringValue;
 
@@ -20,7 +23,7 @@ void main() {
 
   group('CryptographyService.encrypt |', () {
     test('should be able to encrypt data successfully', () async {
-      when(() => cacheConfig.cryptographyOptions?.secretKey).thenReturn('mySecretKey');
+      when(() => cacheConfig.cryptographyOptions).thenReturn(options);
 
       final stopwatch = Stopwatch()..start();
 
@@ -34,7 +37,7 @@ void main() {
 
   group('CryptographyService.decrypt |', () {
     test('should be able to decrypt data successfully', () async {
-      when(() => cacheConfig.cryptographyOptions?.secretKey).thenReturn('mySecretKey');
+      when(() => cacheConfig.cryptographyOptions).thenReturn(options);
 
       final stopwatch = Stopwatch()..start();
 
@@ -48,7 +51,7 @@ void main() {
 
   group('CryptographyService.integration |', () {
     test('should be able to encrypt and decrypt data successfully', () async {
-      when(() => cacheConfig.cryptographyOptions?.secretKey).thenReturn('mySecretKey');
+      when(() => cacheConfig.cryptographyOptions).thenReturn(options);
 
       final stopwatch = Stopwatch()..start();
 

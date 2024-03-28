@@ -3,6 +3,7 @@ import 'package:auto_cache_manager/auto_cache_manager.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'core/core.dart';
+import 'core/services/compresser/compresser_service.dart';
 import 'core/services/cryptography/encrypt/encrypt_cryptography_service.dart';
 import 'core/services/cryptography/i_cryptography_service.dart';
 import 'core/services/directory_provider/path_provider/path_provider_service.dart';
@@ -25,7 +26,12 @@ class AutoCacheInjections {
 
     Injector.I.bindSingleton<CacheConfig>(AutoCacheManagerInitializer.I.config);
     Injector.I.bindSingleton<IPathProviderService>(PathProviderService());
-    Injector.I.bindSingleton<IPrefsService>(SharedPreferencesService(Injector.I.get<SharedPreferences>()));
+    Injector.I.bindSingleton<ICompresserService>(CompresserService());
+
+    Injector.I.bindSingleton<IPrefsService>(
+      SharedPreferencesService(Injector.I.get<SharedPreferences>(), Injector.I.get<ICompresserService>()),
+    );
+
     Injector.I.bindSingleton<ICryptographyService>(EncryptCryptographyService(Injector.I.get<CacheConfig>()));
 
     Injector.I.bindFactory<IPrefsCacheDatasource>(() => PrefsCacheDatasource(Injector.I.get<IPrefsService>()));

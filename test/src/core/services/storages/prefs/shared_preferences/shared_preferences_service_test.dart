@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:auto_cache_manager/src/core/services/compresser/compresser_service.dart';
 import 'package:auto_cache_manager/src/core/services/storages/exceptions/storage_exceptions.dart';
 import 'package:auto_cache_manager/src/core/services/storages/prefs/shared_preferences/shared_preferences_service.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -8,12 +9,16 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class SharedPreferencesMock extends Mock implements SharedPreferences {}
 
+class CompresserServiceMock extends Mock implements ICompresserService {}
+
 void main() {
   final prefs = SharedPreferencesMock();
-  final sut = SharedPreferencesService(prefs);
+  final compresser = CompresserServiceMock();
+  final sut = SharedPreferencesService(prefs, compresser);
 
   tearDown(() {
     reset(prefs);
+    reset(compresser);
   });
 
   group('SharedPreferencesKeyValueStorageService.get |', () {

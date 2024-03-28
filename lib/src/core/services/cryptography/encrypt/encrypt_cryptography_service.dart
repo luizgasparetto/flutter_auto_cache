@@ -16,7 +16,7 @@ class EncryptCryptographyService implements ICryptographyService {
     final cryptographyOptions = cacheConfig.cryptographyOptions;
 
     if (cryptographyOptions != null) {
-      final secretKeyHash = sha256.convert(utf8.encode(cryptographyOptions.secretKey)).toString();
+      final secretKeyHash = _generateSecretHash(cryptographyOptions.secretKey);
 
       final key = Key.fromUtf8(secretKeyHash);
       final iv = IV.fromBase64(base64Encode(utf8.encode(cryptographyOptions.secretKey)));
@@ -37,7 +37,7 @@ class EncryptCryptographyService implements ICryptographyService {
     final cryptographyOptions = cacheConfig.cryptographyOptions;
 
     if (cryptographyOptions != null) {
-      final secretKeyHash = sha256.convert(utf8.encode(cryptographyOptions.secretKey)).toString();
+      final secretKeyHash = _generateSecretHash(cryptographyOptions.secretKey);
 
       final key = Key.fromUtf8(secretKeyHash);
       final iv = IV.fromBase64(base64Encode(utf8.encode(cryptographyOptions.secretKey)));
@@ -49,5 +49,12 @@ class EncryptCryptographyService implements ICryptographyService {
     }
 
     return value;
+  }
+
+  String _generateSecretHash(String secretKey) {
+    final secretKeyBytes = utf8.encode(secretKey);
+    final digest = sha256.convert(secretKeyBytes);
+
+    return base64Url.encode(digest.bytes).substring(0, 32);
   }
 }
