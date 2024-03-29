@@ -19,9 +19,7 @@ class SharedPreferencesService implements IPrefsService {
 
       if (response == null) return null;
 
-      final decompressed = compresserService.decompressString(response);
-
-      return jsonDecode(decompressed);
+      return jsonDecode(response);
     } catch (e, stackTrace) {
       throw GetStorageException(
         code: 'get_prefs_storage_exception',
@@ -36,9 +34,7 @@ class SharedPreferencesService implements IPrefsService {
     try {
       final jsonEncoded = jsonEncode(data);
 
-      final compressed = compresserService.compressString(jsonEncoded);
-
-      await prefs.setString(key, compressed);
+      await prefs.setString(key, jsonEncoded);
     } catch (e, stackTrace) {
       throw SaveStorageException(
         code: 'save_prefs_storage',
