@@ -6,13 +6,13 @@ import '../../modules/data_cache/domain/value_objects/cache_size_options.dart';
 
 class CacheConfig {
   final CacheSizeOptions sizeOptions;
-  final Duration ttlxMaxDuration;
+  final Duration ttlMaxDuration;
   final CacheCryptographyOptions? cryptographyOptions;
   final bool useDeflateCompresser;
 
   CacheConfig({
     CacheSizeOptions? sizeOptions,
-    this.ttlxMaxDuration = CacheConstants.maxTtlDuration,
+    this.ttlMaxDuration = CacheConstants.maxTtlDuration,
     this.cryptographyOptions,
     this.useDeflateCompresser = false,
   }) : sizeOptions = sizeOptions ?? CacheSizeOptions.createDefault();

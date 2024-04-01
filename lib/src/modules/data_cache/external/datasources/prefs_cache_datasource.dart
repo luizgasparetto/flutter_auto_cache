@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import '../../../../core/services/storages/prefs/i_prefs_service.dart';
 import '../../domain/dtos/save_cache_dto.dart';
 import '../../domain/entities/cache_entity.dart';
@@ -15,7 +17,9 @@ final class PrefsCacheDatasource implements IPrefsCacheDatasource {
 
     if (response == null) return null;
 
-    return CacheAdapter.fromJson<T>(response);
+    final decodedResponse = jsonDecode(response);
+
+    return CacheAdapter.fromJson<T>(decodedResponse);
   }
 
   @override
@@ -23,7 +27,9 @@ final class PrefsCacheDatasource implements IPrefsCacheDatasource {
     final cache = CacheEntity.fromDto(dto);
     final data = CacheAdapter.toJson(cache);
 
-    await _service.save(key: dto.key, data: data);
+    final encodedData = jsonEncode(data);
+
+    await _service.save(key: dto.key, data: encodedData);
   }
 
   @override

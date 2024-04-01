@@ -8,8 +8,24 @@ class GetStorageException extends AutoCacheManagerException {
   });
 }
 
+class GetStorageKeysException extends AutoCacheManagerException {
+  GetStorageKeysException({
+    required super.code,
+    required super.message,
+    required super.stackTrace,
+  });
+}
+
 class SaveStorageException extends AutoCacheManagerException {
   SaveStorageException({
+    required super.code,
+    required super.message,
+    required super.stackTrace,
+  });
+}
+
+class DeleteStorageException extends AutoCacheManagerException {
+  DeleteStorageException({
     required super.code,
     required super.message,
     required super.stackTrace,
