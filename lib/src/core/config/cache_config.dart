@@ -3,37 +3,29 @@ import '../../modules/data_cache/domain/enums/invalidation_type.dart';
 
 import '../../modules/data_cache/domain/value_objects/cache_cryptography_options.dart';
 import '../../modules/data_cache/domain/value_objects/cache_size_options.dart';
-import '../../modules/data_cache/domain/value_objects/invalidation_methods/implementations/ttl_invalidation_method.dart';
-import '../../modules/data_cache/domain/value_objects/invalidation_methods/invalidation_method.dart';
 
 class CacheConfig {
   final CacheSizeOptions sizeOptions;
-  final InvalidationMethod invalidationMethod;
+  final Duration ttlxMaxDuration;
   final CacheCryptographyOptions? cryptographyOptions;
+  final bool useDeflateCompresser;
 
   CacheConfig({
-    required this.invalidationMethod,
     CacheSizeOptions? sizeOptions,
+    this.ttlxMaxDuration = CacheConstants.maxTtlDuration,
     this.cryptographyOptions,
+    this.useDeflateCompresser = false,
   }) : sizeOptions = sizeOptions ?? CacheSizeOptions.createDefault();
 
-  factory CacheConfig.defaultConfig() => CacheConfig(invalidationMethod: const TTLInvalidationMethod());
+  factory CacheConfig.defaultConfig() => CacheConfig();
 
-  InvalidationType get invalidationType => invalidationMethod.invalidationType;
+  InvalidationType get invalidationType => InvalidationType.ttl;
 
   bool get isDefaultConfig {
     final isDefaultInvalidation = invalidationType == CacheConstants.defaultInvalidationType;
     final isDefaultCacheSizeOptions = sizeOptions == CacheSizeOptions.createDefault();
+    final isNotUsingDeflateCompresser = !useDeflateCompresser;
 
-    return isDefaultInvalidation && isDefaultCacheSizeOptions;
-  }
-
-  Duration get expireMaxDuration {
-    if (invalidationType == InvalidationType.ttl) {
-      final typedInvalidation = invalidationMethod as TTLInvalidationMethod;
-      return typedInvalidation.duration;
-    }
-
-    return CacheConstants.maxTtlDuration;
+    return isDefaultInvalidation && isDefaultCacheSizeOptions && isNotUsingDeflateCompresser;
   }
 }

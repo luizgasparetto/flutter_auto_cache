@@ -39,7 +39,7 @@ class CacheEntity<T extends Object> {
       id: dto.key,
       data: dto.data,
       invalidationType: dto.cacheConfig.invalidationType,
-      expireMaxDuration: dto.cacheConfig.expireMaxDuration,
+      expireMaxDuration: dto.cacheConfig.ttlxMaxDuration,
     );
   }
 

@@ -5,5 +5,5 @@ final class CacheConstants {
   static const defaultInvalidationType = InvalidationType.ttl;
   static const defaultStorageType = StorageType.prefs;
 
-  static const Duration maxTtlDuration = Duration(days: 1);
+  static const maxTtlDuration = Duration(days: 1);
 }
