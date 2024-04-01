@@ -28,9 +28,7 @@ class AutoCacheInjections {
     Injector.I.bindSingleton<IPathProviderService>(PathProviderService());
     Injector.I.bindSingleton<ICompresserService>(CompresserService());
 
-    Injector.I.bindSingleton<IPrefsService>(
-      SharedPreferencesService(Injector.I.get<SharedPreferences>(), Injector.I.get<ICompresserService>()),
-    );
+    Injector.I.bindSingleton<IPrefsService>(SharedPreferencesService(Injector.I.get<SharedPreferences>()));
 
     Injector.I.bindSingleton<ICryptographyService>(EncryptCryptographyService(Injector.I.get<CacheConfig>()));
 

@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:auto_cache_manager/src/core/services/compresser/compresser_service.dart';
 import 'package:auto_cache_manager/src/core/services/storages/exceptions/storage_exceptions.dart';
 import 'package:auto_cache_manager/src/core/services/storages/prefs/shared_preferences/shared_preferences_service.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -9,16 +8,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class SharedPreferencesMock extends Mock implements SharedPreferences {}
 
-class CompresserServiceMock extends Mock implements ICompresserService {}
-
 void main() {
   final prefs = SharedPreferencesMock();
-  final compresser = CompresserServiceMock();
-  final sut = SharedPreferencesService(prefs, compresser);
+  final sut = SharedPreferencesService(prefs);
 
   tearDown(() {
     reset(prefs);
-    reset(compresser);
   });
 
   group('SharedPreferencesKeyValueStorageService.get |', () {
@@ -35,8 +30,7 @@ void main() {
       final response = sut.get(key: 'my_key');
 
       expect(response, isNotNull);
-      expect(response?['data'], isA<String>());
-      expect(response?['data'], equals('my_data'));
+      expect(response, isA<String>());
       verify(() => prefs.getString('my_key')).called(1);
     });
 
@@ -58,17 +52,20 @@ void main() {
   });
 
   group('SharedPreferencesKeyValueStorageService.save |', () {
-    test('should be able to SAVE cache data with key successfuly', () async {
-      when(() => prefs.setString('my_key', any(that: isA<String>()))).thenAnswer((_) async => true);
+    final data = {'data': 'my_data'};
+    final encondedData = jsonEncode(data);
 
-      await expectLater(sut.save(key: 'my_key', data: {'data': 'my_data'}), completes);
+    test('should be able to SAVE cache data with key successfuly', () async {
+      when(() => prefs.setString('my_key', encondedData)).thenAnswer((_) async => true);
+
+      await expectLater(sut.save(key: 'my_key', data: encondedData), completes);
       verify(() => prefs.setString('my_key', any(that: isA<String>()))).called(1);
     });
 
     test('should NOT be able to SAVE cache data with key when prefs throws an Exception', () async {
       when(() => prefs.setString('my_key', any(that: isA<String>()))).thenThrow(Exception());
 
-      expect(() => sut.save(key: 'my_key', data: {'data': 'my_data'}), throwsA(isA<SaveStorageException>()));
+      expect(() => sut.save(key: 'my_key', data: encondedData), throwsA(isA<SaveStorageException>()));
       verify(() => prefs.setString('my_key', any(that: isA<String>()))).called(1);
     });
   });

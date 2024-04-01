@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:auto_cache_manager/src/core/core.dart';
 import 'package:auto_cache_manager/src/core/services/storages/prefs/i_prefs_service.dart';
 import 'package:auto_cache_manager/src/modules/data_cache/domain/entities/cache_entity.dart';
@@ -32,8 +34,10 @@ void main() {
       'end_at': endAt.toIso8601String(),
     };
 
+    final stringBody = jsonEncode(successBody);
+
     test('should be able to find cache data by key successfully', () {
-      when(() => service.get(key: 'my_key')).thenReturn(successBody);
+      when(() => service.get(key: 'my_key')).thenReturn(stringBody);
 
       final response = sut.findByKey<String>('my_key');
 
