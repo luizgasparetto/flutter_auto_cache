@@ -5,9 +5,13 @@ on:
     branches:
       - develop
       - main
+    paths-ignore:
+      - "**/*.md"
   push:
     tags:
       - "v*"
+    paths-ignore:
+      - "**/*.md"
 
 jobs:
   analyze:
@@ -37,6 +41,7 @@ jobs:
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v3
         with:
+          token: ${{ secrets.GITHUB_TOKEN }}
           languages: "dart"
 
       - name: Autobuild
@@ -44,3 +49,5 @@ jobs:
 
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}

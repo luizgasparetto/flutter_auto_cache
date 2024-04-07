@@ -13,7 +13,7 @@ void main() {
   const data = 'test';
   const storageType = StorageType.prefs;
   const invalidationType = InvalidationType.ttl;
-  final createdAt = DateTime.utc(2024, 9, 9);
+  final createdAt = DateTime.now();
   final endAt = createdAt.add(const Duration(days: 3));
 
   group('CacheAdapter.fromJson |', () {
@@ -58,20 +58,24 @@ void main() {
       endAt: endAt,
     );
 
-    test('should be able to parse CacheEntity to json successfully', () {
+    test('should be able to parse CacheEntity to json and verify keys', () {
       final jsonCache = CacheAdapter.toJson(cache);
 
       expect(jsonCache.containsKey('id'), isTrue);
-      expect(jsonCache['id'], equals(id));
-
       expect(jsonCache.containsKey('data'), isTrue);
-      expect(jsonCache['data'], equals(data));
-
       expect(jsonCache.containsKey('invalidation_type'), isTrue);
-      expect(jsonCache['invalidation_type'], equals(InvalidationTypeAdapter.toKey(invalidationType)));
-
       expect(jsonCache.containsKey('created_at'), isTrue);
+      expect(jsonCache.containsKey('end_at'), isTrue);
+    });
+
+    test('should be able to parse CacheEntity to json and verify values', () {
+      final jsonCache = CacheAdapter.toJson(cache);
+
+      expect(jsonCache['id'], equals(id));
+      expect(jsonCache['data'], equals(data));
+      expect(jsonCache['invalidation_type'], equals(InvalidationTypeAdapter.toKey(invalidationType)));
       expect(jsonCache['created_at'], equals(createdAt.toIso8601String()));
+      expect(jsonCache['end_at'], equals(endAt.toIso8601String()));
     });
   });
 }
