@@ -58,7 +58,7 @@ jobs:
           else echo "modified=false" >> $GITHUB_STATE; fi
 
       - name: "Automatically Commit Changes"
-        if: env.GITHUB_STATE == 'changes=true'
+        if: env.GITHUB_STATE == 'modified=true'
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
