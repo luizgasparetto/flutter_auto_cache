@@ -18,7 +18,7 @@ on:
 
 jobs:
   build:
-    runs-on: alpine
+    runs-on: ubuntu-latest
     steps:
       - name: "Run Dart Fixes"
         run: |
