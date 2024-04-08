@@ -3,8 +3,6 @@
 import 'package:auto_cache_manager/auto_cache_manager.dart';
 import 'package:auto_cache_manager/src/core/config/cache_config.dart';
 import 'package:auto_cache_manager/src/core/core.dart';
-import 'package:auto_cache_manager/src/modules/cache/domain/enums/invalidation_type.dart';
-import 'package:auto_cache_manager/src/modules/cache/domain/enums/storage_type.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -12,8 +10,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
 
-  final sut = AutoCacheManagerInitialazer.I;
-  final newConfig = CacheConfig(storageType: StorageType.sql, invalidationType: InvalidationType.ttl);
+  final sut = AutoCacheManagerInitializer.I;
 
   setUpAll(() {
     SharedPreferences.setMockInitialValues({});
@@ -35,34 +32,6 @@ void main() {
       await sut.init(config: null);
 
       expect(sut.isInjectorInitialized, isTrue);
-      expect(sut.config.isDefaultConfig, isTrue);
-    });
-
-    test('should be able to init AutoCacheManagerInitializer with different config', () async {
-      await sut.init(config: newConfig);
-
-      expect(sut.isInjectorInitialized, isTrue);
-      expect(sut.config.isDefaultConfig, false);
-      expect(sut.config.invalidationType, equals(newConfig.invalidationType));
-      expect(sut.config.storageType, equals(newConfig.storageType));
-    });
-  });
-
-  group('AutoCacheManagerInitializer.setConfig |', () {
-    test('should be able to verify if initial config is setted', () {
-      expect(sut.config.isDefaultConfig, isTrue);
-    });
-
-    test('should be able to set a new config for AutoCacheManager', () {
-      sut.setConfig(newConfig);
-
-      expect(sut.config.storageType, equals(StorageType.sql));
-      expect(sut.config.invalidationType, equals(InvalidationType.ttl));
-    });
-
-    test('should NOT be able to set NULL as base config for AutoCacheManager', () {
-      sut.setConfig(null);
-
       expect(sut.config.isDefaultConfig, isTrue);
     });
   });

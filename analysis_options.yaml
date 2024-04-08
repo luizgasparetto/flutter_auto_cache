@@ -15,3 +15,4 @@ linter:
     use_setters_to_change_properties: false
     avoid_catching_errors: false
     prefer_constructors_over_static_methods: false
+    always_declare_return_types: true
