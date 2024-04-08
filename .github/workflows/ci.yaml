@@ -55,17 +55,13 @@ jobs:
         id: check_modified_files
         run: |
           if git diff --exit-code '*.dart'; then
-            echo "::set-output name=changes::false"
+            echo "changes=false" >> $GITHUB_STATE
           else
-            echo "::set-output name=changes::true"
+            echo "changes=true" >> $GITHUB_STATE
           fi
 
-      - name: "Set Changes Output"
-        if: always()
-        run: echo "::set-output name=changes::${{ steps.check_modified_files.outputs.changes }}"
-
       - name: "Automatically Commit Changes"
-        if: steps.check_modified_files.outputs.changes == 'true'
+        if: env.GITHUB_STATE == 'changes=true'
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"

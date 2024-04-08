@@ -438,12 +438,12 @@ LH:3
 end_of_record
 SF:lib\src\modules\data_cache\external\adapters\cache_adapter.dart
 DA:6,2
-DA:7,1
+DA:7,2
 DA:8,2
 DA:9,2
 DA:10,4
 DA:11,4
-DA:12,2
+DA:12,4
 DA:16,1
 DA:17,1
 DA:18,1
