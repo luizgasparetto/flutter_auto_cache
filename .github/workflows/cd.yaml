@@ -1,0 +1,54 @@
+name: Continuous Delivery (CD)
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_run:
+    workflows:
+      - "Continuos Integration (CI)"
+    types:
+      - "completed"
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: "Checkout"
+        uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v3
+        with:
+          distribution: "zulu"
+          java-version: "17"
+
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: "stable"
+
+      - name: Get version from tag
+        run: echo "::set-env name=VERSION::${GITHUB_REF#refs/tags/}"
+
+      - name: Update version in pubspec.yaml
+        run: |
+          sed -i "s/version:.*\$/version: $VERSION/" pubspec.yaml
+
+      - name: "Check Modified Dart Files"
+        id: check_modified_files
+        run: if git diff --exit-code '*.dart'; then echo "modified=true" >> $GITHUB_STATE; else echo "modified=false" >> $GITHUB_STATE; fi
+
+      - name: "Automatically Commit Changes"
+        if: env.GITHUB_STATE == 'modified=true'
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add .
+          git commit -m "chore: update version of pubspec.yaml automatically"
+          git push
+
+      - name: "Flutter Pub Get"
+        run: flutter pub get
+
+      - name: "Publish"
+        run: "dart pub publish --dry-run"
