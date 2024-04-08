@@ -50,7 +50,7 @@ jobs:
         run: dart format --set-exit-if-changed --line-length 120 .
 
       - name: "Run Dart Fixes"
-        uses: "./.github/workflows/__dart_fixes.yaml"
+        uses: "./__dart_fixes.yaml"
 
       - name: "Run Tests"
         run: flutter test --test-randomize-ordering-seed=random --coverage --machine > test-results.json
