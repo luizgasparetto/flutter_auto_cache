@@ -1,25 +1,15 @@
 name: "Dart Fixes"
 
 on:
-  pull_request:
-    branches:
-      - develop
-      - main
-    paths-ignore:
-      - "**/*.md"
-      - "**/LICENSE"
-
-  push:
-    tags:
-      - "v*"
-    paths-ignore:
-      - "**/*.md"
-      - "**/LICENSE"
+  workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      - name: "Checkout"
+        uses: actions/checkout@v4
+
       - name: "Run Dart Fixes"
         run: |
           dart fix --apply --code=unused_import
