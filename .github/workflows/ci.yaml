@@ -53,12 +53,9 @@ jobs:
 
       - name: "Check Modified Dart Files"
         id: check_modified_files
-        run: |
-          if git diff --exit-code '*.dart'; then
-            echo "changes=false" >> $GITHUB_STATE
-          else
-            echo "changes=true" >> $GITHUB_STATE
-          fi
+        run:
+          if [git diff --exit-code '*.dart']; then echo "modified=true" >> $GITHUB_STATE; \
+          else echo "modified=false" >> $GITHUB_STATE; fi
 
       - name: "Automatically Commit Changes"
         if: env.GITHUB_STATE == 'changes=true'
