@@ -22,8 +22,10 @@ class SaveCache implements SaveCacheUsecase {
   Future<Either<AutoCacheManagerException, Unit>> execute<T extends Object>(
     SaveCacheDTO<T> dto,
   ) async {
-    final findByKeyDto =
-        GetCacheDTO(key: dto.key, storageType: dto.storageType);
+    final findByKeyDto = GetCacheDTO(
+      key: dto.key,
+      storageType: dto.storageType,
+    );
     final findByKeyResponse = await _repository.findByKey<T>(findByKeyDto);
 
     if (findByKeyResponse.isError) {

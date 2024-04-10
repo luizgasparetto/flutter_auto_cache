@@ -55,17 +55,20 @@ void main() {
       verify(() => service.get(key: 'my_key')).called(1);
     });
 
-    test('should NOT be able to return data cached when service fails',
-        () async {
-      when(() => service.get(key: 'my_key'))
-          .thenThrow(FakeAutoCacheManagerException());
+    test(
+      'should NOT be able to return data cached when service fails',
+      () async {
+        when(() => service.get(key: 'my_key')).thenThrow(
+          FakeAutoCacheManagerException(),
+        );
 
-      expect(
-        () => sut.findByKey<String>('my_key'),
-        throwsA(isA<AutoCacheManagerException>()),
-      );
-      verify(() => service.get(key: 'my_key')).called(1);
-    });
+        expect(
+          () => sut.findByKey<String>('my_key'),
+          throwsA(isA<AutoCacheManagerException>()),
+        );
+        verify(() => service.get(key: 'my_key')).called(1);
+      },
+    );
   });
 
   // group('PrefsDatasource.save |', () {

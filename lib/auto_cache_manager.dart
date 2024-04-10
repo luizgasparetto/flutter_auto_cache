@@ -5,8 +5,11 @@ import 'src/modules/data_cache/presenter/controllers/base_cache_manager_controll
 export 'src/auto_cache_manager_initializer.dart';
 
 class AutoCacheManager {
-  static PrefsCacheManagerController get prefs =>
-      PrefsCacheManagerController.instance;
-  static SQLCacheManagerController get sql =>
-      SQLCacheManagerController.instance;
+  static PrefsCacheManagerController get prefs {
+    return PrefsCacheManagerController.instance;
+  }
+
+  static SQLCacheManagerController get sql {
+    return SQLCacheManagerController.instance;
+  }
 }

@@ -11,15 +11,15 @@ class AutoCacheManagerInitializer {
   AutoCacheManagerInitializer._();
 
   /// The single instance of [AutoCacheManagerInitializer].
-  static final AutoCacheManagerInitializer _instance =
-      AutoCacheManagerInitializer._();
+  static final _instance = AutoCacheManagerInitializer._();
 
   /// Provides global access to the [AutoCacheManagerInitializer] instance.
   static AutoCacheManagerInitializer get I => _instance;
 
   /// Internally manages the cache configuration, allowing for dynamic updates.
-  final _configListenable =
-      ValueNotifier<CacheConfig>(CacheConfig.defaultConfig());
+  final _configListenable = ValueNotifier<CacheConfig>(
+    CacheConfig.defaultConfig(),
+  );
 
   /// Indicates whether the `Injector` for cache management is initialized.
   bool get isInjectorInitialized => Injector.I.hasBinds;

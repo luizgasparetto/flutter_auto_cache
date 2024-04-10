@@ -21,8 +21,9 @@ void main() {
 
   group('PrefsCacheManagerController.getString |', () {
     test('should be able to get string by key successfully', () async {
-      when(() => baseController.get<String>(key: 'my_key'))
-          .thenAnswer((_) async => 'cached_data');
+      when(
+        () => baseController.get<String>(key: 'my_key'),
+      ).thenAnswer((_) async => 'cached_data');
 
       final response = await sut.getString(key: 'my_key');
 
@@ -32,8 +33,9 @@ void main() {
 
     test('should NOT be able to get string by key when base controller fails',
         () async {
-      when(() => baseController.get<String>(key: 'my_key'))
-          .thenThrow(FakeAutoCacheManagerException());
+      when(
+        () => baseController.get<String>(key: 'my_key'),
+      ).thenThrow(FakeAutoCacheManagerException());
 
       expect(
         () => sut.getString(key: 'my_key'),
@@ -45,38 +47,42 @@ void main() {
 
   group('PrefsCacheManagerController.saveString |', () {
     test('should be able to save string in prefs successfully', () async {
-      when(() => baseController.save<String>(key: 'my_key', data: 'my_data'))
-          .thenAsyncVoid();
+      when(
+        () => baseController.save<String>(key: 'my_key', data: 'my_data'),
+      ).thenAsyncVoid();
 
       await expectLater(
         sut.saveString(key: 'my_key', data: 'my_data'),
         completes,
       );
-      verify(() => baseController.save<String>(key: 'my_key', data: 'my_data'))
-          .called(1);
+      verify(
+        () => baseController.save<String>(key: 'my_key', data: 'my_data'),
+      ).called(1);
     });
 
     test(
-        'should NOT be able to save string in prefs when base controller fails',
-        () async {
-      when(() => baseController.save<String>(key: 'my_key', data: 'my_data'))
-          .thenThrow(
-        FakeAutoCacheManagerException(),
-      );
+      'should NOT be able to save string in prefs when base controller fails',
+      () async {
+        when(
+          () => baseController.save<String>(key: 'my_key', data: 'my_data'),
+        ).thenThrow(FakeAutoCacheManagerException());
 
-      expect(
-        () => sut.saveString(key: 'my_key', data: 'my_data'),
-        throwsA(isA<AutoCacheManagerException>()),
-      );
-      verify(() => baseController.save<String>(key: 'my_key', data: 'my_data'))
-          .called(1);
-    });
+        expect(
+          () => sut.saveString(key: 'my_key', data: 'my_data'),
+          throwsA(isA<AutoCacheManagerException>()),
+        );
+        verify(
+          () => baseController.save<String>(key: 'my_key', data: 'my_data'),
+        ).called(1);
+      },
+    );
   });
 
   group('PrefsCacheManagerController.getInt |', () {
     test('should be able to get int data in prefs successfully', () async {
-      when(() => baseController.get<int>(key: 'id_key'))
-          .thenAnswer((_) async => 1);
+      when(
+        () => baseController.get<int>(key: 'id_key'),
+      ).thenAnswer((_) async => 1);
 
       final response = await sut.getInt(key: 'id_key');
 
@@ -84,23 +90,27 @@ void main() {
       verify(() => baseController.get<int>(key: 'id_key')).called(1);
     });
 
-    test('should NOT be able to get int data when base controller fails',
-        () async {
-      when(() => baseController.get<int>(key: 'my_key'))
-          .thenThrow(FakeAutoCacheManagerException());
+    test(
+      'should NOT be able to get int data when base controller fails',
+      () async {
+        when(
+          () => baseController.get<int>(key: 'my_key'),
+        ).thenThrow(FakeAutoCacheManagerException());
 
-      expect(
-        () => sut.getInt(key: 'my_key'),
-        throwsA(isA<AutoCacheManagerException>()),
-      );
-      verify(() => baseController.get<int>(key: 'my_key')).called(1);
-    });
+        expect(
+          () => sut.getInt(key: 'my_key'),
+          throwsA(isA<AutoCacheManagerException>()),
+        );
+        verify(() => baseController.get<int>(key: 'my_key')).called(1);
+      },
+    );
   });
 
   group('PrefsCacheManagerController.saveInt |', () {
     test('should be able to save int in prefs successfully', () async {
-      when(() => baseController.save<int>(key: 'my_key', data: 1))
-          .thenAsyncVoid();
+      when(
+        () => baseController.save<int>(key: 'my_key', data: 1),
+      ).thenAsyncVoid();
 
       await expectLater(sut.saveInt(key: 'my_key', data: 1), completes);
       verify(() => baseController.save<int>(key: 'my_key', data: 1)).called(1);
@@ -108,14 +118,17 @@ void main() {
 
     test('should NOT be able to save int in prefs when base controller fails',
         () async {
-      when(() => baseController.save<int>(key: 'my_key', data: 1))
-          .thenThrow(FakeAutoCacheManagerException());
+      when(
+        () => baseController.save<int>(key: 'my_key', data: 1),
+      ).thenThrow(FakeAutoCacheManagerException());
 
       expect(
         () => sut.saveInt(key: 'my_key', data: 1),
         throwsA(isA<AutoCacheManagerException>()),
       );
-      verify(() => baseController.save<int>(key: 'my_key', data: 1)).called(1);
+      verify(
+        () => baseController.save<int>(key: 'my_key', data: 1),
+      ).called(1);
     });
   });
 }

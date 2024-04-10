@@ -21,8 +21,7 @@ class SQLCacheManagerController {
   ///
   /// Use this instance to access SQL-based cache functionality throughout
   /// your application.
-  static final SQLCacheManagerController _instance =
-      SQLCacheManagerController._();
+  static final _instance = SQLCacheManagerController._();
 
   /// Provides access to the singleton instance of `SQLCacheManagerController`.
   static SQLCacheManagerController get instance => _instance;

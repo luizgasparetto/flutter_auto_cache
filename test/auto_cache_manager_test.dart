@@ -11,15 +11,20 @@ void main() {
   });
 
   group('AutoCacheManager |', () {
-    test('should be able to verify instances and binds of cache controllers',
-        () async {
-      await AutoCacheManagerInitializer.I.init();
+    test(
+      'should be able to verify instances and binds of cache controllers',
+      () async {
+        await AutoCacheManagerInitializer.I.init();
 
-      expect(
-        AutoCacheManager.prefs,
-        equals(PrefsCacheManagerController.instance),
-      );
-      expect(AutoCacheManager.sql, equals(SQLCacheManagerController.instance));
-    });
+        expect(
+          AutoCacheManager.prefs,
+          equals(PrefsCacheManagerController.instance),
+        );
+        expect(
+          AutoCacheManager.sql,
+          equals(SQLCacheManagerController.instance),
+        );
+      },
+    );
   });
 }
