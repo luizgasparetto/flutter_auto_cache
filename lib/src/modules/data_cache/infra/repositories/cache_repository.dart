@@ -15,9 +15,13 @@ class CacheRepository implements ICacheRepository {
   const CacheRepository(this._prefsDatasource, this._sqlDatasource);
 
   @override
-  Future<GetCacheResponse<T>> findByKey<T extends Object>(GetCacheDTO dto) async {
+  Future<GetCacheResponse<T>> findByKey<T extends Object>(
+    GetCacheDTO dto,
+  ) async {
     try {
-      final action = dto.storageType.isPrefs ? _prefsDatasource.findByKey : _sqlDatasource.findByKey;
+      final action = dto.storageType.isPrefs
+          ? _prefsDatasource.findByKey
+          : _sqlDatasource.findByKey;
 
       final response = await action.call<T>(dto.key);
 
@@ -28,9 +32,12 @@ class CacheRepository implements ICacheRepository {
   }
 
   @override
-  Future<Either<AutoCacheManagerException, Unit>> save<T extends Object>(SaveCacheDTO<T> dto) async {
+  Future<Either<AutoCacheManagerException, Unit>> save<T extends Object>(
+    SaveCacheDTO<T> dto,
+  ) async {
     try {
-      final action = dto.storageType.isPrefs ? _prefsDatasource.save : _sqlDatasource.save;
+      final action =
+          dto.storageType.isPrefs ? _prefsDatasource.save : _sqlDatasource.save;
 
       await action.call<T>(dto);
 
@@ -41,9 +48,13 @@ class CacheRepository implements ICacheRepository {
   }
 
   @override
-  Future<Either<AutoCacheManagerException, Unit>> clear(ClearCacheDTO dto) async {
+  Future<Either<AutoCacheManagerException, Unit>> clear(
+    ClearCacheDTO dto,
+  ) async {
     try {
-      final action = dto.storageType.isPrefs ? _prefsDatasource.clear : _sqlDatasource.clear;
+      final action = dto.storageType.isPrefs
+          ? _prefsDatasource.clear
+          : _sqlDatasource.clear;
 
       await action.call();
 

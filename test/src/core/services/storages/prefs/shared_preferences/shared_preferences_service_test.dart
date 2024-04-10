@@ -34,21 +34,32 @@ void main() {
       verify(() => prefs.getString('my_key')).called(1);
     });
 
-    test('should be able to GET cache data and when not found, return null', () async {
-      when(() => prefs.getString('my_key')).thenReturn(null);
+    test(
+      'should be able to GET cache data and when not found, return null',
+      () async {
+        when(() => prefs.getString('my_key')).thenReturn(null);
 
-      final response = sut.get(key: 'my_key');
+        final response = sut.get(key: 'my_key');
 
-      expect(response, isNull);
-      verify(() => prefs.getString('my_key')).called(1);
-    });
+        expect(response, isNull);
+        verify(() => prefs.getString('my_key')).called(1);
+      },
+    );
 
-    test('should NOT be able to GET cache data when prefs throws an Exception', () async {
-      when(() => prefs.getString('my_key')).thenThrow(Exception());
+    test(
+      'should NOT be able to GET cache data when prefs throws an Exception',
+      () async {
+        when(
+          () => prefs.getString('my_key'),
+        ).thenThrow(Exception());
 
-      expect(() => sut.get(key: 'my_key'), throwsA(isA<GetStorageException>()));
-      verify(() => prefs.getString('my_key')).called(1);
-    });
+        expect(
+          () => sut.get(key: 'my_key'),
+          throwsA(isA<GetStorageException>()),
+        );
+        verify(() => prefs.getString('my_key')).called(1);
+      },
+    );
   });
 
   group('SharedPreferencesKeyValueStorageService.save |', () {
@@ -56,18 +67,35 @@ void main() {
     final encondedData = jsonEncode(data);
 
     test('should be able to SAVE cache data with key successfuly', () async {
-      when(() => prefs.setString('my_key', encondedData)).thenAnswer((_) async => true);
+      when(
+        () => prefs.setString('my_key', encondedData),
+      ).thenAnswer((_) async => true);
 
       await expectLater(sut.save(key: 'my_key', data: encondedData), completes);
-      verify(() => prefs.setString('my_key', any(that: isA<String>()))).called(1);
+      verify(
+        () => prefs.setString(
+          'my_key',
+          any(that: isA<String>()),
+        ),
+      ).called(1);
     });
 
-    test('should NOT be able to SAVE cache data with key when prefs throws an Exception', () async {
-      when(() => prefs.setString('my_key', any(that: isA<String>()))).thenThrow(Exception());
+    test(
+      'should NOT be able to SAVE cache data with key when prefs throws an Exception',
+      () async {
+        when(
+          () => prefs.setString('my_key', any(that: isA<String>())),
+        ).thenThrow(Exception());
 
-      expect(() => sut.save(key: 'my_key', data: encondedData), throwsA(isA<SaveStorageException>()));
-      verify(() => prefs.setString('my_key', any(that: isA<String>()))).called(1);
-    });
+        expect(
+          () => sut.save(key: 'my_key', data: encondedData),
+          throwsA(isA<SaveStorageException>()),
+        );
+        verify(
+          () => prefs.setString('my_key', any(that: isA<String>())),
+        ).called(1);
+      },
+    );
   });
 
   group('SharedPreferencesKeyValueStorageService.clear |', () {
@@ -78,11 +106,14 @@ void main() {
       verify(prefs.clear).called(1);
     });
 
-    test('should NOT be able to clear cache of prefs when SharedPreferences fails', () async {
-      when(prefs.clear).thenThrow(Exception());
+    test(
+      'should NOT be able to clear cache of prefs when SharedPreferences fails',
+      () async {
+        when(prefs.clear).thenThrow(Exception());
 
-      expect(sut.clear, throwsA(isA<ClearStorageException>()));
-      verify(prefs.clear).called(1);
-    });
+        expect(sut.clear, throwsA(isA<ClearStorageException>()));
+        verify(prefs.clear).called(1);
+      },
+    );
   });
 }

@@ -21,7 +21,8 @@ abstract class IDirectoryProviderService {
 
 /// A concrete implementation of `IDirectoryProviderService` that manages
 /// the retrieval of application document and support directories.
-class DirectoryProviderService extends ValueNotifier<DirectoryProviderState> implements IDirectoryProviderService {
+class DirectoryProviderService extends ValueNotifier<DirectoryProviderState>
+    implements IDirectoryProviderService {
   /// The service used to access the path provider's functionality.
   final IPathProviderService _service;
 
@@ -29,7 +30,8 @@ class DirectoryProviderService extends ValueNotifier<DirectoryProviderState> imp
   /// to fetch directory paths.
   ///
   /// Initializes the state with an empty [DirectoryProviderState].
-  DirectoryProviderService(this._service) : super(DirectoryProviderState.empty());
+  DirectoryProviderService(this._service)
+      : super(DirectoryProviderState.empty());
 
   @override
   Directory get prefsDirectory => this.value.applicationDocumentsDirectory;
@@ -44,8 +46,10 @@ class DirectoryProviderService extends ValueNotifier<DirectoryProviderState> imp
       if (this.value.isLoaded) return;
 
       ///Fetch the application document and support directories.
-      final applicationDocumentsDirectory = await _service.getApplicationDocumentsDirectory();
-      final applicationSupportDirectory = await _service.getApplicationSupportDirectory();
+      final applicationDocumentsDirectory =
+          await _service.getApplicationDocumentsDirectory();
+      final applicationSupportDirectory =
+          await _service.getApplicationSupportDirectory();
 
       ///Update the state with the fetched directories.
       this.value = LoadedDirectoryProviderState(
