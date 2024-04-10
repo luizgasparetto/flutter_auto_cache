@@ -1,6 +1,6 @@
-name: "💡 Feature Request"
-description: Create a new ticket for a new feature request
-title: "💡 [REQUEST] - <title>"
+name: "💡 Suggestion Request"
+description: Create a new ticket for a new suggestion request
+title: "💡 [SUGGESTION] - <title>"
 labels: [
   "question"
 ]
