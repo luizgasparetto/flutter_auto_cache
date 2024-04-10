@@ -51,9 +51,13 @@ class PrefsCacheManagerController {
     return baseCacheManagerController.save<int>(key: key, data: data);
   }
 
-  Future<void> saveMap(
-      {required String key, required Map<String, dynamic> data}) async {
+  Future<void> saveMap({
+    required String key,
+    required Map<String, dynamic> data,
+  }) async {
     return baseCacheManagerController.save<Map<String, dynamic>>(
-        key: key, data: data);
+      key: key,
+      data: data,
+    );
   }
 }

@@ -13,7 +13,8 @@ class ClearCache implements ClearCacheUsecase {
 
   @override
   Future<Either<AutoCacheManagerException, Unit>> execute(
-      ClearCacheDTO dto) async {
+    ClearCacheDTO dto,
+  ) async {
     return _repository.clear(dto);
   }
 }

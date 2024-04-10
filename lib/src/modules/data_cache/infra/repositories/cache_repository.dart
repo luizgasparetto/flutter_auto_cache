@@ -16,7 +16,8 @@ class CacheRepository implements ICacheRepository {
 
   @override
   Future<GetCacheResponse<T>> findByKey<T extends Object>(
-      GetCacheDTO dto) async {
+    GetCacheDTO dto,
+  ) async {
     try {
       final action = dto.storageType.isPrefs
           ? _prefsDatasource.findByKey
@@ -32,7 +33,8 @@ class CacheRepository implements ICacheRepository {
 
   @override
   Future<Either<AutoCacheManagerException, Unit>> save<T extends Object>(
-      SaveCacheDTO<T> dto) async {
+    SaveCacheDTO<T> dto,
+  ) async {
     try {
       final action =
           dto.storageType.isPrefs ? _prefsDatasource.save : _sqlDatasource.save;
@@ -47,7 +49,8 @@ class CacheRepository implements ICacheRepository {
 
   @override
   Future<Either<AutoCacheManagerException, Unit>> clear(
-      ClearCacheDTO dto) async {
+    ClearCacheDTO dto,
+  ) async {
     try {
       final action = dto.storageType.isPrefs
           ? _prefsDatasource.clear

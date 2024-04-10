@@ -76,8 +76,9 @@ void main() {
       expect(response.isSuccess, isTrue);
       expect(response.success, isNull);
       verify(() => repository.findByKey<String>(dto)).called(1);
-      verifyNever(() =>
-          invalidationContext.execute<String>(any<CacheEntity<String>>()));
+      verifyNever(
+        () => invalidationContext.execute<String>(any<CacheEntity<String>>()),
+      );
     });
 
     test(
@@ -92,8 +93,9 @@ void main() {
       expect(response.isError, isTrue);
       expect(response.error, isA<AutoCacheManagerException>());
       verify(() => repository.findByKey<String>(dto)).called(1);
-      verifyNever(() =>
-          invalidationContext.execute<String>(any<CacheEntity<String>>()));
+      verifyNever(
+        () => invalidationContext.execute<String>(any<CacheEntity<String>>()),
+      );
     });
 
     test(

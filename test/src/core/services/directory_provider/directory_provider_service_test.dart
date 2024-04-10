@@ -58,7 +58,9 @@ void main() {
           .thenThrow(FakeAutoCacheManagerException());
 
       expect(
-          sut.getCacheDirectories, throwsA(isA<DirectoryProviderException>()));
+        sut.getCacheDirectories,
+        throwsA(isA<DirectoryProviderException>()),
+      );
       expect(sut.value.isLoaded, isFalse);
       verify(service.getApplicationDocumentsDirectory).called(1);
       verifyNever(service.getApplicationSupportDirectory);
@@ -73,7 +75,9 @@ void main() {
           .thenThrow(FakeAutoCacheManagerException());
 
       expect(
-          sut.getCacheDirectories, throwsA(isA<DirectoryProviderException>()));
+        sut.getCacheDirectories,
+        throwsA(isA<DirectoryProviderException>()),
+      );
       expect(sut.value.isLoaded, isFalse);
       verify(service.getApplicationDocumentsDirectory).called(1);
     });

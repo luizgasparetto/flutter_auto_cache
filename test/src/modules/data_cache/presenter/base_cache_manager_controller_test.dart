@@ -78,9 +78,9 @@ void main() {
       final response = await sut.get<String>(key: 'my_key');
 
       expect(response, equals('my_string_cached'));
-      verify(() =>
-              getCacheUsecase.execute<String>(any(that: _cacheDtoMatcher())))
-          .called(1);
+      verify(
+        () => getCacheUsecase.execute<String>(any(that: _cacheDtoMatcher())),
+      ).called(1);
     });
 
     test('should be able to get item in cache and return NULL', () async {
@@ -92,9 +92,9 @@ void main() {
       final response = await sut.get<String>(key: 'my_key');
 
       expect(response, isNull);
-      verify(() =>
-              getCacheUsecase.execute<String>(any(that: _cacheDtoMatcher())))
-          .called(1);
+      verify(
+        () => getCacheUsecase.execute<String>(any(that: _cacheDtoMatcher())),
+      ).called(1);
     });
 
     test(
@@ -104,11 +104,16 @@ void main() {
 
       expect(Injector.I.hasBinds, equals(false));
       expect(
-          AutoCacheManagerInitializer.I.isInjectorInitialized, equals(false));
-      expect(() => sut.get<String>(key: 'my_key'),
-          throwsA(isA<NotInitializedAutoCacheManagerException>()));
+        AutoCacheManagerInitializer.I.isInjectorInitialized,
+        equals(false),
+      );
+      expect(
+        () => sut.get<String>(key: 'my_key'),
+        throwsA(isA<NotInitializedAutoCacheManagerException>()),
+      );
       verifyNever(
-          () => getCacheUsecase.execute<String>(any(that: _cacheDtoMatcher())));
+        () => getCacheUsecase.execute<String>(any(that: _cacheDtoMatcher())),
+      );
     });
 
     test(
@@ -119,8 +124,10 @@ void main() {
         return left(FakeAutoCacheManagerException());
       });
 
-      expect(() => sut.get<String>(key: 'my_key'),
-          throwsA(isA<AutoCacheManagerException>()));
+      expect(
+        () => sut.get<String>(key: 'my_key'),
+        throwsA(isA<AutoCacheManagerException>()),
+      );
     });
   });
 
@@ -140,7 +147,9 @@ void main() {
       });
 
       await expectLater(
-          sut.save<String>(key: 'my_key', data: 'my_data'), completes);
+        sut.save<String>(key: 'my_key', data: 'my_data'),
+        completes,
+      );
       verify(() => saveCacheUsecase.execute<String>(saveDTO)).called(1);
     });
 
@@ -151,7 +160,9 @@ void main() {
 
       expect(Injector.I.hasBinds, equals(false));
       expect(
-          AutoCacheManagerInitializer.I.isInjectorInitialized, equals(false));
+        AutoCacheManagerInitializer.I.isInjectorInitialized,
+        equals(false),
+      );
 
       expect(
         () => sut.save<String>(key: 'my_key', data: 'my_data'),
@@ -169,8 +180,10 @@ void main() {
         return left(FakeAutoCacheManagerException());
       });
 
-      expect(() => sut.save<String>(key: 'my_key', data: 'my_data'),
-          throwsA(isA<AutoCacheManagerException>()));
+      expect(
+        () => sut.save<String>(key: 'my_key', data: 'my_data'),
+        throwsA(isA<AutoCacheManagerException>()),
+      );
       verify(() => saveCacheUsecase.execute<String>(saveDTO)).called(1);
     });
   });

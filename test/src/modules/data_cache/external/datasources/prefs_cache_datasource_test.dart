@@ -60,8 +60,10 @@ void main() {
       when(() => service.get(key: 'my_key'))
           .thenThrow(FakeAutoCacheManagerException());
 
-      expect(() => sut.findByKey<String>('my_key'),
-          throwsA(isA<AutoCacheManagerException>()));
+      expect(
+        () => sut.findByKey<String>('my_key'),
+        throwsA(isA<AutoCacheManagerException>()),
+      );
       verify(() => service.get(key: 'my_key')).called(1);
     });
   });

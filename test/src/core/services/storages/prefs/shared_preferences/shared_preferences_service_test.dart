@@ -72,8 +72,10 @@ void main() {
       when(() => prefs.setString('my_key', any(that: isA<String>())))
           .thenThrow(Exception());
 
-      expect(() => sut.save(key: 'my_key', data: encondedData),
-          throwsA(isA<SaveStorageException>()));
+      expect(
+        () => sut.save(key: 'my_key', data: encondedData),
+        throwsA(isA<SaveStorageException>()),
+      );
       verify(() => prefs.setString('my_key', any(that: isA<String>())))
           .called(1);
     });

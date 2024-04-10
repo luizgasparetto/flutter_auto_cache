@@ -35,8 +35,10 @@ void main() {
       when(() => baseController.get<String>(key: 'my_key'))
           .thenThrow(FakeAutoCacheManagerException());
 
-      expect(() => sut.getString(key: 'my_key'),
-          throwsA(isA<AutoCacheManagerException>()));
+      expect(
+        () => sut.getString(key: 'my_key'),
+        throwsA(isA<AutoCacheManagerException>()),
+      );
       verify(() => baseController.get<String>(key: 'my_key')).called(1);
     });
   });
@@ -47,7 +49,9 @@ void main() {
           .thenAsyncVoid();
 
       await expectLater(
-          sut.saveString(key: 'my_key', data: 'my_data'), completes);
+        sut.saveString(key: 'my_key', data: 'my_data'),
+        completes,
+      );
       verify(() => baseController.save<String>(key: 'my_key', data: 'my_data'))
           .called(1);
     });
@@ -60,8 +64,10 @@ void main() {
         FakeAutoCacheManagerException(),
       );
 
-      expect(() => sut.saveString(key: 'my_key', data: 'my_data'),
-          throwsA(isA<AutoCacheManagerException>()));
+      expect(
+        () => sut.saveString(key: 'my_key', data: 'my_data'),
+        throwsA(isA<AutoCacheManagerException>()),
+      );
       verify(() => baseController.save<String>(key: 'my_key', data: 'my_data'))
           .called(1);
     });
@@ -83,8 +89,10 @@ void main() {
       when(() => baseController.get<int>(key: 'my_key'))
           .thenThrow(FakeAutoCacheManagerException());
 
-      expect(() => sut.getInt(key: 'my_key'),
-          throwsA(isA<AutoCacheManagerException>()));
+      expect(
+        () => sut.getInt(key: 'my_key'),
+        throwsA(isA<AutoCacheManagerException>()),
+      );
       verify(() => baseController.get<int>(key: 'my_key')).called(1);
     });
   });
@@ -103,8 +111,10 @@ void main() {
       when(() => baseController.save<int>(key: 'my_key', data: 1))
           .thenThrow(FakeAutoCacheManagerException());
 
-      expect(() => sut.saveInt(key: 'my_key', data: 1),
-          throwsA(isA<AutoCacheManagerException>()));
+      expect(
+        () => sut.saveInt(key: 'my_key', data: 1),
+        throwsA(isA<AutoCacheManagerException>()),
+      );
       verify(() => baseController.save<int>(key: 'my_key', data: 1)).called(1);
     });
   });

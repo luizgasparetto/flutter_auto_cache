@@ -11,7 +11,8 @@ class TTLInvalidationMethodException extends AutoCacheManagerException {
 class ExpiredTTLException extends TTLInvalidationMethodException {
   ExpiredTTLException()
       : super(
-            code: 'expired_ttl',
-            stackTrace: StackTrace.empty,
-            message: 'Expired TTL');
+          code: 'expired_ttl',
+          stackTrace: StackTrace.empty,
+          message: 'Expired TTL',
+        );
 }

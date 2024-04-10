@@ -8,7 +8,8 @@ import '../services/invalidation/invalidation_cache_context.dart';
 
 abstract interface class SaveCacheUsecase {
   Future<Either<AutoCacheManagerException, Unit>> execute<T extends Object>(
-      SaveCacheDTO<T> dto);
+    SaveCacheDTO<T> dto,
+  );
 }
 
 class SaveCache implements SaveCacheUsecase {
@@ -19,7 +20,8 @@ class SaveCache implements SaveCacheUsecase {
 
   @override
   Future<Either<AutoCacheManagerException, Unit>> execute<T extends Object>(
-      SaveCacheDTO<T> dto) async {
+    SaveCacheDTO<T> dto,
+  ) async {
     final findByKeyDto =
         GetCacheDTO(key: dto.key, storageType: dto.storageType);
     final findByKeyResponse = await _repository.findByKey<T>(findByKeyDto);
@@ -40,7 +42,8 @@ class SaveCache implements SaveCacheUsecase {
   }
 
   Either<AutoCacheManagerException, Unit> _validate<T extends Object>(
-      CacheEntity<T> cache) {
+    CacheEntity<T> cache,
+  ) {
     final validation = _invalidationCacheContext.execute(cache);
 
     if (validation.isError) {

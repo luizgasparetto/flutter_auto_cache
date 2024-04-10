@@ -6,7 +6,8 @@ import '../invalidation_cache_strategy.dart';
 final class TTLInvalidationCacheStrategy implements InvalidationCacheStrategy {
   @override
   Either<AutoCacheManagerException, Unit> validate<T extends Object>(
-      CacheEntity<T> cache) {
+    CacheEntity<T> cache,
+  ) {
     final isExpired = cache.endAt.isBefore(DateTime.now());
 
     if (isExpired) {

@@ -16,7 +16,9 @@ void main() {
       await AutoCacheManagerInitializer.I.init();
 
       expect(
-          AutoCacheManager.prefs, equals(PrefsCacheManagerController.instance));
+        AutoCacheManager.prefs,
+        equals(PrefsCacheManagerController.instance),
+      );
       expect(AutoCacheManager.sql, equals(SQLCacheManagerController.instance));
     });
   });
