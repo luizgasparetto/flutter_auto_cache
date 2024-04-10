@@ -38,8 +38,10 @@ final class CacheSizeAnalyzerService implements ICacheSizeAnalyzerService {
   @override
   Future<Either<AutoCacheManagerException, double>> getCacheSizeUsed() async {
     try {
-      final totalPrefsSize = _calculeCacheSizeInMb(directoryProvider.prefsDirectory);
-      final totalSqlSize = _calculeCacheSizeInMb(directoryProvider.sqlDirectory);
+      final totalPrefsSize =
+          _calculeCacheSizeInMb(directoryProvider.prefsDirectory);
+      final totalSqlSize =
+          _calculeCacheSizeInMb(directoryProvider.sqlDirectory);
 
       final total = totalSqlSize + totalPrefsSize;
 
@@ -72,7 +74,9 @@ final class CacheSizeAnalyzerService implements ICacheSizeAnalyzerService {
     try {
       final files = directory.listSync(recursive: true);
 
-      final total = files.whereType<File>().fold(0, (acc, file) => acc + file.lengthSync());
+      final total = files
+          .whereType<File>()
+          .fold(0, (acc, file) => acc + file.lengthSync());
       return total / CacheSizeConstants.bytesPerMb;
     } catch (e, stackTrace) {
       throw CalculateCacheSizeException(

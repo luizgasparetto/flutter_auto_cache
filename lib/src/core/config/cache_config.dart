@@ -62,10 +62,14 @@ class CacheConfig {
   /// This method verifies whether the current configuration
   /// matches the default settings for the cache.
   bool get isDefaultConfig {
-    final isDefaultInvalidation = invalidationType == CacheConstants.defaultInvalidationType;
-    final isDefaultCacheSizeOptions = sizeOptions == CacheSizeOptions.createDefault();
+    final isDefaultInvalidation =
+        invalidationType == CacheConstants.defaultInvalidationType;
+    final isDefaultCacheSizeOptions =
+        sizeOptions == CacheSizeOptions.createDefault();
     final isNotUsingDeflateCompresser = !useDeflateCompresser;
 
-    return isDefaultInvalidation && isDefaultCacheSizeOptions && isNotUsingDeflateCompresser;
+    return isDefaultInvalidation &&
+        isDefaultCacheSizeOptions &&
+        isNotUsingDeflateCompresser;
   }
 }

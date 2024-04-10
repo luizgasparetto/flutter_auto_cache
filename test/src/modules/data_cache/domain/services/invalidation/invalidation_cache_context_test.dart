@@ -26,7 +26,9 @@ void main() {
   group('InvalidationCacheContext.execute |', () {
     final cache = FakeCacheEntity();
 
-    test('should be able to get a strategy and validate by passing the cache entity', () {
+    test(
+        'should be able to get a strategy and validate by passing the cache entity',
+        () {
       when(() => config.invalidationType).thenReturn(InvalidationType.ttl);
 
       final response = sut.execute<String>(cache);

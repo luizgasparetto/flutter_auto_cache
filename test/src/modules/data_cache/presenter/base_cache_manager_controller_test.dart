@@ -22,7 +22,8 @@ class CacheConfigMock extends Mock implements CacheConfig {}
 
 class FakeBindClass extends Fake {}
 
-class FakeAutoCacheManagerException extends Fake implements AutoCacheManagerException {}
+class FakeAutoCacheManagerException extends Fake
+    implements AutoCacheManagerException {}
 
 class FakeGetCacheDTO extends Fake implements GetCacheDTO {}
 
@@ -67,43 +68,59 @@ void main() {
   }
 
   group('BaseCacheManagerController.get |', () {
-    test('should be able to get data in cache with a key successfully', () async {
-      when(() => getCacheUsecase.execute<String>(any(that: _cacheDtoMatcher()))).thenAnswer((_) async {
+    test('should be able to get data in cache with a key successfully',
+        () async {
+      when(() => getCacheUsecase.execute<String>(any(that: _cacheDtoMatcher())))
+          .thenAnswer((_) async {
         return right(CacheEntityFake<String>(fakeData: 'my_string_cached'));
       });
 
       final response = await sut.get<String>(key: 'my_key');
 
       expect(response, equals('my_string_cached'));
-      verify(() => getCacheUsecase.execute<String>(any(that: _cacheDtoMatcher()))).called(1);
+      verify(() =>
+              getCacheUsecase.execute<String>(any(that: _cacheDtoMatcher())))
+          .called(1);
     });
 
     test('should be able to get item in cache and return NULL', () async {
-      when(() => getCacheUsecase.execute<String>(any(that: _cacheDtoMatcher()))).thenAnswer((_) async {
+      when(() => getCacheUsecase.execute<String>(any(that: _cacheDtoMatcher())))
+          .thenAnswer((_) async {
         return right(null);
       });
 
       final response = await sut.get<String>(key: 'my_key');
 
       expect(response, isNull);
-      verify(() => getCacheUsecase.execute<String>(any(that: _cacheDtoMatcher()))).called(1);
+      verify(() =>
+              getCacheUsecase.execute<String>(any(that: _cacheDtoMatcher())))
+          .called(1);
     });
 
-    test('should NOT be able to get data in cache when AutoCacheManager is not initialized', () async {
+    test(
+        'should NOT be able to get data in cache when AutoCacheManager is not initialized',
+        () async {
       Injector.I.clear();
 
       expect(Injector.I.hasBinds, equals(false));
-      expect(AutoCacheManagerInitializer.I.isInjectorInitialized, equals(false));
-      expect(() => sut.get<String>(key: 'my_key'), throwsA(isA<NotInitializedAutoCacheManagerException>()));
-      verifyNever(() => getCacheUsecase.execute<String>(any(that: _cacheDtoMatcher())));
+      expect(
+          AutoCacheManagerInitializer.I.isInjectorInitialized, equals(false));
+      expect(() => sut.get<String>(key: 'my_key'),
+          throwsA(isA<NotInitializedAutoCacheManagerException>()));
+      verifyNever(
+          () => getCacheUsecase.execute<String>(any(that: _cacheDtoMatcher())));
     });
 
-    test('should NOT be able to get item in cache when UseCase throws an AutoCacheManagerException', () async {
-      when(() => getCacheUsecase.execute<String>(any(that: _cacheDtoMatcher()))).thenAnswer((_) async {
+    test(
+        'should NOT be able to get item in cache when UseCase throws an AutoCacheManagerException',
+        () async {
+      when(() => getCacheUsecase.execute<String>(any(that: _cacheDtoMatcher())))
+          .thenAnswer((_) async {
         return left(FakeAutoCacheManagerException());
       });
 
-      expect(() => sut.get<String>(key: 'my_key'), throwsA(isA<AutoCacheManagerException>()));
+      expect(() => sut.get<String>(key: 'my_key'),
+          throwsA(isA<AutoCacheManagerException>()));
     });
   });
 
@@ -115,20 +132,26 @@ void main() {
       cacheConfig: cacheConfigMock,
     );
 
-    test('should be able to save a data in cache with a key successfully', () async {
-      when(() => saveCacheUsecase.execute<String>(saveDTO)).thenAnswer((_) async {
+    test('should be able to save a data in cache with a key successfully',
+        () async {
+      when(() => saveCacheUsecase.execute<String>(saveDTO))
+          .thenAnswer((_) async {
         return right(unit);
       });
 
-      await expectLater(sut.save<String>(key: 'my_key', data: 'my_data'), completes);
+      await expectLater(
+          sut.save<String>(key: 'my_key', data: 'my_data'), completes);
       verify(() => saveCacheUsecase.execute<String>(saveDTO)).called(1);
     });
 
-    test('should NOT be able to save data in cache when AutoCacheManager is not initialized', () async {
+    test(
+        'should NOT be able to save data in cache when AutoCacheManager is not initialized',
+        () async {
       Injector.I.clear();
 
       expect(Injector.I.hasBinds, equals(false));
-      expect(AutoCacheManagerInitializer.I.isInjectorInitialized, equals(false));
+      expect(
+          AutoCacheManagerInitializer.I.isInjectorInitialized, equals(false));
 
       expect(
         () => sut.save<String>(key: 'my_key', data: 'my_data'),
@@ -138,12 +161,16 @@ void main() {
       verifyNever(() => saveCacheUsecase.execute<String>(saveDTO));
     });
 
-    test('should NOT be able to save data in cache when UseCase throws an AutoCacheManagerException', () async {
-      when(() => saveCacheUsecase.execute<String>(saveDTO)).thenAnswer((_) async {
+    test(
+        'should NOT be able to save data in cache when UseCase throws an AutoCacheManagerException',
+        () async {
+      when(() => saveCacheUsecase.execute<String>(saveDTO))
+          .thenAnswer((_) async {
         return left(FakeAutoCacheManagerException());
       });
 
-      expect(() => sut.save<String>(key: 'my_key', data: 'my_data'), throwsA(isA<AutoCacheManagerException>()));
+      expect(() => sut.save<String>(key: 'my_key', data: 'my_data'),
+          throwsA(isA<AutoCacheManagerException>()));
       verify(() => saveCacheUsecase.execute<String>(saveDTO)).called(1);
     });
   });

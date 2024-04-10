@@ -21,14 +21,17 @@ void main() {
   });
 
   group('AutoCacheManagerInitializer.init |', () {
-    test('should be able to init AutoCacheManagerInitializer with base config', () async {
+    test('should be able to init AutoCacheManagerInitializer with base config',
+        () async {
       await sut.init();
 
       expect(sut.isInjectorInitialized, isTrue);
       expect(sut.config.isDefaultConfig, isTrue);
     });
 
-    test('should be able to init AutoCacheManagerInitializer with base config, even passing NULL', () async {
+    test(
+        'should be able to init AutoCacheManagerInitializer with base config, even passing NULL',
+        () async {
       await sut.init(config: null);
 
       expect(sut.isInjectorInitialized, isTrue);

@@ -14,13 +14,15 @@ class SQLCacheManagerController {
   /// This constructor is private to ensure that `SQLCacheManagerController`
   /// can only be accessed through its singleton instance, maintaining a single
   /// point of interaction with the SQL-based cache system.
-  SQLCacheManagerController._() : _baseCacheManagerController = BaseCacheManagerController.sql();
+  SQLCacheManagerController._()
+      : _baseCacheManagerController = BaseCacheManagerController.sql();
 
   /// The singleton instance of `SQLCacheManagerController`.
   ///
   /// Use this instance to access SQL-based cache functionality throughout
   /// your application.
-  static final SQLCacheManagerController _instance = SQLCacheManagerController._();
+  static final SQLCacheManagerController _instance =
+      SQLCacheManagerController._();
 
   /// Provides access to the singleton instance of `SQLCacheManagerController`.
   static SQLCacheManagerController get instance => _instance;
@@ -56,7 +58,8 @@ class SQLCacheManagerController {
   /// - **calculate_cache_size**:
   ///   - Thrown if there is an error calculating the size of the cache. This could indicate an issue
   ///     with the storage calculation algorithm or an unexpected storage limit exceeded.
-  Future<void> save<T extends Object>({required String key, required T data}) async {
+  Future<void> save<T extends Object>(
+      {required String key, required T data}) async {
     return _baseCacheManagerController.save<Object>(key: key, data: data);
   }
 }

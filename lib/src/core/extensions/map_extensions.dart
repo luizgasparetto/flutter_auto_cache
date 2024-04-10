@@ -1,14 +1,14 @@
-/// Extension on `Map` to provide additional utility methods for Map operations.
-///
-/// `MapExtension` enriches the `Map` class with new capabilities, allowing for more
-/// fluent and convenient manipulations of map data. This extension aims to enhance
-/// the functionality of maps in Dart by introducing methods that are commonly needed
-/// but not present in the standard library.
-///
-/// This extension is generic and can be used with any types of keys and values, making
-/// it a versatile tool for map manipulations across Dart applications.
-
 extension MapExtensions<K extends Object, V> on Map<K, V> {
+  /// Extension on `Map` to provide additional utility methods for Map operations.
+  ///
+  /// `MapExtension` enriches the `Map` class with new capabilities, allowing for more
+  /// fluent and convenient manipulations of map data. This extension aims to enhance
+  /// the functionality of maps in Dart by introducing methods that are commonly needed
+  /// but not present in the standard library.
+  ///
+  /// This extension is generic and can be used with any types of keys and values, making
+  /// it a versatile tool for map manipulations across Dart applications.
+
   /// Updates the value for the given `key` with `newValue` and returns the map.
   ///
   /// This method updates the value associated with `key` to `newValue`. If the

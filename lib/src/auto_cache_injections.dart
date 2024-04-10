@@ -28,30 +28,38 @@ class AutoCacheInjections {
     Injector.I.bindSingleton<IPathProviderService>(PathProviderService());
     Injector.I.bindSingleton<ICompressorService>(CompressorService());
 
-    Injector.I.bindSingleton<IPrefsService>(SharedPreferencesService(Injector.I.get<SharedPreferences>()));
+    Injector.I.bindSingleton<IPrefsService>(
+        SharedPreferencesService(Injector.I.get<SharedPreferences>()));
 
-    Injector.I.bindSingleton<ICryptographyService>(EncryptCryptographyService(Injector.I.get<CacheConfig>()));
+    Injector.I.bindSingleton<ICryptographyService>(
+        EncryptCryptographyService(Injector.I.get<CacheConfig>()));
 
-    Injector.I.bindFactory<IPrefsCacheDatasource>(() => PrefsCacheDatasource(Injector.I.get<IPrefsService>()));
+    Injector.I.bindFactory<IPrefsCacheDatasource>(
+        () => PrefsCacheDatasource(Injector.I.get<IPrefsService>()));
     Injector.I.bindFactory<ISQLCacheDatasource>(SQLCacheDatasource.new);
-    Injector.I.bindFactory<InvalidationCacheContext>(() => InvalidationCacheContext(Injector.I.get<CacheConfig>()));
+    Injector.I.bindFactory<InvalidationCacheContext>(
+        () => InvalidationCacheContext(Injector.I.get<CacheConfig>()));
 
     Injector.I.bindSingleton<IDirectoryProviderService>(
       DirectoryProviderService(Injector.I.get<IPathProviderService>()),
     );
 
     Injector.I.bindFactory<ICacheRepository>(
-      () => CacheRepository(Injector.I.get<IPrefsCacheDatasource>(), Injector.I.get<ISQLCacheDatasource>()),
+      () => CacheRepository(Injector.I.get<IPrefsCacheDatasource>(),
+          Injector.I.get<ISQLCacheDatasource>()),
     );
 
     Injector.I.bindFactory<GetCacheUsecase>(
-      () => GetCache(Injector.I.get<ICacheRepository>(), Injector.I.get<InvalidationCacheContext>()),
+      () => GetCache(Injector.I.get<ICacheRepository>(),
+          Injector.I.get<InvalidationCacheContext>()),
     );
 
     Injector.I.bindFactory<SaveCacheUsecase>(
-      () => SaveCache(Injector.I.get<ICacheRepository>(), Injector.I.get<InvalidationCacheContext>()),
+      () => SaveCache(Injector.I.get<ICacheRepository>(),
+          Injector.I.get<InvalidationCacheContext>()),
     );
 
-    Injector.I.bindFactory<ClearCacheUsecase>(() => ClearCache(Injector.I.get<ICacheRepository>()));
+    Injector.I.bindFactory<ClearCacheUsecase>(
+        () => ClearCache(Injector.I.get<ICacheRepository>()));
   }
 }

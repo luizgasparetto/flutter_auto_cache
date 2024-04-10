@@ -12,7 +12,8 @@ class ClearCache implements ClearCacheUsecase {
   const ClearCache(this._repository);
 
   @override
-  Future<Either<AutoCacheManagerException, Unit>> execute(ClearCacheDTO dto) async {
+  Future<Either<AutoCacheManagerException, Unit>> execute(
+      ClearCacheDTO dto) async {
     return _repository.clear(dto);
   }
 }
