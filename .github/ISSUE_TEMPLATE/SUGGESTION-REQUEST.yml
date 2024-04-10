@@ -1,9 +1,7 @@
 name: "💡 Suggestion Request"
 description: Create a new ticket for a new suggestion request
 title: "💡 [SUGGESTION] - <title>"
-labels: [
-  "question"
-]
+labels: ["Type: Suggestion"]
 body:
   - type: textarea
     id: description
