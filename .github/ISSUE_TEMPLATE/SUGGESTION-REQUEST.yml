@@ -18,7 +18,7 @@ body:
       description: What are the drawbacks/impacts of your suggestion request ?
       placeholder: Identify the drawbacks and impacts while being neutral on your suggestion request...
     validations:
-      required: true
+      required: false
   - type: textarea
     id: unresolved_question
     attributes:
