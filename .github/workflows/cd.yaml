@@ -4,15 +4,18 @@ on:
   push:
     tags:
       - "v*"
-  workflow_run:
-    workflows:
-      - "Continuos Integration (CI)"
-    types:
-      - "completed"
 
 jobs:
+  ci_workflow:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Run Continuous Integration
+        uses: ./.github/workflows/ci.yaml
+
   publish:
     runs-on: ubuntu-latest
+    needs: ci_workflow
 
     steps:
       - name: "Checkout"
@@ -28,15 +31,15 @@ jobs:
           channel: "stable"
 
       - name: Get version from tag
-        run: echo "::set-env name=VERSION::${GITHUB_REF#refs/tags/}"
+        run: echo "GITHUB_STATE_VERSION=${GITHUB_REF#refs/tags/} >> GITHUB_ENV
 
       - name: Update version in pubspec.yaml
         run: |
-          sed -i "s/version:.*\$/version: $VERSION/" pubspec.yaml
+          sed -i "s/version:.*\$/version: $GITHUB_STATE_VERSION/" pubspec.yaml
 
       - name: "Check Modified Dart Files"
         id: check_modified_files
-        run: if git diff --exit-code '*.dart'; then echo "modified=true" >> $GITHUB_STATE; else echo "modified=false" >> $GITHUB_STATE; fi
+        run: if git diff --exit-code 'pubspec.yaml'; then echo "modified=true" >> $GITHUB_STATE; else echo "modified=false" >> $GITHUB_STATE; fi
 
       - name: "Automatically Commit Changes"
         if: env.GITHUB_STATE == 'modified=true'
