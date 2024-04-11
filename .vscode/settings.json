@@ -1,6 +1,6 @@
 {
   "dart.runPubGetOnPubspecChanges": "never",
-  "dart.lineLength": 120,
+  "dart.lineLength": 80,
   "editor.codeActionsOnSave": {
     "source.fixAll": "explicit"
   },

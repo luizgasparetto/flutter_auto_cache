@@ -47,7 +47,7 @@ jobs:
         run: flutter analyze
 
       - name: "Run Format"
-        run: dart format --set-exit-if-changed --line-length 120 .
+        run: dart format --set-exit-if-changed --line-length 80 .
 
       - name: "Run Dart Fixes"
         run: |

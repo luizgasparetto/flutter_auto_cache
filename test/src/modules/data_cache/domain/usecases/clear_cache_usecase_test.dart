@@ -9,7 +9,8 @@ class CacheRepositoryMock extends Mock implements ICacheRepository {}
 
 class ClearCacheDTOFake extends Fake implements ClearCacheDTO {}
 
-class AutoCacheManagerExceptionFake extends Fake implements AutoCacheManagerException {}
+class AutoCacheManagerExceptionFake extends Fake
+    implements AutoCacheManagerException {}
 
 void main() {
   final repository = CacheRepositoryMock();

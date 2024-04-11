@@ -8,7 +8,8 @@ import 'package:mocktail/mocktail.dart';
 
 class PathProviderServiceMock extends Mock implements IPathProviderService {}
 
-class FakeAutoCacheManagerException extends Fake implements AutoCacheManagerException {}
+class FakeAutoCacheManagerException extends Fake
+    implements AutoCacheManagerException {}
 
 void main() {
   final service = PathProviderServiceMock();
@@ -20,51 +21,86 @@ void main() {
   });
 
   group('DirectoryProviderService.getCacheDirectories |', () {
-    test('should be able to load all directories successfully and set loaded state', () async {
-      when(service.getApplicationDocumentsDirectory).thenAnswer((_) async => Directory(''));
-      when(service.getApplicationSupportDirectory).thenAnswer((_) async => Directory(''));
+    test(
+      'should be able to load all directories successfully and set loaded state',
+      () async {
+        when(service.getApplicationDocumentsDirectory).thenAnswer(
+          (_) async => Directory(''),
+        );
+        when(service.getApplicationSupportDirectory).thenAnswer(
+          (_) async => Directory(''),
+        );
 
-      await expectLater(sut.getCacheDirectories(), completes);
-      expect(sut.value.isLoaded, isTrue);
-      verify(service.getApplicationDocumentsDirectory).called(1);
-      verify(service.getApplicationSupportDirectory).called(1);
-    });
+        await expectLater(sut.getCacheDirectories(), completes);
+        expect(sut.value.isLoaded, isTrue);
+        verify(service.getApplicationDocumentsDirectory).called(1);
+        verify(service.getApplicationSupportDirectory).called(1);
+      },
+    );
 
-    test('should NOT be able to load all directories when state is already loaded', () async {
-      when(service.getApplicationDocumentsDirectory).thenAnswer((_) async => Directory(''));
-      when(service.getApplicationSupportDirectory).thenAnswer((_) async => Directory(''));
+    test(
+      'should NOT be able to load all directories when state is already loaded',
+      () async {
+        when(service.getApplicationDocumentsDirectory).thenAnswer(
+          (_) async => Directory(''),
+        );
+        when(service.getApplicationSupportDirectory).thenAnswer(
+          (_) async => Directory(''),
+        );
 
-      await expectLater(sut.getCacheDirectories(), completes);
-      await expectLater(sut.getCacheDirectories(), completes);
+        await expectLater(sut.getCacheDirectories(), completes);
+        await expectLater(sut.getCacheDirectories(), completes);
 
-      expect(sut.value.isLoaded, isTrue);
-      verify(service.getApplicationDocumentsDirectory).called(1);
-      verify(service.getApplicationSupportDirectory).called(1);
-    });
+        expect(sut.value.isLoaded, isTrue);
+        verify(service.getApplicationDocumentsDirectory).called(1);
+        verify(service.getApplicationSupportDirectory).called(1);
+      },
+    );
 
-    test('should NOT be able to load directories when getApplicationDocumentsDirectory fails', () async {
-      when(service.getApplicationDocumentsDirectory).thenThrow(FakeAutoCacheManagerException());
+    test(
+        'should NOT be able to load directories when getApplicationDocumentsDirectory fails',
+        () async {
+      when(service.getApplicationDocumentsDirectory).thenThrow(
+        FakeAutoCacheManagerException(),
+      );
 
-      expect(sut.getCacheDirectories, throwsA(isA<DirectoryProviderException>()));
+      expect(
+        sut.getCacheDirectories,
+        throwsA(isA<DirectoryProviderException>()),
+      );
       expect(sut.value.isLoaded, isFalse);
       verify(service.getApplicationDocumentsDirectory).called(1);
       verifyNever(service.getApplicationSupportDirectory);
     });
 
-    test('should NOT be able to load directories when getApplicationSupportDirectory fails', () async {
-      when(service.getApplicationDocumentsDirectory).thenAnswer((_) async => Directory(''));
-      when(service.getApplicationSupportDirectory).thenThrow(FakeAutoCacheManagerException());
+    test(
+      'should NOT be able to load directories when getApplicationSupportDirectory fails',
+      () async {
+        when(service.getApplicationDocumentsDirectory).thenAnswer(
+          (_) async => Directory(''),
+        );
+        when(service.getApplicationSupportDirectory).thenThrow(
+          FakeAutoCacheManagerException(),
+        );
 
-      expect(sut.getCacheDirectories, throwsA(isA<DirectoryProviderException>()));
-      expect(sut.value.isLoaded, isFalse);
-      verify(service.getApplicationDocumentsDirectory).called(1);
-    });
+        expect(
+          sut.getCacheDirectories,
+          throwsA(isA<DirectoryProviderException>()),
+        );
+        expect(sut.value.isLoaded, isFalse);
+        verify(service.getApplicationDocumentsDirectory).called(1);
+      },
+    );
   });
 
   group('DirectoryProviderService.prefsDirectory |', () {
     test('should be able to get prefs directory from state value', () async {
-      when(service.getApplicationDocumentsDirectory).thenAnswer((_) async => Directory('docs_directory'));
-      when(service.getApplicationSupportDirectory).thenAnswer((_) async => Directory('support_directory'));
+      when(service.getApplicationDocumentsDirectory).thenAnswer(
+        (_) async => Directory('docs_directory'),
+      );
+      when(service.getApplicationSupportDirectory).thenAnswer(
+        (_) async => Directory('support_directory'),
+      );
 
       await expectLater(sut.getCacheDirectories(), completes);
       expect(sut.value.isLoaded, isTrue);
@@ -74,8 +110,10 @@ void main() {
 
   group('DirectoryProviderService.sqlDirectory |', () {
     test('should be able to get sql directory from state value', () async {
-      when(service.getApplicationDocumentsDirectory).thenAnswer((_) async => Directory('docs_directory'));
-      when(service.getApplicationSupportDirectory).thenAnswer((_) async => Directory('support_directory'));
+      when(service.getApplicationDocumentsDirectory)
+          .thenAnswer((_) async => Directory('docs_directory'));
+      when(service.getApplicationSupportDirectory)
+          .thenAnswer((_) async => Directory('support_directory'));
 
       await expectLater(sut.getCacheDirectories(), completes);
       expect(sut.value.isLoaded, isTrue);
@@ -84,9 +122,12 @@ void main() {
   });
 
   group('DirectoryProviderService.reset |', () {
-    test('should be able to reset directory provider state value to empty', () async {
-      when(service.getApplicationDocumentsDirectory).thenAnswer((_) async => Directory('docs_directory'));
-      when(service.getApplicationSupportDirectory).thenAnswer((_) async => Directory('support_directory'));
+    test('should be able to reset directory provider state value to empty',
+        () async {
+      when(service.getApplicationDocumentsDirectory)
+          .thenAnswer((_) async => Directory('docs_directory'));
+      when(service.getApplicationSupportDirectory)
+          .thenAnswer((_) async => Directory('support_directory'));
 
       await expectLater(sut.getCacheDirectories(), completes);
 

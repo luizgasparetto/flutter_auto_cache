@@ -55,10 +55,18 @@ class BaseCacheManagerController {
     );
   }
 
-  Future<void> save<T extends Object>({required String key, required T data}) async {
+  Future<void> save<T extends Object>({
+    required String key,
+    required T data,
+  }) async {
     _initializedConfigVerification();
 
-    final dto = SaveCacheDTO<T>(key: key, data: data, storageType: storageType, cacheConfig: cacheConfig);
+    final dto = SaveCacheDTO<T>(
+      key: key,
+      data: data,
+      storageType: storageType,
+      cacheConfig: cacheConfig,
+    );
     final response = await _saveCacheUsecase.execute(dto);
 
     if (response.isError) {

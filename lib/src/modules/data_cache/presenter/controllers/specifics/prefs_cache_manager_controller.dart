@@ -11,9 +11,10 @@ class PrefsCacheManagerController {
   @visibleForTesting
   const PrefsCacheManagerController(this.baseCacheManagerController);
 
-  PrefsCacheManagerController._() : baseCacheManagerController = BaseCacheManagerController.prefs();
+  PrefsCacheManagerController._()
+      : baseCacheManagerController = BaseCacheManagerController.prefs();
 
-  static final PrefsCacheManagerController _instance = PrefsCacheManagerController._();
+  static final _instance = PrefsCacheManagerController._();
 
   static PrefsCacheManagerController get instance => _instance;
 
@@ -49,7 +50,13 @@ class PrefsCacheManagerController {
     return baseCacheManagerController.save<int>(key: key, data: data);
   }
 
-  Future<void> saveMap({required String key, required Map<String, dynamic> data}) async {
-    return baseCacheManagerController.save<Map<String, dynamic>>(key: key, data: data);
+  Future<void> saveMap({
+    required String key,
+    required Map<String, dynamic> data,
+  }) async {
+    return baseCacheManagerController.save<Map<String, dynamic>>(
+      key: key,
+      data: data,
+    );
   }
 }
