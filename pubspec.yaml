@@ -1,7 +1,7 @@
 name: auto_cache_manager
 description: Package that automates cache management policies, using sqflite and shared preferences under the hood.
 homepage: https://github.com/luizgasparetto/auto_cache_manager
-repository: https://github.com/luizgasparetto/auto_cache_manager
+repository: https://github.com/luizgasparetto/auto_cache_manager.git
 version: 0.0.1
 
 environment:
