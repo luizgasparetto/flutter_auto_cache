@@ -1,0 +1,29 @@
+name: "💡 Suggestion Request"
+description: Create a new ticket for a new suggestion request
+title: "💡 [SUGGESTION] - <title>"
+labels: ["Type: Suggestion"]
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: "Description"
+      description: Provide a brief explanation of the suggestion
+      placeholder: Describe in a few lines your suggestion request...
+    validations:
+      required: true
+  - type: textarea
+    id: drawbacks
+    attributes:
+      label: "Drawbacks"
+      description: What are the drawbacks/impacts of your suggestion request ?
+      placeholder: Identify the drawbacks and impacts while being neutral on your suggestion request...
+    validations:
+      required: false
+  - type: textarea
+    id: unresolved_question
+    attributes:
+      label: "Unresolved questions"
+      description: What questions still remain unresolved ?
+      placeholder: Identify any unresolved issues...
+    validations:
+      required: false
