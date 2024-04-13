@@ -8,8 +8,7 @@ import 'package:mocktail/mocktail.dart';
 
 class PathProviderServiceMock extends Mock implements IPathProviderService {}
 
-class FakeAutoCacheManagerException extends Fake
-    implements AutoCacheManagerException {}
+class FakeAutoCacheManagerException extends Fake implements AutoCacheManagerException {}
 
 void main() {
   final service = PathProviderServiceMock();
@@ -57,9 +56,7 @@ void main() {
       },
     );
 
-    test(
-        'should NOT be able to load directories when getApplicationDocumentsDirectory fails',
-        () async {
+    test('should NOT be able to load directories when getApplicationDocumentsDirectory fails', () async {
       when(service.getApplicationDocumentsDirectory).thenThrow(
         FakeAutoCacheManagerException(),
       );
@@ -110,10 +107,8 @@ void main() {
 
   group('DirectoryProviderService.sqlDirectory |', () {
     test('should be able to get sql directory from state value', () async {
-      when(service.getApplicationDocumentsDirectory)
-          .thenAnswer((_) async => Directory('docs_directory'));
-      when(service.getApplicationSupportDirectory)
-          .thenAnswer((_) async => Directory('support_directory'));
+      when(service.getApplicationDocumentsDirectory).thenAnswer((_) async => Directory('docs_directory'));
+      when(service.getApplicationSupportDirectory).thenAnswer((_) async => Directory('support_directory'));
 
       await expectLater(sut.getCacheDirectories(), completes);
       expect(sut.value.isLoaded, isTrue);
@@ -122,12 +117,9 @@ void main() {
   });
 
   group('DirectoryProviderService.reset |', () {
-    test('should be able to reset directory provider state value to empty',
-        () async {
-      when(service.getApplicationDocumentsDirectory)
-          .thenAnswer((_) async => Directory('docs_directory'));
-      when(service.getApplicationSupportDirectory)
-          .thenAnswer((_) async => Directory('support_directory'));
+    test('should be able to reset directory provider state value to empty', () async {
+      when(service.getApplicationDocumentsDirectory).thenAnswer((_) async => Directory('docs_directory'));
+      when(service.getApplicationSupportDirectory).thenAnswer((_) async => Directory('support_directory'));
 
       await expectLater(sut.getCacheDirectories(), completes);
 

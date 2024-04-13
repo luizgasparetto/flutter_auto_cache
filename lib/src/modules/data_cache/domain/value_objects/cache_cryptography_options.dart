@@ -12,9 +12,7 @@ class CacheCryptographyOptions {
   final String secretKey;
 
   /// Constructs cache cryptography options with a customizable secret key.
-  const CacheCryptographyOptions({
-    required this.secretKey,
-  });
+  const CacheCryptographyOptions({required this.secretKey});
 
   @override
   bool operator ==(Object other) {

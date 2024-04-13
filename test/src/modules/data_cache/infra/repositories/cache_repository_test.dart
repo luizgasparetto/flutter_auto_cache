@@ -16,8 +16,7 @@ class PrefsDatasourceMock extends Mock implements IPrefsCacheDatasource {}
 
 class SQLDatasourceMock extends Mock implements ISQLCacheDatasource {}
 
-class FakeAutoCacheManagerException extends Fake
-    implements AutoCacheManagerException {}
+class FakeAutoCacheManagerException extends Fake implements AutoCacheManagerException {}
 
 class FakeCacheConfig extends Fake implements CacheConfig {}
 

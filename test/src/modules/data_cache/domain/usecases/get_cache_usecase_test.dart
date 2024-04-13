@@ -11,14 +11,11 @@ import 'package:mocktail/mocktail.dart';
 
 class CacheRepositoryMock extends Mock implements CacheRepository {}
 
-class InvalidationCacheContextMock extends Mock
-    implements IInvalidationCacheContext {}
+class InvalidationCacheContextMock extends Mock implements IInvalidationCacheContext {}
 
-class FakeAutoCacheManagerException extends Fake
-    implements AutoCacheManagerException {}
+class FakeAutoCacheManagerException extends Fake implements AutoCacheManagerException {}
 
-class CacheEntityFake<T extends Object> extends Fake
-    implements CacheEntity<T> {}
+class CacheEntityFake<T extends Object> extends Fake implements CacheEntity<T> {}
 
 void main() {
   final repository = CacheRepositoryMock();

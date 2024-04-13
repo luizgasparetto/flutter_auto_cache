@@ -5,11 +5,9 @@ import 'package:mocktail/mocktail.dart';
 
 import '../../../../../../extensions/when_extensions.dart';
 
-class BaseCacheManagerControllerMock extends Mock
-    implements BaseCacheManagerController {}
+class BaseCacheManagerControllerMock extends Mock implements BaseCacheManagerController {}
 
-class FakeAutoCacheManagerException extends Fake
-    implements AutoCacheManagerException {}
+class FakeAutoCacheManagerException extends Fake implements AutoCacheManagerException {}
 
 void main() {
   final baseController = BaseCacheManagerControllerMock();
@@ -31,8 +29,7 @@ void main() {
       verify(() => baseController.get<String>(key: 'my_key')).called(1);
     });
 
-    test('should NOT be able to get string by key when base controller fails',
-        () async {
+    test('should NOT be able to get string by key when base controller fails', () async {
       when(
         () => baseController.get<String>(key: 'my_key'),
       ).thenThrow(FakeAutoCacheManagerException());
@@ -116,8 +113,7 @@ void main() {
       verify(() => baseController.save<int>(key: 'my_key', data: 1)).called(1);
     });
 
-    test('should NOT be able to save int in prefs when base controller fails',
-        () async {
+    test('should NOT be able to save int in prefs when base controller fails', () async {
       when(
         () => baseController.save<int>(key: 'my_key', data: 1),
       ).thenThrow(FakeAutoCacheManagerException());

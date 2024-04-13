@@ -40,8 +40,7 @@ void main() {
     test(
       'should NOT be able to get CacheEntity from json when invalid values',
       () {
-        final invalidJson = jsonCache.updateValueByKey(
-            key: 'created_at', newValue: 'invalid_value');
+        final invalidJson = jsonCache.updateValueByKey(key: 'created_at', newValue: 'invalid_value');
 
         expect(() => CacheAdapter.fromJson(invalidJson), throwsFormatException);
       },
@@ -50,8 +49,7 @@ void main() {
     test(
       'should NOT be able to get CacheEntity from json when invalid keys',
       () {
-        final jsonInvalidKeys = jsonCache.updateKey(
-            oldKey: 'created_at', newKey: 'invalid_created_at');
+        final jsonInvalidKeys = jsonCache.updateKey(oldKey: 'created_at', newKey: 'invalid_created_at');
 
         expect(
           () => CacheAdapter.fromJson(jsonInvalidKeys),

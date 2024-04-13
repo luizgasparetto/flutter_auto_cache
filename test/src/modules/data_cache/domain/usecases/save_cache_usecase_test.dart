@@ -13,11 +13,9 @@ import 'package:mocktail/mocktail.dart';
 
 class CacheRepositoryMock extends Mock implements ICacheRepository {}
 
-class InvalidationCacheContextMock extends Mock
-    implements IInvalidationCacheContext {}
+class InvalidationCacheContextMock extends Mock implements IInvalidationCacheContext {}
 
-class AutoCacheManagerExceptionFake extends Fake
-    implements AutoCacheManagerException {}
+class AutoCacheManagerExceptionFake extends Fake implements AutoCacheManagerException {}
 
 class FakeCacheConfig extends Fake implements CacheConfig {}
 
@@ -120,13 +118,11 @@ void main() {
     test(
       'should NOT be able to save cache repository when InvalidationCacheContext fails',
       () async {
-        when(() => repository.findByKey<String>(any(that: _cacheDtoMatcher())))
-            .thenAnswer(
+        when(() => repository.findByKey<String>(any(that: _cacheDtoMatcher()))).thenAnswer(
           (_) async => right(fakeCache),
         );
 
-        when(() => invalidationContext.execute<String>(fakeCache))
-            .thenAnswer((_) {
+        when(() => invalidationContext.execute<String>(fakeCache)).thenAnswer((_) {
           return left(AutoCacheManagerExceptionFake());
         });
 

@@ -22,8 +22,7 @@ class CacheConfigMock extends Mock implements CacheConfig {}
 
 class FakeBindClass extends Fake {}
 
-class FakeAutoCacheManagerException extends Fake
-    implements AutoCacheManagerException {}
+class FakeAutoCacheManagerException extends Fake implements AutoCacheManagerException {}
 
 class FakeGetCacheDTO extends Fake implements GetCacheDTO {}
 
@@ -74,8 +73,7 @@ void main() {
         when(
           () => getCacheUsecase.execute<String>(any(that: _cacheDtoMatcher())),
         ).thenAnswer(
-          (_) async =>
-              right(CacheEntityFake<String>(fakeData: 'my_string_cached')),
+          (_) async => right(CacheEntityFake<String>(fakeData: 'my_string_cached')),
         );
 
         final response = await sut.get<String>(key: 'my_key');

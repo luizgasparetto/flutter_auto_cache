@@ -12,8 +12,7 @@ import '../../../../../extensions/when_extensions.dart';
 
 class PrefsServiceMock extends Mock implements IPrefsService {}
 
-class FakeAutoCacheManagerException extends Fake
-    implements AutoCacheManagerException {}
+class FakeAutoCacheManagerException extends Fake implements AutoCacheManagerException {}
 
 void main() {
   final service = PrefsServiceMock();
