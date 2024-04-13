@@ -14,8 +14,7 @@ class SQLCacheManagerController {
   /// This constructor is private to ensure that `SQLCacheManagerController`
   /// can only be accessed through its singleton instance, maintaining a single
   /// point of interaction with the SQL-based cache system.
-  SQLCacheManagerController._()
-      : _baseCacheManagerController = BaseCacheManagerController.sql();
+  SQLCacheManagerController._() : _baseCacheManagerController = BaseCacheManagerController.sql();
 
   /// The singleton instance of `SQLCacheManagerController`.
   ///

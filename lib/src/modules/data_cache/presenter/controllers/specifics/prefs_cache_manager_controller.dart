@@ -11,8 +11,7 @@ class PrefsCacheManagerController {
   @visibleForTesting
   const PrefsCacheManagerController(this.baseCacheManagerController);
 
-  PrefsCacheManagerController._()
-      : baseCacheManagerController = BaseCacheManagerController.prefs();
+  PrefsCacheManagerController._() : baseCacheManagerController = BaseCacheManagerController.prefs();
 
   static final _instance = PrefsCacheManagerController._();
 
