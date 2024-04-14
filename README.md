@@ -1,5 +1,7 @@
 # AutoCacheManager
 
+[![Stars](https://img.shields.io/github/stars/luizgasparetto/auto_cache_manager)](https://github.com/luizgasparetto/auto_cache_manager/stargazers)
+
 AutoCacheManager é um gerenciador de cache automático robusto e flexível para Flutter, projetado para facilitar e otimizar o armazenamento de cache em aplicações móveis. Utilizando as poderosas bibliotecas `shared_preferences` e `sqflite`, AutoCacheManager fornece uma solução abrangente para gerenciar dados em cache, com políticas de substituição e invalidação de cache totalmente automatizadas.
 
 ## Características
