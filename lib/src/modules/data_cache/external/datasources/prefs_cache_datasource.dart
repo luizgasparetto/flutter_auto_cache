@@ -24,7 +24,7 @@ final class PrefsCacheDatasource implements IPrefsCacheDatasource {
 
   @override
   Future<void> save<T extends Object>(SaveCacheDTO<T> dto) async {
-    final cache = CacheEntity.fromDto(dto);
+    final cache = CacheEntity.toSave(dto);
     final data = CacheAdapter.toJson(cache);
 
     final encodedData = jsonEncode(data);
