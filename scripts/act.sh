@@ -19,33 +19,8 @@ check_command_exists() {
 
 install_docker() {
     if ! check_command_exists docker; then
-        case "$OSTYPE" in
-            "linux-gnu"*)
-                echo "Instalando Docker para Linux..."
-                curl -fsSL https://get.docker.com -o get-docker.sh
-                sudo sh get-docker.sh
-                ;;
-            "darwin"*)
-                echo "Instalando Docker para macOS..."
-                brew install --cask docker
-                ;;
-            "msys"*)
-                echo "Instalando Docker para Windows..."
-                choco install docker-desktop
-                ;;
-            *)
-                print_error "Sistema operacional não suportado para instalação automática do Docker."
-                exit 1
-                ;;
-        esac
-
-
-        if ! check_command_exists docker; then
-            print_error "Falha na instalação do Docker."
-            exit 1
-        else
-            print_success "Docker instalado com sucesso."
-        fi
+        print_error "Docker não está instalado, você precisa instalar ele antes de executar esse script"
+        exit 1
     else
         print_success "Docker já está instalado."
     fi
