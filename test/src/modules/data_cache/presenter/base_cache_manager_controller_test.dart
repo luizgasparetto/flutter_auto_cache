@@ -62,7 +62,7 @@ void main() {
     Injector.I.clear();
   });
 
-  Matcher _cacheDtoMatcher() {
+  Matcher cacheDtoMatcher() {
     return predicate<GetCacheDTO>((dto) => dto.key == 'my_key');
   }
 
@@ -71,7 +71,7 @@ void main() {
       'should be able to get data in cache with a key successfully',
       () async {
         when(
-          () => getCacheUsecase.execute<String>(any(that: _cacheDtoMatcher())),
+          () => getCacheUsecase.execute<String>(any(that: cacheDtoMatcher())),
         ).thenAnswer(
           (_) async => right(CacheEntityFake<String>(fakeData: 'my_string_cached')),
         );
@@ -80,21 +80,21 @@ void main() {
 
         expect(response, equals('my_string_cached'));
         verify(
-          () => getCacheUsecase.execute<String>(any(that: _cacheDtoMatcher())),
+          () => getCacheUsecase.execute<String>(any(that: cacheDtoMatcher())),
         ).called(1);
       },
     );
 
     test('should be able to get item in cache and return NULL', () async {
       when(
-        () => getCacheUsecase.execute<String>(any(that: _cacheDtoMatcher())),
+        () => getCacheUsecase.execute<String>(any(that: cacheDtoMatcher())),
       ).thenAnswer((_) async => right(null));
 
       final response = await sut.get<String>(key: 'my_key');
 
       expect(response, isNull);
       verify(
-        () => getCacheUsecase.execute<String>(any(that: _cacheDtoMatcher())),
+        () => getCacheUsecase.execute<String>(any(that: cacheDtoMatcher())),
       ).called(1);
     });
 
@@ -113,7 +113,7 @@ void main() {
           throwsA(isA<NotInitializedAutoCacheManagerException>()),
         );
         verifyNever(
-          () => getCacheUsecase.execute<String>(any(that: _cacheDtoMatcher())),
+          () => getCacheUsecase.execute<String>(any(that: cacheDtoMatcher())),
         );
       },
     );
@@ -122,7 +122,7 @@ void main() {
       'should NOT be able to get item in cache when UseCase throws an AutoCacheManagerException',
       () async {
         when(
-          () => getCacheUsecase.execute<String>(any(that: _cacheDtoMatcher())),
+          () => getCacheUsecase.execute<String>(any(that: cacheDtoMatcher())),
         ).thenAnswer((_) async => left(FakeAutoCacheManagerException()));
 
         expect(
