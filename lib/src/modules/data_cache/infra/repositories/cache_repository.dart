@@ -14,11 +14,11 @@ class CacheRepository implements ICacheRepository {
   const CacheRepository(this._prefsDatasource, this._sqlDatasource);
 
   @override
-  Future<GetCacheResponse<T>> findByKey<T extends Object>(
+  Future<GetCacheResponse<T>> get<T extends Object>(
     GetCacheDTO dto,
   ) async {
     try {
-      final action = dto.storageType.isPrefs ? _prefsDatasource.findByKey : _sqlDatasource.findByKey;
+      final action = dto.storageType.isPrefs ? _prefsDatasource.get : _sqlDatasource.get;
 
       final response = await action.call<T>(dto.key);
 

@@ -12,7 +12,7 @@ final class PrefsCacheDatasource implements IPrefsCacheDatasource {
   const PrefsCacheDatasource(this._service);
 
   @override
-  CacheEntity<T>? findByKey<T extends Object>(String key) {
+  CacheEntity<T>? get<T extends Object>(String key) {
     final response = _service.get(key: key);
 
     if (response == null) return null;
