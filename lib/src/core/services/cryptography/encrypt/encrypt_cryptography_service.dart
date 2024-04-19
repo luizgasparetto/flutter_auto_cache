@@ -19,11 +19,7 @@ class EncryptCryptographyService implements ICryptographyService {
       final secretKeyHash = _generateSecretHash(cryptographyOptions.secretKey);
 
       final key = Key.fromUtf8(secretKeyHash);
-      final iv = IV.fromBase64(
-        base64Encode(
-          utf8.encode(cryptographyOptions.secretKey),
-        ),
-      );
+      final iv = IV.fromBase64(base64Encode(utf8.encode(cryptographyOptions.secretKey)));
 
       final encrypter = Encrypter(AES(key));
 
@@ -44,11 +40,7 @@ class EncryptCryptographyService implements ICryptographyService {
       final secretKeyHash = _generateSecretHash(cryptographyOptions.secretKey);
 
       final key = Key.fromUtf8(secretKeyHash);
-      final iv = IV.fromBase64(
-        base64Encode(
-          utf8.encode(cryptographyOptions.secretKey),
-        ),
-      );
+      final iv = IV.fromBase64(base64Encode(utf8.encode(cryptographyOptions.secretKey)));
 
       final encrypter = Encrypter(AES(key));
       final encrypted = encrypter.encrypt(value, iv: iv);

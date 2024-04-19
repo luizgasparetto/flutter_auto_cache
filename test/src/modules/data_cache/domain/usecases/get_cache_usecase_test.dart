@@ -81,7 +81,7 @@ void main() {
     );
 
     test(
-      'should NOT be able to get data in cache when findByKey retrives an exception',
+      'should NOT be able to get data in cache when get retrives an exception',
       () async {
         when(() => repository.get<String>(dto)).thenAnswer((_) async {
           return left(FakeAutoCacheManagerException());

@@ -11,7 +11,7 @@ final class SQLCacheDatasource implements ISQLCacheDatasource {
   }
 
   @override
-  Future<CacheEntity<T>?> findByKey<T extends Object>(String key) {
+  Future<CacheEntity<T>?> get<T extends Object>(String key) {
     throw UnimplementedError();
   }
 

@@ -91,9 +91,7 @@ void main() {
 
       expect(response.isError, isTrue);
       expect(response.error, isA<AutoCacheManagerException>());
-      verify(
-        () => repository.get<String>(any(that: cacheDtoMatcher())),
-      ).called(1);
+      verify(() => repository.get<String>(any(that: cacheDtoMatcher()))).called(1);
       verifyNever(() => invalidationContext.execute<String>(any()));
       verifyNever(() => repository.save<String>(dto));
     });
@@ -109,9 +107,7 @@ void main() {
 
       expect(response.isError, isTrue);
       expect(response.error, isA<AutoCacheManagerException>());
-      verify(
-        () => repository.get<String>(any(that: cacheDtoMatcher())),
-      ).called(1);
+      verify(() => repository.get<String>(any(that: cacheDtoMatcher()))).called(1);
       verify(() => invalidationContext.execute<String>(fakeCache)).called(1);
       verifyNever(() => repository.save<String>(dto));
     });
@@ -128,9 +124,7 @@ void main() {
 
       expect(response.isError, isTrue);
       expect(response.error, isA<AutoCacheManagerException>());
-      verify(
-        () => repository.get<String>(any(that: cacheDtoMatcher())),
-      ).called(1);
+      verify(() => repository.get<String>(any(that: cacheDtoMatcher()))).called(1);
       verify(() => invalidationContext.execute<String>(fakeCache)).called(1);
       verify(() => repository.save<String>(dto)).called(1);
     });

@@ -17,7 +17,7 @@ class CacheRepository implements ICacheRepository {
   @override
   AsyncEither<AutoCacheManagerException, CacheEntity<T>?> get<T extends Object>(GetCacheDTO dto) async {
     try {
-      final action = dto.storageType.isPrefs ? _prefsDatasource.get : _sqlDatasource.findByKey;
+      final action = dto.storageType.isPrefs ? _prefsDatasource.get : _sqlDatasource.get;
 
       final response = await action.call<T>(dto.key);
 
