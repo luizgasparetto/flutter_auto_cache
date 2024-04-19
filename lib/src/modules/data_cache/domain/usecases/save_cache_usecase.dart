@@ -26,7 +26,7 @@ class SaveCache implements SaveCacheUsecase {
       key: dto.key,
       storageType: dto.storageType,
     );
-    final findByKeyResponse = await _repository.findByKey<T>(findByKeyDto);
+    final findByKeyResponse = await _repository.get<T>(findByKeyDto);
 
     if (findByKeyResponse.isError) {
       return left(findByKeyResponse.error);

@@ -16,7 +16,7 @@ class GetCache implements GetCacheUsecase {
 
   @override
   Future<GetCacheResponse<T>> execute<T extends Object>(GetCacheDTO dto) async {
-    final searchResponse = await _repository.findByKey<T>(dto);
+    final searchResponse = await _repository.get<T>(dto);
 
     if (searchResponse.isError) {
       return left(searchResponse.error);

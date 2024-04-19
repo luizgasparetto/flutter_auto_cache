@@ -22,7 +22,7 @@ void main() {
     reset(service);
   });
 
-  group('PrefsDatasource.findByKey |', () {
+  group('PrefsDatasource.get |', () {
     final createdAt = DateTime.now();
     final endAt = DateTime.now().add(const Duration(hours: 3));
 
@@ -39,7 +39,7 @@ void main() {
     test('should be able to find cache data by key successfully', () {
       when(() => service.get(key: 'my_key')).thenReturn(stringBody);
 
-      final response = sut.findByKey<String>('my_key');
+      final response = sut.get<String>('my_key');
 
       expect(response, isA<CacheEntity<String>>());
       verify(() => service.get(key: 'my_key')).called(1);
@@ -48,7 +48,7 @@ void main() {
     test('should be able to return NULL when not find data in cache', () {
       when(() => service.get(key: 'my_key')).thenReturn(null);
 
-      final response = sut.findByKey<String>('my_key');
+      final response = sut.get<String>('my_key');
 
       expect(response, isNull);
       verify(() => service.get(key: 'my_key')).called(1);
@@ -62,7 +62,7 @@ void main() {
         );
 
         expect(
-          () => sut.findByKey<String>('my_key'),
+          () => sut.get<String>('my_key'),
           throwsA(isA<AutoCacheManagerException>()),
         );
         verify(() => service.get(key: 'my_key')).called(1);
