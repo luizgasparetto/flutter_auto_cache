@@ -18,7 +18,6 @@ final class PrefsCacheDatasource implements IPrefsCacheDatasource {
     if (response == null) return null;
 
     final decodedResponse = jsonDecode(response);
-
     return CacheAdapter.fromJson<T>(decodedResponse);
   }
 
