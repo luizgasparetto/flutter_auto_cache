@@ -3,6 +3,7 @@ import '../../domain/dtos/clear_cache_dto.dart';
 import '../../domain/dtos/get_cache_dto.dart';
 import '../../domain/dtos/save_cache_dto.dart';
 import '../../domain/entities/cache_entity.dart';
+import '../../domain/enums/storage_type.dart';
 import '../../domain/repositories/i_cache_repository.dart';
 
 import '../datasources/i_prefs_cache_datasource.dart';
@@ -20,6 +21,19 @@ class CacheRepository implements ICacheRepository {
       final action = dto.storageType.isPrefs ? _prefsDatasource.get : _sqlDatasource.get;
 
       final response = await action.call<T>(dto.key);
+
+      return right(response);
+    } on AutoCacheManagerException catch (exception) {
+      return left(exception);
+    }
+  }
+
+  @override
+  AsyncEither<AutoCacheManagerException, List<String>> getKeys(StorageType storageType) async {
+    try {
+      final action = storageType.isPrefs ? _prefsDatasource.getKeys : _sqlDatasource.getKeys;
+
+      final response = await action.call();
 
       return right(response);
     } on AutoCacheManagerException catch (exception) {

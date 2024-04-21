@@ -32,7 +32,8 @@ final class PrefsCacheDatasource implements IPrefsCacheDatasource {
   }
 
   @override
-  Future<void> clear() async {
-    return _service.clear();
-  }
+  List<String> getKeys() => _service.getKeys();
+
+  @override
+  Future<void> clear() => _service.clear();
 }

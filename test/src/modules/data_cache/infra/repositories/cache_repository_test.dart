@@ -115,6 +115,52 @@ void main() {
     });
   });
 
+  group('CacheRepository.getKeys |', () {
+    test('should be able to get keys of prefs datasource successfully', () async {
+      when(() => prefsDatasource.getKeys()).thenReturn(['keys']);
+
+      final response = await sut.getKeys(StorageType.prefs);
+
+      expect(response.isSuccess, isTrue);
+      expect(response.success, equals(['keys']));
+      verify(() => prefsDatasource.getKeys()).called(1);
+      verifyNever(() => sqlDatasource.getKeys());
+    });
+
+    test('should be able to get keys of sql datasource successfully', () async {
+      when(() => sqlDatasource.getKeys()).thenAnswer((_) async => ['keys']);
+
+      final response = await sut.getKeys(StorageType.sql);
+
+      expect(response.isSuccess, isTrue);
+      expect(response.success, equals(['keys']));
+      verify(() => sqlDatasource.getKeys()).called(1);
+      verifyNever(() => prefsDatasource.getKeys());
+    });
+
+    test('should NOT be able to get keys of prefs when prefs datasource fails', () async {
+      when(() => prefsDatasource.getKeys()).thenThrow(FakeAutoCacheManagerException());
+
+      final response = await sut.getKeys(StorageType.prefs);
+
+      expect(response.isError, isTrue);
+      expect(response.error, isA<AutoCacheManagerException>());
+      verify(() => prefsDatasource.getKeys()).called(1);
+      verifyNever(() => sqlDatasource.getKeys());
+    });
+
+    test('should NOT be able to get keys of sql when sql datasource fails', () async {
+      when(() => sqlDatasource.getKeys()).thenThrow(FakeAutoCacheManagerException());
+
+      final response = await sut.getKeys(StorageType.sql);
+
+      expect(response.isError, isTrue);
+      expect(response.error, isA<AutoCacheManagerException>());
+      verify(() => sqlDatasource.getKeys()).called(1);
+      verifyNever(() => prefsDatasource.getKeys());
+    });
+  });
+
   group('CacheRepository.save |', () {
     final prefsDto = SaveCacheDTO<String>(
       key: 'my_key',

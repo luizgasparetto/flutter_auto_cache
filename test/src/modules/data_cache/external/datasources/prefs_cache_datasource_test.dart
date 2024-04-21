@@ -44,6 +44,7 @@ void main() {
       final response = sut.get<String>('my_key');
 
       expect(response, isA<CacheEntity<String>>());
+      expect(response?.data, equals('my_data'));
       verify(() => service.get(key: 'my_key')).called(1);
     });
 
@@ -102,6 +103,23 @@ void main() {
 
       expect(sut.clear, throwsA(isA<AutoCacheManagerException>()));
       verify(service.clear).called(1);
+    });
+  });
+
+  group('PrefsDatasource.getKeys |', () {
+    test('should be able to get keys successfully when calls service', () async {
+      when(() => service.getKeys()).thenReturn(['keys']);
+
+      final response = sut.getKeys();
+
+      expect(response, ['keys']);
+      verify(() => service.getKeys()).called(1);
+    });
+
+    test('should NOT be able to get keys when service fails', () async {
+      when(() => service.getKeys()).thenThrow(FakeAutoCacheManagerException());
+
+      expect(() => sut.getKeys(), throwsA(isA<AutoCacheManagerException>()));
     });
   });
 }
