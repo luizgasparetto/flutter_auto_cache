@@ -27,6 +27,15 @@ void main() {
       verify(() => baseController.get<String>(key: 'my_key')).called(1);
     });
 
+    test('should be able to get NULL when request an non existent string cache', () async {
+      when(() => baseController.get<String>(key: 'my_key')).thenAnswer((_) async => null);
+
+      final response = await sut.getString(key: 'my_key');
+
+      expect(response, isNull);
+      verify(() => baseController.get<String>(key: 'my_key')).called(1);
+    });
+
     test('should NOT be able to get string by key when base controller fails', () async {
       when(() => baseController.get<String>(key: 'my_key')).thenThrow(FakeAutoCacheManagerException());
 
@@ -61,6 +70,15 @@ void main() {
       verify(() => baseController.get<int>(key: 'id_key')).called(1);
     });
 
+    test('should be able to get NULL when request an non existent int cache', () async {
+      when(() => baseController.get<int>(key: 'my_key')).thenAnswer((_) async => null);
+
+      final response = await sut.getInt(key: 'my_key');
+
+      expect(response, isNull);
+      verify(() => baseController.get<int>(key: 'my_key')).called(1);
+    });
+
     test('should NOT be able to get int data when base controller fails', () async {
       when(() => baseController.get<int>(key: 'my_key')).thenThrow(FakeAutoCacheManagerException());
 
@@ -82,6 +100,51 @@ void main() {
 
       expect(() => sut.saveInt(key: 'my_key', data: 1), throwsA(isA<AutoCacheManagerException>()));
       verify(() => baseController.save<int>(key: 'my_key', data: 1)).called(1);
+    });
+  });
+
+  group('PrefsCacheManagerController.getJson |', () {
+    test('should be able to get json in prefs successfully', () async {
+      when(() => baseController.get<Map<String, dynamic>>(key: 'key')).thenAnswer((_) async => <String, dynamic>{});
+
+      final response = await sut.getJson(key: 'key');
+
+      expect(response, equals(<String, dynamic>{}));
+      verify(() => baseController.get<Map<String, dynamic>>(key: 'key')).called(1);
+    });
+
+    test('should be able to get NULL when request an non existent JSON cache', () async {
+      when(() => baseController.get<Map<String, dynamic>>(key: 'key')).thenAnswer((_) async => null);
+
+      final response = await sut.getJson(key: 'key');
+
+      expect(response, isNull);
+      verify(() => baseController.get<Map<String, dynamic>>(key: 'key')).called(1);
+    });
+
+    test('should NOT be able to get json in prefs when base controller fails', () async {
+      when(() => baseController.get<Map<String, dynamic>>(key: 'key')).thenThrow(FakeAutoCacheManagerException());
+
+      expect(() => sut.getJson(key: 'key'), throwsA(isA<AutoCacheManagerException>()));
+      verify(() => baseController.get<Map<String, dynamic>>(key: 'key')).called(1);
+    });
+  });
+
+  group('PrefsCacheManagerController.saveJson |', () {
+    test('should be able to save json in prefs successfully', () async {
+      when(() => baseController.save<Map<String, dynamic>>(key: 'key', data: {})).thenAsyncVoid();
+
+      await expectLater(sut.saveJson(key: 'key', data: {}), completes);
+      verify(() => baseController.save<Map<String, dynamic>>(key: 'key', data: {})).called(1);
+    });
+
+    test('should NOT be able to save json in prefs when base controller fails', () async {
+      when(() => baseController.save<Map<String, dynamic>>(key: 'key', data: {})).thenThrow(
+        FakeAutoCacheManagerException(),
+      );
+
+      expect(() => sut.saveJson(key: 'key', data: {}), throwsA(isA<AutoCacheManagerException>()));
+      verify(() => baseController.save<Map<String, dynamic>>(key: 'key', data: {})).called(1);
     });
   });
 }
