@@ -15,16 +15,13 @@ void main() {
       expect(ttl, equals(InvalidationType.ttl));
     });
 
-    test(
-      'should be able to get InvalidationType.refresh from invalid key successfully',
-      () {
-        const invalidKey = 'invalid';
+    test('should be able to get InvalidationType.refresh from invalid key successfully', () {
+      const invalidKey = 'invalid';
 
-        final refresh = InvalidationTypeAdapter.fromKey(invalidKey);
+      final refresh = InvalidationTypeAdapter.fromKey(invalidKey);
 
-        expect(refresh, equals(InvalidationType.refresh));
-      },
-    );
+      expect(refresh, equals(InvalidationType.refresh));
+    });
   });
 
   group('InvalidationTypeAdapter.toKey |', () {
@@ -32,13 +29,8 @@ void main() {
       final expectedRefreshKey = InvalidationType.refresh.name;
       final expectedTtlKey = InvalidationType.ttl.name;
 
-      final refreshKey = InvalidationTypeAdapter.toKey(
-        InvalidationType.refresh,
-      );
-
-      final ttlKey = InvalidationTypeAdapter.toKey(
-        InvalidationType.ttl,
-      );
+      final refreshKey = InvalidationTypeAdapter.toKey(InvalidationType.refresh);
+      final ttlKey = InvalidationTypeAdapter.toKey(InvalidationType.ttl);
 
       expect(refreshKey, equals(expectedRefreshKey));
       expect(ttlKey, equals(expectedTtlKey));

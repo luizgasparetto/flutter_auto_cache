@@ -26,37 +26,27 @@ void main() {
       'end_at': endAt.toIso8601String()
     };
 
-    // TODO(Luiz): fix broken test
-    // test('should be able to get CacheEntity from json successfully', () {
-    //   final cache = CacheAdapter.fromJson(jsonCache);
+    test('should be able to get CacheEntity from json successfully', () {
+      final cache = CacheAdapter.fromJson(jsonCache);
 
-    //   expect(cache.id, equals(id));
-    //   expect(cache.data, equals(data));
-    //   expect(cache.invalidationType, equals(invalidationType));
-    //   expect(cache.createdAt, equals(createdAt));
-    //   expect(cache.endAt, equals(endAt), skip: true);
-    // });
+      expect(cache.id, equals(id));
+      expect(cache.data, equals(data));
+      expect(cache.invalidationType, equals(invalidationType));
+      expect(cache.createdAt, equals(createdAt));
+      expect(cache.endAt, equals(endAt));
+    });
 
-    test(
-      'should NOT be able to get CacheEntity from json when invalid values',
-      () {
-        final invalidJson = jsonCache.updateValueByKey(key: 'created_at', newValue: 'invalid_value');
+    test('should NOT be able to get CacheEntity from json when invalid values', () {
+      final invalidJson = jsonCache.updateValueByKey(key: 'created_at', newValue: 'invalid_value');
 
-        expect(() => CacheAdapter.fromJson(invalidJson), throwsFormatException);
-      },
-    );
+      expect(() => CacheAdapter.fromJson(invalidJson), throwsFormatException);
+    });
 
-    test(
-      'should NOT be able to get CacheEntity from json when invalid keys',
-      () {
-        final jsonInvalidKeys = jsonCache.updateKey(oldKey: 'created_at', newKey: 'invalid_created_at');
+    test('should NOT be able to get CacheEntity from json when invalid keys', () {
+      final jsonInvalidKeys = jsonCache.updateKey(oldKey: 'created_at', newKey: 'invalid_created_at');
 
-        expect(
-          () => CacheAdapter.fromJson(jsonInvalidKeys),
-          throwsA(isA<TypeError>()),
-        );
-      },
-    );
+      expect(() => CacheAdapter.fromJson(jsonInvalidKeys), throwsA(isA<TypeError>()));
+    });
   });
 
   group('CacheAdapter.toJson |', () {
@@ -83,10 +73,7 @@ void main() {
 
       expect(jsonCache['id'], equals(id));
       expect(jsonCache['data'], equals(data));
-      expect(
-        jsonCache['invalidation_type'],
-        equals(InvalidationTypeAdapter.toKey(invalidationType)),
-      );
+      expect(jsonCache['invalidation_type'], equals(InvalidationTypeAdapter.toKey(invalidationType)));
       expect(jsonCache['created_at'], equals(createdAt.toIso8601String()));
       expect(jsonCache['end_at'], equals(endAt.toIso8601String()));
     });
