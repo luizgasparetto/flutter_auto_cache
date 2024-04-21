@@ -1,8 +1,8 @@
 import '../../modules/data_cache/domain/constants/cache_constants.dart';
 import '../../modules/data_cache/domain/enums/invalidation_type.dart';
 
-import '../../modules/data_cache/domain/value_objects/cache_cryptography_options.dart';
-import '../../modules/data_cache/domain/value_objects/cache_size_options.dart';
+import 'value_objects/cache_cryptography_options.dart';
+import 'value_objects/cache_size_options.dart';
 
 /// A configuration class for managing cache settings.
 ///

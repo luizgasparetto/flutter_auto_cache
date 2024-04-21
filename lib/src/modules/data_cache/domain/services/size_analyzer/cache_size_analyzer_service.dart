@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import '../../../../../core/core.dart';
-import '../../constants/cache_size_constants.dart';
+import '../../../../../core/config/constants/cache_size_constants.dart';
 import '../../exceptions/cache_size_analyzer_exceptions.dart';
 
 /// An abstract class defining the interface for cache detail services.
@@ -13,7 +13,7 @@ abstract interface class ICacheSizeAnalyzerService {
   ///
   /// The method should asynchronously calculate and return the total size
   /// of the cache used, facilitating the management of application cache.
-  Future<Either<AutoCacheManagerException, double>> getCacheSizeUsed();
+  AsyncEither<AutoCacheManagerException, double> getCacheSizeUsed();
 }
 
 /// A service class for managing cache details.
@@ -36,7 +36,7 @@ final class CacheSizeAnalyzerService implements ICacheSizeAnalyzerService {
   /// Returns:
   /// A `Future<double>` representing the total cache size used in megabytes (MB).
   @override
-  Future<Either<AutoCacheManagerException, double>> getCacheSizeUsed() async {
+  AsyncEither<AutoCacheManagerException, double> getCacheSizeUsed() async {
     try {
       final totalPrefsSize = _calculeCacheSizeInMb(directoryProvider.prefsDirectory);
       final totalSqlSize = _calculeCacheSizeInMb(directoryProvider.sqlDirectory);
