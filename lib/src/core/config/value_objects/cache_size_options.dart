@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 
 import '../constants/cache_size_constants.dart';
+import '../../extensions/double_extensions.dart';
 
 /// Represents cache size options with configurable maximum sizes in kilobytes (KB) and megabytes (MB).
 ///
@@ -25,7 +26,7 @@ class CacheSizeOptions {
     this.maxKb = CacheSizeConstants.defaultMaxKb,
     this.maxMb = CacheSizeConstants.defaultMaxMb,
   })  : assert(maxKb >= 0, 'maxKb must be non-negative'),
-        assert(maxMb >= 0, 'maxMb must be non-negative');
+        assert(maxMb > 0, 'maxMb must be non-negative');
 
   /// Factory constructor to create a default cache size option instance.
   /// This is a convenience method that returns a CacheSizeOptions instance with default values.
@@ -48,15 +49,12 @@ class CacheSizeOptions {
     final total = totalMbBytes + totalKbBytes;
 
     // Convert the total bytes back to megabytes for the return value.
-    return total.toDouble() / CacheSizeConstants.bytesPerMb;
+    final totalMb = total.toDouble() / CacheSizeConstants.bytesPerMb;
+    return totalMb.roundToDecimal();
   }
 
   @override
-  bool operator ==(covariant CacheSizeOptions other) {
-    if (identical(this, other)) return true;
-
-    return other.maxKb == maxKb && other.maxMb == maxMb;
-  }
+  bool operator ==(covariant CacheSizeOptions other) => identical(this, other);
 
   @override
   int get hashCode => maxKb.hashCode ^ maxMb.hashCode;

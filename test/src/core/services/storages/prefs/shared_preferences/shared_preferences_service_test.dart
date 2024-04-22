@@ -99,6 +99,22 @@ void main() {
     });
   });
 
+  group('SharedPreferencesService.delete |', () {
+    test('should be able to delete cache data by key successfully', () async {
+      when(() => prefs.remove('key')).thenAnswer((_) async => true);
+
+      await expectLater(sut.delete(key: 'key'), completes);
+      verify(() => prefs.remove('key')).called(1);
+    });
+
+    test('should NOT be able to delete cache data when prefs fails', () async {
+      when(() => prefs.remove('key')).thenThrow(Exception());
+
+      expect(() => sut.delete(key: 'key'), throwsA(isA<DeleteStorageException>()));
+      verify(() => prefs.remove('key')).called(1);
+    });
+  });
+
   group('SharedPreferencesService.clear |', () {
     test('should be able to clear cache of SharedPreferences', () async {
       when(prefs.clear).thenAnswer((_) async => true);
