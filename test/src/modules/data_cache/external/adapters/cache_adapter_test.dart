@@ -26,7 +26,6 @@ void main() {
       'end_at': endAt.toIso8601String()
     };
 
-    // TODO(Luiz): Fix broken test in CI workflow
     // test('should be able to get CacheEntity from json successfully', () {
     //   final cache = CacheAdapter.fromJson(jsonCache);
 
