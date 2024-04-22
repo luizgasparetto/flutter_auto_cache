@@ -48,7 +48,6 @@ class CacheSizeOptions {
 
     final total = totalMbBytes + totalKbBytes;
 
-    // Convert the total bytes back to megabytes for the return value.
     final totalMb = total.toDouble() / CacheSizeConstants.bytesPerMb;
     return totalMb.roundToDecimal();
   }
