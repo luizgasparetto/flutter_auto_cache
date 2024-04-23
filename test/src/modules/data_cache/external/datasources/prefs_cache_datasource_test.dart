@@ -2,8 +2,10 @@ import 'dart:convert';
 
 import 'package:auto_cache_manager/src/core/core.dart';
 import 'package:auto_cache_manager/src/core/services/storages/prefs/i_prefs_service.dart';
+import 'package:auto_cache_manager/src/modules/data_cache/domain/dtos/save_cache_dto.dart';
 import 'package:auto_cache_manager/src/modules/data_cache/domain/entities/cache_entity.dart';
 import 'package:auto_cache_manager/src/modules/data_cache/domain/enums/invalidation_type.dart';
+import 'package:auto_cache_manager/src/modules/data_cache/domain/enums/storage_type.dart';
 import 'package:auto_cache_manager/src/modules/data_cache/external/datasources/prefs_cache_datasource.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
@@ -42,6 +44,7 @@ void main() {
       final response = sut.get<String>('my_key');
 
       expect(response, isA<CacheEntity<String>>());
+      expect(response?.data, equals('my_data'));
       verify(() => service.get(key: 'my_key')).called(1);
     });
 
@@ -54,39 +57,38 @@ void main() {
       verify(() => service.get(key: 'my_key')).called(1);
     });
 
-    test(
-      'should NOT be able to return data cached when service fails',
-      () async {
-        when(() => service.get(key: 'my_key')).thenThrow(
-          FakeAutoCacheManagerException(),
-        );
+    test('should NOT be able to return data cached when service fails', () async {
+      when(() => service.get(key: 'my_key')).thenThrow(FakeAutoCacheManagerException());
 
-        expect(
-          () => sut.get<String>('my_key'),
-          throwsA(isA<AutoCacheManagerException>()),
-        );
-        verify(() => service.get(key: 'my_key')).called(1);
-      },
-    );
+      expect(() => sut.get<String>('my_key'), throwsA(isA<AutoCacheManagerException>()));
+      verify(() => service.get(key: 'my_key')).called(1);
+    });
   });
 
-  // group('PrefsDatasource.save |', () {
-  //   const dto = SaveCacheDTO(key: 'my_key', data: 'my_data', storageType: StorageType.prefs);
+  group('PrefsDatasource.save |', () {
+    final config = CacheConfig.defaultConfig();
+    final dto = SaveCacheDTO<String>(key: 'my_key', data: 'data', storageType: StorageType.prefs, cacheConfig: config);
 
-  //   test('should be able to save data in prefs cache succesfully', () async {
-  //     when(() => service.save(key: 'my_key', data: {})).thenAsyncVoid();
+    Matcher matcher() {
+      return predicate<String>((json) => json.contains('data') && json.contains('my_key'));
+    }
 
-  //     await expectLater(sut.save(dto), completes);
-  //     verify(() => service.save<String>(key: 'my_key', data: 'my_data')).called(1);
-  //   });
+    test('should be able to save data in prefs cache succesfully', () async {
+      when(() => service.save(key: 'my_key', data: any(named: 'data', that: matcher()))).thenAsyncVoid();
 
-  //   test('should NOT be able to save data in prefs when prefs service fails', () async {
-  //     when(() => service.save<String>(key: 'my_key', data: 'my_data')).thenThrow(FakeAutoCacheManagerException());
+      await expectLater(sut.save(dto), completes);
+      verify(() => service.save(key: 'my_key', data: any(named: 'data', that: matcher()))).called(1);
+    });
 
-  //     expect(() => sut.save(dto), throwsA(isA<AutoCacheManagerException>()));
-  //     verify(() => service.save<String>(key: 'my_key', data: 'my_data')).called(1);
-  //   });
-  // });
+    test('should NOT be able to save data in prefs when service fails', () async {
+      when(() => service.save(key: 'my_key', data: any(named: 'data', that: matcher()))).thenThrow(
+        FakeAutoCacheManagerException(),
+      );
+
+      expect(() => sut.save(dto), throwsA(isA<AutoCacheManagerException>()));
+      verify(() => service.save(key: 'my_key', data: any(named: 'data', that: matcher()))).called(1);
+    });
+  });
 
   group('PrefsDatasource.clear |', () {
     test('should be able to clear prefs cache data successfully', () async {
@@ -101,6 +103,23 @@ void main() {
 
       expect(sut.clear, throwsA(isA<AutoCacheManagerException>()));
       verify(service.clear).called(1);
+    });
+  });
+
+  group('PrefsDatasource.getKeys |', () {
+    test('should be able to get keys successfully when calls service', () async {
+      when(() => service.getKeys()).thenReturn(['keys']);
+
+      final response = sut.getKeys();
+
+      expect(response, ['keys']);
+      verify(() => service.getKeys()).called(1);
+    });
+
+    test('should NOT be able to get keys when service fails', () async {
+      when(() => service.getKeys()).thenThrow(FakeAutoCacheManagerException());
+
+      expect(() => sut.getKeys(), throwsA(isA<AutoCacheManagerException>()));
     });
   });
 }

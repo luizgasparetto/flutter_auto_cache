@@ -2,8 +2,10 @@ import '../../../../core/core.dart';
 import '../../domain/dtos/clear_cache_dto.dart';
 import '../../domain/dtos/get_cache_dto.dart';
 import '../../domain/dtos/save_cache_dto.dart';
+import '../../domain/entities/cache_entity.dart';
+import '../../domain/enums/storage_type.dart';
 import '../../domain/repositories/i_cache_repository.dart';
-import '../../domain/types/cache_types.dart';
+
 import '../datasources/i_prefs_cache_datasource.dart';
 import '../datasources/i_sql_cache_datasource.dart';
 
@@ -14,9 +16,7 @@ class CacheRepository implements ICacheRepository {
   const CacheRepository(this._prefsDatasource, this._sqlDatasource);
 
   @override
-  Future<GetCacheResponse<T>> get<T extends Object>(
-    GetCacheDTO dto,
-  ) async {
+  AsyncEither<AutoCacheManagerException, CacheEntity<T>?> get<T extends Object>(GetCacheDTO dto) async {
     try {
       final action = dto.storageType.isPrefs ? _prefsDatasource.get : _sqlDatasource.get;
 
@@ -29,9 +29,20 @@ class CacheRepository implements ICacheRepository {
   }
 
   @override
-  Future<Either<AutoCacheManagerException, Unit>> save<T extends Object>(
-    SaveCacheDTO<T> dto,
-  ) async {
+  AsyncEither<AutoCacheManagerException, List<String>> getKeys(StorageType storageType) async {
+    try {
+      final action = storageType.isPrefs ? _prefsDatasource.getKeys : _sqlDatasource.getKeys;
+
+      final response = await action.call();
+
+      return right(response);
+    } on AutoCacheManagerException catch (exception) {
+      return left(exception);
+    }
+  }
+
+  @override
+  Future<Either<AutoCacheManagerException, Unit>> save<T extends Object>(SaveCacheDTO<T> dto) async {
     try {
       final action = dto.storageType.isPrefs ? _prefsDatasource.save : _sqlDatasource.save;
 
@@ -54,5 +65,10 @@ class CacheRepository implements ICacheRepository {
     } on AutoCacheManagerException catch (exception) {
       return left(exception);
     }
+  }
+
+  @override
+  AsyncEither<AutoCacheManagerException, Unit> update<T extends Object>() async {
+    throw UnimplementedError();
   }
 }

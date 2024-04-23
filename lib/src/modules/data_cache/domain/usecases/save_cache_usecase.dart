@@ -7,9 +7,7 @@ import '../repositories/i_cache_repository.dart';
 import '../services/invalidation/invalidation_cache_context.dart';
 
 abstract interface class SaveCacheUsecase {
-  Future<Either<AutoCacheManagerException, Unit>> execute<T extends Object>(
-    SaveCacheDTO<T> dto,
-  );
+  AsyncEither<AutoCacheManagerException, Unit> execute<T extends Object>(SaveCacheDTO<T> dto);
 }
 
 class SaveCache implements SaveCacheUsecase {
@@ -19,18 +17,15 @@ class SaveCache implements SaveCacheUsecase {
   const SaveCache(this._repository, this._invalidationCacheContext);
 
   @override
-  Future<Either<AutoCacheManagerException, Unit>> execute<T extends Object>(
-    SaveCacheDTO<T> dto,
-  ) async {
-    final findByKeyDto = GetCacheDTO(
-      key: dto.key,
-      storageType: dto.storageType,
-    );
+  AsyncEither<AutoCacheManagerException, Unit> execute<T extends Object>(SaveCacheDTO<T> dto) async {
+    final findByKeyDto = GetCacheDTO(key: dto.key, storageType: dto.storageType);
     final findByKeyResponse = await _repository.get<T>(findByKeyDto);
 
     if (findByKeyResponse.isError) {
       return left(findByKeyResponse.error);
     }
+
+    if (findByKeyResponse.isSuccess && findByKeyResponse.success == null) {}
 
     if (findByKeyResponse.success != null) {
       final validateResponse = _validate<T>(findByKeyResponse.success!);
@@ -43,9 +38,9 @@ class SaveCache implements SaveCacheUsecase {
     return _repository.save<T>(dto);
   }
 
-  Either<AutoCacheManagerException, Unit> _validate<T extends Object>(
-    CacheEntity<T> cache,
-  ) {
+  //Either<AutoCacheManagerException, Unit> _update<T extends Object>(CacheEntity<T> cache) {}
+
+  Either<AutoCacheManagerException, Unit> _validate<T extends Object>(CacheEntity<T> cache) {
     final validation = _invalidationCacheContext.execute(cache);
 
     if (validation.isError) {

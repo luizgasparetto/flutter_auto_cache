@@ -46,101 +46,119 @@ void main() {
     const sqlDto = GetCacheDTO(key: 'my_key', storageType: StorageType.sql);
     const prefsDto = GetCacheDTO(key: 'my_key', storageType: StorageType.prefs);
 
-    test(
-      'should be able to find cache data by key in prefs successfully',
-      () async {
-        when(() => prefsDatasource.get<String>('my_key')).thenReturn(
-          CacheEntityFake<String>(fakeData: 'any_data'),
-        );
+    test('should be able to find cache data by key in prefs successfully', () async {
+      when(() => prefsDatasource.get<String>('my_key')).thenReturn(CacheEntityFake<String>(fakeData: 'any_data'));
 
-        final response = await sut.get<String>(prefsDto);
+      final response = await sut.get<String>(prefsDto);
 
-        expect(response.isSuccess, isTrue);
-        expect(response.success?.data, equals('any_data'));
-        verify(() => prefsDatasource.get<String>('my_key')).called(1);
-        verifyNever(() => sqlDatasource.get<String>('my_key'));
-      },
-    );
+      expect(response.isSuccess, isTrue);
+      expect(response.success?.data, equals('any_data'));
+      verify(() => prefsDatasource.get<String>('my_key')).called(1);
+      verifyNever(() => sqlDatasource.get<String>('my_key'));
+    });
 
-    test(
-      'should be able to return NULL when cache not found data in prefs',
-      () async {
-        when(
-          () => prefsDatasource.get<String>('my_key'),
-        ).thenReturn(null);
+    test('should be able to return NULL when cache not found data in prefs', () async {
+      when(() => prefsDatasource.get<String>('my_key')).thenReturn(null);
 
-        final response = await sut.get<String>(prefsDto);
+      final response = await sut.get<String>(prefsDto);
 
-        expect(response.isSuccess, isTrue);
-        expect(response.success, isNull);
-        verify(() => prefsDatasource.get<String>('my_key')).called(1);
-        verifyNever(() => sqlDatasource.get<String>('my_key'));
-      },
-    );
+      expect(response.isSuccess, isTrue);
+      expect(response.success, isNull);
+      verify(() => prefsDatasource.get<String>('my_key')).called(1);
+      verifyNever(() => sqlDatasource.get<String>('my_key'));
+    });
 
-    test(
-      'should NOT be able to find cache data in prefs when datasource throws an AutoCacheManagerException',
-      () async {
-        when(() => prefsDatasource.get<String>('my_key')).thenThrow(
-          FakeAutoCacheManagerException(),
-        );
+    test('should NOT be able to get cache in prefs when datasource throws an AutoCacheManagerException', () async {
+      when(() => prefsDatasource.get<String>('my_key')).thenThrow(FakeAutoCacheManagerException());
 
-        final response = await sut.get<String>(prefsDto);
+      final response = await sut.get<String>(prefsDto);
 
-        expect(response.isError, isTrue);
-        expect(response.error, isA<AutoCacheManagerException>());
-        verify(() => prefsDatasource.get<String>('my_key')).called(1);
-        verifyNever(() => sqlDatasource.get<String>('my_key'));
-      },
-    );
+      expect(response.isError, isTrue);
+      expect(response.error, isA<AutoCacheManagerException>());
+      verify(() => prefsDatasource.get<String>('my_key')).called(1);
+      verifyNever(() => sqlDatasource.get<String>('my_key'));
+    });
 
-    test(
-      'should be able to find cache data by key in SQL successfully',
-      () async {
-        when(() => sqlDatasource.get<String>('my_key')).thenAnswer(
-          (_) async => CacheEntityFake<String>(fakeData: 'any_data'),
-        );
+    test('should be able to find cache data by key in SQL successfully', () async {
+      when(() => sqlDatasource.get<String>('my_key')).thenAnswer(
+        (_) async => CacheEntityFake<String>(fakeData: 'any_data'),
+      );
 
-        final response = await sut.get<String>(sqlDto);
+      final response = await sut.get<String>(sqlDto);
 
-        expect(response.isSuccess, isTrue);
-        expect(response.success?.data, equals('any_data'));
-        verify(() => sqlDatasource.get<String>('my_key')).called(1);
-        verifyNever(() => prefsDatasource.get<String>('my_key'));
-      },
-    );
+      expect(response.isSuccess, isTrue);
+      expect(response.success?.data, equals('any_data'));
+      verify(() => sqlDatasource.get<String>('my_key')).called(1);
+      verifyNever(() => prefsDatasource.get<String>('my_key'));
+    });
 
-    test(
-      'should be able to return NULL when cache not found data in SQL',
-      () async {
-        when(
-          () => sqlDatasource.get<String>('my_key'),
-        ).thenAnswer((_) async => null);
+    test('should be able to return NULL when cache not found data in SQL', () async {
+      when(() => sqlDatasource.get<String>('my_key')).thenAnswer((_) async => null);
 
-        final response = await sut.get<String>(sqlDto);
+      final response = await sut.get<String>(sqlDto);
 
-        expect(response.isSuccess, isTrue);
-        expect(response.success, isNull);
-        verify(() => sqlDatasource.get<String>('my_key')).called(1);
-        verifyNever(() => prefsDatasource.get<String>('my_key'));
-      },
-    );
+      expect(response.isSuccess, isTrue);
+      expect(response.success, isNull);
+      verify(() => sqlDatasource.get<String>('my_key')).called(1);
+      verifyNever(() => prefsDatasource.get<String>('my_key'));
+    });
 
-    test(
-      'should NOT be able to find cache data in SQL when datasource throws an AutoCacheManagerException',
-      () async {
-        when(() => sqlDatasource.get<String>('my_key')).thenThrow(
-          FakeAutoCacheManagerException(),
-        );
+    test('should NOT be able to find cache data in SQL when datasource throws an AutoCacheManagerException', () async {
+      when(() => sqlDatasource.get<String>('my_key')).thenThrow(FakeAutoCacheManagerException());
 
-        final response = await sut.get<String>(sqlDto);
+      final response = await sut.get<String>(sqlDto);
 
-        expect(response.isError, isTrue);
-        expect(response.error, isA<AutoCacheManagerException>());
-        verify(() => sqlDatasource.get<String>('my_key')).called(1);
-        verifyNever(() => prefsDatasource.get<String>('my_key'));
-      },
-    );
+      expect(response.isError, isTrue);
+      expect(response.error, isA<AutoCacheManagerException>());
+      verify(() => sqlDatasource.get<String>('my_key')).called(1);
+      verifyNever(() => prefsDatasource.get<String>('my_key'));
+    });
+  });
+
+  group('CacheRepository.getKeys |', () {
+    test('should be able to get keys of prefs datasource successfully', () async {
+      when(() => prefsDatasource.getKeys()).thenReturn(['keys']);
+
+      final response = await sut.getKeys(StorageType.prefs);
+
+      expect(response.isSuccess, isTrue);
+      expect(response.success, equals(['keys']));
+      verify(() => prefsDatasource.getKeys()).called(1);
+      verifyNever(() => sqlDatasource.getKeys());
+    });
+
+    test('should be able to get keys of sql datasource successfully', () async {
+      when(() => sqlDatasource.getKeys()).thenAnswer((_) async => ['keys']);
+
+      final response = await sut.getKeys(StorageType.sql);
+
+      expect(response.isSuccess, isTrue);
+      expect(response.success, equals(['keys']));
+      verify(() => sqlDatasource.getKeys()).called(1);
+      verifyNever(() => prefsDatasource.getKeys());
+    });
+
+    test('should NOT be able to get keys of prefs when prefs datasource fails', () async {
+      when(() => prefsDatasource.getKeys()).thenThrow(FakeAutoCacheManagerException());
+
+      final response = await sut.getKeys(StorageType.prefs);
+
+      expect(response.isError, isTrue);
+      expect(response.error, isA<AutoCacheManagerException>());
+      verify(() => prefsDatasource.getKeys()).called(1);
+      verifyNever(() => sqlDatasource.getKeys());
+    });
+
+    test('should NOT be able to get keys of sql when sql datasource fails', () async {
+      when(() => sqlDatasource.getKeys()).thenThrow(FakeAutoCacheManagerException());
+
+      final response = await sut.getKeys(StorageType.sql);
+
+      expect(response.isError, isTrue);
+      expect(response.error, isA<AutoCacheManagerException>());
+      verify(() => sqlDatasource.getKeys()).called(1);
+      verifyNever(() => prefsDatasource.getKeys());
+    });
   });
 
   group('CacheRepository.save |', () {
@@ -168,21 +186,16 @@ void main() {
       verifyNever(() => sqlDatasource.save<String>(prefsDto));
     });
 
-    test(
-      'should NOT be able to save cache when prefs datasource throws an AutoCacheManagerException',
-      () async {
-        when(() => prefsDatasource.save<String>(prefsDto)).thenThrow(
-          FakeAutoCacheManagerException(),
-        );
+    test('should NOT be able to save cache when prefs datasource throws an AutoCacheManagerException', () async {
+      when(() => prefsDatasource.save<String>(prefsDto)).thenThrow(FakeAutoCacheManagerException());
 
-        final response = await sut.save<String>(prefsDto);
+      final response = await sut.save<String>(prefsDto);
 
-        expect(response.isError, isTrue);
-        expect(response.error, isA<AutoCacheManagerException>());
-        verify(() => prefsDatasource.save<String>(prefsDto)).called(1);
-        verifyNever(() => sqlDatasource.save<String>(prefsDto));
-      },
-    );
+      expect(response.isError, isTrue);
+      expect(response.error, isA<AutoCacheManagerException>());
+      verify(() => prefsDatasource.save<String>(prefsDto)).called(1);
+      verifyNever(() => sqlDatasource.save<String>(prefsDto));
+    });
 
     test('should be able to save cache data with SQL successfully', () async {
       when(() => sqlDatasource.save<String>(sqlDto)).thenAsyncVoid();
@@ -194,21 +207,16 @@ void main() {
       verifyNever(() => prefsDatasource.save<String>(sqlDto));
     });
 
-    test(
-      'should NOT be able to save cache when SQL datasource throws an AutoCacheManagerException',
-      () async {
-        when(() => sqlDatasource.save<String>(sqlDto)).thenThrow(
-          FakeAutoCacheManagerException(),
-        );
+    test('should NOT be able to save cache when SQL datasource throws an AutoCacheManagerException', () async {
+      when(() => sqlDatasource.save<String>(sqlDto)).thenThrow(FakeAutoCacheManagerException());
 
-        final response = await sut.save<String>(sqlDto);
+      final response = await sut.save<String>(sqlDto);
 
-        expect(response.isError, isTrue);
-        expect(response.error, isA<AutoCacheManagerException>());
-        verify(() => sqlDatasource.save<String>(sqlDto)).called(1);
-        verifyNever(() => prefsDatasource.save<String>(sqlDto));
-      },
-    );
+      expect(response.isError, isTrue);
+      expect(response.error, isA<AutoCacheManagerException>());
+      verify(() => sqlDatasource.save<String>(sqlDto)).called(1);
+      verifyNever(() => prefsDatasource.save<String>(sqlDto));
+    });
   });
 
   group('CacheRepository.clear |', () {
@@ -235,32 +243,26 @@ void main() {
       verifyNever(prefsDatasource.clear);
     });
 
-    test(
-      'should NOT be able to clear prefs data when datasource fails',
-      () async {
-        when(prefsDatasource.clear).thenThrow(FakeAutoCacheManagerException());
+    test('should NOT be able to clear prefs data when datasource fails', () async {
+      when(prefsDatasource.clear).thenThrow(FakeAutoCacheManagerException());
 
-        final response = await sut.clear(prefsDTO);
+      final response = await sut.clear(prefsDTO);
 
-        expect(response.isError, isTrue);
-        expect(response.error, isA<AutoCacheManagerException>());
-        verify(prefsDatasource.clear).called(1);
-        verifyNever(sqlDatasource.clear);
-      },
-    );
+      expect(response.isError, isTrue);
+      expect(response.error, isA<AutoCacheManagerException>());
+      verify(prefsDatasource.clear).called(1);
+      verifyNever(sqlDatasource.clear);
+    });
 
-    test(
-      'should NOT be able to clear SQL data when datasource fails',
-      () async {
-        when(sqlDatasource.clear).thenThrow(FakeAutoCacheManagerException());
+    test('should NOT be able to clear SQL data when datasource fails', () async {
+      when(sqlDatasource.clear).thenThrow(FakeAutoCacheManagerException());
 
-        final response = await sut.clear(sqlDTO);
+      final response = await sut.clear(sqlDTO);
 
-        expect(response.isError, isTrue);
-        expect(response.error, isA<AutoCacheManagerException>());
-        verify(sqlDatasource.clear).called(1);
-        verifyNever(prefsDatasource.clear);
-      },
-    );
+      expect(response.isError, isTrue);
+      expect(response.error, isA<AutoCacheManagerException>());
+      verify(sqlDatasource.clear).called(1);
+      verifyNever(prefsDatasource.clear);
+    });
   });
 }

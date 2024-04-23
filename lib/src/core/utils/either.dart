@@ -1,5 +1,7 @@
 // coverage:ignore-file
 
+typedef AsyncEither<TLeft, TRight> = Future<Either<TLeft, TRight>>;
+
 abstract class Either<TLeft, TRight> {
   bool get isError;
   bool get isSuccess;

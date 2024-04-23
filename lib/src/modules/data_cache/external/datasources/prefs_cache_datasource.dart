@@ -18,13 +18,12 @@ final class PrefsCacheDatasource implements IPrefsCacheDatasource {
     if (response == null) return null;
 
     final decodedResponse = jsonDecode(response);
-
     return CacheAdapter.fromJson<T>(decodedResponse);
   }
 
   @override
   Future<void> save<T extends Object>(SaveCacheDTO<T> dto) async {
-    final cache = CacheEntity.fromDto(dto);
+    final cache = CacheEntity.toSave(dto);
     final data = CacheAdapter.toJson(cache);
 
     final encodedData = jsonEncode(data);
@@ -33,7 +32,8 @@ final class PrefsCacheDatasource implements IPrefsCacheDatasource {
   }
 
   @override
-  Future<void> clear() async {
-    return _service.clear();
-  }
+  List<String> getKeys() => _service.getKeys();
+
+  @override
+  Future<void> clear() => _service.clear();
 }

@@ -15,11 +15,7 @@ class CacheCryptographyOptions {
   const CacheCryptographyOptions({required this.secretKey});
 
   @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) return true;
-
-    return other is CacheCryptographyOptions && other.secretKey == secretKey;
-  }
+  bool operator ==(Object other) => identical(this, other);
 
   @override
   int get hashCode => secretKey.hashCode;

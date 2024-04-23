@@ -56,10 +56,7 @@ class SQLCacheManagerController {
   /// - **calculate_cache_size**:
   ///   - Thrown if there is an error calculating the size of the cache. This could indicate an issue
   ///     with the storage calculation algorithm or an unexpected storage limit exceeded.
-  Future<void> save<T extends Object>({
-    required String key,
-    required T data,
-  }) async {
+  Future<void> save<T extends Object>({required String key, required T data}) async {
     return _baseCacheManagerController.save<Object>(key: key, data: data);
   }
 }

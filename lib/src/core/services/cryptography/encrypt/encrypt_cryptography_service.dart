@@ -1,10 +1,11 @@
 import 'dart:convert';
 
-import 'package:auto_cache_manager/src/core/core.dart';
-import 'package:crypto/crypto.dart';
 import 'package:encrypt/encrypt.dart';
 
+import '../../../config/cache_config.dart';
 import '../i_cryptography_service.dart';
+
+import 'factories/encrypter_factory.dart';
 
 class EncryptCryptographyService implements ICryptographyService {
   final CacheConfig cacheConfig;
@@ -16,21 +17,11 @@ class EncryptCryptographyService implements ICryptographyService {
     final cryptographyOptions = cacheConfig.cryptographyOptions;
 
     if (cryptographyOptions != null) {
-      final secretKeyHash = _generateSecretHash(cryptographyOptions.secretKey);
-
-      final key = Key.fromUtf8(secretKeyHash);
-      final iv = IV.fromBase64(
-        base64Encode(
-          utf8.encode(cryptographyOptions.secretKey),
-        ),
-      );
-
-      final encrypter = Encrypter(AES(key));
+      final encrypter = EncrypterFactory.I.createEncrypter(cryptographyOptions.secretKey);
+      final iv = EncrypterFactory.I.createIv(cryptographyOptions.secretKey);
 
       final bytes = base64Decode(value);
-      final decrypted = encrypter.decrypt(Encrypted(bytes), iv: iv);
-
-      return decrypted;
+      return encrypter.decrypt(Encrypted(bytes), iv: iv);
     }
 
     return value;
@@ -41,28 +32,13 @@ class EncryptCryptographyService implements ICryptographyService {
     final cryptographyOptions = cacheConfig.cryptographyOptions;
 
     if (cryptographyOptions != null) {
-      final secretKeyHash = _generateSecretHash(cryptographyOptions.secretKey);
+      final encrypter = EncrypterFactory.I.createEncrypter(cryptographyOptions.secretKey);
+      final iv = EncrypterFactory.I.createIv(cryptographyOptions.secretKey);
 
-      final key = Key.fromUtf8(secretKeyHash);
-      final iv = IV.fromBase64(
-        base64Encode(
-          utf8.encode(cryptographyOptions.secretKey),
-        ),
-      );
-
-      final encrypter = Encrypter(AES(key));
       final encrypted = encrypter.encrypt(value, iv: iv);
-
       return base64Encode(encrypted.bytes);
     }
 
     return value;
-  }
-
-  String _generateSecretHash(String secretKey) {
-    final secretKeyBytes = utf8.encode(secretKey);
-    final digest = sha256.convert(secretKeyBytes);
-
-    return base64Url.encode(digest.bytes).substring(0, 32);
   }
 }
