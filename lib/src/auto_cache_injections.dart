@@ -23,46 +23,18 @@ class AutoCacheInjections {
   static Future<void> registerBinds() async {
     await Injector.I.asyncBind(SharedPreferences.getInstance);
 
-    Injector.I.bindSingleton<CacheConfig>(
-      AutoCacheManagerInitializer.I.config,
-    );
-    Injector.I.bindSingleton<IPathProviderService>(
-      PathProviderService(),
-    );
-    Injector.I.bindSingleton<ICompressorService>(
-      CompressorService(),
-    );
+    Injector.I.bindSingleton<CacheConfig>(AutoCacheManagerInitializer.I.config);
+    Injector.I.bindSingleton<IPathProviderService>(PathProviderService());
+    Injector.I.bindSingleton<ICompressorService>(CompressorService());
+    Injector.I.bindSingleton<IPrefsService>(SharedPreferencesService(Injector.I.get<SharedPreferences>()));
+    Injector.I.bindSingleton<ICryptographyService>(EncryptCryptographyService(Injector.I.get<CacheConfig>()));
 
-    Injector.I.bindSingleton<IPrefsService>(
-      SharedPreferencesService(
-        Injector.I.get<SharedPreferences>(),
-      ),
-    );
-
-    Injector.I.bindSingleton<ICryptographyService>(
-      EncryptCryptographyService(
-        Injector.I.get<CacheConfig>(),
-      ),
-    );
-
-    Injector.I.bindFactory<IPrefsCacheDatasource>(
-      () => PrefsCacheDatasource(
-        Injector.I.get<IPrefsService>(),
-      ),
-    );
-    Injector.I.bindFactory<ISQLCacheDatasource>(
-      SQLCacheDatasource.new,
-    );
-    Injector.I.bindFactory<InvalidationCacheContext>(
-      () => InvalidationCacheContext(
-        Injector.I.get<CacheConfig>(),
-      ),
-    );
+    Injector.I.bindFactory<IPrefsCacheDatasource>(() => PrefsCacheDatasource(Injector.I.get<IPrefsService>()));
+    Injector.I.bindFactory<ISQLCacheDatasource>(SQLCacheDatasource.new);
+    Injector.I.bindFactory<InvalidationCacheContext>(() => InvalidationCacheContext(Injector.I.get<CacheConfig>()));
 
     Injector.I.bindSingleton<IDirectoryProviderService>(
-      DirectoryProviderService(
-        Injector.I.get<IPathProviderService>(),
-      ),
+      DirectoryProviderService(Injector.I.get<IPathProviderService>()),
     );
 
     Injector.I.bindFactory<ICacheRepository>(

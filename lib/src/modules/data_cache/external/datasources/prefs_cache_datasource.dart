@@ -12,19 +12,18 @@ final class PrefsCacheDatasource implements IPrefsCacheDatasource {
   const PrefsCacheDatasource(this._service);
 
   @override
-  CacheEntity<T>? findByKey<T extends Object>(String key) {
+  CacheEntity<T>? get<T extends Object>(String key) {
     final response = _service.get(key: key);
 
     if (response == null) return null;
 
     final decodedResponse = jsonDecode(response);
-
     return CacheAdapter.fromJson<T>(decodedResponse);
   }
 
   @override
   Future<void> save<T extends Object>(SaveCacheDTO<T> dto) async {
-    final cache = CacheEntity.fromDto(dto);
+    final cache = CacheEntity.toSave(dto);
     final data = CacheAdapter.toJson(cache);
 
     final encodedData = jsonEncode(data);
@@ -33,7 +32,8 @@ final class PrefsCacheDatasource implements IPrefsCacheDatasource {
   }
 
   @override
-  Future<void> clear() async {
-    return _service.clear();
-  }
+  List<String> getKeys() => _service.getKeys();
+
+  @override
+  Future<void> clear() => _service.clear();
 }

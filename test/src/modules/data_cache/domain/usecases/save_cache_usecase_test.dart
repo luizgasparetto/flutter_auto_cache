@@ -13,13 +13,18 @@ import 'package:mocktail/mocktail.dart';
 
 class CacheRepositoryMock extends Mock implements ICacheRepository {}
 
-class InvalidationCacheContextMock extends Mock
-    implements IInvalidationCacheContext {}
+class InvalidationCacheContextMock extends Mock implements IInvalidationCacheContext {}
 
-class AutoCacheManagerExceptionFake extends Fake
-    implements AutoCacheManagerException {}
+class AutoCacheManagerExceptionFake extends Fake implements AutoCacheManagerException {}
 
 class FakeCacheConfig extends Fake implements CacheConfig {}
+
+class FakeGetCacheDTO extends Fake implements GetCacheDTO {}
+
+class BaseConfigFake extends Fake implements CacheConfig {
+  @override
+  InvalidationType get invalidationType => InvalidationType.ttl;
+}
 
 class CacheEntityFake<T extends Object> extends Fake implements CacheEntity<T> {
   final T fakeData;
@@ -29,13 +34,6 @@ class CacheEntityFake<T extends Object> extends Fake implements CacheEntity<T> {
   @override
   T get data => fakeData;
 }
-
-class BaseConfigFake extends Fake implements CacheConfig {
-  @override
-  InvalidationType get invalidationType => InvalidationType.ttl;
-}
-
-class FakeGetCacheDTO extends Fake implements GetCacheDTO {}
 
 void main() {
   final repository = CacheRepositoryMock();
@@ -60,7 +58,7 @@ void main() {
     reset(invalidationContext);
   });
 
-  Matcher _cacheDtoMatcher() {
+  Matcher cacheDtoMatcher() {
     return predicate<GetCacheDTO>((dto) => dto.key == 'my_key');
   }
 
@@ -72,101 +70,63 @@ void main() {
       cacheConfig: fakeCacheConfig,
     );
 
-    test(
-      'should be able to save cache data successfully when not find any previous cache with same key',
-      () async {
-        when(
-          () => repository.findByKey<String>(any(that: _cacheDtoMatcher())),
-        ).thenAnswer((_) async => right(null));
+    test('should be able to save cache data successfully when not find any previous cache with same key', () async {
+      when(() => repository.get<String>(any(that: cacheDtoMatcher()))).thenAnswer((_) async => right(null));
+      when(() => repository.save<String>(dto)).thenAnswer((_) async => right(unit));
 
-        when(() => repository.save<String>(dto)).thenAnswer((_) async {
-          return right(unit);
-        });
+      final response = await sut.execute<String>(dto);
 
-        final response = await sut.execute<String>(dto);
+      expect(response.isSuccess, isTrue);
+      verify(() => repository.get<String>(any(that: cacheDtoMatcher()))).called(1);
+      verify(() => repository.save<String>(dto)).called(1);
+      verifyNever(() => invalidationContext.execute<String>(fakeCache));
+    });
 
-        expect(response.isSuccess, isTrue);
-        verify(
-          () => repository.findByKey<String>(
-            any(that: _cacheDtoMatcher()),
-          ),
-        ).called(1);
-        verify(() => repository.save<String>(dto)).called(1);
-        verifyNever(() => invalidationContext.execute<String>(fakeCache));
-      },
-    );
+    test('should NOT be able to save cache repository when findByKey fails', () async {
+      when(() => repository.get<String>(any(that: cacheDtoMatcher()))).thenAnswer(
+        (_) async => left(AutoCacheManagerExceptionFake()),
+      );
 
-    test(
-      'should NOT be able to save cache repository when findByKey fails',
-      () async {
-        when(
-          () => repository.findByKey<String>(any(that: _cacheDtoMatcher())),
-        ).thenAnswer(
-          (_) async => left(AutoCacheManagerExceptionFake()),
-        );
+      final response = await sut.execute<String>(dto);
 
-        final response = await sut.execute<String>(dto);
+      expect(response.isError, isTrue);
+      expect(response.error, isA<AutoCacheManagerException>());
+      verify(() => repository.get<String>(any(that: cacheDtoMatcher()))).called(1);
+      verifyNever(() => invalidationContext.execute<String>(any()));
+      verifyNever(() => repository.save<String>(dto));
+    });
 
-        expect(response.isError, isTrue);
-        expect(response.error, isA<AutoCacheManagerException>());
-        verify(
-          () => repository.findByKey<String>(any(that: _cacheDtoMatcher())),
-        ).called(1);
-        verifyNever(() => invalidationContext.execute<String>(any()));
-        verifyNever(() => repository.save<String>(dto));
-      },
-    );
+    test('should NOT be able to save cache repository when InvalidationCacheContext fails', () async {
+      when(() => repository.get<String>(any(that: cacheDtoMatcher()))).thenAnswer((_) async => right(fakeCache));
 
-    test(
-      'should NOT be able to save cache repository when InvalidationCacheContext fails',
-      () async {
-        when(() => repository.findByKey<String>(any(that: _cacheDtoMatcher())))
-            .thenAnswer(
-          (_) async => right(fakeCache),
-        );
+      when(() => invalidationContext.execute<String>(fakeCache)).thenAnswer((_) {
+        return left(AutoCacheManagerExceptionFake());
+      });
 
-        when(() => invalidationContext.execute<String>(fakeCache))
-            .thenAnswer((_) {
-          return left(AutoCacheManagerExceptionFake());
-        });
+      final response = await sut.execute<String>(dto);
 
-        final response = await sut.execute<String>(dto);
+      expect(response.isError, isTrue);
+      expect(response.error, isA<AutoCacheManagerException>());
+      verify(() => repository.get<String>(any(that: cacheDtoMatcher()))).called(1);
+      verify(() => invalidationContext.execute<String>(fakeCache)).called(1);
+      verifyNever(() => repository.save<String>(dto));
+    });
 
-        expect(response.isError, isTrue);
-        expect(response.error, isA<AutoCacheManagerException>());
-        verify(
-          () => repository.findByKey<String>(any(that: _cacheDtoMatcher())),
-        ).called(1);
-        verify(() => invalidationContext.execute<String>(fakeCache)).called(1);
-        verifyNever(() => repository.save<String>(dto));
-      },
-    );
+    test('should NOT be able to save cache repository when save method fails', () async {
+      when(() => repository.get<String>(any(that: cacheDtoMatcher()))).thenAnswer((_) async => right(fakeCache));
+      when(() => invalidationContext.execute<String>(fakeCache)).thenAnswer((_) => right(unit));
 
-    test(
-      'should NOT be able to save cache repository when save method fails',
-      () async {
-        when(
-          () => repository.findByKey<String>(any(that: _cacheDtoMatcher())),
-        ).thenAnswer((_) async => right(fakeCache));
+      when(() => repository.save<String>(dto)).thenAnswer((_) async {
+        return left(AutoCacheManagerExceptionFake());
+      });
 
-        when(
-          () => invalidationContext.execute<String>(fakeCache),
-        ).thenAnswer((_) => right(unit));
+      final response = await sut.execute<String>(dto);
 
-        when(() => repository.save<String>(dto)).thenAnswer((_) async {
-          return left(AutoCacheManagerExceptionFake());
-        });
-
-        final response = await sut.execute<String>(dto);
-
-        expect(response.isError, isTrue);
-        expect(response.error, isA<AutoCacheManagerException>());
-        verify(
-          () => repository.findByKey<String>(any(that: _cacheDtoMatcher())),
-        ).called(1);
-        verify(() => invalidationContext.execute<String>(fakeCache)).called(1);
-        verify(() => repository.save<String>(dto)).called(1);
-      },
-    );
+      expect(response.isError, isTrue);
+      expect(response.error, isA<AutoCacheManagerException>());
+      verify(() => repository.get<String>(any(that: cacheDtoMatcher()))).called(1);
+      verify(() => invalidationContext.execute<String>(fakeCache)).called(1);
+      verify(() => repository.save<String>(dto)).called(1);
+    });
   });
 }

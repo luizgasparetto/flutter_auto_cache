@@ -11,14 +11,11 @@ import 'package:mocktail/mocktail.dart';
 
 class CacheRepositoryMock extends Mock implements CacheRepository {}
 
-class InvalidationCacheContextMock extends Mock
-    implements IInvalidationCacheContext {}
+class InvalidationCacheContextMock extends Mock implements IInvalidationCacheContext {}
 
-class FakeAutoCacheManagerException extends Fake
-    implements AutoCacheManagerException {}
+class FakeAutoCacheManagerException extends Fake implements AutoCacheManagerException {}
 
-class CacheEntityFake<T extends Object> extends Fake
-    implements CacheEntity<T> {}
+class CacheEntityFake<T extends Object> extends Fake implements CacheEntity<T> {}
 
 void main() {
   final repository = CacheRepositoryMock();
@@ -49,7 +46,7 @@ void main() {
     );
 
     test('should be able to get data in cache successfully', () async {
-      when(() => repository.findByKey<String>(dto)).thenAnswer((_) async {
+      when(() => repository.get<String>(dto)).thenAnswer((_) async {
         return right(successCache);
       });
 
@@ -61,14 +58,14 @@ void main() {
 
       expect(response.isSuccess, isTrue);
       expect(response.success, successCache);
-      verify(() => repository.findByKey<String>(dto)).called(1);
+      verify(() => repository.get<String>(dto)).called(1);
       verify(() => invalidationContext.execute(successCache)).called(1);
     });
 
     test(
       'should be able to get data in cache if data is NULL successfully',
       () async {
-        when(() => repository.findByKey<String>(dto)).thenAnswer((_) async {
+        when(() => repository.get<String>(dto)).thenAnswer((_) async {
           return right(null);
         });
 
@@ -76,7 +73,7 @@ void main() {
 
         expect(response.isSuccess, isTrue);
         expect(response.success, isNull);
-        verify(() => repository.findByKey<String>(dto)).called(1);
+        verify(() => repository.get<String>(dto)).called(1);
         verifyNever(
           () => invalidationContext.execute<String>(any<CacheEntity<String>>()),
         );
@@ -84,9 +81,9 @@ void main() {
     );
 
     test(
-      'should NOT be able to get data in cache when findByKey retrives an exception',
+      'should NOT be able to get data in cache when get retrives an exception',
       () async {
-        when(() => repository.findByKey<String>(dto)).thenAnswer((_) async {
+        when(() => repository.get<String>(dto)).thenAnswer((_) async {
           return left(FakeAutoCacheManagerException());
         });
 
@@ -94,7 +91,7 @@ void main() {
 
         expect(response.isError, isTrue);
         expect(response.error, isA<AutoCacheManagerException>());
-        verify(() => repository.findByKey<String>(dto)).called(1);
+        verify(() => repository.get<String>(dto)).called(1);
         verifyNever(
           () => invalidationContext.execute<String>(any<CacheEntity<String>>()),
         );
@@ -104,7 +101,7 @@ void main() {
     test(
       'should NOT be able to get data in cache when invalidation context retrives an exception',
       () async {
-        when(() => repository.findByKey<String>(dto)).thenAnswer((_) async {
+        when(() => repository.get<String>(dto)).thenAnswer((_) async {
           return right(successCache);
         });
 
@@ -116,7 +113,7 @@ void main() {
 
         expect(response.isError, isTrue);
         expect(response.error, isA<AutoCacheManagerException>());
-        verify(() => repository.findByKey<String>(dto)).called(1);
+        verify(() => repository.get<String>(dto)).called(1);
         verify(() => invalidationContext.execute(successCache)).called(1);
       },
     );

@@ -29,9 +29,6 @@ class SaveCacheDTO<T extends Object> {
 
   @override
   int get hashCode {
-    return key.hashCode ^
-        data.hashCode ^
-        storageType.hashCode ^
-        cacheConfig.hashCode;
+    return key.hashCode ^ data.hashCode ^ storageType.hashCode ^ cacheConfig.hashCode;
   }
 }
