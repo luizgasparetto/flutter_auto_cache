@@ -1,4 +1,5 @@
 import 'package:auto_cache_manager/auto_cache_manager.dart';
+import 'package:auto_cache_manager/src/modules/data_cache/domain/usecases/delete_cache_usecase.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'core/core.dart';
@@ -58,10 +59,12 @@ class AutoCacheInjections {
       ),
     );
 
+    Injector.I.bindFactory<DeleteCacheUsecase>(
+      () => DeleteCache(Injector.I.get<ICacheRepository>()),
+    );
+
     Injector.I.bindFactory<ClearCacheUsecase>(
-      () => ClearCache(
-        Injector.I.get<ICacheRepository>(),
-      ),
+      () => ClearCache(Injector.I.get<ICacheRepository>()),
     );
   }
 }

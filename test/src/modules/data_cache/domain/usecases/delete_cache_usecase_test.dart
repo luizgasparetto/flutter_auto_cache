@@ -1,5 +1,6 @@
 import 'package:auto_cache_manager/src/core/core.dart';
 import 'package:auto_cache_manager/src/modules/data_cache/domain/dtos/delete_cache_dto.dart';
+import 'package:auto_cache_manager/src/modules/data_cache/domain/enums/storage_type.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
@@ -19,7 +20,7 @@ void main() {
   });
 
   group('DeleteCache |', () {
-    final dto = DeleteCacheDTO.prefs(key: 'my_key');
+    const dto = DeleteCacheDTO(key: 'my_key', storageType: StorageType.prefs);
 
     test('should be able to delete cache by key successfully', () async {
       when(() => repository.delete(dto)).thenAnswer((_) async => right(unit));
