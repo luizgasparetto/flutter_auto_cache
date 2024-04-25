@@ -147,4 +147,36 @@ void main() {
       verify(() => baseController.save<Map<String, dynamic>>(key: 'key', data: {})).called(1);
     });
   });
+
+  group('PrefsCacheManagerController.delete |', () {
+    test('should be able to delete data in cache successfully', () async {
+      when(() => baseController.delete(key: 'my_key')).thenAsyncVoid();
+
+      await expectLater(sut.delete(key: 'my_key'), completes);
+      verify(() => baseController.delete(key: 'my_key')).called(1);
+    });
+
+    test('should NOT be able to delete data in cache when base controller fails', () async {
+      when(() => baseController.delete(key: 'my_key')).thenThrow(FakeAutoCacheManagerException());
+
+      expect(() => sut.delete(key: 'my_key'), throwsA(isA<AutoCacheManagerException>()));
+      verify(() => baseController.delete(key: 'my_key')).called(1);
+    });
+  });
+
+  group('PrefsCacheManagerController.clear |', () {
+    test('should be able to clear all cache data from prefs successfully', () async {
+      when(() => baseController.clear()).thenAsyncVoid();
+
+      await expectLater(sut.clear(), completes);
+      verify(() => baseController.clear()).called(1);
+    });
+
+    test('should NOT be able to clear all cache data from prefs when base controller fails', () async {
+      when(() => baseController.clear()).thenThrow(FakeAutoCacheManagerException());
+
+      expect(() => sut.clear(), throwsA(isA<AutoCacheManagerException>()));
+      verify(() => baseController.clear()).called(1);
+    });
+  });
 }

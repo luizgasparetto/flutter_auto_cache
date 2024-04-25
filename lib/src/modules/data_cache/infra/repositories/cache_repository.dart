@@ -56,6 +56,19 @@ class CacheRepository implements ICacheRepository {
   }
 
   @override
+  AsyncEither<AutoCacheManagerException, Unit> delete(DeleteCacheDTO dto) async {
+    try {
+      final action = dto.storageType.isPrefs ? _prefsDatasource.delete : _sqlDatasource.delete;
+
+      await action.call(dto.key);
+
+      return right(unit);
+    } on AutoCacheManagerException catch (exception) {
+      return left(exception);
+    }
+  }
+
+  @override
   AsyncEither<AutoCacheManagerException, Unit> clear(ClearCacheDTO dto) async {
     try {
       final action = dto.storageType.isPrefs ? _prefsDatasource.clear : _sqlDatasource.clear;
@@ -70,12 +83,6 @@ class CacheRepository implements ICacheRepository {
 
   @override
   AsyncEither<AutoCacheManagerException, Unit> update<T extends Object>() async {
-    throw UnimplementedError();
-  }
-
-  @override
-  AsyncEither<AutoCacheManagerException, Unit> delete(DeleteCacheDTO dto) async {
-    // TODO: implement delete
     throw UnimplementedError();
   }
 }

@@ -83,7 +83,7 @@ class BaseCacheManagerController {
     }
   }
 
-  Future<void> clear(StorageType storageType) async {
+  Future<void> clear() async {
     _initializedConfigVerification();
 
     final dto = ClearCacheDTO(storageType: storageType);

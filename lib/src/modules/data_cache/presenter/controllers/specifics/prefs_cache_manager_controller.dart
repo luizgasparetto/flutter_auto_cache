@@ -64,4 +64,23 @@ class PrefsCacheManagerController {
   Future<void> saveJson({required String key, required Map<String, dynamic> data}) async {
     return _baseCacheManagerController.save<Map<String, dynamic>>(key: key, data: data);
   }
+
+  /// Deletes the specified cache entry.
+  ///
+  /// This method is asynchronous and returns a `Future<void>` that completes
+  /// when the operation is finished. It removes the cache entry associated
+  /// with the given `key`.
+  Future<void> delete({required String key}) async {
+    return _baseCacheManagerController.delete(key: key);
+  }
+
+  /// Clears all entries from the cache.
+  ///
+  /// This method performs an asynchronous operation to remove all entries
+  /// from the cache. It returns a `Future<void>` that completes when the
+  /// cache has been cleared. This is useful for freeing up space or ensuring
+  /// that outdated data is removed from the application.
+  Future<void> clear() async {
+    return _baseCacheManagerController.clear();
+  }
 }

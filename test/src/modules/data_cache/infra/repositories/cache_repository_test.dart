@@ -1,5 +1,6 @@
 import 'package:auto_cache_manager/src/core/core.dart';
 import 'package:auto_cache_manager/src/modules/data_cache/domain/dtos/clear_cache_dto.dart';
+import 'package:auto_cache_manager/src/modules/data_cache/domain/dtos/delete_cache_dto.dart';
 import 'package:auto_cache_manager/src/modules/data_cache/domain/dtos/get_cache_dto.dart';
 import 'package:auto_cache_manager/src/modules/data_cache/domain/dtos/save_cache_dto.dart';
 import 'package:auto_cache_manager/src/modules/data_cache/domain/entities/cache_entity.dart';
@@ -216,6 +217,55 @@ void main() {
       expect(response.error, isA<AutoCacheManagerException>());
       verify(() => sqlDatasource.save<String>(sqlDto)).called(1);
       verifyNever(() => prefsDatasource.save<String>(sqlDto));
+    });
+  });
+
+  group('CacheRepository.delete |', () {
+    const prefsDto = DeleteCacheDTO(key: 'my_key', storageType: StorageType.prefs);
+    const sqlDto = DeleteCacheDTO(key: 'my_key', storageType: StorageType.sql);
+
+    test('should be able to delete prefs cache by key successfully', () async {
+      when(() => prefsDatasource.delete('my_key')).thenAsyncVoid();
+
+      final response = await sut.delete(prefsDto);
+
+      expect(response.isSuccess, isTrue);
+      expect(response.success, isA<Unit>());
+      verify(() => prefsDatasource.delete('my_key')).called(1);
+      verifyNever(() => sqlDatasource.delete('my_key'));
+    });
+
+    test('should be able to delete sql cache by key successfully', () async {
+      when(() => sqlDatasource.delete('my_key')).thenAsyncVoid();
+
+      final response = await sut.delete(sqlDto);
+
+      expect(response.isSuccess, isTrue);
+      expect(response.success, isA<Unit>());
+      verify(() => sqlDatasource.delete('my_key')).called(1);
+      verifyNever(() => prefsDatasource.delete('my_key'));
+    });
+
+    test('should NOT be able to delete prefs cache when datasource fails', () async {
+      when(() => prefsDatasource.delete('my_key')).thenThrow(FakeAutoCacheManagerException());
+
+      final response = await sut.delete(prefsDto);
+
+      expect(response.isError, isTrue);
+      expect(response.error, isA<AutoCacheManagerException>());
+      verify(() => prefsDatasource.delete('my_key')).called(1);
+      verifyNever(() => sqlDatasource.delete('my_key'));
+    });
+
+    test('should NOT be able to delete sql cache when datasource fails', () async {
+      when(() => sqlDatasource.delete('my_key')).thenThrow(FakeAutoCacheManagerException());
+
+      final response = await sut.delete(sqlDto);
+
+      expect(response.isError, isTrue);
+      expect(response.error, isA<AutoCacheManagerException>());
+      verify(() => sqlDatasource.delete('my_key')).called(1);
+      verifyNever(() => prefsDatasource.delete('my_key'));
     });
   });
 

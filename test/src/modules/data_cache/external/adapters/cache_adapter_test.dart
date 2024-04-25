@@ -1,4 +1,4 @@
-// ignore_for_file: require_trailing_commas
+import 'package:flutter_test/flutter_test.dart';
 
 import 'package:auto_cache_manager/src/core/extensions/map_extensions.dart';
 import 'package:auto_cache_manager/src/modules/data_cache/domain/entities/cache_entity.dart';
@@ -6,7 +6,6 @@ import 'package:auto_cache_manager/src/modules/data_cache/domain/enums/invalidat
 import 'package:auto_cache_manager/src/modules/data_cache/domain/enums/storage_type.dart';
 import 'package:auto_cache_manager/src/modules/data_cache/external/adapters/cache_adapter.dart';
 import 'package:auto_cache_manager/src/modules/data_cache/external/adapters/enums/invalidation_type_adapter.dart';
-import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   const id = 'zanelladev';
@@ -27,7 +26,7 @@ void main() {
     };
 
     // test('should be able to get CacheEntity from json successfully', () {
-    //   final cache = CacheAdapter.fromJson(jsonCache);
+    //   final cache = CacheAdapter.fromJson<String>(jsonCache);
 
     //   expect(cache.id, equals(id));
     //   expect(cache.data, equals(data));

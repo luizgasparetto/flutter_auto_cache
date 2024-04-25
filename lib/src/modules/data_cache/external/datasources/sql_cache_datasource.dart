@@ -24,4 +24,9 @@ final class SQLCacheDatasource implements ISQLCacheDatasource {
   Future<void> clear() {
     throw UnimplementedError();
   }
+
+  @override
+  Future<void> delete(String key) {
+    throw UnimplementedError();
+  }
 }

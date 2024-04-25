@@ -196,7 +196,7 @@ void main() {
     test('should be able to clear all cache data successfully', () async {
       when(() => clearCacheUsecase.execute(any())).thenAnswer((_) async => right(unit));
 
-      await expectLater(sut.clear(StorageType.prefs), completes);
+      await expectLater(sut.clear(), completes);
       verify(() => clearCacheUsecase.execute(any())).called(1);
     });
 
@@ -205,14 +205,14 @@ void main() {
 
       expect(Injector.I.hasBinds, isFalse);
       expect(AutoCacheManagerInitializer.I.isInjectorInitialized, isFalse);
-      expect(() => sut.clear(StorageType.prefs), throwsA(isA<NotInitializedAutoCacheManagerException>()));
+      expect(() => sut.clear(), throwsA(isA<NotInitializedAutoCacheManagerException>()));
       verifyNever(() => clearCacheUsecase.execute(any()));
     });
 
     test('should NOT be able to clear all cache data when usecase fails', () async {
       when(() => clearCacheUsecase.execute(any())).thenAnswer((_) async => left(FakeAutoCacheManagerException()));
 
-      expect(() => sut.clear(StorageType.prefs), throwsA(isA<AutoCacheManagerException>()));
+      expect(() => sut.clear(), throwsA(isA<AutoCacheManagerException>()));
       verify(() => clearCacheUsecase.execute(any())).called(1);
     });
   });
