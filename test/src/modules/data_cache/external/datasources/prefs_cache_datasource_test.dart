@@ -90,6 +90,22 @@ void main() {
     });
   });
 
+  group('PrefsDatasource.delete |', () {
+    test('should be able to delete data in prefs cache successfully', () async {
+      when(() => service.delete(key: 'my_key')).thenAsyncVoid();
+
+      await expectLater(sut.delete('my_key'), completes);
+      verify(() => service.delete(key: 'my_key')).called(1);
+    });
+
+    test('should NOT be able to delete data in prefs cache when service fails', () async {
+      when(() => service.delete(key: 'my_key')).thenThrow(FakeAutoCacheManagerException());
+
+      expect(() => sut.delete('my_key'), throwsA(isA<AutoCacheManagerException>()));
+      verify(() => service.delete(key: 'my_key')).called(1);
+    });
+  });
+
   group('PrefsDatasource.clear |', () {
     test('should be able to clear prefs cache data successfully', () async {
       when(service.clear).thenAsyncVoid();
