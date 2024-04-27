@@ -21,7 +21,6 @@ class BaseCacheManagerController {
   final SaveCacheUsecase _saveCacheUsecase;
   final ClearCacheUsecase _clearCacheUsecase;
   final DeleteCacheUsecase _deleteCacheUsecase;
-
   final CacheConfig cacheConfig;
   final StorageType storageType;
 

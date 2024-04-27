@@ -4,7 +4,7 @@ import 'package:auto_cache_manager/src/core/config/value_objects/cache_cryptogra
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
-import '../../../../constants/cache_test_constants.dart';
+import '../../../../commons/constants/cache_test_constants.dart';
 
 class CacheConfigMock extends Mock implements CacheConfig {}
 

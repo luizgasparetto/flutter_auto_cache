@@ -1,3 +1,6 @@
+// TODO(Luiz): Remove flag when implement SQFlite
+// coverage:ignore-file
+
 import 'dart:async';
 
 import '../../domain/dtos/save_cache_dto.dart';

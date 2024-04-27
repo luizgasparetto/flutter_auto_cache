@@ -3,7 +3,7 @@ import 'package:auto_cache_manager/src/modules/data_cache/presenter/controllers/
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
-import '../../../../../../extensions/when_extensions.dart';
+import '../../../../../../commons/extensions/when_extensions.dart';
 
 class BaseCacheManagerControllerMock extends Mock implements BaseCacheManagerController {}
 

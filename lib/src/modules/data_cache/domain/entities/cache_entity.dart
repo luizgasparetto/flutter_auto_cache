@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/foundation.dart';
 
 import '../dtos/save_cache_dto.dart';
@@ -58,7 +59,7 @@ class CacheEntity<T extends Object> {
     required Duration expireMaxDuration,
     DateTime? updatedAt,
   }) {
-    return CacheEntity(
+    return CacheEntity<T>(
       id: id,
       data: data,
       invalidationType: invalidationType,
@@ -87,6 +88,39 @@ class CacheEntity<T extends Object> {
       invalidationType: dto.cacheConfig.invalidationType,
       expireMaxDuration: dto.cacheConfig.ttlMaxDuration,
       updatedAt: DateTime.now(),
+    );
+  }
+
+  /// Creates a copy of this cache entity with optional new values for its fields.
+  ///
+  /// This method provides a way to clone the current instance while possibly
+  /// changing some of its properties. It's useful for modifying instances of
+  /// immutable classes.
+  ///
+  /// - Parameters:
+  ///   - `id`: An optional new unique identifier for the cache entity.
+  ///   - `data`: An optional new data of type `T` for the cache entity.
+  ///   - `invalidationType`: An optional new invalidation type for the cache entity.
+  ///   - `createdAt`: An optional new creation date and time for the cache entity.
+  ///   - `endAt`: An optional new expiration date and time for the cache entity.
+  ///   - `updatedAt`: An optional new update date and time for the cache entity.
+  ///
+  /// - Returns: A new `CacheEntity<T>` instance with updated fields as provided.
+  CacheEntity<T> copyWith({
+    String? id,
+    T? data,
+    InvalidationType? invalidationType,
+    DateTime? createdAt,
+    DateTime? endAt,
+    DateTime? updatedAt,
+  }) {
+    return CacheEntity<T>(
+      id: id ?? this.id,
+      data: data ?? this.data,
+      invalidationType: invalidationType ?? this.invalidationType,
+      createdAt: createdAt ?? this.createdAt,
+      endAt: endAt ?? this.endAt,
+      updatedAt: updatedAt ?? this.updatedAt,
     );
   }
 
