@@ -45,7 +45,7 @@ void main() {
   final fakeGetCacheDto = FakeGetCacheDTO();
 
   setUpAll(() {
-    AutoCacheManagerInitializer.I.setConfig(BaseConfigFake());
+    AutoCacheManagerInitializer.instance.setConfig(BaseConfigFake());
   });
 
   setUp(() {

@@ -14,7 +14,7 @@ class AutoCacheManagerInitializer {
   static final _instance = AutoCacheManagerInitializer._();
 
   /// Provides global access to the [AutoCacheManagerInitializer] instance.
-  static AutoCacheManagerInitializer get I => _instance;
+  static AutoCacheManagerInitializer get instance => _instance;
 
   /// Internally manages the cache configuration, allowing for dynamic updates.
   final _configListenable = ValueNotifier<CacheConfig>(CacheConfig.defaultConfig());

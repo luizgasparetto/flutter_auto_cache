@@ -94,7 +94,7 @@ class BaseCacheManagerController {
   }
 
   void _initializedConfigVerification() {
-    final isInitialized = AutoCacheManagerInitializer.I.isInjectorInitialized;
+    final isInitialized = AutoCacheManagerInitializer.instance.isInjectorInitialized;
 
     if (!isInitialized) {
       throw NotInitializedAutoCacheManagerException(

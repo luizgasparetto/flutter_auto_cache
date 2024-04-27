@@ -24,7 +24,7 @@ class AutoCacheInjections {
   static Future<void> registerBinds() async {
     await Injector.I.asyncBind(SharedPreferences.getInstance);
 
-    Injector.I.bindSingleton<CacheConfig>(AutoCacheManagerInitializer.I.config);
+    Injector.I.bindSingleton<CacheConfig>(AutoCacheManagerInitializer.instance.config);
     Injector.I.bindSingleton<IPathProviderService>(PathProviderService());
     Injector.I.bindSingleton<ICompressorService>(CompressorService());
     Injector.I.bindSingleton<IPrefsService>(SharedPreferencesService(Injector.I.get<SharedPreferences>()));

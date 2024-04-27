@@ -112,7 +112,7 @@ void main() {
       Injector.I.clear();
 
       expect(Injector.I.hasBinds, equals(false));
-      expect(AutoCacheManagerInitializer.I.isInjectorInitialized, equals(false));
+      expect(AutoCacheManagerInitializer.instance.isInjectorInitialized, equals(false));
       expect(() => sut.get<String>(key: 'my_key'), throwsA(isA<NotInitializedAutoCacheManagerException>()));
       verifyNever(() => getCacheUsecase.execute<String>(any(that: getCacheDtoMatcher())));
     });
@@ -145,7 +145,7 @@ void main() {
       Injector.I.clear();
 
       expect(Injector.I.hasBinds, isFalse);
-      expect(AutoCacheManagerInitializer.I.isInjectorInitialized, isFalse);
+      expect(AutoCacheManagerInitializer.instance.isInjectorInitialized, isFalse);
 
       expect(
         () => sut.save<String>(key: 'my_key', data: 'my_data'),
@@ -177,7 +177,7 @@ void main() {
       Injector.I.clear();
 
       expect(Injector.I.hasBinds, isFalse);
-      expect(AutoCacheManagerInitializer.I.isInjectorInitialized, isFalse);
+      expect(AutoCacheManagerInitializer.instance.isInjectorInitialized, isFalse);
       expect(() => sut.delete(key: 'my_key'), throwsA(isA<NotInitializedAutoCacheManagerException>()));
       verifyNever(() => deleteCacheUsecase.execute(any(that: deleteCacheDtoMatcher())));
     });
@@ -204,7 +204,7 @@ void main() {
       Injector.I.clear();
 
       expect(Injector.I.hasBinds, isFalse);
-      expect(AutoCacheManagerInitializer.I.isInjectorInitialized, isFalse);
+      expect(AutoCacheManagerInitializer.instance.isInjectorInitialized, isFalse);
       expect(() => sut.clear(), throwsA(isA<NotInitializedAutoCacheManagerException>()));
       verifyNever(() => clearCacheUsecase.execute(any()));
     });

@@ -9,7 +9,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
 
-  final sut = AutoCacheManagerInitializer.I;
+  final sut = AutoCacheManagerInitializer.instance;
 
   setUpAll(() {
     SharedPreferences.setMockInitialValues({});
