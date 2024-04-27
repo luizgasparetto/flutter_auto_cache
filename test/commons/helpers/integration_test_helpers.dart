@@ -1,5 +1,7 @@
-import 'package:flutter_test/flutter_test.dart';
+import 'package:meta/meta.dart';
 import 'package:fake_async/fake_async.dart';
+
+import 'package:flutter_test/flutter_test.dart';
 
 /// Executes an integration test with a controlled asynchronous environment.
 ///
@@ -12,7 +14,7 @@ import 'package:fake_async/fake_async.dart';
 ///   The callback must return a `Future` to handle asynchronous operations properly.
 ///
 /// Usage example:
-/// ```
+/// ```dart
 /// integrationTest('should handle timeouts correctly', (fakeAsync) async {
 ///   // Simulate passing time
 ///   fakeAsync.elapse(Duration(seconds: 1));
@@ -20,11 +22,11 @@ import 'package:fake_async/fake_async.dart';
 ///   // Test assertions or other logic here
 /// });
 /// ```
-void integrationTest(String description, Future<void> Function(FakeAsync fakeAsync) callback) {
+@isTest
+void integrationTest(String description, void Function(FakeAsync fakeAsync) callback) {
   test(description, () {
-    FakeAsync().run((fakeAsync) async {
-      await callback(fakeAsync);
-      fakeAsync.flushMicrotasks();
+    fakeAsync((fakeAsync) {
+      callback(fakeAsync);
     });
   });
 }
