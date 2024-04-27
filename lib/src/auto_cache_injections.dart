@@ -1,30 +1,37 @@
-import 'package:auto_cache_manager/auto_cache_manager.dart';
-import 'package:auto_cache_manager/src/modules/data_cache/domain/usecases/delete_cache_usecase.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'auto_cache_manager_config.dart';
+
 import 'core/core.dart';
+
 import 'core/services/compressor/compressor_service.dart';
 import 'core/services/cryptography/encrypt/encrypt_cryptography_service.dart';
 import 'core/services/cryptography/i_cryptography_service.dart';
 import 'core/services/directory_provider/path_provider/path_provider_service.dart';
 import 'core/services/storages/prefs/i_prefs_service.dart';
 import 'core/services/storages/prefs/shared_preferences/shared_preferences_service.dart';
+
 import 'modules/data_cache/domain/repositories/i_cache_repository.dart';
 import 'modules/data_cache/domain/services/invalidation/invalidation_cache_context.dart';
 import 'modules/data_cache/domain/usecases/clear_cache_usecase.dart';
+import 'modules/data_cache/domain/usecases/delete_cache_usecase.dart';
 import 'modules/data_cache/domain/usecases/get_cache_usecase.dart';
 import 'modules/data_cache/domain/usecases/save_cache_usecase.dart';
+
 import 'modules/data_cache/external/datasources/prefs_cache_datasource.dart';
 import 'modules/data_cache/external/datasources/sql_cache_datasource.dart';
+
 import 'modules/data_cache/infra/datasources/i_prefs_cache_datasource.dart';
 import 'modules/data_cache/infra/datasources/i_sql_cache_datasource.dart';
 import 'modules/data_cache/infra/repositories/cache_repository.dart';
 
 class AutoCacheInjections {
+  static bool get isInjectorInitialized => Injector.I.hasBinds;
+
   static Future<void> registerBinds() async {
     await Injector.I.asyncBind(SharedPreferences.getInstance);
 
-    Injector.I.bindSingleton<CacheConfig>(AutoCacheManagerInitializer.instance.config);
+    Injector.I.bindSingleton<CacheConfig>(AutoCacheManagerConfig.instance.config);
     Injector.I.bindSingleton<IPathProviderService>(PathProviderService());
     Injector.I.bindSingleton<ICompressorService>(CompressorService());
     Injector.I.bindSingleton<IPrefsService>(SharedPreferencesService(Injector.I.get<SharedPreferences>()));
