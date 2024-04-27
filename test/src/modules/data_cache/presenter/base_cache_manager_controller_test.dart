@@ -1,4 +1,4 @@
-import 'package:auto_cache_manager/auto_cache_manager.dart';
+import 'package:auto_cache_manager/src/auto_cache_injections.dart';
 import 'package:auto_cache_manager/src/core/core.dart';
 import 'package:auto_cache_manager/src/core/exceptions/initializer_exceptions.dart';
 import 'package:auto_cache_manager/src/modules/data_cache/domain/dtos/clear_cache_dto.dart';
@@ -112,7 +112,7 @@ void main() {
       Injector.I.clear();
 
       expect(Injector.I.hasBinds, equals(false));
-      expect(AutoCacheManagerInitializer.instance.isInjectorInitialized, equals(false));
+      expect(AutoCacheInjections.isInjectorInitialized, equals(false));
       expect(() => sut.get<String>(key: 'my_key'), throwsA(isA<NotInitializedAutoCacheManagerException>()));
       verifyNever(() => getCacheUsecase.execute<String>(any(that: getCacheDtoMatcher())));
     });
@@ -145,7 +145,7 @@ void main() {
       Injector.I.clear();
 
       expect(Injector.I.hasBinds, isFalse);
-      expect(AutoCacheManagerInitializer.instance.isInjectorInitialized, isFalse);
+      expect(AutoCacheInjections.isInjectorInitialized, isFalse);
 
       expect(
         () => sut.save<String>(key: 'my_key', data: 'my_data'),
@@ -177,7 +177,7 @@ void main() {
       Injector.I.clear();
 
       expect(Injector.I.hasBinds, isFalse);
-      expect(AutoCacheManagerInitializer.instance.isInjectorInitialized, isFalse);
+      expect(AutoCacheInjections.isInjectorInitialized, isFalse);
       expect(() => sut.delete(key: 'my_key'), throwsA(isA<NotInitializedAutoCacheManagerException>()));
       verifyNever(() => deleteCacheUsecase.execute(any(that: deleteCacheDtoMatcher())));
     });
@@ -204,7 +204,7 @@ void main() {
       Injector.I.clear();
 
       expect(Injector.I.hasBinds, isFalse);
-      expect(AutoCacheManagerInitializer.instance.isInjectorInitialized, isFalse);
+      expect(AutoCacheInjections.isInjectorInitialized, isFalse);
       expect(() => sut.clear(), throwsA(isA<NotInitializedAutoCacheManagerException>()));
       verifyNever(() => clearCacheUsecase.execute(any()));
     });

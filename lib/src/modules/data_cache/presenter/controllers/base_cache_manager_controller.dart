@@ -1,6 +1,6 @@
+import 'package:auto_cache_manager/src/auto_cache_injections.dart';
 import 'package:flutter/foundation.dart';
 
-import '../../../../auto_cache_manager_initializer.dart';
 import '../../../../core/core.dart';
 import '../../../../core/exceptions/initializer_exceptions.dart';
 import '../../domain/dtos/clear_cache_dto.dart';
@@ -94,7 +94,7 @@ class BaseCacheManagerController {
   }
 
   void _initializedConfigVerification() {
-    final isInitialized = AutoCacheManagerInitializer.instance.isInjectorInitialized;
+    final isInitialized = AutoCacheInjections.isInjectorInitialized;
 
     if (!isInitialized) {
       throw NotInitializedAutoCacheManagerException(
