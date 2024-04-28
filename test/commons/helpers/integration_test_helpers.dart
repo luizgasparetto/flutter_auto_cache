@@ -7,6 +7,9 @@ import 'package:fake_async/fake_async.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+@visibleForTesting
+typedef FakeAsyncCallback = void Function(FakeAsync fakeAsync);
+
 /// Executes an integration test with a controlled asynchronous environment.
 ///
 /// This function utilizes `FakeAsync` to allow fine-grained control over time-based operations
@@ -27,12 +30,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 /// });
 /// ```
 @isTest
-void integrationTest(String description, void Function(FakeAsync fakeAsync) callback) {
+void integrationTest(String description, FakeAsyncCallback callback, {bool skip = false}) {
   test(description, () {
     fakeAsync((fakeAsync) {
       callback(fakeAsync);
     });
-  });
+  }, skip: skip);
 }
 
 /// Initializes the preferences controller with optional configuration.
