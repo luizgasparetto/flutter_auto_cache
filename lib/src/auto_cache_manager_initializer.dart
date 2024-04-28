@@ -21,8 +21,7 @@ class AutoCacheManagerInitializer {
   ///
   /// - [config]: An optional `CacheConfig` to customize cache behavior.
   Future<void> init({CacheConfig? config}) async {
-    //setConfig(config ?? this.config);
     AutoCacheManagerConfig.instance.setConfig(config);
-    await AutoCacheInjections.registerBinds();
+    await AutoCacheInjections.instance.registerBinds();
   }
 }
