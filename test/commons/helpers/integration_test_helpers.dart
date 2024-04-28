@@ -1,7 +1,11 @@
+import 'package:auto_cache_manager/auto_cache_manager.dart';
+import 'package:auto_cache_manager/src/core/config/cache_config.dart';
+import 'package:auto_cache_manager/src/modules/data_cache/presenter/controllers/base_cache_manager_controller.dart';
 import 'package:meta/meta.dart';
 import 'package:fake_async/fake_async.dart';
 
 import 'package:flutter_test/flutter_test.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 /// Executes an integration test with a controlled asynchronous environment.
 ///
@@ -29,4 +33,26 @@ void integrationTest(String description, void Function(FakeAsync fakeAsync) call
       callback(fakeAsync);
     });
   });
+}
+
+/// Initializes the preferences controller with optional configuration.
+///
+/// This asynchronous method sets up the preferences controller using shared preferences
+/// with mock initial values and initializes the cache manager with a potentially custom configuration.
+/// This setup is essential for managing application-specific preferences and cached data efficiently.
+///
+/// This function is intended to be used for testing purposes only. The use of `@visibleForTesting`
+/// annotation indicates that it should not be used outside the context of tests unless absolutely necessary.
+///
+/// - [config] allows for customization of the cache configuration. If no config is provided,
+///   the cache will be initialized with default settings.
+///
+/// Returns a `Future` that completes with an instance of `PrefsCacheManagerController`.
+@visibleForTesting
+Future<PrefsCacheManagerController> initializePrefsController({CacheConfig? config}) async {
+  SharedPreferences.setMockInitialValues({});
+
+  await AutoCacheManagerInitializer.instance.init(config: config);
+
+  return AutoCacheManager.prefs;
 }
