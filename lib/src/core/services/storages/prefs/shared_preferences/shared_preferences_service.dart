@@ -12,7 +12,7 @@ class SharedPreferencesService implements IPrefsService {
   String? get({required String key}) {
     try {
       return prefs.getString(key);
-    } catch (e, stackTrace) {
+    } catch (exception, stackTrace) {
       throw GetStorageException(
         code: 'get_prefs_storage_exception',
         message: 'Get Prefs Storage exception',
@@ -22,10 +22,23 @@ class SharedPreferencesService implements IPrefsService {
   }
 
   @override
+  List<String>? getList({required String key}) {
+    try {
+      return prefs.getStringList(key);
+    } catch (exception, stackTrace) {
+      throw GetStorageException(
+        code: 'get_list_prefs_storage_exception',
+        message: 'Get List Prefs Storage exception',
+        stackTrace: stackTrace,
+      );
+    }
+  }
+
+  @override
   List<String> getKeys() {
     try {
       return prefs.getKeys().toList();
-    } catch (e, stackTrace) {
+    } catch (exception, stackTrace) {
       throw GetStorageKeysException(
         code: 'get_keys_prefs_storage',
         message: 'Failed to get keys of Prefs',
@@ -38,7 +51,7 @@ class SharedPreferencesService implements IPrefsService {
   Future<void> save({required String key, required String data}) async {
     try {
       await prefs.setString(key, data);
-    } catch (e, stackTrace) {
+    } catch (exception, stackTrace) {
       throw SaveStorageException(
         code: 'save_prefs_storage',
         message: 'Save Prefs Storage exception',
@@ -48,10 +61,23 @@ class SharedPreferencesService implements IPrefsService {
   }
 
   @override
+  Future<void> saveList({required String key, required List<String> data}) async {
+    try {
+      await prefs.setStringList(key, data);
+    } catch (exception, stackTrace) {
+      throw SaveStorageException(
+        code: 'save_list_prefs_storage',
+        message: 'Save List Prefs Storage exception',
+        stackTrace: stackTrace,
+      );
+    }
+  }
+
+  @override
   Future<void> delete({required String key}) async {
     try {
       await prefs.remove(key);
-    } catch (e, stackTrace) {
+    } catch (exception, stackTrace) {
       throw DeleteStorageException(
         code: 'delete_storage',
         message: 'Delete Prefs Storage exception',

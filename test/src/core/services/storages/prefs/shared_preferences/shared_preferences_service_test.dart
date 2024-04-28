@@ -51,6 +51,36 @@ void main() {
     });
   });
 
+  group('SharedPreferencesService.getList |', () {
+    final list = ['value_1', 'value_2'];
+
+    test('should be able to GET a list of cache data successfully', () async {
+      when(() => prefs.getStringList('my_key')).thenReturn(list);
+
+      final response = sut.getList(key: 'my_key');
+
+      expect(response, isNotNull);
+      expect(response, equals(list));
+      verify(() => prefs.getStringList('my_key')).called(1);
+    });
+
+    test('should be able to GET a list of cache data and when not found, return NULL', () async {
+      when(() => prefs.getStringList('my_key')).thenReturn(null);
+
+      final response = sut.getList(key: 'my_key');
+
+      expect(response, isNull);
+      verify(() => prefs.getStringList('my_key')).called(1);
+    });
+
+    test('should NOT be able to GET a list of cache data when prefs throws an Exception', () async {
+      when(() => prefs.getStringList('my_key')).thenThrow(Exception());
+
+      expect(() => sut.getList(key: 'my_key'), throwsA(isA<GetStorageException>()));
+      verify(() => prefs.getStringList('my_key')).called(1);
+    });
+  });
+
   group('SharedPreferencesService.getKeys |', () {
     test('should be able to get keys of prefs successfully when has keys setted', () {
       when(() => prefs.getKeys()).thenReturn({'key1', 'key2'});
@@ -96,6 +126,24 @@ void main() {
 
       expect(() => sut.save(key: 'my_key', data: encondedData), throwsA(isA<SaveStorageException>()));
       verify(() => prefs.setString('my_key', any(that: isA<String>()))).called(1);
+    });
+  });
+
+  group('SharedPreferencesService.saveList |', () {
+    final list = ['value_1', 'value_2'];
+
+    test('should be able to SAVE cache list data with key successfully', () async {
+      when(() => prefs.setStringList('my_key', list)).thenAnswer((_) async => true);
+
+      await expectLater(sut.saveList(key: 'my_key', data: list), completes);
+      verify(() => prefs.setStringList('my_key', list)).called(1);
+    });
+
+    test('should NOT be able to SAVE cache list data when prefs throws an Exception', () async {
+      when(() => prefs.setStringList('my_key', list)).thenThrow(Exception());
+
+      expect(() => sut.saveList(key: 'my_key', data: list), throwsA(isA<SaveStorageException>()));
+      verify(() => prefs.setStringList('my_key', list)).called(1);
     });
   });
 
