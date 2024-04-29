@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 
-import '../commons/helpers/integration_test_helpers.dart';
+import '../../../commons/helpers/integration_test_helpers.dart';
 
 Future<void> main() async {
   final sut = await initializePrefsController();
