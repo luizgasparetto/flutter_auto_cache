@@ -1,9 +1,19 @@
+import 'package:auto_cache_manager/auto_cache_manager.dart';
+import 'package:auto_cache_manager/src/auto_cache_manager_config.dart';
+import 'package:auto_cache_manager/src/core/config/cache_config.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import '../../../commons/helpers/integration_test_helpers.dart';
 
 Future<void> main() async {
   final sut = await initializePrefsController();
+
+  final defaultConfig = CacheConfig.defaultConfig();
+  final cryptoConfig = CacheConfig.defaultConfig();
+
+  setUp(() {
+    AutoCacheManagerConfig.instance.setConfig(CacheConfig.defaultConfig());
+  });
 
   group('SaveCacheIntegrationTest.saveString |', () {
     test('should be able to save a string in prefs cache and completes operation', () async {

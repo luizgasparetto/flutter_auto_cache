@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:auto_cache_manager/src/core/core.dart';
+import 'package:auto_cache_manager/src/core/services/cryptography/i_cryptography_service.dart';
 import 'package:auto_cache_manager/src/core/services/storages/prefs/i_prefs_service.dart';
 import 'package:auto_cache_manager/src/modules/data_cache/domain/dtos/save_cache_dto.dart';
 import 'package:auto_cache_manager/src/modules/data_cache/domain/entities/cache_entity.dart';
@@ -14,14 +15,19 @@ import '../../../../../commons/extensions/when_extensions.dart';
 
 class PrefsServiceMock extends Mock implements IPrefsService {}
 
+class CryptographyServiceMock extends Mock implements ICryptographyService {}
+
 class FakeAutoCacheManagerException extends Fake implements AutoCacheManagerException {}
 
 void main() {
   final service = PrefsServiceMock();
-  final sut = PrefsCacheDatasource(service);
+  final cryptographyService = CryptographyServiceMock();
+
+  final sut = PrefsCacheDatasource(service, cryptographyService);
 
   tearDown(() {
     reset(service);
+    reset(cryptographyService);
   });
 
   group('PrefsDatasource.get |', () {

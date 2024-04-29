@@ -57,7 +57,7 @@ class AutoCacheInjections {
   }
 
   void _registerCacheData() {
-    Injector.I.bindFactory<IPrefsCacheDatasource>(() => PrefsCacheDatasource(Injector.I.get()));
+    Injector.I.bindFactory<IPrefsCacheDatasource>(() => PrefsCacheDatasource(Injector.I.get(), Injector.I.get()));
     Injector.I.bindFactory<ISQLCacheDatasource>(SQLCacheDatasource.new);
     Injector.I.bindFactory<IInvalidationCacheContext>(() => InvalidationCacheContext(Injector.I.get()));
     Injector.I.bindFactory<ICacheRepository>(() => CacheRepository(Injector.I.get(), Injector.I.get()));
