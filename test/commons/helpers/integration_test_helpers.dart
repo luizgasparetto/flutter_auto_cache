@@ -30,7 +30,7 @@ typedef FakeAsyncCallback = void Function(FakeAsync fakeAsync);
 /// });
 /// ```
 @isTest
-void integrationTest(String description, FakeAsyncCallback callback, {bool skip = false}) {
+void fakeAsyncTest(String description, FakeAsyncCallback callback, {bool skip = false}) {
   test(description, () {
     fakeAsync((fakeAsync) {
       callback(fakeAsync);
@@ -53,6 +53,8 @@ void integrationTest(String description, FakeAsyncCallback callback, {bool skip 
 /// Returns a `Future` that completes with an instance of `PrefsCacheManagerController`.
 @visibleForTesting
 Future<PrefsCacheManagerController> initializePrefsController({CacheConfig? config}) async {
+  TestWidgetsFlutterBinding.ensureInitialized();
+
   SharedPreferences.setMockInitialValues({});
 
   await AutoCacheManagerInitializer.instance.init(config: config);
