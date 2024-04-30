@@ -1,19 +1,9 @@
-import 'package:auto_cache_manager/auto_cache_manager.dart';
-import 'package:auto_cache_manager/src/auto_cache_manager_config.dart';
-import 'package:auto_cache_manager/src/core/config/cache_config.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import '../../../commons/helpers/integration_test_helpers.dart';
 
 Future<void> main() async {
   final sut = await initializePrefsController();
-
-  final defaultConfig = CacheConfig.defaultConfig();
-  final cryptoConfig = CacheConfig.defaultConfig();
-
-  setUp(() {
-    AutoCacheManagerConfig.instance.setConfig(CacheConfig.defaultConfig());
-  });
 
   group('SaveCacheIntegrationTest.saveString |', () {
     test('should be able to save a string in prefs cache and completes operation', () async {
@@ -53,30 +43,23 @@ Future<void> main() async {
       'list': ['value_1', 'value_2']
     };
 
-    test('should be able to save a simple JSON in prefs cache and completes operation', () async {
+    test('should be able to save JSON in prefs cache and completes operation', () async {
       await expectLater(sut.saveJson(key: 'json_key', data: simpleJson), completes);
-    });
-
-    test('should be able to save a complex JSON in prefs cache and completes operation', () async {
       await expectLater(sut.saveJson(key: 'complex_json_key', data: complexJson), completes);
     });
 
-    test('should be able to save a simple JSON in prefs cache and verify values', () async {
+    test('should be able to save a JSON in prefs cache and verify values', () async {
       await sut.saveJson(key: 'json_key', data: simpleJson);
-
-      final response = await sut.getJson(key: 'json_key');
-
-      expect(response, isNotNull);
-      expect(response, equals(simpleJson));
-    });
-
-    test('should be able to save a complex JSON in prefs cache and verify values', () async {
       await sut.saveJson(key: 'complex_json_key', data: complexJson);
 
-      final response = await sut.getJson(key: 'complex_json_key');
+      final simpleResponse = await sut.getJson(key: 'json_key');
+      final complexResponse = await sut.getJson(key: 'complex_json_key');
 
-      expect(response, isNotNull);
-      expect(response, equals(complexJson));
+      expect(simpleResponse, isNotNull);
+      expect(simpleResponse, equals(simpleJson));
+
+      expect(complexResponse, isNotNull);
+      expect(complexResponse, equals(complexJson));
     });
   });
 
