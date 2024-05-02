@@ -22,12 +22,12 @@ void main() {
   });
 
   group('CryptographyService.encrypt |', () {
-    test('should be able to encrypt data successfully', () async {
+    test('should be able to encrypt data successfully', () {
       when(() => cacheConfig.cryptographyOptions).thenReturn(options);
 
       final stopwatch = Stopwatch()..start();
 
-      final encrypted = await sut.encrypt(decryptedStringValue);
+      final encrypted = sut.encrypt(decryptedStringValue);
 
       stopwatch.stop();
       expect(stopwatch.elapsedMilliseconds, lessThan(500));
@@ -36,12 +36,12 @@ void main() {
   });
 
   group('CryptographyService.decrypt |', () {
-    test('should be able to decrypt data successfully', () async {
+    test('should be able to decrypt data successfully', () {
       when(() => cacheConfig.cryptographyOptions).thenReturn(options);
 
       final stopwatch = Stopwatch()..start();
 
-      final decrypt = await sut.decrypt(encryptedStringValue);
+      final decrypt = sut.decrypt(encryptedStringValue);
 
       stopwatch.stop();
       expect(stopwatch.elapsedMilliseconds, lessThan(500));
@@ -50,14 +50,14 @@ void main() {
   });
 
   group('CryptographyService.integration |', () {
-    test('should be able to encrypt and decrypt data successfully', () async {
+    test('should be able to encrypt and decrypt data successfully', () {
       when(() => cacheConfig.cryptographyOptions).thenReturn(options);
 
       final stopwatch = Stopwatch()..start();
 
-      final encryptedData = await sut.encrypt(decryptedStringValue);
+      final encryptedData = sut.encrypt(decryptedStringValue);
 
-      final decryptedData = await sut.decrypt(encryptedData);
+      final decryptedData = sut.decrypt(encryptedData);
       stopwatch.stop();
 
       expect(stopwatch.elapsedMilliseconds, lessThan(500));
