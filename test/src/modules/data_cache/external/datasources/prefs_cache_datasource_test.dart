@@ -46,6 +46,7 @@ void main() {
 
     test('should be able to find cache data by key successfully', () {
       when(() => service.get(key: 'my_key')).thenReturn(stringBody);
+      when(() => cryptographyService.decrypt(stringBody)).thenReturn(stringBody);
 
       final response = sut.get<String>('my_key');
 
@@ -80,19 +81,19 @@ void main() {
     }
 
     test('should be able to save data in prefs cache succesfully', () async {
-      when(() => service.save(key: 'my_key', data: any(named: 'data', that: matcher()))).thenAsyncVoid();
+      when(() => cryptographyService.encrypt(any(that: matcher()))).thenReturn('any_encrypted');
+      when(() => service.save(key: 'my_key', data: 'any_encrypted')).thenAsyncVoid();
 
       await expectLater(sut.save(dto), completes);
-      verify(() => service.save(key: 'my_key', data: any(named: 'data', that: matcher()))).called(1);
+      verify(() => service.save(key: 'my_key', data: 'any_encrypted')).called(1);
     });
 
     test('should NOT be able to save data in prefs when service fails', () async {
-      when(() => service.save(key: 'my_key', data: any(named: 'data', that: matcher()))).thenThrow(
-        FakeAutoCacheManagerException(),
-      );
+      when(() => cryptographyService.encrypt(any(that: matcher()))).thenReturn('any_encrypted');
+      when(() => service.save(key: 'my_key', data: 'any_encrypted')).thenThrow(FakeAutoCacheManagerException());
 
       expect(() => sut.save(dto), throwsA(isA<AutoCacheManagerException>()));
-      verify(() => service.save(key: 'my_key', data: any(named: 'data', that: matcher()))).called(1);
+      verify(() => service.save(key: 'my_key', data: 'any_encrypted')).called(1);
     });
   });
 
