@@ -1,6 +1,6 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import '../../modules/data_cache/domain/constants/cache_constants.dart';
 import '../../modules/data_cache/domain/enums/invalidation_type.dart';
-
 import 'value_objects/cache_cryptography_options.dart';
 import 'value_objects/cache_size_options.dart';
 
@@ -67,5 +67,23 @@ class CacheConfig {
     final isNotUsingDeflateCompresser = !useDeflateCompresser;
 
     return isDefaultInvalidation && isDefaultCacheSizeOptions && isNotUsingDeflateCompresser;
+  }
+
+  CacheConfig setCryptographyOptions(CacheCryptographyOptions? options) {
+    return _copyWith(cryptographyOptions: options);
+  }
+
+  CacheConfig _copyWith({
+    CacheSizeOptions? sizeOptions,
+    Duration? ttlMaxDuration,
+    CacheCryptographyOptions? cryptographyOptions,
+    bool? useDeflateCompresser,
+  }) {
+    return CacheConfig(
+      sizeOptions: sizeOptions ?? this.sizeOptions,
+      ttlMaxDuration: ttlMaxDuration ?? this.ttlMaxDuration,
+      cryptographyOptions: cryptographyOptions ?? this.cryptographyOptions,
+      useDeflateCompresser: useDeflateCompresser ?? this.useDeflateCompresser,
+    );
   }
 }

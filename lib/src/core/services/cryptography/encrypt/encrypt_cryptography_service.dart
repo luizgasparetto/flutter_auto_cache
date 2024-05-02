@@ -13,32 +13,28 @@ class EncryptCryptographyService implements ICryptographyService {
   const EncryptCryptographyService(this.cacheConfig);
 
   @override
-  Future<String> decrypt(String value) async {
+  String encrypt(String value) {
     final cryptographyOptions = cacheConfig.cryptographyOptions;
 
-    if (cryptographyOptions != null) {
-      final encrypter = EncrypterFactory.I.createEncrypter(cryptographyOptions.secretKey);
-      final iv = EncrypterFactory.I.createIv(cryptographyOptions.secretKey);
+    if (cryptographyOptions == null) return value;
 
-      final bytes = base64Decode(value);
-      return encrypter.decrypt(Encrypted(bytes), iv: iv);
-    }
+    final encrypter = EncrypterFactory.I.createEncrypter(cryptographyOptions.secretKey);
+    final iv = EncrypterFactory.I.createIv(cryptographyOptions.secretKey);
 
-    return value;
+    final encrypted = encrypter.encrypt(value, iv: iv);
+    return base64Encode(encrypted.bytes);
   }
 
   @override
-  Future<String> encrypt(String value) async {
+  String decrypt(String value) {
     final cryptographyOptions = cacheConfig.cryptographyOptions;
 
-    if (cryptographyOptions != null) {
-      final encrypter = EncrypterFactory.I.createEncrypter(cryptographyOptions.secretKey);
-      final iv = EncrypterFactory.I.createIv(cryptographyOptions.secretKey);
+    if (cryptographyOptions == null) return value;
 
-      final encrypted = encrypter.encrypt(value, iv: iv);
-      return base64Encode(encrypted.bytes);
-    }
+    final encrypter = EncrypterFactory.I.createEncrypter(cryptographyOptions.secretKey);
+    final iv = EncrypterFactory.I.createIv(cryptographyOptions.secretKey);
 
-    return value;
+    final bytes = base64Decode(value);
+    return encrypter.decrypt(Encrypted(bytes), iv: iv);
   }
 }
