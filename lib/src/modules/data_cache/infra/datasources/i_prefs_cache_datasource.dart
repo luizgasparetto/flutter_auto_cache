@@ -8,5 +8,6 @@ abstract interface class IPrefsCacheDatasource {
   List<String> getKeys();
 
   Future<void> save<T extends Object>(SaveCacheDTO<T> dto);
+  Future<void> delete(String key);
   Future<void> clear();
 }

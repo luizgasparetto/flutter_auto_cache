@@ -1,5 +1,6 @@
 import '../../../../core/core.dart';
 import '../../domain/dtos/clear_cache_dto.dart';
+import '../../domain/dtos/delete_cache_dto.dart';
 import '../../domain/dtos/get_cache_dto.dart';
 import '../../domain/dtos/save_cache_dto.dart';
 import '../../domain/entities/cache_entity.dart';
@@ -42,7 +43,7 @@ class CacheRepository implements ICacheRepository {
   }
 
   @override
-  Future<Either<AutoCacheManagerException, Unit>> save<T extends Object>(SaveCacheDTO<T> dto) async {
+  AsyncEither<AutoCacheManagerException, Unit> save<T extends Object>(SaveCacheDTO<T> dto) async {
     try {
       final action = dto.storageType.isPrefs ? _prefsDatasource.save : _sqlDatasource.save;
 
@@ -55,7 +56,20 @@ class CacheRepository implements ICacheRepository {
   }
 
   @override
-  Future<Either<AutoCacheManagerException, Unit>> clear(ClearCacheDTO dto) async {
+  AsyncEither<AutoCacheManagerException, Unit> delete(DeleteCacheDTO dto) async {
+    try {
+      final action = dto.storageType.isPrefs ? _prefsDatasource.delete : _sqlDatasource.delete;
+
+      await action.call(dto.key);
+
+      return right(unit);
+    } on AutoCacheManagerException catch (exception) {
+      return left(exception);
+    }
+  }
+
+  @override
+  AsyncEither<AutoCacheManagerException, Unit> clear(ClearCacheDTO dto) async {
     try {
       final action = dto.storageType.isPrefs ? _prefsDatasource.clear : _sqlDatasource.clear;
 

@@ -8,5 +8,4 @@ enum StorageType {
   prefs;
 
   bool get isPrefs => this == StorageType.prefs;
-  bool get isSql => this == StorageType.sql;
 }

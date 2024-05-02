@@ -33,6 +33,7 @@ class SQLCacheManagerController {
   ///
   /// - Parameters:
   ///   - key: The unique key associated with the cached value.
+  ///
   /// - Returns: A `Future<T?>` that completes with the cached value of type [T]
   ///   if it exists, or `null` if the key is not found.
   Future<T?> get<T extends Object>({required String key}) async {

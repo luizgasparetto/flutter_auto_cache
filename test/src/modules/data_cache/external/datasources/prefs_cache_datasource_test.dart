@@ -10,7 +10,7 @@ import 'package:auto_cache_manager/src/modules/data_cache/external/datasources/p
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
-import '../../../../../extensions/when_extensions.dart';
+import '../../../../../commons/extensions/when_extensions.dart';
 
 class PrefsServiceMock extends Mock implements IPrefsService {}
 
@@ -87,6 +87,22 @@ void main() {
 
       expect(() => sut.save(dto), throwsA(isA<AutoCacheManagerException>()));
       verify(() => service.save(key: 'my_key', data: any(named: 'data', that: matcher()))).called(1);
+    });
+  });
+
+  group('PrefsDatasource.delete |', () {
+    test('should be able to delete data in prefs cache successfully', () async {
+      when(() => service.delete(key: 'my_key')).thenAsyncVoid();
+
+      await expectLater(sut.delete('my_key'), completes);
+      verify(() => service.delete(key: 'my_key')).called(1);
+    });
+
+    test('should NOT be able to delete data in prefs cache when service fails', () async {
+      when(() => service.delete(key: 'my_key')).thenThrow(FakeAutoCacheManagerException());
+
+      expect(() => sut.delete('my_key'), throwsA(isA<AutoCacheManagerException>()));
+      verify(() => service.delete(key: 'my_key')).called(1);
     });
   });
 
