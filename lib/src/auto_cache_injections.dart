@@ -37,6 +37,8 @@ class AutoCacheInjections {
 
   static bool get isInjectorInitialized => Injector.I.hasBinds;
 
+  void resetBinds() => Injector.I.clear();
+
   Future<void> registerBinds() async {
     await _registerLibs();
     _registerCore();

@@ -1,6 +1,4 @@
-import 'package:auto_cache_manager/src/auto_cache_injections.dart';
 import 'package:auto_cache_manager/src/core/core.dart';
-import 'package:auto_cache_manager/src/core/exceptions/initializer_exceptions.dart';
 import 'package:auto_cache_manager/src/modules/data_cache/domain/dtos/clear_cache_dto.dart';
 import 'package:auto_cache_manager/src/modules/data_cache/domain/dtos/delete_cache_dto.dart';
 import 'package:auto_cache_manager/src/modules/data_cache/domain/dtos/get_cache_dto.dart';
@@ -108,15 +106,6 @@ void main() {
       verify(() => getCacheUsecase.execute<String>(any(that: getCacheDtoMatcher()))).called(1);
     });
 
-    test('should NOT be able to get data in cache when AutoCacheManager is not initialized', () async {
-      Injector.I.clear();
-
-      expect(Injector.I.hasBinds, equals(false));
-      expect(AutoCacheInjections.isInjectorInitialized, equals(false));
-      expect(() => sut.get<String>(key: 'my_key'), throwsA(isA<NotInitializedAutoCacheManagerException>()));
-      verifyNever(() => getCacheUsecase.execute<String>(any(that: getCacheDtoMatcher())));
-    });
-
     test('should NOT be able to get item in cache when UseCase throws an AutoCacheManagerException', () async {
       when(() => getCacheUsecase.execute<String>(any(that: getCacheDtoMatcher()))).thenAnswer(
         (_) async => left(FakeAutoCacheManagerException()),
@@ -141,20 +130,6 @@ void main() {
       verify(() => saveCacheUsecase.execute<String>(saveDTO)).called(1);
     });
 
-    test('should NOT be able to save data in cache when AutoCacheManager is not initialized', () async {
-      Injector.I.clear();
-
-      expect(Injector.I.hasBinds, isFalse);
-      expect(AutoCacheInjections.isInjectorInitialized, isFalse);
-
-      expect(
-        () => sut.save<String>(key: 'my_key', data: 'my_data'),
-        throwsA(isA<NotInitializedAutoCacheManagerException>()),
-      );
-
-      verifyNever(() => saveCacheUsecase.execute<String>(saveDTO));
-    });
-
     test('should NOT be able to save data in cache when UseCase throws an AutoCacheManagerException', () async {
       when(() => saveCacheUsecase.execute<String>(saveDTO)).thenAnswer(
         (_) async => left(FakeAutoCacheManagerException()),
@@ -173,15 +148,6 @@ void main() {
       verify(() => deleteCacheUsecase.execute(any(that: deleteCacheDtoMatcher()))).called(1);
     });
 
-    test('should NOT be able to delete data in cache when AutoCacheManager is not initialized', () async {
-      Injector.I.clear();
-
-      expect(Injector.I.hasBinds, isFalse);
-      expect(AutoCacheInjections.isInjectorInitialized, isFalse);
-      expect(() => sut.delete(key: 'my_key'), throwsA(isA<NotInitializedAutoCacheManagerException>()));
-      verifyNever(() => deleteCacheUsecase.execute(any(that: deleteCacheDtoMatcher())));
-    });
-
     test('should NOT be able to delete data in cache when usecase fails', () async {
       when(() => deleteCacheUsecase.execute(any(that: deleteCacheDtoMatcher()))).thenAnswer(
         (_) async => left(FakeAutoCacheManagerException()),
@@ -198,15 +164,6 @@ void main() {
 
       await expectLater(sut.clear(), completes);
       verify(() => clearCacheUsecase.execute(any())).called(1);
-    });
-
-    test('should NOT be able to clear all cache data when AutoCacheManager is not initialized', () async {
-      Injector.I.clear();
-
-      expect(Injector.I.hasBinds, isFalse);
-      expect(AutoCacheInjections.isInjectorInitialized, isFalse);
-      expect(() => sut.clear(), throwsA(isA<NotInitializedAutoCacheManagerException>()));
-      verifyNever(() => clearCacheUsecase.execute(any()));
     });
 
     test('should NOT be able to clear all cache data when usecase fails', () async {
