@@ -54,22 +54,4 @@ Future<void> main() async {
       expect(response, equals(json));
     });
   });
-
-  group('GetCacheIntegrationTest.getList |', () {
-    final list = List.generate(5, (_) => {'key': 'key_value'});
-
-    test('should be able to call getList of T and return NULL when doesnt have cache', () async {
-      final response = await sut.getList<Map<String, dynamic>>(key: 'list_key');
-
-      expect(response, isNull);
-    });
-
-    test('should be able to call getList of T and return DATA when have cache', () async {
-      await sut.saveList<Map<String, dynamic>>(key: 'list_key', data: list);
-
-      final response = await sut.getList<Map<String, dynamic>>(key: 'list_key');
-
-      expect(response, equals(list));
-    }, skip: true);
-  });
 }

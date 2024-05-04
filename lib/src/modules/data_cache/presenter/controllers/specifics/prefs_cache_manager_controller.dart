@@ -44,10 +44,10 @@ class PrefsCacheManagerController {
   /// Retrieves a list of objects from the cache associated with the specified `key`.
   ///
   /// This method is asynchronous and returns a `Future<List<T>?>`. It fetches a list of
-  /// objects where each object is of type `T`. If the data exists for the `key`, it returns
+  /// objects where each object is of type `String`. If the data exists for the `key`, it returns
   /// the list; otherwise, it returns `null` if no data is found.
-  Future<List<T>?> getList<T extends Object>({required String key}) async {
-    return _baseCacheManagerController.get<List<T>>(key: key);
+  Future<List<String>?> getStringList({required String key}) async {
+    return _baseCacheManagerController.get<List<String>>(key: key);
   }
 
   /// Saves a `String` in the cache with the specified `key`.
@@ -77,11 +77,11 @@ class PrefsCacheManagerController {
   /// Stores a list of objects in the cache under the specified `key`.
   ///
   /// This method is asynchronous and does not return a value. It saves a list of
-  /// objects, where each object is of type `T`, to the cache. The `data` is the list
+  /// objects, where each object is of type `String`, to the cache. The `data` is the list
   /// of objects to be stored, and `key` is the identifier used to retrieve the list
   /// from the cache later.
-  Future<void> saveList<T extends Object>({required String key, required List<T> data}) async {
-    return _baseCacheManagerController.save<List<T>>(key: key, data: data);
+  Future<void> saveStringList({required String key, required List<String> data}) async {
+    return _baseCacheManagerController.save<List<String>>(key: key, data: data);
   }
 
   /// Deletes the specified cache entry.
