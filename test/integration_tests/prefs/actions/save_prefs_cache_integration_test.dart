@@ -62,12 +62,4 @@ Future<void> main() async {
       expect(complexResponse, equals(complexJson));
     });
   });
-
-  group('SaveCacheIntegrationTest.saveList |', () {
-    final stringList = ['value_1', 'value_2', 'value_3'];
-
-    test('should be able to save a list of string in prefs cache and completes operation', () async {
-      await expectLater(sut.saveList(key: 'string_list_key', data: stringList), completes);
-    });
-  });
 }

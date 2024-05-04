@@ -1,8 +1,6 @@
-import 'package:auto_cache_manager/src/auto_cache_injections.dart';
 import 'package:flutter/foundation.dart';
 
 import '../../../../core/core.dart';
-import '../../../../core/exceptions/initializer_exceptions.dart';
 import '../../domain/dtos/clear_cache_dto.dart';
 import '../../domain/dtos/delete_cache_dto.dart';
 import '../../domain/dtos/get_cache_dto.dart';
@@ -48,21 +46,14 @@ class BaseCacheManagerController {
   }
 
   Future<T?> get<T extends Object>({required String key}) async {
-    _initializedConfigVerification();
-
     final dto = GetCacheDTO(key: key, storageType: storageType);
 
     final response = await _getCacheUsecase.execute<T>(dto);
 
-    return response.fold(
-      (error) => throw error,
-      (success) => success?.data,
-    );
+    return response.fold((error) => throw error, (success) => success?.data);
   }
 
   Future<void> save<T extends Object>({required String key, required T data}) async {
-    _initializedConfigVerification();
-
     final dto = SaveCacheDTO<T>(key: key, data: data, storageType: storageType, cacheConfig: cacheConfig);
     final response = await _saveCacheUsecase.execute(dto);
 
@@ -72,8 +63,6 @@ class BaseCacheManagerController {
   }
 
   Future<void> delete({required String key}) async {
-    _initializedConfigVerification();
-
     final dto = DeleteCacheDTO(key: key, storageType: storageType);
     final response = await _deleteCacheUsecase.execute(dto);
 
@@ -83,24 +72,11 @@ class BaseCacheManagerController {
   }
 
   Future<void> clear() async {
-    _initializedConfigVerification();
-
     final dto = ClearCacheDTO(storageType: storageType);
     final response = await _clearCacheUsecase.execute(dto);
 
     if (response.isError) {
       throw response.error;
-    }
-  }
-
-  void _initializedConfigVerification() {
-    final isInitialized = AutoCacheInjections.isInjectorInitialized;
-
-    if (!isInitialized) {
-      throw NotInitializedAutoCacheManagerException(
-        message: 'Auto cache manager is not initialized',
-        stackTrace: StackTrace.current,
-      );
     }
   }
 }
