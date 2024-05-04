@@ -13,7 +13,7 @@ class PrefsCacheManagerController {
 
   PrefsCacheManagerController._() : _baseCacheManagerController = BaseCacheManagerController.prefs();
 
-  static final _instance = PrefsCacheManagerController._();
+  static final _instance = InitMiddleware.accessInstance(() => PrefsCacheManagerController._());
 
   static PrefsCacheManagerController get instance => _instance;
 
