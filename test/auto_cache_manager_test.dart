@@ -17,16 +17,16 @@ void main() {
   });
 
   group('AutoCacheManager |', () {
+    test('should be able to throw a NotInitializedAutoCacheManagerException when NOT initialize AutoCacheManager', () {
+      expect(() => AutoCacheManager.prefs, throwsA(isA<NotInitializedAutoCacheManagerException>()));
+      expect(() => AutoCacheManager.sql, throwsA(isA<NotInitializedAutoCacheManagerException>()));
+    });
+
     test('should be able to verify instances and binds of cache controllers', () async {
       await AutoCacheManagerInitializer.instance.init();
 
       expect(AutoCacheManager.prefs, equals(PrefsCacheManagerController.instance));
       expect(AutoCacheManager.sql, equals(SQLCacheManagerController.instance));
-    });
-
-    test('should be able to throw a NotInitializedAutoCacheManagerException when NOT initialize AutoCacheManager', () {
-      expect(() => AutoCacheManager.prefs, throwsA(isA<NotInitializedAutoCacheManagerException>()));
-      expect(() => AutoCacheManager.sql, throwsA(isA<NotInitializedAutoCacheManagerException>()));
     });
   });
 }
