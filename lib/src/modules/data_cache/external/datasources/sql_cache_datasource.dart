@@ -1,3 +1,6 @@
+// TODO(Luiz): Remove flag when implement SQFlite
+// coverage:ignore-file
+
 import 'dart:async';
 
 import '../../domain/dtos/save_cache_dto.dart';
@@ -22,6 +25,11 @@ final class SQLCacheDatasource implements ISQLCacheDatasource {
 
   @override
   Future<void> clear() {
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<void> delete(String key) {
     throw UnimplementedError();
   }
 }

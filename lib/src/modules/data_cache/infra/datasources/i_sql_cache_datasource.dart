@@ -8,5 +8,6 @@ abstract interface class ISQLCacheDatasource {
   FutureOr<List<String>> getKeys();
 
   Future<void> save<T extends Object>(SaveCacheDTO<T> dto);
+  Future<void> delete(String key);
   Future<void> clear();
 }

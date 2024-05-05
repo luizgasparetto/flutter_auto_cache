@@ -1,6 +1,6 @@
-import 'package:flutter/material.dart';
-
 import 'auto_cache_injections.dart';
+import 'auto_cache_manager_config.dart';
+
 import 'core/core.dart';
 
 /// A singleton class responsible for initializing and configuring the auto cache manager.
@@ -14,31 +14,14 @@ class AutoCacheManagerInitializer {
   static final _instance = AutoCacheManagerInitializer._();
 
   /// Provides global access to the [AutoCacheManagerInitializer] instance.
-  static AutoCacheManagerInitializer get I => _instance;
-
-  /// Internally manages the cache configuration, allowing for dynamic updates.
-  final _configListenable = ValueNotifier<CacheConfig>(CacheConfig.defaultConfig());
-
-  /// Indicates whether the `Injector` for cache management is initialized.
-  bool get isInjectorInitialized => Injector.I.hasBinds;
-
-  /// Exposes the current cache configuration.
-  CacheConfig get config => _configListenable.value;
+  static AutoCacheManagerInitializer get instance => _instance;
 
   /// Initializes the cache management system with optional custom configuration.
   /// This method sets up necessary bindings and applies the provided `CacheConfig`.
   ///
   /// - [config]: An optional `CacheConfig` to customize cache behavior.
   Future<void> init({CacheConfig? config}) async {
-    setConfig(config ?? this.config);
-    await AutoCacheInjections.registerBinds();
-  }
-
-  /// Updates the current cache configuration with a new `CacheConfig`.
-  ///
-  /// - [config]: The new `CacheConfig` to apply.
-  @visibleForTesting
-  void setConfig(CacheConfig config) {
-    _configListenable.value = config;
+    AutoCacheManagerConfig.instance.setConfig(config);
+    await AutoCacheInjections.instance.registerBinds();
   }
 }

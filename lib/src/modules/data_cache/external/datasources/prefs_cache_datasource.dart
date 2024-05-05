@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import '../../../../core/services/cryptography/i_cryptography_service.dart';
 import '../../../../core/services/storages/prefs/i_prefs_service.dart';
 import '../../domain/dtos/save_cache_dto.dart';
 import '../../domain/entities/cache_entity.dart';
@@ -7,17 +8,20 @@ import '../../infra/datasources/i_prefs_cache_datasource.dart';
 import '../adapters/cache_adapter.dart';
 
 final class PrefsCacheDatasource implements IPrefsCacheDatasource {
-  final IPrefsService _service;
+  final IPrefsService _prefsService;
+  final ICryptographyService _cryptographyService;
 
-  const PrefsCacheDatasource(this._service);
+  const PrefsCacheDatasource(this._prefsService, this._cryptographyService);
 
   @override
   CacheEntity<T>? get<T extends Object>(String key) {
-    final response = _service.get(key: key);
+    final response = _prefsService.get(key: key);
 
     if (response == null) return null;
 
-    final decodedResponse = jsonDecode(response);
+    final decrypted = _cryptographyService.decrypt(response);
+
+    final decodedResponse = jsonDecode(decrypted);
     return CacheAdapter.fromJson<T>(decodedResponse);
   }
 
@@ -27,13 +31,23 @@ final class PrefsCacheDatasource implements IPrefsCacheDatasource {
     final data = CacheAdapter.toJson(cache);
 
     final encodedData = jsonEncode(data);
+    final encrypted = _cryptographyService.encrypt(encodedData);
 
-    await _service.save(key: dto.key, data: encodedData);
+    await _prefsService.save(key: dto.key, data: encrypted);
   }
 
   @override
-  List<String> getKeys() => _service.getKeys();
+  Future<void> delete(String key) async {
+    return _prefsService.delete(key: key);
+  }
 
   @override
-  Future<void> clear() => _service.clear();
+  Future<void> clear() async {
+    return _prefsService.clear();
+  }
+
+  @override
+  List<String> getKeys() {
+    return _prefsService.getKeys();
+  }
 }
