@@ -1,4 +1,4 @@
-part of '../base_cache_manager_controller.dart';
+part of '../../base_cache_manager_controller.dart';
 
 /// A controller class for managing SQL-based cache operations.
 ///

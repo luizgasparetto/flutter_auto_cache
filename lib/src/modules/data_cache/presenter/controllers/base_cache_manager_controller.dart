@@ -11,9 +11,10 @@ import '../../domain/usecases/clear_cache_usecase.dart';
 import '../../domain/usecases/delete_cache_usecase.dart';
 import '../../domain/usecases/get_cache_usecase.dart';
 import '../../domain/usecases/save_cache_usecase.dart';
+import 'specifics/i_prefs_cache_manager_controller.dart';
 
-part 'specifications/prefs_cache_manager_controller.dart';
-part 'specifications/sql_cache_manager_controller.dart';
+part 'specifics/impl/prefs_cache_manager_controller.dart';
+part 'specifics/impl/sql_cache_manager_controller.dart';
 
 class BaseCacheManagerController {
   final GetCacheUsecase _getCacheUsecase;
