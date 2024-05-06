@@ -19,10 +19,8 @@ import 'modules/data_cache/domain/usecases/get_cache_usecase.dart';
 import 'modules/data_cache/domain/usecases/save_cache_usecase.dart';
 
 import 'modules/data_cache/external/datasources/prefs_cache_datasource.dart';
-import 'modules/data_cache/external/datasources/sql_cache_datasource.dart';
 
 import 'modules/data_cache/infra/datasources/i_prefs_cache_datasource.dart';
-import 'modules/data_cache/infra/datasources/i_sql_cache_datasource.dart';
 import 'modules/data_cache/infra/repositories/cache_repository.dart';
 
 class AutoCacheInjections {
@@ -60,7 +58,6 @@ class AutoCacheInjections {
 
   void _registerCacheData() {
     Injector.I.bindFactory<IPrefsCacheDatasource>(() => PrefsCacheDatasource(Injector.I.get(), Injector.I.get()));
-    Injector.I.bindFactory<ISQLCacheDatasource>(SQLCacheDatasource.new);
     Injector.I.bindFactory<IInvalidationCacheContext>(() => InvalidationCacheContext(Injector.I.get()));
     Injector.I.bindFactory<ICacheRepository>(() => CacheRepository(Injector.I.get(), Injector.I.get()));
     Injector.I.bindFactory<DeleteCacheUsecase>(() => DeleteCache(Injector.I.get()));
