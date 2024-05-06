@@ -5,7 +5,7 @@ import '../../domain/entities/cache_entity.dart';
 
 /// Represents an abstract interface for managing data storage in a cache mechanism.
 /// Provides methods for data retrieval, storage, deletion, and cache clearance, suitable for various data types.
-abstract class IPrefsCacheDatasource {
+abstract interface class IPrefsCacheDatasource {
   /// Retrieves a cached entity associated with a specific key.
   ///
   /// The method attempts to find an entity in the cache that matches the specified key. If no such entity exists,

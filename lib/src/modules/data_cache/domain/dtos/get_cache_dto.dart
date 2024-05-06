@@ -9,3 +9,12 @@ class GetCacheDTO {
     required this.storageType,
   });
 }
+
+class GetListCacheDTO<T extends Object> extends GetCacheDTO {
+  const GetListCacheDTO({
+    required super.key,
+    required super.storageType,
+  });
+
+  Type get dataType => T.runtimeType;
+}
