@@ -11,10 +11,10 @@ import '../../domain/usecases/clear_cache_usecase.dart';
 import '../../domain/usecases/delete_cache_usecase.dart';
 import '../../domain/usecases/get_cache_usecase.dart';
 import '../../domain/usecases/save_cache_usecase.dart';
-import 'specifics/i_prefs_cache_manager_controller.dart';
+import 'interfaces/i_prefs_cache_manager_controller.dart';
 
-part 'specifics/impl/prefs_cache_manager_controller.dart';
-part 'specifics/impl/sql_cache_manager_controller.dart';
+part 'implementations/prefs_cache_manager_controller.dart';
+part 'implementations/sql_cache_manager_controller.dart';
 
 class BaseCacheManagerController {
   final GetCacheUsecase _getCacheUsecase;
@@ -51,6 +51,14 @@ class BaseCacheManagerController {
     final dto = GetCacheDTO(key: key, storageType: storageType);
 
     final response = await _getCacheUsecase.execute<T>(dto);
+
+    return response.fold((error) => throw error, (success) => success?.data);
+  }
+
+  Future<List<T>?> getList<T extends Object>({required String key}) async {
+    final dto = GetListCacheDTO<T>(key: key, storageType: storageType);
+
+    final response = await _getCacheUsecase.execute<List<T>>(dto);
 
     return response.fold((error) => throw error, (success) => success?.data);
   }

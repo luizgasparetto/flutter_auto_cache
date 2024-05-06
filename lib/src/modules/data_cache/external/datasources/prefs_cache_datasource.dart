@@ -22,6 +22,7 @@ final class PrefsCacheDatasource implements IPrefsCacheDatasource {
     final decrypted = _cryptographyService.decrypt(response);
 
     final decodedResponse = jsonDecode(decrypted);
+
     return CacheAdapter.fromJson<T>(decodedResponse);
   }
 

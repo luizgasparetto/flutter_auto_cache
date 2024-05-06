@@ -12,6 +12,16 @@ class CacheAdapter {
     );
   }
 
+  static CacheEntity<T> listFromJson<T extends Object, DataType extends Object>(Map<String, dynamic> json) {
+    return CacheEntity<T>(
+      id: json['id'],
+      data: List.from(json['data']).whereType<DataType>().toList() as T,
+      invalidationType: InvalidationTypeAdapter.fromKey(json['invalidation_type']),
+      createdAt: DateTime.parse(json['created_at']),
+      endAt: DateTime.parse(json['end_at']),
+    );
+  }
+
   static Map<String, dynamic> toJson<T extends Object>(CacheEntity<T> cache) {
     return {
       'id': cache.id,
