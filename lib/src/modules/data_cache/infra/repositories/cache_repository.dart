@@ -1,11 +1,10 @@
 import '../../../../core/core.dart';
-import '../../domain/dtos/clear_cache_dto.dart';
 import '../../domain/dtos/delete_cache_dto.dart';
 import '../../domain/dtos/get_cache_dto.dart';
 import '../../domain/dtos/save_cache_dto.dart';
 import '../../domain/entities/cache_entity.dart';
-import '../../domain/enums/storage_type.dart';
 import '../../domain/repositories/i_cache_repository.dart';
+
 import '../datasources/i_command_data_cache_datasource.dart';
 import '../datasources/i_query_data_cache_datasource.dart';
 
@@ -27,7 +26,7 @@ class CacheRepository implements ICacheRepository {
   }
 
   @override
-  Either<AutoCacheManagerException, List<String>> getKeys(StorageType storageType) {
+  Either<AutoCacheManagerException, List<String>> getKeys() {
     try {
       final response = _queryDataCacheDatasource.getKeys();
 
@@ -60,7 +59,7 @@ class CacheRepository implements ICacheRepository {
   }
 
   @override
-  AsyncEither<AutoCacheManagerException, Unit> clear(ClearCacheDTO dto) async {
+  AsyncEither<AutoCacheManagerException, Unit> clear() async {
     try {
       await _commandDataCacheDatasource.clear();
 

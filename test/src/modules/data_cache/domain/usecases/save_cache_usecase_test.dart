@@ -4,7 +4,6 @@ import 'package:auto_cache_manager/src/modules/data_cache/domain/dtos/get_cache_
 import 'package:auto_cache_manager/src/modules/data_cache/domain/dtos/save_cache_dto.dart';
 import 'package:auto_cache_manager/src/modules/data_cache/domain/entities/cache_entity.dart';
 import 'package:auto_cache_manager/src/modules/data_cache/domain/enums/invalidation_type.dart';
-import 'package:auto_cache_manager/src/modules/data_cache/domain/enums/storage_type.dart';
 import 'package:auto_cache_manager/src/modules/data_cache/domain/repositories/i_cache_repository.dart';
 import 'package:auto_cache_manager/src/modules/data_cache/domain/services/invalidation/invalidation_cache_context.dart';
 import 'package:auto_cache_manager/src/modules/data_cache/domain/usecases/save_cache_usecase.dart';
@@ -66,7 +65,6 @@ void main() {
     final dto = SaveCacheDTO(
       key: 'my_key',
       data: 'my_data',
-      storageType: StorageType.prefs,
       cacheConfig: fakeCacheConfig,
     );
 

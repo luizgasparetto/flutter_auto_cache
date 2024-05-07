@@ -1,12 +1,10 @@
 import '../../../../core/core.dart';
 
-import '../dtos/clear_cache_dto.dart';
 import '../dtos/delete_cache_dto.dart';
 import '../dtos/get_cache_dto.dart';
 import '../dtos/save_cache_dto.dart';
 
 import '../entities/cache_entity.dart';
-import '../enums/storage_type.dart';
 
 /// An interface defining the repository for managing cache operations.
 ///
@@ -29,7 +27,7 @@ abstract interface class ICacheRepository {
   ///
   /// Returns:
   /// - An [Either] containing an [AutoCacheManagerException] on failure, or a list of strings representing the cache keys on success.
-  Either<AutoCacheManagerException, List<String>> getKeys(StorageType storageType);
+  Either<AutoCacheManagerException, List<String>> getKeys();
 
   /// Saves a data object of type [T] using the data transfer object [dto].
   ///
@@ -67,5 +65,5 @@ abstract interface class ICacheRepository {
   ///
   /// Returns:
   /// - An [AsyncEither] containing an [AutoCacheManagerException] on failure, or a [Unit] indicating success.
-  AsyncEither<AutoCacheManagerException, Unit> clear(ClearCacheDTO dto);
+  AsyncEither<AutoCacheManagerException, Unit> clear();
 }

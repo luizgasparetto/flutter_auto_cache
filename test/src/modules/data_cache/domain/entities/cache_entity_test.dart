@@ -2,7 +2,6 @@ import 'package:auto_cache_manager/src/core/config/cache_config.dart';
 import 'package:auto_cache_manager/src/modules/data_cache/domain/dtos/save_cache_dto.dart';
 import 'package:auto_cache_manager/src/modules/data_cache/domain/entities/cache_entity.dart';
 import 'package:auto_cache_manager/src/modules/data_cache/domain/enums/invalidation_type.dart';
-import 'package:auto_cache_manager/src/modules/data_cache/domain/enums/storage_type.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 class FakeCacheEntity extends Fake implements CacheEntity {
@@ -38,7 +37,6 @@ void main() {
     final dto = SaveCacheDTO<String>(
       key: 'key',
       data: 'value',
-      storageType: StorageType.prefs,
       cacheConfig: CacheConfig(ttlMaxDuration: const Duration(seconds: 30)),
     );
 

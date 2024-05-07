@@ -1,10 +1,8 @@
 import 'package:auto_cache_manager/src/core/core.dart';
-import 'package:auto_cache_manager/src/modules/data_cache/domain/dtos/clear_cache_dto.dart';
 import 'package:auto_cache_manager/src/modules/data_cache/domain/dtos/delete_cache_dto.dart';
 import 'package:auto_cache_manager/src/modules/data_cache/domain/dtos/get_cache_dto.dart';
 import 'package:auto_cache_manager/src/modules/data_cache/domain/dtos/save_cache_dto.dart';
 import 'package:auto_cache_manager/src/modules/data_cache/domain/entities/cache_entity.dart';
-import 'package:auto_cache_manager/src/modules/data_cache/domain/enums/storage_type.dart';
 import 'package:auto_cache_manager/src/modules/data_cache/domain/usecases/clear_cache_usecase.dart';
 import 'package:auto_cache_manager/src/modules/data_cache/domain/usecases/delete_cache_usecase.dart';
 import 'package:auto_cache_manager/src/modules/data_cache/domain/usecases/get_cache_usecase.dart';
@@ -31,8 +29,6 @@ class FakeGetCacheDTO extends Fake implements GetCacheDTO {}
 
 class FakeDeleteCacheDTO extends Fake implements DeleteCacheDTO {}
 
-class FakeCleanCacheDTO extends Fake implements ClearCacheDTO {}
-
 class CacheEntityFake<T extends Object> extends Fake implements CacheEntity<T> {
   final T fakeData;
 
@@ -56,7 +52,6 @@ void main() {
     clearCacheUsecase,
     deleteCacheUsecase,
     cacheConfigMock,
-    storageType: StorageType.prefs,
   );
 
   setUp(() {
@@ -64,7 +59,6 @@ void main() {
 
     registerFallbackValue(FakeGetCacheDTO());
     registerFallbackValue(FakeDeleteCacheDTO());
-    registerFallbackValue(FakeCleanCacheDTO());
   });
 
   tearDown(() {
@@ -116,12 +110,7 @@ void main() {
   });
 
   group('BaseCacheManagerController.save |', () {
-    final saveDTO = SaveCacheDTO(
-      key: 'my_key',
-      data: 'my_data',
-      storageType: StorageType.prefs,
-      cacheConfig: cacheConfigMock,
-    );
+    final saveDTO = SaveCacheDTO(key: 'my_key', data: 'my_data', cacheConfig: cacheConfigMock);
 
     test('should be able to save a data in cache with a key successfully', () async {
       when(() => saveCacheUsecase.execute<String>(saveDTO)).thenAnswer((_) async => right(unit));
@@ -160,17 +149,17 @@ void main() {
 
   group('BaseCacheManagerController.clear |', () {
     test('should be able to clear all cache data successfully', () async {
-      when(() => clearCacheUsecase.execute(any())).thenAnswer((_) async => right(unit));
+      when(() => clearCacheUsecase.execute()).thenAnswer((_) async => right(unit));
 
       await expectLater(sut.clear(), completes);
-      verify(() => clearCacheUsecase.execute(any())).called(1);
+      verify(() => clearCacheUsecase.execute()).called(1);
     });
 
     test('should NOT be able to clear all cache data when usecase fails', () async {
-      when(() => clearCacheUsecase.execute(any())).thenAnswer((_) async => left(FakeAutoCacheManagerException()));
+      when(() => clearCacheUsecase.execute()).thenAnswer((_) async => left(FakeAutoCacheManagerException()));
 
       expect(() => sut.clear(), throwsA(isA<AutoCacheManagerException>()));
-      verify(() => clearCacheUsecase.execute(any())).called(1);
+      verify(() => clearCacheUsecase.execute()).called(1);
     });
   });
 }

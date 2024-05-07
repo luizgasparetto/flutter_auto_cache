@@ -3,14 +3,12 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:auto_cache_manager/src/core/extensions/map_extensions.dart';
 import 'package:auto_cache_manager/src/modules/data_cache/domain/entities/cache_entity.dart';
 import 'package:auto_cache_manager/src/modules/data_cache/domain/enums/invalidation_type.dart';
-import 'package:auto_cache_manager/src/modules/data_cache/domain/enums/storage_type.dart';
 import 'package:auto_cache_manager/src/modules/data_cache/external/adapters/cache_adapter.dart';
 import 'package:auto_cache_manager/src/modules/data_cache/external/adapters/enums/invalidation_type_adapter.dart';
 
 void main() {
   const id = 'zanelladev';
   const data = 'test';
-  const storageType = StorageType.prefs;
   const invalidationType = InvalidationType.ttl;
   final createdAt = DateTime.now();
   final endAt = createdAt.add(const Duration(days: 3));
@@ -19,7 +17,6 @@ void main() {
     final jsonCache = {
       'id': id,
       'data': data,
-      'storage_type': storageType.name,
       'invalidation_type': InvalidationTypeAdapter.toKey(invalidationType),
       'created_at': createdAt.toIso8601String(),
       'end_at': endAt.toIso8601String()
