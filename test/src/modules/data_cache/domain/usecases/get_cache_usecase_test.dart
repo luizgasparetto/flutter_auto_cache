@@ -46,13 +46,8 @@ void main() {
     );
 
     test('should be able to get data in cache successfully', () async {
-      when(() => repository.get<String>(dto)).thenAnswer((_) async {
-        return right(successCache);
-      });
-
-      when(() => invalidationContext.execute(successCache)).thenAnswer((_) {
-        return right(unit);
-      });
+      when(() => repository.get<String>(dto)).thenReturn(right(successCache));
+      when(() => invalidationContext.execute(successCache)).thenReturn(right(unit));
 
       final response = await sut.execute<String>(dto);
 
@@ -62,60 +57,38 @@ void main() {
       verify(() => invalidationContext.execute(successCache)).called(1);
     });
 
-    test(
-      'should be able to get data in cache if data is NULL successfully',
-      () async {
-        when(() => repository.get<String>(dto)).thenAnswer((_) async {
-          return right(null);
-        });
+    test('should be able to get data in cache if data is NULL successfully', () async {
+      when(() => repository.get<String>(dto)).thenReturn(right(null));
 
-        final response = await sut.execute<String>(dto);
+      final response = await sut.execute<String>(dto);
 
-        expect(response.isSuccess, isTrue);
-        expect(response.success, isNull);
-        verify(() => repository.get<String>(dto)).called(1);
-        verifyNever(
-          () => invalidationContext.execute<String>(any<CacheEntity<String>>()),
-        );
-      },
-    );
+      expect(response.isSuccess, isTrue);
+      expect(response.success, isNull);
+      verify(() => repository.get<String>(dto)).called(1);
+      verifyNever(() => invalidationContext.execute<String>(any<CacheEntity<String>>()));
+    });
 
-    test(
-      'should NOT be able to get data in cache when get retrives an exception',
-      () async {
-        when(() => repository.get<String>(dto)).thenAnswer((_) async {
-          return left(FakeAutoCacheManagerException());
-        });
+    test('should NOT be able to get data in cache when get retrives an exception', () async {
+      when(() => repository.get<String>(dto)).thenReturn(left(FakeAutoCacheManagerException()));
 
-        final response = await sut.execute<String>(dto);
+      final response = await sut.execute<String>(dto);
 
-        expect(response.isError, isTrue);
-        expect(response.error, isA<AutoCacheManagerException>());
-        verify(() => repository.get<String>(dto)).called(1);
-        verifyNever(
-          () => invalidationContext.execute<String>(any<CacheEntity<String>>()),
-        );
-      },
-    );
+      expect(response.isError, isTrue);
+      expect(response.error, isA<AutoCacheManagerException>());
+      verify(() => repository.get<String>(dto)).called(1);
+      verifyNever(() => invalidationContext.execute<String>(any<CacheEntity<String>>()));
+    });
 
-    test(
-      'should NOT be able to get data in cache when invalidation context retrives an exception',
-      () async {
-        when(() => repository.get<String>(dto)).thenAnswer((_) async {
-          return right(successCache);
-        });
+    test('should NOT be able to get data in cache when invalidation context retrives an exception', () async {
+      when(() => repository.get<String>(dto)).thenReturn(right(successCache));
+      when(() => invalidationContext.execute(successCache)).thenReturn(left(FakeAutoCacheManagerException()));
 
-        when(() => invalidationContext.execute(successCache)).thenAnswer((_) {
-          return left(FakeAutoCacheManagerException());
-        });
+      final response = await sut.execute<String>(dto);
 
-        final response = await sut.execute<String>(dto);
-
-        expect(response.isError, isTrue);
-        expect(response.error, isA<AutoCacheManagerException>());
-        verify(() => repository.get<String>(dto)).called(1);
-        verify(() => invalidationContext.execute(successCache)).called(1);
-      },
-    );
+      expect(response.isError, isTrue);
+      expect(response.error, isA<AutoCacheManagerException>());
+      verify(() => repository.get<String>(dto)).called(1);
+      verify(() => invalidationContext.execute(successCache)).called(1);
+    });
   });
 }
