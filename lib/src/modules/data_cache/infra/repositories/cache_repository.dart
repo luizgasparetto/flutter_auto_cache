@@ -6,22 +6,19 @@ import '../../domain/dtos/save_cache_dto.dart';
 import '../../domain/entities/cache_entity.dart';
 import '../../domain/enums/storage_type.dart';
 import '../../domain/repositories/i_cache_repository.dart';
-
-import '../datasources/i_prefs_cache_datasource.dart';
-import '../datasources/i_sql_cache_datasource.dart';
+import '../datasources/i_command_data_cache_datasource.dart';
+import '../datasources/i_query_data_cache_datasource.dart';
 
 class CacheRepository implements ICacheRepository {
-  final IPrefsCacheDatasource _prefsDatasource;
-  final ISQLCacheDatasource _sqlDatasource;
+  final IQueryDataCacheDatasource _queryDataCacheDatasource;
+  final ICommandDataCacheDatasource _commandDataCacheDatasource;
 
-  const CacheRepository(this._prefsDatasource, this._sqlDatasource);
+  const CacheRepository(this._queryDataCacheDatasource, this._commandDataCacheDatasource);
 
   @override
-  AsyncEither<AutoCacheManagerException, CacheEntity<T>?> get<T extends Object>(GetCacheDTO dto) async {
+  Either<AutoCacheManagerException, CacheEntity<T>?> get<T extends Object>(GetCacheDTO dto) {
     try {
-      final action = dto.storageType.isPrefs ? _prefsDatasource.get : _sqlDatasource.get;
-
-      final response = await action.call<T>(dto.key);
+      final response = _queryDataCacheDatasource.get<T>(dto.key);
 
       return right(response);
     } on AutoCacheManagerException catch (exception) {
@@ -30,11 +27,9 @@ class CacheRepository implements ICacheRepository {
   }
 
   @override
-  AsyncEither<AutoCacheManagerException, List<String>> getKeys(StorageType storageType) async {
+  Either<AutoCacheManagerException, List<String>> getKeys(StorageType storageType) {
     try {
-      final action = storageType.isPrefs ? _prefsDatasource.getKeys : _sqlDatasource.getKeys;
-
-      final response = await action.call();
+      final response = _queryDataCacheDatasource.getKeys();
 
       return right(response);
     } on AutoCacheManagerException catch (exception) {
@@ -45,9 +40,7 @@ class CacheRepository implements ICacheRepository {
   @override
   AsyncEither<AutoCacheManagerException, Unit> save<T extends Object>(SaveCacheDTO<T> dto) async {
     try {
-      final action = dto.storageType.isPrefs ? _prefsDatasource.save : _sqlDatasource.save;
-
-      await action.call<T>(dto);
+      await _commandDataCacheDatasource.save<T>(dto);
 
       return right(unit);
     } on AutoCacheManagerException catch (exception) {
@@ -58,9 +51,7 @@ class CacheRepository implements ICacheRepository {
   @override
   AsyncEither<AutoCacheManagerException, Unit> delete(DeleteCacheDTO dto) async {
     try {
-      final action = dto.storageType.isPrefs ? _prefsDatasource.delete : _sqlDatasource.delete;
-
-      await action.call(dto.key);
+      await _commandDataCacheDatasource.delete(dto.key);
 
       return right(unit);
     } on AutoCacheManagerException catch (exception) {
@@ -71,9 +62,7 @@ class CacheRepository implements ICacheRepository {
   @override
   AsyncEither<AutoCacheManagerException, Unit> clear(ClearCacheDTO dto) async {
     try {
-      final action = dto.storageType.isPrefs ? _prefsDatasource.clear : _sqlDatasource.clear;
-
-      await action.call();
+      await _commandDataCacheDatasource.clear();
 
       return right(unit);
     } on AutoCacheManagerException catch (exception) {
