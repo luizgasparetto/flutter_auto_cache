@@ -71,7 +71,7 @@ void main() {
     );
 
     test('should be able to save cache data successfully when not find any previous cache with same key', () async {
-      when(() => repository.get<String>(any(that: cacheDtoMatcher()))).thenAnswer((_) async => right(null));
+      when(() => repository.get<String>(any(that: cacheDtoMatcher()))).thenReturn(right(null));
       when(() => repository.save<String>(dto)).thenAnswer((_) async => right(unit));
 
       final response = await sut.execute<String>(dto);
@@ -83,8 +83,8 @@ void main() {
     });
 
     test('should NOT be able to save cache repository when findByKey fails', () async {
-      when(() => repository.get<String>(any(that: cacheDtoMatcher()))).thenAnswer(
-        (_) async => left(AutoCacheManagerExceptionFake()),
+      when(() => repository.get<String>(any(that: cacheDtoMatcher()))).thenReturn(
+        left(AutoCacheManagerExceptionFake()),
       );
 
       final response = await sut.execute<String>(dto);
@@ -97,11 +97,8 @@ void main() {
     });
 
     test('should NOT be able to save cache repository when InvalidationCacheContext fails', () async {
-      when(() => repository.get<String>(any(that: cacheDtoMatcher()))).thenAnswer((_) async => right(fakeCache));
-
-      when(() => invalidationContext.execute<String>(fakeCache)).thenAnswer((_) {
-        return left(AutoCacheManagerExceptionFake());
-      });
+      when(() => repository.get<String>(any(that: cacheDtoMatcher()))).thenReturn(right(fakeCache));
+      when(() => invalidationContext.execute<String>(fakeCache)).thenReturn(left(AutoCacheManagerExceptionFake()));
 
       final response = await sut.execute<String>(dto);
 
@@ -113,12 +110,9 @@ void main() {
     });
 
     test('should NOT be able to save cache repository when save method fails', () async {
-      when(() => repository.get<String>(any(that: cacheDtoMatcher()))).thenAnswer((_) async => right(fakeCache));
+      when(() => repository.get<String>(any(that: cacheDtoMatcher()))).thenReturn(right(fakeCache));
       when(() => invalidationContext.execute<String>(fakeCache)).thenAnswer((_) => right(unit));
-
-      when(() => repository.save<String>(dto)).thenAnswer((_) async {
-        return left(AutoCacheManagerExceptionFake());
-      });
+      when(() => repository.save<String>(dto)).thenAnswer((_) async => left(AutoCacheManagerExceptionFake()));
 
       final response = await sut.execute<String>(dto);
 
