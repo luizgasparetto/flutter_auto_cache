@@ -1,9 +1,9 @@
 import '../../../../core/core.dart';
-import '../dtos/clear_cache_dto.dart';
+
 import '../repositories/i_cache_repository.dart';
 
 abstract interface class ClearCacheUsecase {
-  AsyncEither<AutoCacheManagerException, Unit> execute(ClearCacheDTO dto);
+  AsyncEither<AutoCacheManagerException, Unit> execute();
 }
 
 class ClearCache implements ClearCacheUsecase {
@@ -12,7 +12,7 @@ class ClearCache implements ClearCacheUsecase {
   const ClearCache(this._repository);
 
   @override
-  AsyncEither<AutoCacheManagerException, Unit> execute(ClearCacheDTO dto) async {
-    return _repository.clear(dto);
+  AsyncEither<AutoCacheManagerException, Unit> execute() async {
+    return _repository.clear();
   }
 }

@@ -7,5 +7,4 @@ export 'src/modules/data_cache/data_cache.dart';
 
 class AutoCacheManager {
   static PrefsCacheManagerController get prefs => PrefsCacheManagerController.instance;
-  static SQLCacheManagerController get sql => SQLCacheManagerController.instance;
 }

@@ -18,8 +18,8 @@ class SaveCache implements SaveCacheUsecase {
 
   @override
   AsyncEither<AutoCacheManagerException, Unit> execute<T extends Object>(SaveCacheDTO<T> dto) async {
-    final findByKeyDto = GetCacheDTO(key: dto.key, storageType: dto.storageType);
-    final findByKeyResponse = await _repository.get<T>(findByKeyDto);
+    final findByKeyDto = GetCacheDTO(key: dto.key);
+    final findByKeyResponse = _repository.get<T>(findByKeyDto);
 
     if (findByKeyResponse.isError) {
       return left(findByKeyResponse.error);

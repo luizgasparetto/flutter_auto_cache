@@ -1,10 +1,8 @@
 import 'package:auto_cache_manager/src/core/core.dart';
-import 'package:auto_cache_manager/src/modules/data_cache/domain/dtos/clear_cache_dto.dart';
 import 'package:auto_cache_manager/src/modules/data_cache/domain/dtos/delete_cache_dto.dart';
 import 'package:auto_cache_manager/src/modules/data_cache/domain/dtos/get_cache_dto.dart';
 import 'package:auto_cache_manager/src/modules/data_cache/domain/dtos/save_cache_dto.dart';
 import 'package:auto_cache_manager/src/modules/data_cache/domain/entities/cache_entity.dart';
-import 'package:auto_cache_manager/src/modules/data_cache/domain/enums/storage_type.dart';
 import 'package:auto_cache_manager/src/modules/data_cache/infra/datasources/i_command_data_cache_datasource.dart';
 import 'package:auto_cache_manager/src/modules/data_cache/infra/datasources/i_query_data_cache_datasource.dart';
 import 'package:auto_cache_manager/src/modules/data_cache/infra/repositories/cache_repository.dart';
@@ -44,7 +42,7 @@ void main() {
   });
 
   group('CacheRepository.get |', () {
-    const prefsDto = GetCacheDTO(key: 'my_key', storageType: StorageType.prefs);
+    const prefsDto = GetCacheDTO(key: 'my_key');
 
     test('should be able to find cache data by key in prefs successfully', () async {
       when(() => queryDatasource.get<String>('my_key')).thenReturn(CacheEntityFake<String>(fakeData: 'any_data'));
@@ -81,7 +79,7 @@ void main() {
     test('should be able to get keys of prefs datasource successfully', () async {
       when(() => queryDatasource.getKeys()).thenReturn(['keys']);
 
-      final response = sut.getKeys(StorageType.prefs);
+      final response = sut.getKeys();
 
       expect(response.isSuccess, isTrue);
       expect(response.success, equals(['keys']));
@@ -91,7 +89,7 @@ void main() {
     test('should NOT be able to get keys of prefs when prefs datasource fails', () async {
       when(() => queryDatasource.getKeys()).thenThrow(FakeAutoCacheManagerException());
 
-      final response = sut.getKeys(StorageType.prefs);
+      final response = sut.getKeys();
 
       expect(response.isError, isTrue);
       expect(response.error, isA<AutoCacheManagerException>());
@@ -100,12 +98,7 @@ void main() {
   });
 
   group('CacheRepository.save |', () {
-    final prefsDto = SaveCacheDTO<String>(
-      key: 'my_key',
-      data: 'my_data',
-      storageType: StorageType.prefs,
-      cacheConfig: fakeCacheConfig,
-    );
+    final prefsDto = SaveCacheDTO<String>(key: 'my_key', data: 'my_data', cacheConfig: fakeCacheConfig);
 
     test('should be able to save cache data with prefs successfully', () async {
       when(() => commandDatasource.save<String>(prefsDto)).thenAsyncVoid();
@@ -128,7 +121,7 @@ void main() {
   });
 
   group('CacheRepository.delete |', () {
-    const prefsDto = DeleteCacheDTO(key: 'my_key', storageType: StorageType.prefs);
+    const prefsDto = DeleteCacheDTO(key: 'my_key');
 
     test('should be able to delete prefs cache by key successfully', () async {
       when(() => commandDatasource.delete('my_key')).thenAsyncVoid();
@@ -152,12 +145,10 @@ void main() {
   });
 
   group('CacheRepository.clear |', () {
-    const prefsDTO = ClearCacheDTO(storageType: StorageType.prefs);
-
     test('should be able to clear prefs data successfully', () async {
       when(commandDatasource.clear).thenAsyncVoid();
 
-      final response = await sut.clear(prefsDTO);
+      final response = await sut.clear();
 
       expect(response.isSuccess, isTrue);
       verify(commandDatasource.clear).called(1);
@@ -166,7 +157,7 @@ void main() {
     test('should NOT be able to clear prefs data when datasource fails', () async {
       when(commandDatasource.clear).thenThrow(FakeAutoCacheManagerException());
 
-      final response = await sut.clear(prefsDTO);
+      final response = await sut.clear();
 
       expect(response.isError, isTrue);
       expect(response.error, isA<AutoCacheManagerException>());

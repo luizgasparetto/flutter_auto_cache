@@ -2,7 +2,6 @@ import 'package:auto_cache_manager/src/core/core.dart';
 import 'package:auto_cache_manager/src/modules/data_cache/domain/dtos/get_cache_dto.dart';
 import 'package:auto_cache_manager/src/modules/data_cache/domain/entities/cache_entity.dart';
 import 'package:auto_cache_manager/src/modules/data_cache/domain/enums/invalidation_type.dart';
-import 'package:auto_cache_manager/src/modules/data_cache/domain/enums/storage_type.dart';
 import 'package:auto_cache_manager/src/modules/data_cache/domain/services/invalidation/invalidation_cache_context.dart';
 import 'package:auto_cache_manager/src/modules/data_cache/domain/usecases/get_cache_usecase.dart';
 import 'package:auto_cache_manager/src/modules/data_cache/infra/repositories/cache_repository.dart';
@@ -35,7 +34,7 @@ void main() {
   });
 
   group('GetCache |', () {
-    const dto = GetCacheDTO(key: 'my_key', storageType: StorageType.prefs);
+    const dto = GetCacheDTO(key: 'my_key');
 
     final successCache = CacheEntity<String>(
       id: 'any_id',
