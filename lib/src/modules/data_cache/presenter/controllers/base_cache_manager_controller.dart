@@ -12,11 +12,7 @@ import '../../domain/usecases/save_cache_usecase.dart';
 
 part 'specifications/prefs_cache_manager_controller.dart';
 
-sealed class IBaseCacheManagerController {
-  Future<T?> get<T extends Object>({required String key});
-}
-
-class BaseCacheManagerController implements IBaseCacheManagerController {
+class BaseCacheManagerController {
   final GetCacheUsecase _getCacheUsecase;
   final SaveCacheUsecase _saveCacheUsecase;
   final ClearCacheUsecase _clearCacheUsecase;
@@ -41,19 +37,18 @@ class BaseCacheManagerController implements IBaseCacheManagerController {
     );
   }
 
-  @override
   Future<T?> get<T extends Object>({required String key}) async {
-    final dto = GetCacheDTO(key: key);
-
-    final response = await _getCacheUsecase.execute<T>(dto);
-
-    return response.fold((error) => throw error, (success) => success?.data);
+    return _getDataCache.call<T, Object>(key: key);
   }
 
-  Future<List<T>?> getList<T extends Object>({required String key}) async {
-    final dto = GetListCacheDTO<T>(key: key);
+  Future<T?> getList<T extends Object, DataType extends Object>({required String key}) {
+    return _getDataCache<T, DataType>(key: key);
+  }
 
-    final response = await _getCacheUsecase.execute<List<T>>(dto);
+  Future<T?> _getDataCache<T extends Object, DataType extends Object>({required String key}) async {
+    final dto = GetCacheDTO(key: key);
+
+    final response = await _getCacheUsecase.execute<T, DataType>(dto);
 
     return response.fold((error) => throw error, (success) => success?.data);
   }

@@ -19,6 +19,8 @@ abstract interface class IQueryDataCacheDatasource {
   ///   - A `CacheEntity<T>?`, which is the cached entity if found, or `null` if no such entity exists.
   CacheEntity<T>? get<T extends Object>(String key);
 
+  CacheEntity<T>? getList<T extends Object, DataType extends Object>(String key);
+
   /// Retrieves a comprehensive list of all keys currently stored in the cache.
   ///
   /// This method provides an overview of the cache's contents by listing all the keys. It can be useful for

@@ -114,7 +114,9 @@ void main() {
     });
 
     test('should be able to get NULL when request an non existent JSON cache', () async {
-      when(() => baseController.get<Map<String, dynamic>>(key: 'key')).thenAnswer((_) async => null);
+      when(() => baseController.get<Map<String, dynamic>>(key: 'key')).thenAnswer(
+        (_) async => null,
+      );
 
       final response = await sut.getJson(key: 'key');
 
@@ -123,7 +125,9 @@ void main() {
     });
 
     test('should NOT be able to get json in prefs when base controller fails', () async {
-      when(() => baseController.get<Map<String, dynamic>>(key: 'key')).thenThrow(FakeAutoCacheManagerException());
+      when(() => baseController.get<Map<String, dynamic>>(key: 'key')).thenThrow(
+        FakeAutoCacheManagerException(),
+      );
 
       expect(() => sut.getJson(key: 'key'), throwsA(isA<AutoCacheManagerException>()));
       verify(() => baseController.get<Map<String, dynamic>>(key: 'key')).called(1);
@@ -150,28 +154,30 @@ void main() {
 
   group('PrefsCacheManagerController.getStringList |', () {
     test('should be able to get list of String in prefs successfully', () async {
-      when(() => baseController.get<List<String>>(key: 'my_key')).thenAnswer((_) async => ['value']);
+      when(() => baseController.getList<List<String>, String>(key: 'my_key')).thenAnswer((_) async => ['value']);
 
       final response = await sut.getStringList(key: 'my_key');
 
       expect(response?.length, equals(1));
-      verify(() => baseController.get<List<String>>(key: 'my_key')).called(1);
+      verify(() => baseController.getList<List<String>, String>(key: 'my_key')).called(1);
     });
 
     test('should be able to get NULL when request a list of String that doesnt exists in cache', () async {
-      when(() => baseController.get<List<String>>(key: 'my_key')).thenAnswer((_) async => null);
+      when(() => baseController.getList<List<String>, String>(key: 'my_key')).thenAnswer((_) async => null);
 
       final response = await sut.getStringList(key: 'my_key');
 
       expect(response, isNull);
-      verify(() => baseController.get<List<String>>(key: 'my_key')).called(1);
+      verify(() => baseController.getList<List<String>, String>(key: 'my_key')).called(1);
     });
 
     test('should NOT be able to save a list of String when base controller fails', () async {
-      when(() => baseController.get<List<String>>(key: 'my_key')).thenThrow(FakeAutoCacheManagerException());
+      when(() => baseController.getList<List<String>, String>(key: 'my_key')).thenThrow(
+        FakeAutoCacheManagerException(),
+      );
 
       expect(() => sut.getStringList(key: 'my_key'), throwsA(isA<AutoCacheManagerException>()));
-      verify(() => baseController.get<List<String>>(key: 'my_key')).called(1);
+      verify(() => baseController.getList<List<String>, String>(key: 'my_key')).called(1);
     });
   });
 

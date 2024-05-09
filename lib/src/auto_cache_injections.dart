@@ -41,7 +41,7 @@ class AutoCacheInjections {
   Future<void> registerBinds() async {
     await _registerLibs();
     _registerCore();
-    _registerCacheData();
+    _registerDataCache();
   }
 
   Future<void> _registerLibs() async {
@@ -57,7 +57,7 @@ class AutoCacheInjections {
     Injector.I.bindSingleton<IDirectoryProviderService>(DirectoryProviderService(_get()));
   }
 
-  void _registerCacheData() {
+  void _registerDataCache() {
     Injector.I.bindFactory<IQueryDataCacheDatasource>(() => QueryDataCacheDatasource(_get(), _get()));
     Injector.I.bindFactory<ICommandDataCacheDatasource>(() => CommandDataCacheDatasource(_get(), _get()));
     Injector.I.bindFactory<IInvalidationCacheContext>(() => InvalidationCacheContext(_get()));

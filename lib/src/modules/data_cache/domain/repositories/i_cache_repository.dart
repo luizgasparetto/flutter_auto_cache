@@ -6,6 +6,8 @@ import '../dtos/save_cache_dto.dart';
 
 import '../entities/cache_entity.dart';
 
+typedef GetCacheResponse<T extends Object> = Either<AutoCacheManagerException, CacheEntity<T>?>;
+
 /// An interface defining the repository for managing cache operations.
 ///
 /// This repository provides methods for retrieving, saving, updating, deleting, and clearing
@@ -19,7 +21,9 @@ abstract interface class ICacheRepository {
   ///
   /// Returns:
   /// - An [Either] containing an [AutoCacheManagerException] on failure, or a nullable [CacheEntity] of type [T] on success.
-  Either<AutoCacheManagerException, CacheEntity<T>?> get<T extends Object>(GetCacheDTO dto);
+  GetCacheResponse<T> get<T extends Object>(GetCacheDTO dto);
+
+  GetCacheResponse<T> getList<T extends Object, DataType extends Object>(GetCacheDTO dto);
 
   /// Retrieves all keys associated with a specific storage type [storageType].
   ///
