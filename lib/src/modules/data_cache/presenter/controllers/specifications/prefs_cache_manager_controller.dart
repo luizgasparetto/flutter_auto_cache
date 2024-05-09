@@ -34,6 +34,8 @@ abstract interface class IQueryPrefsCacheManagerController {
   /// If the data exists for the [key], it returns the list; otherwise,
   /// it returns `null` if no data is found.
   Future<List<String>?> getStringList({required String key});
+
+  Future<List<Map<String, dynamic>>?> getJsonList({required String key});
 }
 
 /// Interface for writing cache operations.
@@ -63,6 +65,8 @@ abstract interface class ICommandPrefsCachaManagerController {
   /// This method is asynchronous and returns a `Future<void>` that completes
   /// when the operation is finished. The data must be a list of strings.
   Future<void> saveStringList({required String key, required List<String> data});
+
+  Future<void> saveJsonList({required String key, required List<Map<String, dynamic>> data});
 
   /// Deletes the cache entry for the specified [key].
   ///
@@ -131,6 +135,11 @@ class PrefsCacheManagerController implements IPrefsCacheManagerController {
     return _baseCacheManagerController.getList<List<String>, String>(key: key);
   }
 
+  @override
+  Future<List<Map<String, dynamic>>?> getJsonList({required String key}) async {
+    return _baseCacheManagerController.getList<List<Map<String, dynamic>>, Map<String, dynamic>>(key: key);
+  }
+
   /// Saves a `String` in the cache with the specified `key`.
   ///
   /// This method is asynchronous and returns a `Future<void>` that completes
@@ -167,6 +176,11 @@ class PrefsCacheManagerController implements IPrefsCacheManagerController {
   @override
   Future<void> saveStringList({required String key, required List<String> data}) async {
     return _baseCacheManagerController.save<List<String>>(key: key, data: data);
+  }
+
+  @override
+  Future<void> saveJsonList({required String key, required List<Map<String, dynamic>> data}) async {
+    return _baseCacheManagerController.save<List<Map<String, dynamic>>>(key: key, data: data);
   }
 
   /// Deletes the specified cache entry.
