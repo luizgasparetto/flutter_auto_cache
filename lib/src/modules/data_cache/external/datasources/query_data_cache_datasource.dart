@@ -20,10 +20,7 @@ final class QueryDataCacheDatasource implements IQueryDataCacheDatasource {
   ///
   /// The [prefsService] parameter is required for persistent data storage,
   /// while the [cryptographyService] parameter ensures that all cached data is securely encrypted and decrypted.
-  const QueryDataCacheDatasource(
-    this._prefsService,
-    this._cryptographyService,
-  );
+  const QueryDataCacheDatasource(this._prefsService, this._cryptographyService);
 
   /// Retrieves a cached entity of type [T] using the provided [key].
   ///
@@ -37,15 +34,20 @@ final class QueryDataCacheDatasource implements IQueryDataCacheDatasource {
   /// - A [CacheEntity] object of type [T] if found, otherwise `null`.
   @override
   CacheEntity<T>? get<T extends Object>(String key) {
-    final response = _prefsService.get(key: key);
+    final decodedResponse = _getDecodedResponse(key);
 
-    if (response == null) return null;
-
-    final decrypted = _cryptographyService.decrypt(response);
-
-    final decodedResponse = jsonDecode(decrypted);
+    if (decodedResponse == null) return null;
 
     return CacheAdapter.fromJson<T>(decodedResponse);
+  }
+
+  @override
+  CacheEntity<T>? getList<T extends Object, DataType extends Object>(String key) {
+    final decodedResponse = _getDecodedResponse(key);
+
+    if (decodedResponse == null) return null;
+
+    return CacheAdapter.listFromJson<T, DataType>(decodedResponse);
   }
 
   /// Retrieves all keys currently stored in the preferences.
@@ -58,5 +60,15 @@ final class QueryDataCacheDatasource implements IQueryDataCacheDatasource {
   @override
   List<String> getKeys() {
     return _prefsService.getKeys();
+  }
+
+  Map<String, dynamic>? _getDecodedResponse(String key) {
+    final response = _prefsService.get(key: key);
+
+    if (response == null) return null;
+
+    final decrypted = _cryptographyService.decrypt(response);
+
+    return jsonDecode(decrypted);
   }
 }

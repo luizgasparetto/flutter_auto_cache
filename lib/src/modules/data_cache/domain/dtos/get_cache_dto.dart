@@ -6,10 +6,11 @@ class GetCacheDTO {
   });
 }
 
-class GetListCacheDTO<T extends Object> extends GetCacheDTO {
+class GetListCacheDTO extends GetCacheDTO {
+  final Type dataType;
+
   const GetListCacheDTO({
     required super.key,
+    required this.dataType,
   });
-
-  Type get dataType => T.runtimeType;
 }

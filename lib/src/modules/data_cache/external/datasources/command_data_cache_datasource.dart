@@ -21,10 +21,7 @@ final class CommandDataCacheDatasource implements ICommandDataCacheDatasource {
   ///
   /// The [prefsService] parameter is required to handle persistent data storage,
   /// while the [cryptographyService] parameter ensures that all cached data is securely encrypted.
-  const CommandDataCacheDatasource(
-    this._prefsService,
-    this._cryptographyService,
-  );
+  const CommandDataCacheDatasource(this._prefsService, this._cryptographyService);
 
   /// Persists a data object in the cache, ensuring its security via encryption.
   ///
