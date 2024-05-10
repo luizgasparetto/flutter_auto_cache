@@ -64,7 +64,7 @@ class BaseCacheManagerController {
   ///
   /// Throws an error if data retrieval fails.
   Future<T?> get<T extends Object>({required String key}) async {
-    return _getDataCache.call<T, Object>(key: key);
+    return _getDataCache.call<T, T>(key: key);
   }
 
   /// Retrieves a list of cached objects of type [T] associated with the specified [key].
