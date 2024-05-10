@@ -132,12 +132,12 @@ class PrefsCacheManagerController implements IPrefsCacheManagerController {
   /// the list; otherwise, it returns `null` if no data is found.
   @override
   Future<List<String>?> getStringList({required String key}) async {
-    return _baseCacheManagerController.getList<List<String>, String>(key: key);
+    return _baseCacheManagerController.getList<String>(key: key);
   }
 
   @override
   Future<List<Map<String, dynamic>>?> getJsonList({required String key}) async {
-    return _baseCacheManagerController.getList<List<Map<String, dynamic>>, Map<String, dynamic>>(key: key);
+    return _baseCacheManagerController.getList<Map<String, dynamic>>(key: key);
   }
 
   /// Saves a `String` in the cache with the specified `key`.
