@@ -74,8 +74,8 @@ class BaseCacheManagerController {
   /// Returns a list of cached objects if found, or `null` if not present.
   ///
   /// Throws an error if data retrieval encounters an issue.
-  Future<T?> getList<T extends Object, DataType extends Object>({required String key}) {
-    return _getDataCache<T, DataType>(key: key);
+  Future<List<T>?> getList<T extends Object>({required String key}) {
+    return _getDataCache<List<T>, T>(key: key);
   }
 
   /// Saves an object of type [T] into the cache under the provided [key].
