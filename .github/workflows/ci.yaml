@@ -49,25 +49,6 @@ jobs:
       - name: "Run Format"
         run: dart format --set-exit-if-changed --line-length 120 .
 
-      - name: "Run Dart Fixes"
-        run: |
-          dart fix --apply --code=unused_import
-          dart fix --apply --code=always_specify_types
-          dart fix --apply --code=always_declare_return_types
-
-      - name: "Check Modified Dart Files"
-        id: check_modified_files
-        run: if git diff --exit-code '*.dart'; then echo "modified=true" >> $GITHUB_STATE; else echo "modified=false" >> $GITHUB_STATE; fi
-
-      - name: "Automatically Commit Changes"
-        if: env.GITHUB_STATE == 'modified=true'
-        run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-          git add .
-          git commit -m "fix: automatically fix code issues"
-          git push
-
       - name: "Run Tests"
         run: flutter test --test-randomize-ordering-seed=random --coverage --machine > test-results.json
 
