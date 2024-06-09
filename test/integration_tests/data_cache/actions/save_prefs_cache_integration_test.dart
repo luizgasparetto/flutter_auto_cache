@@ -66,8 +66,27 @@ Future<void> main() async {
   group('SaveCacheIntegrationTest.saveStringList |', () {
     final stringList = ['value_1', 'value_2', 'value_3'];
 
-    test('should be able to save a list of string in prefs cache and completes operation', () async {
-      await expectLater(sut.saveStringList(key: 'string_list_key', data: stringList), completes);
+    test('should be able to save a list of String in prefs cache and verify values', () async {
+      await sut.saveStringList(key: 'string_list_key', data: stringList);
+
+      final response = await sut.getStringList(key: 'string_list_key');
+
+      expect(response, isNotNull);
+      expect(response, equals(stringList));
+    });
+  });
+
+  group('SaveCacheIntegrationTest.saveJsonList |', () {
+    final json = {'key': 'value'};
+    final jsonList = List.generate(5, (_) => json);
+
+    test('should be able to save a list of JSON in prefs cache and verify values', () async {
+      await sut.saveJsonList(key: 'json_list_key', data: jsonList);
+
+      final response = await sut.getJsonList(key: 'json_list_key');
+
+      expect(response, isNotNull);
+      expect(response, equals(jsonList));
     });
   });
 }
