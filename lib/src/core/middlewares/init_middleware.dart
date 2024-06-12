@@ -21,7 +21,7 @@ class InitMiddleware {
     final isInitialized = AutoCacheInjections.isInjectorInitialized;
 
     if (!isInitialized) {
-      throw NotInitializedAutoCacheManagerException(
+      throw NotInitializedAutoCacheException(
         message: 'Auto cache manager is not initialized.',
         stackTrace: StackTrace.current,
       );
