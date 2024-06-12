@@ -1,27 +1,27 @@
 import 'package:flutter/foundation.dart';
 
-import 'core/core.dart';
+import '../cache_config.dart';
 
-class AutoCacheManagerConfig {
+final class AutoCacheConfigStore extends ValueNotifier<CacheConfig> {
   /// Private constructor for the singleton pattern.
-  AutoCacheManagerConfig._();
+  AutoCacheConfigStore._() : super(CacheConfig.defaultConfig());
 
   /// The single instance of [AutoCacheManagerConfig].
-  static final _instance = AutoCacheManagerConfig._();
+  static final _instance = AutoCacheConfigStore._();
 
   /// Provides global access to the [AutoCacheManagerConfig] instance.
-  static AutoCacheManagerConfig get instance => _instance;
+  static AutoCacheConfigStore get instance => _instance;
 
   /// Internally manages the cache configuration, allowing for dynamic updates.
-  final _configListenable = ValueNotifier<CacheConfig>(CacheConfig.defaultConfig());
+  //final _configListenable = ValueNotifier<CacheConfig>(CacheConfig.defaultConfig());
 
   /// Exposes the current cache configuration.
-  CacheConfig get config => _configListenable.value;
+  CacheConfig get config => value;
 
   /// Updates the current cache configuration with a new `CacheConfig`.
   ///
   /// - [config]: The new `CacheConfig` to apply.
   void setConfig(CacheConfig? config) {
-    _configListenable.value = config ?? _configListenable.value;
+    value = config ?? value;
   }
 }

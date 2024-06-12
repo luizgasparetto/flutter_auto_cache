@@ -1,7 +1,6 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'auto_cache_manager_config.dart';
-
+import 'core/config/stores/auto_cache_config_store.dart';
 import 'core/core.dart';
 
 import 'core/services/compressor/compressor_service.dart';
@@ -49,7 +48,7 @@ class AutoCacheInjections {
   }
 
   void _registerCore() {
-    Injector.I.bindSingleton<CacheConfig>(AutoCacheManagerConfig.instance.config);
+    Injector.I.bindSingleton<CacheConfig>(AutoCacheConfigStore.instance.config);
     Injector.I.bindSingleton<IPathProviderService>(PathProviderService());
     Injector.I.bindSingleton<ICompressorService>(CompressorService());
     Injector.I.bindSingleton<IPrefsService>(SharedPreferencesService(_get()));

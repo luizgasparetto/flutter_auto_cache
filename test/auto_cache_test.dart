@@ -1,4 +1,4 @@
-import 'package:auto_cache_manager/auto_cache_manager.dart';
+import 'package:auto_cache_manager/auto_cache.dart';
 import 'package:auto_cache_manager/src/auto_cache_injections.dart';
 import 'package:auto_cache_manager/src/core/exceptions/initializer_exceptions.dart';
 import 'package:auto_cache_manager/src/modules/data_cache/presenter/controllers/base_cache_manager_controller.dart';
@@ -16,15 +16,15 @@ void main() {
     AutoCacheInjections.instance.resetBinds();
   });
 
-  group('AutoCacheManager |', () {
-    test('should be able to throw a NotInitializedAutoCacheManagerException when NOT initialize AutoCacheManager', () {
-      expect(() => AutoCacheManager.prefs, throwsA(isA<NotInitializedAutoCacheManagerException>()));
+  group('AutoCache |', () {
+    test('should be able to throw a NotInitializedAutoCacheManagerException when NOT initialize AutoCache', () {
+      expect(() => AutoCache.prefs, throwsA(isA<NotInitializedAutoCacheException>()));
     });
 
     test('should be able to verify instances and binds of cache controllers', () async {
-      await AutoCacheManagerInitializer.instance.init();
+      await AutoCacheInitializer.instance.init();
 
-      expect(AutoCacheManager.prefs, equals(PrefsCacheManagerController.instance));
+      expect(AutoCache.prefs, equals(PrefsCacheManagerController.instance));
     });
   });
 }

@@ -1,4 +1,4 @@
-import 'package:auto_cache_manager/src/auto_cache_manager_config.dart';
+import 'package:auto_cache_manager/src/core/config/stores/auto_cache_config_store.dart';
 import 'package:auto_cache_manager/src/core/core.dart';
 import 'package:auto_cache_manager/src/modules/data_cache/domain/dtos/get_cache_dto.dart';
 import 'package:auto_cache_manager/src/modules/data_cache/domain/dtos/save_cache_dto.dart';
@@ -44,7 +44,7 @@ void main() {
   final fakeGetCacheDto = FakeGetCacheDTO();
 
   setUpAll(() {
-    AutoCacheManagerConfig.instance.setConfig(BaseConfigFake());
+    AutoCacheConfigStore.instance.setConfig(BaseConfigFake());
   });
 
   setUp(() {
