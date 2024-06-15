@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:auto_cache_manager/src/core/core.dart';
-import 'package:auto_cache_manager/src/core/services/cryptography/i_cryptography_service.dart';
+import 'package:auto_cache_manager/src/core/services/cryptography_service/i_cryptography_service.dart';
 import 'package:auto_cache_manager/src/core/services/storages/prefs/i_prefs_service.dart';
 import 'package:auto_cache_manager/src/modules/data_cache/domain/entities/cache_entity.dart';
 import 'package:auto_cache_manager/src/modules/data_cache/domain/enums/invalidation_type.dart';

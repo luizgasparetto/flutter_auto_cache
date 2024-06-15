@@ -1,22 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
-/// An abstract interface for compressing and decompressing strings.
-abstract class ICompressorService {
-  /// Compresses the input string and returns the compressed result.
-  ///
-  /// [value]: The string to be compressed.
-  ///
-  /// Returns the compressed string.
-  String compressString(String value);
-
-  /// Decompresses the compressed string and returns the original string.
-  ///
-  /// [compress]: The compressed string to be decompressed.
-  ///
-  /// Returns the original decompressed string.
-  String decompressString(String compress);
-}
+import '../i_compressor_service.dart';
 
 /// A service implementation of the [ICompressorService] interface.
 ///

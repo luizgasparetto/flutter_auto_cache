@@ -3,10 +3,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'core/config/stores/auto_cache_config_store.dart';
 import 'core/core.dart';
 
-import 'core/services/compressor/compressor_service.dart';
-import 'core/services/cryptography/encrypt/encrypt_cryptography_service.dart';
-import 'core/services/cryptography/i_cryptography_service.dart';
-import 'core/services/directory_provider/path_provider/path_provider_service.dart';
+import 'core/services/compressor_service/i_compressor_service.dart';
+import 'core/services/compressor_service/implementations/compressor_service.dart';
+import 'core/services/cryptography_service/implementations/encrypt_cryptography_service.dart';
+import 'core/services/cryptography_service/i_cryptography_service.dart';
+import 'core/services/directory_service/path_provider/path_provider_service.dart';
 import 'core/services/storages/prefs/i_prefs_service.dart';
 import 'core/services/storages/prefs/shared_preferences/shared_preferences_service.dart';
 

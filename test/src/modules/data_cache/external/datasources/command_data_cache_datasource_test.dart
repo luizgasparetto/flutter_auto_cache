@@ -1,5 +1,5 @@
 import 'package:auto_cache_manager/src/core/core.dart';
-import 'package:auto_cache_manager/src/core/services/cryptography/i_cryptography_service.dart';
+import 'package:auto_cache_manager/src/core/services/cryptography_service/i_cryptography_service.dart';
 import 'package:auto_cache_manager/src/core/services/storages/prefs/i_prefs_service.dart';
 import 'package:auto_cache_manager/src/modules/data_cache/domain/dtos/save_cache_dto.dart';
 import 'package:auto_cache_manager/src/modules/data_cache/external/datasources/command_data_cache_datasource.dart';
