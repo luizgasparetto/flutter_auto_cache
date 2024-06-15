@@ -8,7 +8,7 @@ class EncrypterFactory {
 
   static final _instance = EncrypterFactory._();
 
-  static EncrypterFactory get I => _instance;
+  static EncrypterFactory get instance => _instance;
 
   Encrypter createEncrypter(String secretKey) {
     final secretKeyHash = _generateSecretHash(secretKey);

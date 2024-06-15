@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import '../../../../core/services/cryptography/i_cryptography_service.dart';
+import '../../../../core/services/cryptography_service/i_cryptography_service.dart';
 import '../../../../core/services/storages/prefs/i_prefs_service.dart';
 import '../../domain/dtos/save_cache_dto.dart';
 import '../../domain/entities/cache_entity.dart';

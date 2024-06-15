@@ -1,10 +1,10 @@
 import 'package:auto_cache_manager/src/core/core.dart';
-import 'package:auto_cache_manager/src/core/services/cryptography/encrypt/encrypt_cryptography_service.dart';
+import 'package:auto_cache_manager/src/core/services/cryptography_service/implementations/encrypt_cryptography_service.dart';
 import 'package:auto_cache_manager/src/core/config/value_objects/cache_cryptography_options.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
-import '../../../../commons/constants/cache_test_constants.dart';
+import '../../../../../commons/constants/cache_test_constants.dart';
 
 class CacheConfigMock extends Mock implements CacheConfig {}
 

@@ -18,8 +18,8 @@ class EncryptCryptographyService implements ICryptographyService {
 
     if (cryptographyOptions == null) return value;
 
-    final encrypter = EncrypterFactory.I.createEncrypter(cryptographyOptions.secretKey);
-    final iv = EncrypterFactory.I.createIv(cryptographyOptions.secretKey);
+    final encrypter = EncrypterFactory.instance.createEncrypter(cryptographyOptions.secretKey);
+    final iv = EncrypterFactory.instance.createIv(cryptographyOptions.secretKey);
 
     final encrypted = encrypter.encrypt(value, iv: iv);
     return base64Encode(encrypted.bytes);
@@ -31,8 +31,8 @@ class EncryptCryptographyService implements ICryptographyService {
 
     if (cryptographyOptions == null) return value;
 
-    final encrypter = EncrypterFactory.I.createEncrypter(cryptographyOptions.secretKey);
-    final iv = EncrypterFactory.I.createIv(cryptographyOptions.secretKey);
+    final encrypter = EncrypterFactory.instance.createEncrypter(cryptographyOptions.secretKey);
+    final iv = EncrypterFactory.instance.createIv(cryptographyOptions.secretKey);
 
     final bytes = base64Decode(value);
     return encrypter.decrypt(Encrypted(bytes), iv: iv);
