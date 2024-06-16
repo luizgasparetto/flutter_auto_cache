@@ -6,8 +6,6 @@ import '../dtos/save_cache_dto.dart';
 
 import '../entities/cache_entity.dart';
 
-typedef GetCacheResponse<T extends Object> = Either<AutoCacheManagerException, CacheEntity<T>?>;
-
 /// An interface defining the repository for managing cache operations.
 ///
 /// This repository provides methods for retrieving, saving, updating, deleting, and clearing
@@ -20,18 +18,18 @@ abstract interface class ICacheRepository {
   /// - Parameter [dto]: An object of type [GetCacheDTO] that contains the criteria to locate the cache.
   ///
   /// Returns:
-  /// - An [Either] containing an [AutoCacheManagerException] on failure, or a nullable [CacheEntity] of type [T] on success.
-  GetCacheResponse<T> get<T extends Object>(GetCacheDTO dto);
+  /// - An [Either] containing an [AutoCacheException] on failure, or a nullable [CacheEntity] of type [T] on success.
+  Either<AutoCacheException, CacheEntity<T>?> get<T extends Object>(GetCacheDTO dto);
 
-  GetCacheResponse<T> getList<T extends Object, DataType extends Object>(GetCacheDTO dto);
+  Either<AutoCacheException, CacheEntity<T>?> getList<T extends Object, DataType extends Object>(GetCacheDTO dto);
 
   /// Retrieves all keys associated with a specific storage type [storageType].
   ///
   /// - Parameter [storageType]: An enumerated value representing the desired storage type.
   ///
   /// Returns:
-  /// - An [Either] containing an [AutoCacheManagerException] on failure, or a list of strings representing the cache keys on success.
-  Either<AutoCacheManagerException, List<String>> getKeys();
+  /// - An [Either] containing an [AutoCacheException] on failure, or a list of strings representing the cache keys on success.
+  Either<AutoCacheException, List<String>> getKeys();
 
   /// Saves a data object of type [T] using the data transfer object [dto].
   ///
@@ -40,8 +38,8 @@ abstract interface class ICacheRepository {
   /// - Parameter [dto]: An object of type [SaveCacheDTO] containing the data and metadata to be cached.
   ///
   /// Returns:
-  /// - An [AsyncEither] containing an [AutoCacheManagerException] on failure, or a [Unit] indicating success.
-  AsyncEither<AutoCacheManagerException, Unit> save<T extends Object>(SaveCacheDTO<T> dto);
+  /// - An [AsyncEither] containing an [AutoCacheException] on failure, or a [Unit] indicating success.
+  AsyncEither<AutoCacheException, Unit> save<T extends Object>(SaveCacheDTO<T> dto);
 
   /// Updates a cached data object of type [T].
   ///
@@ -49,7 +47,7 @@ abstract interface class ICacheRepository {
   ///
   /// Returns:
   /// - An [AsyncEither] containing an [AutoCacheManagerException] on failure, or a [Unit] indicating success.
-  AsyncEither<AutoCacheManagerException, Unit> update<T extends Object>();
+  AsyncEither<AutoCacheException, Unit> update<T extends Object>();
 
   /// Deletes a cached data entry based on the criteria in [dto].
   ///
@@ -58,8 +56,8 @@ abstract interface class ICacheRepository {
   /// - Parameter [dto]: An object of type [DeleteCacheDTO] containing the criteria to delete the cache.
   ///
   /// Returns:
-  /// - An [AsyncEither] containing an [AutoCacheManagerException] on failure, or a [Unit] indicating success.
-  AsyncEither<AutoCacheManagerException, Unit> delete(DeleteCacheDTO dto);
+  /// - An [AsyncEither] containing an [AutoCacheException] on failure, or a [Unit] indicating success.
+  AsyncEither<AutoCacheException, Unit> delete(DeleteCacheDTO dto);
 
   /// Clears all cached data that matches the criteria specified in [dto].
   ///
@@ -68,6 +66,6 @@ abstract interface class ICacheRepository {
   /// - Parameter [dto]: An object of type [ClearCacheDTO] containing the criteria to clear the caches.
   ///
   /// Returns:
-  /// - An [AsyncEither] containing an [AutoCacheManagerException] on failure, or a [Unit] indicating success.
-  AsyncEither<AutoCacheManagerException, Unit> clear();
+  /// - An [AsyncEither] containing an [AutoCacheException] on failure, or a [Unit] indicating success.
+  AsyncEither<AutoCacheException, Unit> clear();
 }

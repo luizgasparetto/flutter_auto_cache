@@ -4,7 +4,7 @@ import '../entities/cache_entity.dart';
 import '../repositories/i_cache_repository.dart';
 import '../services/invalidation/invalidation_cache_context.dart';
 
-typedef GetCacheResponse<T extends Object> = AsyncEither<AutoCacheManagerException, CacheEntity<T>?>;
+typedef GetCacheResponse<T extends Object> = AsyncEither<AutoCacheError, CacheEntity<T>?>;
 
 abstract class GetCacheUsecase {
   GetCacheResponse<T> execute<T extends Object, DataType extends Object>(GetCacheDTO dto);

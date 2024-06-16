@@ -1,7 +1,7 @@
 import 'package:auto_cache_manager/src/core/services/kvs_service/i_kvs_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../exceptions/storage_exceptions.dart';
+import '../exceptions/kvs_storage_exceptions.dart';
 
 class SharedPreferencesKVSService implements IKVSService {
   final SharedPreferences prefs;
@@ -13,7 +13,7 @@ class SharedPreferencesKVSService implements IKVSService {
     try {
       return prefs.getString(key);
     } catch (exception, stackTrace) {
-      throw GetStorageException(
+      throw GetKvsStorageException(
         code: 'get_prefs_storage_exception',
         message: 'Get Prefs Storage exception',
         stackTrace: stackTrace,
@@ -26,7 +26,7 @@ class SharedPreferencesKVSService implements IKVSService {
     try {
       return prefs.getStringList(key);
     } catch (exception, stackTrace) {
-      throw GetStorageException(
+      throw GetKvsStorageException(
         code: 'get_list_prefs_storage_exception',
         message: 'Get List Prefs Storage exception',
         stackTrace: stackTrace,
@@ -39,7 +39,7 @@ class SharedPreferencesKVSService implements IKVSService {
     try {
       return prefs.getKeys().toList();
     } catch (exception, stackTrace) {
-      throw GetStorageKeysException(
+      throw GetKvsStorageKeysException(
         code: 'get_keys_prefs_storage',
         message: 'Failed to get keys of Prefs',
         stackTrace: stackTrace,
@@ -52,7 +52,7 @@ class SharedPreferencesKVSService implements IKVSService {
     try {
       await prefs.setString(key, data);
     } catch (exception, stackTrace) {
-      throw SaveStorageException(
+      throw SaveKvsStorageException(
         code: 'save_prefs_storage',
         message: 'Save Prefs Storage exception',
         stackTrace: stackTrace,
@@ -65,7 +65,7 @@ class SharedPreferencesKVSService implements IKVSService {
     try {
       await prefs.setStringList(key, data);
     } catch (exception, stackTrace) {
-      throw SaveStorageException(
+      throw SaveKvsStorageException(
         code: 'save_list_prefs_storage',
         message: 'Save List Prefs Storage exception',
         stackTrace: stackTrace,
@@ -78,7 +78,7 @@ class SharedPreferencesKVSService implements IKVSService {
     try {
       await prefs.remove(key);
     } catch (exception, stackTrace) {
-      throw DeleteStorageException(
+      throw DeleteKvsStorageException(
         code: 'delete_storage',
         message: 'Delete Prefs Storage exception',
         stackTrace: stackTrace,
@@ -91,7 +91,7 @@ class SharedPreferencesKVSService implements IKVSService {
     try {
       await prefs.clear();
     } catch (e, stackTrace) {
-      throw ClearStorageException(
+      throw ClearKvsStorageException(
         code: 'clear_prefs_storage',
         message: 'Clear Prefs storage exception',
         stackTrace: stackTrace,

@@ -16,6 +16,8 @@ class FakeAutoCacheManagerException extends Fake implements AutoCacheException {
 
 class CacheEntityFake<T extends Object> extends Fake implements CacheEntity<T> {}
 
+class AutoCacheFailureFake extends Fake implements AutoCacheFailure {}
+
 void main() {
   final repository = CacheRepositoryMock();
   final invalidationContext = InvalidationCacheContextMock();
@@ -80,12 +82,12 @@ void main() {
 
     test('should NOT be able to get data in cache when invalidation context retrives an exception', () async {
       when(() => repository.get<String>(dto)).thenReturn(right(successCache));
-      when(() => invalidationContext.execute(successCache)).thenReturn(left(FakeAutoCacheManagerException()));
+      when(() => invalidationContext.execute(successCache)).thenReturn(left(AutoCacheFailureFake()));
 
       final response = await sut.execute<String, String>(dto);
 
       expect(response.isError, isTrue);
-      expect(response.error, isA<AutoCacheException>());
+      expect(response.error, isA<AutoCacheFailure>());
       verify(() => repository.get<String>(dto)).called(1);
       verify(() => invalidationContext.execute(successCache)).called(1);
     });

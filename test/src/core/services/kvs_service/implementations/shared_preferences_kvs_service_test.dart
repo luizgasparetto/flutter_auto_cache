@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:auto_cache_manager/src/core/services/kvs_service/exceptions/storage_exceptions.dart';
+import 'package:auto_cache_manager/src/core/services/kvs_service/exceptions/kvs_storage_exceptions.dart';
 import 'package:auto_cache_manager/src/core/services/kvs_service/implementations/shared_preferences_kvs_service.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
@@ -46,7 +46,7 @@ void main() {
     test('should NOT be able to GET cache data when prefs throws an Exception', () async {
       when(() => prefs.getString('my_key')).thenThrow(Exception());
 
-      expect(() => sut.get(key: 'my_key'), throwsA(isA<GetStorageException>()));
+      expect(() => sut.get(key: 'my_key'), throwsA(isA<GetKvsStorageException>()));
       verify(() => prefs.getString('my_key')).called(1);
     });
   });
@@ -76,7 +76,7 @@ void main() {
     test('should NOT be able to GET a list of cache data when prefs throws an Exception', () async {
       when(() => prefs.getStringList('my_key')).thenThrow(Exception());
 
-      expect(() => sut.getList(key: 'my_key'), throwsA(isA<GetStorageException>()));
+      expect(() => sut.getList(key: 'my_key'), throwsA(isA<GetKvsStorageException>()));
       verify(() => prefs.getStringList('my_key')).called(1);
     });
   });
@@ -105,7 +105,7 @@ void main() {
     test('should NOT be able to get keys when prefs failed', () {
       when(() => prefs.getKeys()).thenThrow(Exception());
 
-      expect(() => sut.getKeys(), throwsA(isA<GetStorageKeysException>()));
+      expect(() => sut.getKeys(), throwsA(isA<GetKvsStorageKeysException>()));
       verify(() => prefs.getKeys()).called(1);
     });
   });
@@ -124,7 +124,7 @@ void main() {
     test('should NOT be able to SAVE cache data with key when prefs throws an Exception', () async {
       when(() => prefs.setString('my_key', any(that: isA<String>()))).thenThrow(Exception());
 
-      expect(() => sut.save(key: 'my_key', data: encondedData), throwsA(isA<SaveStorageException>()));
+      expect(() => sut.save(key: 'my_key', data: encondedData), throwsA(isA<SaveKvsStorageException>()));
       verify(() => prefs.setString('my_key', any(that: isA<String>()))).called(1);
     });
   });
@@ -142,7 +142,7 @@ void main() {
     test('should NOT be able to SAVE cache list data when prefs throws an Exception', () async {
       when(() => prefs.setStringList('my_key', list)).thenThrow(Exception());
 
-      expect(() => sut.saveList(key: 'my_key', data: list), throwsA(isA<SaveStorageException>()));
+      expect(() => sut.saveList(key: 'my_key', data: list), throwsA(isA<SaveKvsStorageException>()));
       verify(() => prefs.setStringList('my_key', list)).called(1);
     });
   });
@@ -158,7 +158,7 @@ void main() {
     test('should NOT be able to delete cache data when prefs fails', () async {
       when(() => prefs.remove('key')).thenThrow(Exception());
 
-      expect(() => sut.delete(key: 'key'), throwsA(isA<DeleteStorageException>()));
+      expect(() => sut.delete(key: 'key'), throwsA(isA<DeleteKvsStorageException>()));
       verify(() => prefs.remove('key')).called(1);
     });
   });
@@ -174,7 +174,7 @@ void main() {
     test('should NOT be able to clear cache of prefs when SharedPreferences fails', () async {
       when(prefs.clear).thenThrow(Exception());
 
-      expect(sut.clear, throwsA(isA<ClearStorageException>()));
+      expect(sut.clear, throwsA(isA<ClearKvsStorageException>()));
       verify(prefs.clear).called(1);
     });
   });

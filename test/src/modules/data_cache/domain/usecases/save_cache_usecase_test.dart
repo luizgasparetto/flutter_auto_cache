@@ -14,7 +14,9 @@ class CacheRepositoryMock extends Mock implements ICacheRepository {}
 
 class InvalidationCacheContextMock extends Mock implements IInvalidationCacheContext {}
 
-class AutoCacheManagerExceptionFake extends Fake implements AutoCacheException {}
+class AutoCacheExceptionFake extends Fake implements AutoCacheException {}
+
+class AutoCacheFailureFake extends Fake implements AutoCacheFailure {}
 
 class FakeCacheConfig extends Fake implements CacheConfig {}
 
@@ -81,9 +83,7 @@ void main() {
     });
 
     test('should NOT be able to save cache repository when findByKey fails', () async {
-      when(() => repository.get<String>(any(that: cacheDtoMatcher()))).thenReturn(
-        left(AutoCacheManagerExceptionFake()),
-      );
+      when(() => repository.get<String>(any(that: cacheDtoMatcher()))).thenReturn(left(AutoCacheExceptionFake()));
 
       final response = await sut.execute<String>(dto);
 
@@ -96,12 +96,12 @@ void main() {
 
     test('should NOT be able to save cache repository when InvalidationCacheContext fails', () async {
       when(() => repository.get<String>(any(that: cacheDtoMatcher()))).thenReturn(right(fakeCache));
-      when(() => invalidationContext.execute<String>(fakeCache)).thenReturn(left(AutoCacheManagerExceptionFake()));
+      when(() => invalidationContext.execute<String>(fakeCache)).thenReturn(left(AutoCacheFailureFake()));
 
       final response = await sut.execute<String>(dto);
 
       expect(response.isError, isTrue);
-      expect(response.error, isA<AutoCacheException>());
+      expect(response.error, isA<AutoCacheFailure>());
       verify(() => repository.get<String>(any(that: cacheDtoMatcher()))).called(1);
       verify(() => invalidationContext.execute<String>(fakeCache)).called(1);
       verifyNever(() => repository.save<String>(dto));
@@ -110,7 +110,7 @@ void main() {
     test('should NOT be able to save cache repository when save method fails', () async {
       when(() => repository.get<String>(any(that: cacheDtoMatcher()))).thenReturn(right(fakeCache));
       when(() => invalidationContext.execute<String>(fakeCache)).thenAnswer((_) => right(unit));
-      when(() => repository.save<String>(dto)).thenAnswer((_) async => left(AutoCacheManagerExceptionFake()));
+      when(() => repository.save<String>(dto)).thenAnswer((_) async => left(AutoCacheExceptionFake()));
 
       final response = await sut.execute<String>(dto);
 
