@@ -1,6 +1,6 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'core/config/stores/auto_cache_config_store.dart';
+import 'core/config/stores/cache_config_store.dart';
 import 'core/core.dart';
 
 import 'core/services/compressor_service/i_compressor_service.dart';
@@ -11,6 +11,7 @@ import 'core/services/directory_service/path_provider/path_provider_service.dart
 
 import 'core/services/kvs_service/i_kvs_service.dart';
 import 'core/services/kvs_service/implementations/shared_preferences_kvs_service.dart';
+import 'core/services/service_locator/implementations/service_locator.dart';
 import 'modules/data_cache/domain/repositories/i_cache_repository.dart';
 import 'modules/data_cache/domain/services/invalidation/invalidation_cache_context.dart';
 import 'modules/data_cache/domain/usecases/clear_cache_usecase.dart';
@@ -34,9 +35,7 @@ class AutoCacheInjections {
   /// Provides global access to the [AutoCacheInjections] instance.
   static AutoCacheInjections get instance => _instance;
 
-  static bool get isInjectorInitialized => Injector.I.hasBinds;
-
-  void resetBinds() => Injector.I.clear();
+  static bool get isInjectorInitialized => ServiceLocator.instance.hasBinds;
 
   Future<void> registerBinds() async {
     await _registerLibs();
@@ -45,28 +44,28 @@ class AutoCacheInjections {
   }
 
   Future<void> _registerLibs() async {
-    await Injector.I.asyncBind(SharedPreferences.getInstance);
+    await ServiceLocator.instance.asyncBind(SharedPreferences.getInstance);
   }
 
   void _registerCore() {
-    Injector.I.bindSingleton<CacheConfig>(AutoCacheConfigStore.instance.config);
-    Injector.I.bindSingleton<IPathProviderService>(PathProviderService());
-    Injector.I.bindSingleton<ICompressorService>(CompressorService());
-    Injector.I.bindSingleton<IKVSService>(SharedPreferencesKVSService(_get()));
-    Injector.I.bindSingleton<ICryptographyService>(EncryptCryptographyService(_get()));
-    Injector.I.bindSingleton<IDirectoryProviderService>(DirectoryProviderService(_get()));
+    ServiceLocator.instance.bindSingleton<CacheConfig>(CacheConfigStore.instance.config);
+    ServiceLocator.instance.bindSingleton<IPathProviderService>(PathProviderService());
+    ServiceLocator.instance.bindSingleton<ICompressorService>(CompressorService());
+    ServiceLocator.instance.bindSingleton<IKVSService>(SharedPreferencesKVSService(_get()));
+    ServiceLocator.instance.bindSingleton<ICryptographyService>(EncryptCryptographyService(_get()));
+    ServiceLocator.instance.bindSingleton<IDirectoryProviderService>(DirectoryProviderService(_get()));
   }
 
   void _registerDataCache() {
-    Injector.I.bindFactory<IQueryDataCacheDatasource>(() => QueryDataCacheDatasource(_get(), _get()));
-    Injector.I.bindFactory<ICommandDataCacheDatasource>(() => CommandDataCacheDatasource(_get(), _get()));
-    Injector.I.bindFactory<IInvalidationCacheContext>(() => InvalidationCacheContext(_get()));
-    Injector.I.bindFactory<ICacheRepository>(() => CacheRepository(_get(), _get()));
-    Injector.I.bindFactory<DeleteCacheUsecase>(() => DeleteCache(_get()));
-    Injector.I.bindFactory<ClearCacheUsecase>(() => ClearCache(_get()));
-    Injector.I.bindFactory<GetCacheUsecase>(() => GetCache(_get(), _get()));
-    Injector.I.bindFactory<SaveCacheUsecase>(() => SaveCache(_get(), _get()));
+    ServiceLocator.instance.bindFactory<IQueryDataCacheDatasource>(() => QueryDataCacheDatasource(_get(), _get()));
+    ServiceLocator.instance.bindFactory<ICommandDataCacheDatasource>(() => CommandDataCacheDatasource(_get(), _get()));
+    ServiceLocator.instance.bindFactory<IInvalidationCacheContext>(() => InvalidationCacheContext(_get()));
+    ServiceLocator.instance.bindFactory<ICacheRepository>(() => CacheRepository(_get(), _get()));
+    ServiceLocator.instance.bindFactory<DeleteCacheUsecase>(() => DeleteCache(_get()));
+    ServiceLocator.instance.bindFactory<ClearCacheUsecase>(() => ClearCache(_get()));
+    ServiceLocator.instance.bindFactory<GetCacheUsecase>(() => GetCache(_get(), _get()));
+    ServiceLocator.instance.bindFactory<SaveCacheUsecase>(() => SaveCache(_get(), _get()));
   }
 
-  T _get<T extends Object>() => Injector.I.get<T>();
+  T _get<T extends Object>() => ServiceLocator.instance.get<T>();
 }

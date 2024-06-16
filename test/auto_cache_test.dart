@@ -1,6 +1,6 @@
 import 'package:auto_cache_manager/auto_cache.dart';
-import 'package:auto_cache_manager/src/auto_cache_injections.dart';
 import 'package:auto_cache_manager/src/core/errors/exceptions/initializer_exceptions.dart';
+import 'package:auto_cache_manager/src/core/services/service_locator/implementations/service_locator.dart';
 import 'package:auto_cache_manager/src/modules/data_cache/presenter/controllers/base_cache_manager_controller.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -13,7 +13,7 @@ void main() {
   });
 
   tearDown(() {
-    AutoCacheInjections.instance.resetBinds();
+    ServiceLocator.instance.resetBinds();
   });
 
   group('AutoCache |', () {

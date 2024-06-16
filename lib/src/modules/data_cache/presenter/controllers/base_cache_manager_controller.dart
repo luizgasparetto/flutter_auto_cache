@@ -2,6 +2,7 @@ import 'package:meta/meta.dart';
 
 import '../../../../core/core.dart';
 import '../../../../core/middlewares/initialize_middleware.dart';
+import '../../../../core/services/service_locator/implementations/service_locator.dart';
 import '../../domain/dtos/delete_cache_dto.dart';
 import '../../domain/dtos/get_cache_dto.dart';
 import '../../domain/dtos/save_cache_dto.dart';
@@ -48,11 +49,11 @@ class BaseCacheManagerController {
   /// implementation for cache management.
   static BaseCacheManagerController create() {
     return BaseCacheManagerController(
-      Injector.I.get<GetCacheUsecase>(),
-      Injector.I.get<SaveCacheUsecase>(),
-      Injector.I.get<ClearCacheUsecase>(),
-      Injector.I.get<DeleteCacheUsecase>(),
-      Injector.I.get<CacheConfig>(),
+      ServiceLocator.instance.get<GetCacheUsecase>(),
+      ServiceLocator.instance.get<SaveCacheUsecase>(),
+      ServiceLocator.instance.get<ClearCacheUsecase>(),
+      ServiceLocator.instance.get<DeleteCacheUsecase>(),
+      ServiceLocator.instance.get<CacheConfig>(),
     );
   }
 

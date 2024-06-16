@@ -12,7 +12,7 @@ abstract interface class IServiceLocator {
   ///
   /// [T] - The type of the service being bound.
   /// [bind] - A future that completes with the service instance to bind.
-  Future<void> asyncBind<T extends Object>(Future<T> bind);
+  Future<void> asyncBind<T extends Object>(Future<T> Function() bind);
 
   /// Binds a singleton service instance.
   ///
@@ -25,4 +25,6 @@ abstract interface class IServiceLocator {
   /// [T] - The type of the service being bound.
   /// [factoryBind] - A function that creates and returns the service instance.
   void bindFactory<T extends Object>(T Function() factoryBind);
+
+  bool get hasBinds;
 }
