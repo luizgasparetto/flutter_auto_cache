@@ -14,7 +14,7 @@ class CacheRepositoryMock extends Mock implements ICacheRepository {}
 
 class InvalidationCacheContextMock extends Mock implements IInvalidationCacheContext {}
 
-class AutoCacheManagerExceptionFake extends Fake implements AutoCacheManagerException {}
+class AutoCacheManagerExceptionFake extends Fake implements AutoCacheException {}
 
 class FakeCacheConfig extends Fake implements CacheConfig {}
 
@@ -88,7 +88,7 @@ void main() {
       final response = await sut.execute<String>(dto);
 
       expect(response.isError, isTrue);
-      expect(response.error, isA<AutoCacheManagerException>());
+      expect(response.error, isA<AutoCacheException>());
       verify(() => repository.get<String>(any(that: cacheDtoMatcher()))).called(1);
       verifyNever(() => invalidationContext.execute<String>(any()));
       verifyNever(() => repository.save<String>(dto));
@@ -101,7 +101,7 @@ void main() {
       final response = await sut.execute<String>(dto);
 
       expect(response.isError, isTrue);
-      expect(response.error, isA<AutoCacheManagerException>());
+      expect(response.error, isA<AutoCacheException>());
       verify(() => repository.get<String>(any(that: cacheDtoMatcher()))).called(1);
       verify(() => invalidationContext.execute<String>(fakeCache)).called(1);
       verifyNever(() => repository.save<String>(dto));
@@ -115,7 +115,7 @@ void main() {
       final response = await sut.execute<String>(dto);
 
       expect(response.isError, isTrue);
-      expect(response.error, isA<AutoCacheManagerException>());
+      expect(response.error, isA<AutoCacheException>());
       verify(() => repository.get<String>(any(that: cacheDtoMatcher()))).called(1);
       verify(() => invalidationContext.execute<String>(fakeCache)).called(1);
       verify(() => repository.save<String>(dto)).called(1);

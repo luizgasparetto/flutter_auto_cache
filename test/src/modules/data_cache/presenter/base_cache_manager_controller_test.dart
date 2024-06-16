@@ -23,7 +23,7 @@ class CacheConfigMock extends Mock implements CacheConfig {}
 
 class FakeBindClass extends Fake {}
 
-class FakeAutoCacheManagerException extends Fake implements AutoCacheManagerException {}
+class FakeAutoCacheManagerException extends Fake implements AutoCacheException {}
 
 class FakeGetCacheDTO extends Fake implements GetCacheDTO {}
 
@@ -107,7 +107,7 @@ void main() {
         (_) async => left(FakeAutoCacheManagerException()),
       );
 
-      expect(() => sut.get<String>(key: 'my_key'), throwsA(isA<AutoCacheManagerException>()));
+      expect(() => sut.get<String>(key: 'my_key'), throwsA(isA<AutoCacheException>()));
     });
   });
 
@@ -126,7 +126,7 @@ void main() {
         (_) async => left(FakeAutoCacheManagerException()),
       );
 
-      expect(() => sut.save<String>(key: 'my_key', data: 'my_data'), throwsA(isA<AutoCacheManagerException>()));
+      expect(() => sut.save<String>(key: 'my_key', data: 'my_data'), throwsA(isA<AutoCacheException>()));
       verify(() => saveCacheUsecase.execute<String>(saveDTO)).called(1);
     });
   });
@@ -144,7 +144,7 @@ void main() {
         (_) async => left(FakeAutoCacheManagerException()),
       );
 
-      expect(() => sut.delete(key: 'my_key'), throwsA(isA<AutoCacheManagerException>()));
+      expect(() => sut.delete(key: 'my_key'), throwsA(isA<AutoCacheException>()));
       verify(() => deleteCacheUsecase.execute(any(that: deleteCacheDtoMatcher()))).called(1);
     });
   });
@@ -160,7 +160,7 @@ void main() {
     test('should NOT be able to clear all cache data when usecase fails', () async {
       when(() => clearCacheUsecase.execute()).thenAnswer((_) async => left(FakeAutoCacheManagerException()));
 
-      expect(() => sut.clear(), throwsA(isA<AutoCacheManagerException>()));
+      expect(() => sut.clear(), throwsA(isA<AutoCacheException>()));
       verify(() => clearCacheUsecase.execute()).called(1);
     });
   });

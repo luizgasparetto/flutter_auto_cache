@@ -25,7 +25,7 @@ jobs:
 
       - name: Check Version
         id: check_version
-        run: chmod +x ./.github/scripts/verfiy_version_tags.sh && ./.github/scripts/verfiy_version_tags.sh
+        run: chmod +x ./.github/scripts/verfiy_versions.sh && ./.github/scripts/verfiy_versions.sh
 
       - name: "Flutter Action"
         uses: subosito/flutter-action@v2

@@ -7,7 +7,7 @@ import 'path_provider/path_provider_service.dart';
 import 'states/directory_provider_state.dart';
 
 /// An interface for a service that provides access to specific directories.
-abstract class IDirectoryProviderService {
+abstract interface class IDirectoryProviderService {
   /// Gets the directory for storing preference files.
   Directory get prefsDirectory;
 
@@ -29,7 +29,7 @@ class DirectoryProviderService extends ValueNotifier<DirectoryProviderState> imp
   /// to fetch directory paths.
   ///
   /// Initializes the state with an empty [DirectoryProviderState].
-  DirectoryProviderService(this._service) : super(DirectoryProviderState.empty());
+  DirectoryProviderService(this._service) : super(EmptyDirectoryProviderState());
 
   @override
   Directory get prefsDirectory => this.value.applicationDocumentsDirectory;
@@ -48,10 +48,7 @@ class DirectoryProviderService extends ValueNotifier<DirectoryProviderState> imp
       final applicationSupportDirectory = await _service.getApplicationSupportDirectory();
 
       ///Update the state with the fetched directories.
-      this.value = LoadedDirectoryProviderState(
-        applicationDocumentsDirectory: applicationDocumentsDirectory,
-        applicationSupportDirectory: applicationSupportDirectory,
-      );
+      this.value = LoadedDirectoryProviderState(applicationDocumentsDirectory, applicationSupportDirectory);
     } catch (e, stackTrace) {
       throw DirectoryProviderException(
         message: 'Failed do load directories',
@@ -61,5 +58,5 @@ class DirectoryProviderService extends ValueNotifier<DirectoryProviderState> imp
   }
 
   @visibleForTesting
-  void reset() => this.value = DirectoryProviderState.empty();
+  void reset() => this.value = EmptyDirectoryProviderState();
 }

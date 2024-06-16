@@ -1,6 +1,6 @@
-import '../core.dart';
+import '../../core.dart';
 
-class NotInitializedAutoCacheException extends AutoCacheManagerException {
+class NotInitializedAutoCacheException extends AutoCacheException {
   NotInitializedAutoCacheException({
     required super.message,
     required super.stackTrace,

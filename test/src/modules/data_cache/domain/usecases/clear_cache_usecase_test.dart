@@ -6,7 +6,7 @@ import 'package:mocktail/mocktail.dart';
 
 class CacheRepositoryMock extends Mock implements ICacheRepository {}
 
-class AutoCacheManagerExceptionFake extends Fake implements AutoCacheManagerException {}
+class AutoCacheExceptionFake extends Fake implements AutoCacheException {}
 
 void main() {
   final repository = CacheRepositoryMock();
@@ -28,12 +28,12 @@ void main() {
     });
 
     test('should NOT be able to clear cache when repository fails', () async {
-      when(() => repository.clear()).thenAnswer((_) async => left(AutoCacheManagerExceptionFake()));
+      when(() => repository.clear()).thenAnswer((_) async => left(AutoCacheExceptionFake()));
 
       final response = await sut.execute();
 
       expect(response.isError, isTrue);
-      expect(response.error, isA<AutoCacheManagerException>());
+      expect(response.error, isA<AutoCacheException>());
       verify(() => repository.clear()).called(1);
     });
   });

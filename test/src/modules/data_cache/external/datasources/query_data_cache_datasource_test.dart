@@ -2,18 +2,18 @@ import 'dart:convert';
 
 import 'package:auto_cache_manager/src/core/core.dart';
 import 'package:auto_cache_manager/src/core/services/cryptography_service/i_cryptography_service.dart';
-import 'package:auto_cache_manager/src/core/services/storages/prefs/i_prefs_service.dart';
+import 'package:auto_cache_manager/src/core/services/kvs_service/i_kvs_service.dart';
 import 'package:auto_cache_manager/src/modules/data_cache/domain/entities/cache_entity.dart';
 import 'package:auto_cache_manager/src/modules/data_cache/domain/enums/invalidation_type.dart';
 import 'package:auto_cache_manager/src/modules/data_cache/external/datasources/query_data_cache_datasource.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
-class PrefsServiceMock extends Mock implements IPrefsService {}
+class PrefsServiceMock extends Mock implements IKVSService {}
 
 class CryptographyServiceMock extends Mock implements ICryptographyService {}
 
-class FakeAutoCacheManagerException extends Fake implements AutoCacheManagerException {}
+class FakeAutoCacheManagerException extends Fake implements AutoCacheException {}
 
 void main() {
   final prefsService = PrefsServiceMock();
@@ -63,7 +63,7 @@ void main() {
     test('should NOT be able to return data cached when service fails', () async {
       when(() => prefsService.get(key: 'my_key')).thenThrow(FakeAutoCacheManagerException());
 
-      expect(() => sut.get<String>('my_key'), throwsA(isA<AutoCacheManagerException>()));
+      expect(() => sut.get<String>('my_key'), throwsA(isA<AutoCacheException>()));
       verify(() => prefsService.get(key: 'my_key')).called(1);
     });
   });
@@ -81,7 +81,7 @@ void main() {
     test('should NOT be able to get keys when service fails', () async {
       when(() => prefsService.getKeys()).thenThrow(FakeAutoCacheManagerException());
 
-      expect(() => sut.getKeys(), throwsA(isA<AutoCacheManagerException>()));
+      expect(() => sut.getKeys(), throwsA(isA<AutoCacheException>()));
     });
   });
 }

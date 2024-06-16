@@ -15,7 +15,7 @@ class CommandDataCacheDatasourceMock extends Mock implements ICommandDataCacheDa
 
 class QueryDataCacheDatasourceMock extends Mock implements IQueryDataCacheDatasource {}
 
-class FakeAutoCacheManagerException extends Fake implements AutoCacheManagerException {}
+class FakeAutoCacheException extends Fake implements AutoCacheException {}
 
 class FakeCacheConfig extends Fake implements CacheConfig {}
 
@@ -65,12 +65,12 @@ void main() {
     });
 
     test('should NOT be able to get cache in prefs when datasource throws an AutoCacheManagerException', () async {
-      when(() => queryDatasource.get<String>('my_key')).thenThrow(FakeAutoCacheManagerException());
+      when(() => queryDatasource.get<String>('my_key')).thenThrow(FakeAutoCacheException());
 
       final response = sut.get<String>(prefsDto);
 
       expect(response.isError, isTrue);
-      expect(response.error, isA<AutoCacheManagerException>());
+      expect(response.error, isA<AutoCacheException>());
       verify(() => queryDatasource.get<String>('my_key')).called(1);
     });
   });
@@ -87,12 +87,12 @@ void main() {
     });
 
     test('should NOT be able to get keys of prefs when prefs datasource fails', () async {
-      when(() => queryDatasource.getKeys()).thenThrow(FakeAutoCacheManagerException());
+      when(() => queryDatasource.getKeys()).thenThrow(FakeAutoCacheException());
 
       final response = sut.getKeys();
 
       expect(response.isError, isTrue);
-      expect(response.error, isA<AutoCacheManagerException>());
+      expect(response.error, isA<AutoCacheException>());
       verify(() => queryDatasource.getKeys()).called(1);
     });
   });
@@ -110,12 +110,12 @@ void main() {
     });
 
     test('should NOT be able to save cache when prefs datasource throws an AutoCacheManagerException', () async {
-      when(() => commandDatasource.save<String>(prefsDto)).thenThrow(FakeAutoCacheManagerException());
+      when(() => commandDatasource.save<String>(prefsDto)).thenThrow(FakeAutoCacheException());
 
       final response = await sut.save<String>(prefsDto);
 
       expect(response.isError, isTrue);
-      expect(response.error, isA<AutoCacheManagerException>());
+      expect(response.error, isA<AutoCacheException>());
       verify(() => commandDatasource.save<String>(prefsDto)).called(1);
     });
   });
@@ -134,12 +134,12 @@ void main() {
     });
 
     test('should NOT be able to delete prefs cache when datasource fails', () async {
-      when(() => commandDatasource.delete('my_key')).thenThrow(FakeAutoCacheManagerException());
+      when(() => commandDatasource.delete('my_key')).thenThrow(FakeAutoCacheException());
 
       final response = await sut.delete(prefsDto);
 
       expect(response.isError, isTrue);
-      expect(response.error, isA<AutoCacheManagerException>());
+      expect(response.error, isA<AutoCacheException>());
       verify(() => commandDatasource.delete('my_key')).called(1);
     });
   });
@@ -155,12 +155,12 @@ void main() {
     });
 
     test('should NOT be able to clear prefs data when datasource fails', () async {
-      when(commandDatasource.clear).thenThrow(FakeAutoCacheManagerException());
+      when(commandDatasource.clear).thenThrow(FakeAutoCacheException());
 
       final response = await sut.clear();
 
       expect(response.isError, isTrue);
-      expect(response.error, isA<AutoCacheManagerException>());
+      expect(response.error, isA<AutoCacheException>());
       verify(commandDatasource.clear).called(1);
     });
   });

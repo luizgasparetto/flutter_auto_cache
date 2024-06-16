@@ -2,7 +2,7 @@ import 'dart:io';
 
 import '../../../../../core/core.dart';
 import '../../../../../core/config/constants/cache_size_constants.dart';
-import '../../exceptions/cache_size_analyzer_exceptions.dart';
+import '../../failures/cache_size_failures.dart';
 
 /// An abstract class defining the interface for cache detail services.
 ///
@@ -13,7 +13,7 @@ abstract interface class ICacheSizeAnalyzerService {
   ///
   /// The method should asynchronously calculate and return the total size
   /// of the cache used, facilitating the management of application cache.
-  AsyncEither<AutoCacheManagerException, double> getCacheSizeUsed();
+  AsyncEither<AutoCacheFailure, double> getCacheSizeUsed();
 }
 
 /// A service class for managing cache details.
@@ -36,7 +36,7 @@ final class CacheSizeAnalyzerService implements ICacheSizeAnalyzerService {
   /// Returns:
   /// A `Future<double>` representing the total cache size used in megabytes (MB).
   @override
-  AsyncEither<AutoCacheManagerException, double> getCacheSizeUsed() async {
+  AsyncEither<AutoCacheFailure, double> getCacheSizeUsed() async {
     try {
       final totalPrefsSize = _calculeCacheSizeInMb(directoryProvider.prefsDirectory);
       final totalSqlSize = _calculeCacheSizeInMb(directoryProvider.sqlDirectory);
@@ -44,14 +44,11 @@ final class CacheSizeAnalyzerService implements ICacheSizeAnalyzerService {
       final total = totalSqlSize + totalPrefsSize;
 
       return right(total);
-    } on AutoCacheManagerException catch (e) {
+    } on AutoCacheFailure catch (e) {
       return left(e);
-    } catch (e, stackTrace) {
+    } catch (_) {
       return left(
-        CacheSizeAnalyzerException(
-          message: 'Failed to get size of cache',
-          stackTrace: stackTrace,
-        ),
+        CacheSizeFailure(message: 'Failed to get size of cache'),
       );
     }
   }
@@ -74,11 +71,8 @@ final class CacheSizeAnalyzerService implements ICacheSizeAnalyzerService {
 
       final total = files.whereType<File>().fold(0, (acc, file) => acc + file.lengthSync());
       return total / CacheSizeConstants.bytesPerMb;
-    } catch (e, stackTrace) {
-      throw CalculateCacheSizeException(
-        message: 'Failed to calculate cache size',
-        stackTrace: stackTrace,
-      );
+    } catch (_) {
+      throw CalculateCacheSizeFailure(message: 'Failed to calculate cache size');
     }
   }
 }

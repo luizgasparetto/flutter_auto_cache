@@ -7,7 +7,7 @@ import '../../../../../../commons/extensions/when_extensions.dart';
 
 class BaseCacheManagerControllerMock extends Mock implements BaseCacheManagerController {}
 
-class FakeAutoCacheManagerException extends Fake implements AutoCacheManagerException {}
+class FakeAutoCacheException extends Fake implements AutoCacheException {}
 
 void main() {
   final baseController = BaseCacheManagerControllerMock();
@@ -37,9 +37,9 @@ void main() {
     });
 
     test('should NOT be able to get string by key when base controller fails', () async {
-      when(() => baseController.get<String>(key: 'my_key')).thenThrow(FakeAutoCacheManagerException());
+      when(() => baseController.get<String>(key: 'my_key')).thenThrow(FakeAutoCacheException());
 
-      expect(() => sut.getString(key: 'my_key'), throwsA(isA<AutoCacheManagerException>()));
+      expect(() => sut.getString(key: 'my_key'), throwsA(isA<AutoCacheException>()));
       verify(() => baseController.get<String>(key: 'my_key')).called(1);
     });
   });
@@ -53,9 +53,9 @@ void main() {
     });
 
     test('should NOT be able to save string in prefs when base controller fails', () async {
-      when(() => baseController.save<String>(key: 'key', data: 'data')).thenThrow(FakeAutoCacheManagerException());
+      when(() => baseController.save<String>(key: 'key', data: 'data')).thenThrow(FakeAutoCacheException());
 
-      expect(() => sut.saveString(key: 'key', data: 'data'), throwsA(isA<AutoCacheManagerException>()));
+      expect(() => sut.saveString(key: 'key', data: 'data'), throwsA(isA<AutoCacheException>()));
       verify(() => baseController.save<String>(key: 'key', data: 'data')).called(1);
     });
   });
@@ -80,9 +80,9 @@ void main() {
     });
 
     test('should NOT be able to get int data when base controller fails', () async {
-      when(() => baseController.get<int>(key: 'my_key')).thenThrow(FakeAutoCacheManagerException());
+      when(() => baseController.get<int>(key: 'my_key')).thenThrow(FakeAutoCacheException());
 
-      expect(() => sut.getInt(key: 'my_key'), throwsA(isA<AutoCacheManagerException>()));
+      expect(() => sut.getInt(key: 'my_key'), throwsA(isA<AutoCacheException>()));
       verify(() => baseController.get<int>(key: 'my_key')).called(1);
     });
   });
@@ -96,9 +96,9 @@ void main() {
     });
 
     test('should NOT be able to save int in prefs when base controller fails', () async {
-      when(() => baseController.save<int>(key: 'my_key', data: 1)).thenThrow(FakeAutoCacheManagerException());
+      when(() => baseController.save<int>(key: 'my_key', data: 1)).thenThrow(FakeAutoCacheException());
 
-      expect(() => sut.saveInt(key: 'my_key', data: 1), throwsA(isA<AutoCacheManagerException>()));
+      expect(() => sut.saveInt(key: 'my_key', data: 1), throwsA(isA<AutoCacheException>()));
       verify(() => baseController.save<int>(key: 'my_key', data: 1)).called(1);
     });
   });
@@ -125,11 +125,9 @@ void main() {
     });
 
     test('should NOT be able to get json in prefs when base controller fails', () async {
-      when(() => baseController.get<Map<String, dynamic>>(key: 'key')).thenThrow(
-        FakeAutoCacheManagerException(),
-      );
+      when(() => baseController.get<Map<String, dynamic>>(key: 'key')).thenThrow(FakeAutoCacheException());
 
-      expect(() => sut.getJson(key: 'key'), throwsA(isA<AutoCacheManagerException>()));
+      expect(() => sut.getJson(key: 'key'), throwsA(isA<AutoCacheException>()));
       verify(() => baseController.get<Map<String, dynamic>>(key: 'key')).called(1);
     });
   });
@@ -143,11 +141,9 @@ void main() {
     });
 
     test('should NOT be able to save json in prefs when base controller fails', () async {
-      when(() => baseController.save<Map<String, dynamic>>(key: 'key', data: {})).thenThrow(
-        FakeAutoCacheManagerException(),
-      );
+      when(() => baseController.save<Map<String, dynamic>>(key: 'key', data: {})).thenThrow(FakeAutoCacheException());
 
-      expect(() => sut.saveJson(key: 'key', data: {}), throwsA(isA<AutoCacheManagerException>()));
+      expect(() => sut.saveJson(key: 'key', data: {}), throwsA(isA<AutoCacheException>()));
       verify(() => baseController.save<Map<String, dynamic>>(key: 'key', data: {})).called(1);
     });
   });
@@ -172,9 +168,9 @@ void main() {
     });
 
     test('should NOT be able to save a list of String when base controller fails', () async {
-      when(() => baseController.getList<String>(key: 'my_key')).thenThrow(FakeAutoCacheManagerException());
+      when(() => baseController.getList<String>(key: 'my_key')).thenThrow(FakeAutoCacheException());
 
-      expect(() => sut.getStringList(key: 'my_key'), throwsA(isA<AutoCacheManagerException>()));
+      expect(() => sut.getStringList(key: 'my_key'), throwsA(isA<AutoCacheException>()));
       verify(() => baseController.getList<String>(key: 'my_key')).called(1);
     });
   });
@@ -190,11 +186,9 @@ void main() {
     });
 
     test('should NOT be able save a list of String in prefs when base controller fails', () async {
-      when(() => baseController.save<List<String>>(key: 'my_key', data: data)).thenThrow(
-        FakeAutoCacheManagerException(),
-      );
+      when(() => baseController.save<List<String>>(key: 'my_key', data: data)).thenThrow(FakeAutoCacheException());
 
-      expect(() => sut.saveStringList(key: 'my_key', data: data), throwsA(isA<AutoCacheManagerException>()));
+      expect(() => sut.saveStringList(key: 'my_key', data: data), throwsA(isA<AutoCacheException>()));
       verify(() => baseController.save<List<String>>(key: 'my_key', data: data)).called(1);
     });
   });
@@ -222,11 +216,9 @@ void main() {
     });
 
     test('should NOT be able to save a list of JSON when base controller fails', () async {
-      when(() => baseController.getList<Map<String, dynamic>>(key: 'my_key')).thenThrow(
-        FakeAutoCacheManagerException(),
-      );
+      when(() => baseController.getList<Map<String, dynamic>>(key: 'my_key')).thenThrow(FakeAutoCacheException());
 
-      expect(() => sut.getJsonList(key: 'my_key'), throwsA(isA<AutoCacheManagerException>()));
+      expect(() => sut.getJsonList(key: 'my_key'), throwsA(isA<AutoCacheException>()));
       verify(() => baseController.getList<Map<String, dynamic>>(key: 'my_key')).called(1);
     });
   });
@@ -244,10 +236,10 @@ void main() {
 
     test('should NOT be able save a list of JSON in prefs when base controller fails', () async {
       when(() => baseController.save<List<Map<String, dynamic>>>(key: 'my_key', data: data)).thenThrow(
-        FakeAutoCacheManagerException(),
+        FakeAutoCacheException(),
       );
 
-      expect(() => sut.saveJsonList(key: 'my_key', data: data), throwsA(isA<AutoCacheManagerException>()));
+      expect(() => sut.saveJsonList(key: 'my_key', data: data), throwsA(isA<AutoCacheException>()));
       verify(() => baseController.save<List<Map<String, dynamic>>>(key: 'my_key', data: data)).called(1);
     });
   });
@@ -261,9 +253,9 @@ void main() {
     });
 
     test('should NOT be able to delete data in cache when base controller fails', () async {
-      when(() => baseController.delete(key: 'my_key')).thenThrow(FakeAutoCacheManagerException());
+      when(() => baseController.delete(key: 'my_key')).thenThrow(FakeAutoCacheException());
 
-      expect(() => sut.delete(key: 'my_key'), throwsA(isA<AutoCacheManagerException>()));
+      expect(() => sut.delete(key: 'my_key'), throwsA(isA<AutoCacheException>()));
       verify(() => baseController.delete(key: 'my_key')).called(1);
     });
   });
@@ -277,9 +269,9 @@ void main() {
     });
 
     test('should NOT be able to clear all cache data from prefs when base controller fails', () async {
-      when(() => baseController.clear()).thenThrow(FakeAutoCacheManagerException());
+      when(() => baseController.clear()).thenThrow(FakeAutoCacheException());
 
-      expect(() => sut.clear(), throwsA(isA<AutoCacheManagerException>()));
+      expect(() => sut.clear(), throwsA(isA<AutoCacheException>()));
       verify(() => baseController.clear()).called(1);
     });
   });

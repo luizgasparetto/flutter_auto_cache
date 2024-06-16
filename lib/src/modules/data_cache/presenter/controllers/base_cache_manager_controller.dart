@@ -1,7 +1,7 @@
 import 'package:meta/meta.dart';
 
 import '../../../../core/core.dart';
-import '../../../../core/middlewares/init_middleware.dart';
+import '../../../../core/middlewares/initialize_middleware.dart';
 import '../../domain/dtos/delete_cache_dto.dart';
 import '../../domain/dtos/get_cache_dto.dart';
 import '../../domain/dtos/save_cache_dto.dart';

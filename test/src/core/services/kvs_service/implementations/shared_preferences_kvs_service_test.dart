@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import 'package:auto_cache_manager/src/core/services/storages/exceptions/storage_exceptions.dart';
-import 'package:auto_cache_manager/src/core/services/storages/prefs/shared_preferences/shared_preferences_service.dart';
+import 'package:auto_cache_manager/src/core/services/kvs_service/exceptions/storage_exceptions.dart';
+import 'package:auto_cache_manager/src/core/services/kvs_service/implementations/shared_preferences_kvs_service.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -10,7 +10,7 @@ class SharedPreferencesMock extends Mock implements SharedPreferences {}
 
 void main() {
   final prefs = SharedPreferencesMock();
-  final sut = SharedPreferencesService(prefs);
+  final sut = SharedPreferencesKVSService(prefs);
 
   tearDown(() {
     reset(prefs);

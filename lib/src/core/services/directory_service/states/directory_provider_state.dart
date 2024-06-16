@@ -1,27 +1,24 @@
 import 'dart:io';
 
-final class DirectoryProviderState {
+sealed class DirectoryProviderState {
   final Directory applicationDocumentsDirectory;
   final Directory applicationSupportDirectory;
 
-  const DirectoryProviderState({
-    required this.applicationDocumentsDirectory,
-    required this.applicationSupportDirectory,
-  });
-
-  factory DirectoryProviderState.empty() {
-    return DirectoryProviderState(
-      applicationDocumentsDirectory: Directory(''),
-      applicationSupportDirectory: Directory(''),
-    );
-  }
+  const DirectoryProviderState(
+    this.applicationDocumentsDirectory,
+    this.applicationSupportDirectory,
+  );
 
   bool get isLoaded => this is LoadedDirectoryProviderState;
 }
 
+final class EmptyDirectoryProviderState extends DirectoryProviderState {
+  EmptyDirectoryProviderState() : super(Directory(''), Directory(''));
+}
+
 final class LoadedDirectoryProviderState extends DirectoryProviderState {
-  const LoadedDirectoryProviderState({
-    required super.applicationDocumentsDirectory,
-    required super.applicationSupportDirectory,
-  });
+  const LoadedDirectoryProviderState(
+    super.applicationDocumentsDirectory,
+    super.applicationSupportDirectory,
+  );
 }
