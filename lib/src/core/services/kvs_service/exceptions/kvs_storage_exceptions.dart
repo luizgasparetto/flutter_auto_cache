@@ -1,11 +1,11 @@
 import '../../../core.dart';
 
 /// Exception thrown when there is an error getting data from storage.
-final class GetStorageException extends AutoCacheException {
-  /// Creates an instance of [GetStorageException].
+final class GetKvsStorageException extends AutoCacheException {
+  /// Creates an instance of [GetKvsStorageException].
   ///
   /// The [code], [message], and [stackTrace] parameters are required.
-  GetStorageException({
+  const GetKvsStorageException({
     required super.code,
     required super.message,
     required super.stackTrace,
@@ -13,11 +13,11 @@ final class GetStorageException extends AutoCacheException {
 }
 
 /// Exception thrown when there is an error retrieving storage keys.
-final class GetStorageKeysException extends AutoCacheException {
-  /// Creates an instance of [GetStorageKeysException].
+final class GetKvsStorageKeysException extends AutoCacheException {
+  /// Creates an instance of [GetKvsStorageKeysException].
   ///
   /// The [code], [message], and [stackTrace] parameters are required.
-  GetStorageKeysException({
+  const GetKvsStorageKeysException({
     required super.code,
     required super.message,
     required super.stackTrace,
@@ -25,11 +25,11 @@ final class GetStorageKeysException extends AutoCacheException {
 }
 
 /// Exception thrown when there is an error saving data to storage.
-final class SaveStorageException extends AutoCacheException {
-  /// Creates an instance of [SaveStorageException].
+final class SaveKvsStorageException extends AutoCacheException {
+  /// Creates an instance of [SaveKvsStorageException].
   ///
   /// The [code], [message], and [stackTrace] parameters are required.
-  SaveStorageException({
+  const SaveKvsStorageException({
     required super.code,
     required super.message,
     required super.stackTrace,
@@ -37,11 +37,11 @@ final class SaveStorageException extends AutoCacheException {
 }
 
 /// Exception thrown when there is an error deleting data from storage.
-final class DeleteStorageException extends AutoCacheException {
-  /// Creates an instance of [DeleteStorageException].
+final class DeleteKvsStorageException extends AutoCacheException {
+  /// Creates an instance of [DeleteKvsStorageException].
   ///
   /// The [code], [message], and [stackTrace] parameters are required.
-  DeleteStorageException({
+  const DeleteKvsStorageException({
     required super.code,
     required super.message,
     required super.stackTrace,
@@ -49,11 +49,11 @@ final class DeleteStorageException extends AutoCacheException {
 }
 
 /// Exception thrown when there is an error clearing all data from storage.
-final class ClearStorageException extends AutoCacheException {
-  /// Creates an instance of [ClearStorageException].
+final class ClearKvsStorageException extends AutoCacheException {
+  /// Creates an instance of [ClearKvsStorageException].
   ///
   /// The [code], [message], and [stackTrace] parameters are required.
-  ClearStorageException({
+  const ClearKvsStorageException({
     required super.code,
     required super.message,
     required super.stackTrace,

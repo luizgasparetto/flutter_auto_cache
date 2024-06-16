@@ -47,9 +47,7 @@ final class CacheSizeAnalyzerService implements ICacheSizeAnalyzerService {
     } on AutoCacheFailure catch (e) {
       return left(e);
     } catch (_) {
-      return left(
-        CacheSizeFailure(message: 'Failed to get size of cache'),
-      );
+      return left(const GetCacheSizeFailure(message: 'Failed to get size of cache'));
     }
   }
 
@@ -72,7 +70,7 @@ final class CacheSizeAnalyzerService implements ICacheSizeAnalyzerService {
       final total = files.whereType<File>().fold(0, (acc, file) => acc + file.lengthSync());
       return total / CacheSizeConstants.bytesPerMb;
     } catch (_) {
-      throw CalculateCacheSizeFailure(message: 'Failed to calculate cache size');
+      throw const CalculateCacheSizeFailure(message: 'Failed to calculate cache size');
     }
   }
 }

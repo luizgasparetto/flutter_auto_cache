@@ -3,7 +3,7 @@ import '../../../../core/core.dart';
 import '../repositories/i_cache_repository.dart';
 
 abstract interface class ClearCacheUsecase {
-  AsyncEither<AutoCacheManagerException, Unit> execute();
+  AsyncEither<AutoCacheError, Unit> execute();
 }
 
 class ClearCache implements ClearCacheUsecase {
@@ -12,7 +12,7 @@ class ClearCache implements ClearCacheUsecase {
   const ClearCache(this._repository);
 
   @override
-  AsyncEither<AutoCacheManagerException, Unit> execute() async {
+  AsyncEither<AutoCacheError, Unit> execute() async {
     return _repository.clear();
   }
 }

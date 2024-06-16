@@ -60,16 +60,3 @@ abstract interface class _IQueryKVSService {
   /// Returns a list of all keys as `List<String>`.
   List<String> getKeys();
 }
-
-// abstract interface class IKVSService {
-//   String? get({required String key});
-//   List<String>? getList({required String key});
-
-//   List<String> getKeys();
-
-//   Future<void> save({required String key, required String data});
-//   Future<void> saveList({required String key, required List<String> data});
-
-//   Future<void> delete({required String key});
-//   Future<void> clear();
-// }
