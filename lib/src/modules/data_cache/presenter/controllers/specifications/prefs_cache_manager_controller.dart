@@ -94,7 +94,7 @@ class PrefsCacheManagerController implements IPrefsCacheManagerController {
 
   PrefsCacheManagerController._() : _baseCacheManagerController = BaseCacheManagerController.create();
 
-  static final _instance = InitMiddleware.accessInstance(() => PrefsCacheManagerController._());
+  static final _instance = InitializeMiddleware.accessInstance(() => PrefsCacheManagerController._());
 
   static PrefsCacheManagerController get instance => _instance;
 

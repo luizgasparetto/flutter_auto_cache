@@ -1,10 +1,9 @@
 import '../../../../core/core.dart';
 
-class TTLInvalidationMethodException extends AutoCacheManagerException {
+sealed class TTLInvalidationMethodException extends AutoCacheFailure {
   TTLInvalidationMethodException({
     required super.code,
     required super.message,
-    required super.stackTrace,
   });
 }
 

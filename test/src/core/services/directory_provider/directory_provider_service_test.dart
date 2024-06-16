@@ -8,7 +8,7 @@ import 'package:mocktail/mocktail.dart';
 
 class PathProviderServiceMock extends Mock implements IPathProviderService {}
 
-class FakeAutoCacheManagerException extends Fake implements AutoCacheManagerException {}
+class FakeAutoCacheManagerException extends Fake implements AutoCacheException {}
 
 void main() {
   final service = PathProviderServiceMock();

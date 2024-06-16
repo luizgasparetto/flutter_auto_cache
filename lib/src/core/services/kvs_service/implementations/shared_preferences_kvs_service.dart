@@ -1,12 +1,12 @@
+import 'package:auto_cache_manager/src/core/services/kvs_service/i_kvs_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../exceptions/storage_exceptions.dart';
-import '../i_prefs_service.dart';
+import '../exceptions/storage_exceptions.dart';
 
-class SharedPreferencesService implements IPrefsService {
+class SharedPreferencesKVSService implements IKVSService {
   final SharedPreferences prefs;
 
-  const SharedPreferencesService(this.prefs);
+  const SharedPreferencesKVSService(this.prefs);
 
   @override
   String? get({required String key}) {

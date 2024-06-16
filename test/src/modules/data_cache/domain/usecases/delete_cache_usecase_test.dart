@@ -8,7 +8,7 @@ import 'package:auto_cache_manager/src/modules/data_cache/domain/usecases/delete
 
 class CacheRepositoryMock extends Mock implements ICacheRepository {}
 
-class FakeAutoCacheManagerException extends Fake implements AutoCacheManagerException {}
+class FakeAutoCacheManagerException extends Fake implements AutoCacheException {}
 
 void main() {
   final repository = CacheRepositoryMock();
@@ -37,7 +37,7 @@ void main() {
       final response = await sut.execute(dto);
 
       expect(response.isError, isTrue);
-      expect(response.error, isA<AutoCacheManagerException>());
+      expect(response.error, isA<AutoCacheException>());
       verify(() => repository.delete(dto)).called(1);
     });
   });

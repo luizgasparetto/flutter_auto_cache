@@ -1,6 +1,6 @@
 import 'package:auto_cache_manager/src/core/core.dart';
 import 'package:auto_cache_manager/src/core/services/cryptography_service/i_cryptography_service.dart';
-import 'package:auto_cache_manager/src/core/services/storages/prefs/i_prefs_service.dart';
+import 'package:auto_cache_manager/src/core/services/kvs_service/i_kvs_service.dart';
 import 'package:auto_cache_manager/src/modules/data_cache/domain/dtos/save_cache_dto.dart';
 import 'package:auto_cache_manager/src/modules/data_cache/external/datasources/command_data_cache_datasource.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -8,11 +8,11 @@ import 'package:mocktail/mocktail.dart';
 
 import '../../../../../commons/extensions/when_extensions.dart';
 
-class PrefsServiceMock extends Mock implements IPrefsService {}
+class PrefsServiceMock extends Mock implements IKVSService {}
 
 class CryptographyServiceMock extends Mock implements ICryptographyService {}
 
-class FakeAutoCacheManagerException extends Fake implements AutoCacheManagerException {}
+class FakeAutoCacheException extends Fake implements AutoCacheException {}
 
 void main() {
   final prefsService = PrefsServiceMock();
@@ -43,9 +43,9 @@ void main() {
 
     test('should NOT be able to save data in prefs when service fails', () async {
       when(() => cryptographyService.encrypt(any(that: matcher()))).thenReturn('any_encrypted');
-      when(() => prefsService.save(key: 'my_key', data: 'any_encrypted')).thenThrow(FakeAutoCacheManagerException());
+      when(() => prefsService.save(key: 'my_key', data: 'any_encrypted')).thenThrow(FakeAutoCacheException());
 
-      expect(() => sut.save(dto), throwsA(isA<AutoCacheManagerException>()));
+      expect(() => sut.save(dto), throwsA(isA<AutoCacheException>()));
       verify(() => prefsService.save(key: 'my_key', data: 'any_encrypted')).called(1);
     });
   });
@@ -59,9 +59,9 @@ void main() {
     });
 
     test('should NOT be able to delete data in prefs cache when service fails', () async {
-      when(() => prefsService.delete(key: 'my_key')).thenThrow(FakeAutoCacheManagerException());
+      when(() => prefsService.delete(key: 'my_key')).thenThrow(FakeAutoCacheException());
 
-      expect(() => sut.delete('my_key'), throwsA(isA<AutoCacheManagerException>()));
+      expect(() => sut.delete('my_key'), throwsA(isA<AutoCacheException>()));
       verify(() => prefsService.delete(key: 'my_key')).called(1);
     });
   });
@@ -75,9 +75,9 @@ void main() {
     });
 
     test('should NOT be able to clear prefs when service fails', () async {
-      when(prefsService.clear).thenThrow(FakeAutoCacheManagerException());
+      when(prefsService.clear).thenThrow(FakeAutoCacheException());
 
-      expect(sut.clear, throwsA(isA<AutoCacheManagerException>()));
+      expect(sut.clear, throwsA(isA<AutoCacheException>()));
       verify(prefsService.clear).called(1);
     });
   });

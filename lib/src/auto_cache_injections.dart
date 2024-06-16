@@ -8,9 +8,9 @@ import 'core/services/compressor_service/implementations/compressor_service.dart
 import 'core/services/cryptography_service/implementations/encrypt_cryptography_service.dart';
 import 'core/services/cryptography_service/i_cryptography_service.dart';
 import 'core/services/directory_service/path_provider/path_provider_service.dart';
-import 'core/services/storages/prefs/i_prefs_service.dart';
-import 'core/services/storages/prefs/shared_preferences/shared_preferences_service.dart';
 
+import 'core/services/kvs_service/i_kvs_service.dart';
+import 'core/services/kvs_service/implementations/shared_preferences_kvs_service.dart';
 import 'modules/data_cache/domain/repositories/i_cache_repository.dart';
 import 'modules/data_cache/domain/services/invalidation/invalidation_cache_context.dart';
 import 'modules/data_cache/domain/usecases/clear_cache_usecase.dart';
@@ -52,7 +52,7 @@ class AutoCacheInjections {
     Injector.I.bindSingleton<CacheConfig>(AutoCacheConfigStore.instance.config);
     Injector.I.bindSingleton<IPathProviderService>(PathProviderService());
     Injector.I.bindSingleton<ICompressorService>(CompressorService());
-    Injector.I.bindSingleton<IPrefsService>(SharedPreferencesService(_get()));
+    Injector.I.bindSingleton<IKVSService>(SharedPreferencesKVSService(_get()));
     Injector.I.bindSingleton<ICryptographyService>(EncryptCryptographyService(_get()));
     Injector.I.bindSingleton<IDirectoryProviderService>(DirectoryProviderService(_get()));
   }
