@@ -1,4 +1,5 @@
 import 'package:auto_cache_manager/src/core/core.dart';
+import 'package:auto_cache_manager/src/core/services/service_locator/implementations/service_locator.dart';
 import 'package:auto_cache_manager/src/modules/data_cache/domain/dtos/delete_cache_dto.dart';
 import 'package:auto_cache_manager/src/modules/data_cache/domain/dtos/get_cache_dto.dart';
 import 'package:auto_cache_manager/src/modules/data_cache/domain/dtos/save_cache_dto.dart';
@@ -55,7 +56,7 @@ void main() {
   );
 
   setUp(() {
-    Injector.I.bindFactory(FakeBindClass.new);
+    ServiceLocator.instance.bindFactory(FakeBindClass.new);
 
     registerFallbackValue(FakeGetCacheDTO());
     registerFallbackValue(FakeDeleteCacheDTO());
@@ -68,7 +69,7 @@ void main() {
     reset(deleteCacheUsecase);
     reset(cacheConfigMock);
 
-    Injector.I.clear();
+    ServiceLocator.instance.resetBinds();
   });
 
   Matcher getCacheDtoMatcher() {

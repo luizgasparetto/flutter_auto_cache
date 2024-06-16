@@ -2,7 +2,7 @@
 import 'package:auto_cache_manager/auto_cache.dart';
 import 'package:auto_cache_manager/src/auto_cache_injections.dart';
 import 'package:auto_cache_manager/src/core/config/cache_config.dart';
-import 'package:auto_cache_manager/src/core/config/stores/auto_cache_config_store.dart';
+import 'package:auto_cache_manager/src/core/config/stores/cache_config_store.dart';
 import 'package:auto_cache_manager/src/core/core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -18,7 +18,7 @@ void main() {
   });
 
   tearDown(() {
-    AutoCacheConfigStore.instance.setConfig(CacheConfig.defaultConfig());
+    CacheConfigStore.instance.setConfig(CacheConfig.defaultConfig());
   });
 
   group('AutoCacheManagerInitializer.init |', () {
@@ -26,14 +26,14 @@ void main() {
       await sut.init();
 
       expect(AutoCacheInjections.isInjectorInitialized, isTrue);
-      expect(AutoCacheConfigStore.instance.config.isDefaultConfig, isTrue);
+      expect(CacheConfigStore.instance.config.isDefaultConfig, isTrue);
     });
 
     test('should be able to init AutoCacheManagerInitializer with base config, even passing NULL', () async {
       await sut.init(config: null);
 
       expect(AutoCacheInjections.isInjectorInitialized, isTrue);
-      expect(AutoCacheConfigStore.instance.config.isDefaultConfig, isTrue);
+      expect(CacheConfigStore.instance.config.isDefaultConfig, isTrue);
     });
   });
 }

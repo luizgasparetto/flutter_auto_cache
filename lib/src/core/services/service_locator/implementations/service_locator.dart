@@ -20,6 +20,9 @@ final class ServiceLocator implements IServiceLocator {
   // Map to hold factory functions for creating service instances.
   final Map<Type, Object Function()> _factoryBinds = {};
 
+  @override
+  bool get hasBinds => _binds.isNotEmpty || _factoryBinds.isNotEmpty;
+
   /// Retrieves a service instance of type [T].
   /// If the service is not found, it tries to create it using the factory function if available.
   ///
@@ -42,8 +45,8 @@ final class ServiceLocator implements IServiceLocator {
   /// [T] - The type of the service being bound.
   /// [asyncBind] - A future that completes with the service instance to bind.
   @override
-  Future<void> asyncBind<T extends Object>(Future<T> asyncBind) async {
-    _binds[T] = await asyncBind;
+  Future<void> asyncBind<T extends Object>(Future<T> Function() bind) async {
+    _binds[T] = await bind();
   }
 
   /// Binds a singleton service instance of type [T].
