@@ -64,7 +64,7 @@ class BaseCacheManagerController {
   /// Returns the cached object of type [T] if found, or `null` if not present.
   ///
   /// Throws an error if data retrieval fails.
-  Future<T?> get<T extends Object>({required String key}) async {
+  T? get<T extends Object>({required String key}) {
     return _getDataCache.call<T, T>(key: key);
   }
 
@@ -75,7 +75,7 @@ class BaseCacheManagerController {
   /// Returns a list of cached objects if found, or `null` if not present.
   ///
   /// Throws an error if data retrieval encounters an issue.
-  Future<List<T>?> getList<T extends Object>({required String key}) {
+  List<T>? getList<T extends Object>({required String key}) {
     return _getDataCache<List<T>, T>(key: key);
   }
 
@@ -89,7 +89,7 @@ class BaseCacheManagerController {
     final dto = SaveCacheDTO<T>(key: key, data: data, cacheConfig: cacheConfig);
     final response = await _saveCacheUsecase.execute(dto);
 
-    if (response.isError) throw response.error;
+    return response.foldLeft((error) => throw error);
   }
 
   /// Deletes a specific cached entry identified by the given [key].
@@ -101,7 +101,7 @@ class BaseCacheManagerController {
     final dto = DeleteCacheDTO(key: key);
     final response = await _deleteCacheUsecase.execute(dto);
 
-    if (response.isError) throw response.error;
+    return response.foldLeft((error) => throw error);
   }
 
   /// Clears all cache entries stored within the cache system.
@@ -110,7 +110,7 @@ class BaseCacheManagerController {
   Future<void> clear() async {
     final response = await _clearCacheUsecase.execute();
 
-    if (response.isError) throw response.error;
+    return response.foldLeft((error) => throw error);
   }
 
   /// Retrieves a cached object of type [T] identified by the specified [key].
@@ -120,10 +120,10 @@ class BaseCacheManagerController {
   /// Returns the cached object of type [T], or `null` if not found.
   ///
   /// Throws an error if data retrieval fails.
-  Future<T?> _getDataCache<T extends Object, DataType extends Object>({required String key}) async {
+  T? _getDataCache<T extends Object, DataType extends Object>({required String key}) {
     final dto = GetCacheDTO(key: key);
 
-    final response = await _getCacheUsecase.execute<T, DataType>(dto);
+    final response = _getCacheUsecase.execute<T, DataType>(dto);
 
     return response.fold((error) => throw error, (success) => success?.data);
   }

@@ -21,6 +21,14 @@ abstract interface class ICacheRepository {
   /// - An [Either] containing an [AutoCacheException] on failure, or a nullable [CacheEntity] of type [T] on success.
   Either<AutoCacheException, CacheEntity<T>?> get<T extends Object>(GetCacheDTO dto);
 
+  /// Retrieves a list of cached entities of type [T] using the data transfer object [dto].
+  ///
+  /// The [dto] parameter specifies the criteria to identify and fetch the cached entities.
+  ///
+  /// - Parameter [dto]: An object of type [GetCacheDTO] that contains the criteria to locate the cache.
+  ///
+  /// Returns:
+  /// - An [Either] containing an [AutoCacheException] on failure, or a nullable list of [CacheEntity] of type [T] on success.
   Either<AutoCacheException, CacheEntity<T>?> getList<T extends Object, DataType extends Object>(GetCacheDTO dto);
 
   /// Retrieves all keys associated with a specific storage type [storageType].

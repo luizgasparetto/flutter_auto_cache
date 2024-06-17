@@ -150,7 +150,7 @@ void main() {
 
   group('PrefsCacheManagerController.getStringList |', () {
     test('should be able to get list of String in prefs successfully', () async {
-      when(() => baseController.getList<String>(key: 'my_key')).thenAnswer((_) async => ['value']);
+      when(() => baseController.getList<String>(key: 'my_key')).thenAnswer((_) => ['value']);
 
       final response = await sut.getStringList(key: 'my_key');
 
@@ -159,7 +159,7 @@ void main() {
     });
 
     test('should be able to get NULL when request a list of String that doesnt exists in cache', () async {
-      when(() => baseController.getList<String>(key: 'my_key')).thenAnswer((_) async => null);
+      when(() => baseController.getList<String>(key: 'my_key')).thenReturn(null);
 
       final response = await sut.getStringList(key: 'my_key');
 
@@ -198,7 +198,7 @@ void main() {
     final data = List.generate(5, (_) => json);
 
     test('should be able to get list of JSON in prefs successfully', () async {
-      when(() => baseController.getList<Map<String, dynamic>>(key: 'my_key')).thenAnswer((_) async => data);
+      when(() => baseController.getList<Map<String, dynamic>>(key: 'my_key')).thenAnswer((_) => data);
 
       final response = await sut.getJsonList(key: 'my_key');
 
@@ -207,7 +207,7 @@ void main() {
     });
 
     test('should be able to get NULL when request a list of String that doesnt exists in cache', () async {
-      when(() => baseController.getList<Map<String, dynamic>>(key: 'my_key')).thenAnswer((_) async => null);
+      when(() => baseController.getList<Map<String, dynamic>>(key: 'my_key')).thenReturn(null);
 
       final response = await sut.getJsonList(key: 'my_key');
 
