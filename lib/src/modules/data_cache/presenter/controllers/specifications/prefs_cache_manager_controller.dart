@@ -12,30 +12,35 @@ mixin IPrefsCacheManagerController on IQueryPrefsCacheManagerController, IComman
 abstract interface class IQueryPrefsCacheManagerController {
   /// Retrieves a string value from the cache for the given [key].
   ///
-  /// Returns a `Future<String?>` that completes with the string value
+  /// Returns a `String?` that completes with the string value
   /// associated with `key` if it exists, or `null` if the key is not found.
-  Future<String?> getString({required String key});
+  String? getString({required String key});
 
   /// Retrieves an integer value from the cache for the given [key].
   ///
-  /// Returns a `Future<int?>` that completes with the integer value
+  /// Returns a `int?` that completes with the integer value
   /// associated with `key` if it exists, or `null` if the key is not found.
-  Future<int?> getInt({required String key});
+  int? getInt({required String key});
 
   /// Retrieves a JSON map from the cache associated with the specified [key].
   ///
-  /// This method is asynchronous and returns a `Future<Map<String, dynamic>?>`.
+  /// This method is asynchronous and returns a `Map<String, dynamic>?`.
   /// It returns the JSON map if it exists, or `null` if no data is found for the [key].
-  Future<Map<String, dynamic>?> getJson({required String key});
+  Map<String, dynamic>? getJson({required String key});
 
   /// Retrieves a list of strings from the cache associated with the specified [key].
   ///
   /// This method is asynchronous and returns a `Future<List<String>?>`.
   /// If the data exists for the [key], it returns the list; otherwise,
   /// it returns `null` if no data is found.
-  Future<List<String>?> getStringList({required String key});
+  List<String>? getStringList({required String key});
 
-  Future<List<Map<String, dynamic>>?> getJsonList({required String key});
+  /// Retrieves a list of JSON maps from the cache associated with the specified [key].
+  ///
+  /// This method returns a `List<Map<String, dynamic>>?`.
+  /// If the data exists for the [key], it returns the list of JSON maps; otherwise,
+  /// it returns `null` if no data is found.
+  List<Map<String, dynamic>>? getJsonList({required String key});
 }
 
 /// Interface for writing cache operations.
@@ -83,8 +88,8 @@ abstract interface class ICommandPrefsCachaManagerController {
 
 /// A controller class for managing key-value storage cache operations.
 ///
-/// This class provides methods to retrieve and save string, integer, and
-/// double values in a cache, abstracting the underlying cache mechanism
+/// This class provides methods to retrieve and save string, integer,
+/// and JSON values in a cache, abstracting the underlying cache mechanism
 /// provided by [BaseCacheManagerController].
 class PrefsCacheManagerController implements IPrefsCacheManagerController {
   final BaseCacheManagerController _baseCacheManagerController;
@@ -100,84 +105,84 @@ class PrefsCacheManagerController implements IPrefsCacheManagerController {
 
   /// Retrieves a string value from the cache for the given [key].
   ///
-  /// Returns a `Future<String?>` that completes with the string value
+  /// Returns a `String?` that completes with the string value
   /// associated with `key` if it exists, or `null` if the key is not found.
   @override
-  Future<String?> getString({required String key}) async {
+  String? getString({required String key}) {
     return _baseCacheManagerController.get<String>(key: key);
   }
 
-  /// Retrieves an integer value from the cache for the given `key`.
+  /// Retrieves an integer value from the cache for the given [key].
   ///
-  /// Returns a `Future<int?>` that completes with the integer value
+  /// Returns an `int?` that completes with the integer value
   /// associated with `key` if it exists, or `null` if the key is not found.
   @override
-  Future<int?> getInt({required String key}) async {
+  int? getInt({required String key}) {
     return _baseCacheManagerController.get<int>(key: key);
   }
 
-  /// Retrieves a JSON map from the cache associated with the specified `key`.
+  /// Retrieves a JSON map from the cache associated with the specified [key].
   ///
-  /// This method is asynchronous and returns a `Future<Map<String, dynamic>?>`.
-  /// It returns the JSON map if it exists or `null` if no data is found for the `key`.
+  /// Returns a `Map<String, dynamic>?` that completes with the JSON map
+  /// associated with `key` if it exists, or `null` if the key is not found.
   @override
-  Future<Map<String, dynamic>?> getJson({required String key}) async {
+  Map<String, dynamic>? getJson({required String key}) {
     return _baseCacheManagerController.get<Map<String, dynamic>>(key: key);
   }
 
-  /// Retrieves a list of objects from the cache associated with the specified `key`.
+  /// Retrieves a list of strings from the cache associated with the specified [key].
   ///
-  /// This method is asynchronous and returns a `Future<List<T>?>`. It fetches a list of
-  /// objects where each object is of type `String`. If the data exists for the `key`, it returns
-  /// the list; otherwise, it returns `null` if no data is found.
+  /// Returns a `List<String>?` that completes with the list of strings
+  /// associated with `key` if it exists, or `null` if the key is not found.
   @override
-  Future<List<String>?> getStringList({required String key}) async {
+  List<String>? getStringList({required String key}) {
     return _baseCacheManagerController.getList<String>(key: key);
   }
 
+  /// Retrieves a list of JSON maps from the cache associated with the specified [key].
+  ///
+  /// Returns a `List<Map<String, dynamic>>?` that completes with the list of JSON maps
+  /// associated with `key` if it exists, or `null` if the key is not found.
   @override
-  Future<List<Map<String, dynamic>>?> getJsonList({required String key}) async {
+  List<Map<String, dynamic>>? getJsonList({required String key}) {
     return _baseCacheManagerController.getList<Map<String, dynamic>>(key: key);
   }
 
-  /// Saves a `String` in the cache with the specified `key`.
+  /// Saves a `String` in the cache with the specified [key].
   ///
-  /// This method is asynchronous and returns a `Future<void>` that completes
-  /// when the operation is finished.
+  /// Returns a `Future<void>` that completes when the operation is finished.
   @override
   Future<void> saveString({required String key, required String data}) async {
     return _baseCacheManagerController.save<String>(key: key, data: data);
   }
 
-  /// Saves an `int` in the cache with the specified `key`.
+  /// Saves an `int` in the cache with the specified [key].
   ///
-  /// This method is asynchronous and returns a `Future<void>` that completes
-  /// when the operation is finished.
+  /// Returns a `Future<void>` that completes when the operation is finished.
   @override
   Future<void> saveInt({required String key, required int data}) async {
     return _baseCacheManagerController.save<int>(key: key, data: data);
   }
 
-  /// Saves a JSON map in the cache with the specified `key`.
+  /// Saves a JSON map in the cache with the specified [key].
   ///
-  /// This method is asynchronous and returns a `Future<void>` that completes
-  /// when the operation is finished. The data must be a `Map<String, dynamic>`.
+  /// Returns a `Future<void>` that completes when the operation is finished.
   @override
   Future<void> saveJson({required String key, required Map<String, dynamic> data}) async {
     return _baseCacheManagerController.save<Map<String, dynamic>>(key: key, data: data);
   }
 
-  /// Stores a list of objects in the cache under the specified `key`.
+  /// Saves a list of strings in the cache with the specified [key].
   ///
-  /// This method is asynchronous and does not return a value. It saves a list of
-  /// objects, where each object is of type `String`, to the cache. The `data` is the list
-  /// of objects to be stored, and `key` is the identifier used to retrieve the list
-  /// from the cache later.
+  /// Returns a `Future<void>` that completes when the operation is finished.
   @override
   Future<void> saveStringList({required String key, required List<String> data}) async {
     return _baseCacheManagerController.save<List<String>>(key: key, data: data);
   }
 
+  /// Saves a list of JSON maps in the cache with the specified [key].
+  ///
+  /// Returns a `Future<void>` that completes when the operation is finished.
   @override
   Future<void> saveJsonList({required String key, required List<Map<String, dynamic>> data}) async {
     return _baseCacheManagerController.save<List<Map<String, dynamic>>>(key: key, data: data);
@@ -185,9 +190,8 @@ class PrefsCacheManagerController implements IPrefsCacheManagerController {
 
   /// Deletes the specified cache entry.
   ///
-  /// This method is asynchronous and returns a `Future<void>` that completes
-  /// when the operation is finished. It removes the cache entry associated
-  /// with the given `key`.
+  /// Returns a `Future<void>` that completes when the operation is finished.
+  /// It removes the cache entry associated with the given [key].
   @override
   Future<void> delete({required String key}) async {
     return _baseCacheManagerController.delete(key: key);
@@ -195,10 +199,8 @@ class PrefsCacheManagerController implements IPrefsCacheManagerController {
 
   /// Clears all entries from the cache.
   ///
-  /// This method performs an asynchronous operation to remove all entries
-  /// from the cache. It returns a `Future<void>` that completes when the
-  /// cache has been cleared. This is useful for freeing up space or ensuring
-  /// that outdated data is removed from the application.
+  /// Returns a `Future<void>` that completes when the operation is finished.
+  /// This is useful for freeing up space or ensuring that outdated data is removed from the application.
   @override
   Future<void> clear() async {
     return _baseCacheManagerController.clear();
