@@ -1,6 +1,7 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'core/config/stores/cache_config_store.dart';
+
 import 'core/core.dart';
 
 import 'core/services/compressor_service/i_compressor_service.dart';
@@ -13,7 +14,7 @@ import 'core/services/kvs_service/i_kvs_service.dart';
 import 'core/services/kvs_service/implementations/shared_preferences_kvs_service.dart';
 import 'core/services/service_locator/implementations/service_locator.dart';
 import 'modules/data_cache/domain/repositories/i_cache_repository.dart';
-import 'modules/data_cache/domain/services/invalidation/invalidation_cache_context.dart';
+import 'modules/data_cache/domain/services/invalidation_service/invalidation_cache_context.dart';
 import 'modules/data_cache/domain/usecases/clear_cache_usecase.dart';
 import 'modules/data_cache/domain/usecases/delete_cache_usecase.dart';
 import 'modules/data_cache/domain/usecases/get_cache_usecase.dart';

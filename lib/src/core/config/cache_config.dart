@@ -1,5 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import '../../modules/data_cache/domain/constants/cache_constants.dart';
+import 'constants/cache_invalidation_constants.dart';
 import '../../modules/data_cache/domain/enums/invalidation_type.dart';
 import 'value_objects/cache_cryptography_options.dart';
 import 'value_objects/cache_size_options.dart';
@@ -40,7 +40,7 @@ class CacheConfig {
   /// [useDeflateCompresser] Flag indicating whether to use Deflate compressor.
   CacheConfig({
     CacheSizeOptions? sizeOptions,
-    this.ttlMaxDuration = CacheConstants.maxTtlDuration,
+    this.ttlMaxDuration = CacheInvalidationConstants.maxTtlDuration,
     this.cryptographyOptions,
     this.useDeflateCompresser = false,
   }) : sizeOptions = sizeOptions ?? CacheSizeOptions.createDefault();
@@ -62,7 +62,7 @@ class CacheConfig {
   /// This method verifies whether the current configuration
   /// matches the default settings for the cache.
   bool get isDefaultConfig {
-    final isDefaultInvalidation = invalidationType == CacheConstants.defaultInvalidationType;
+    final isDefaultInvalidation = invalidationType == CacheInvalidationConstants.defaultInvalidationType;
     final isDefaultCacheSizeOptions = sizeOptions == CacheSizeOptions.createDefault();
     final isNotUsingDeflateCompresser = !useDeflateCompresser;
 

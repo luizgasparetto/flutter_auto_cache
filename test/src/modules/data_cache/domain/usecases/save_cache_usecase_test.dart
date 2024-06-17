@@ -5,7 +5,7 @@ import 'package:auto_cache_manager/src/modules/data_cache/domain/dtos/save_cache
 import 'package:auto_cache_manager/src/modules/data_cache/domain/entities/cache_entity.dart';
 import 'package:auto_cache_manager/src/modules/data_cache/domain/enums/invalidation_type.dart';
 import 'package:auto_cache_manager/src/modules/data_cache/domain/repositories/i_cache_repository.dart';
-import 'package:auto_cache_manager/src/modules/data_cache/domain/services/invalidation/invalidation_cache_context.dart';
+import 'package:auto_cache_manager/src/modules/data_cache/domain/services/invalidation_service/invalidation_cache_context.dart';
 import 'package:auto_cache_manager/src/modules/data_cache/domain/usecases/save_cache_usecase.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';

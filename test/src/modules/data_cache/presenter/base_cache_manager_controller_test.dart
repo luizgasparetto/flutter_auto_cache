@@ -82,8 +82,8 @@ void main() {
 
   group('BaseCacheManagerController.get |', () {
     test('should be able to get data in cache with a key successfully', () async {
-      when(() => getCacheUsecase.execute<String, String>(any(that: getCacheDtoMatcher()))).thenAnswer(
-        (_) async => right(CacheEntityFake<String>(fakeData: 'my_string_cached')),
+      when(() => getCacheUsecase.execute<String, String>(any(that: getCacheDtoMatcher()))).thenReturn(
+        right(CacheEntityFake<String>(fakeData: 'my_string_cached')),
       );
 
       final response = await sut.get<String>(key: 'my_key');
@@ -93,9 +93,7 @@ void main() {
     });
 
     test('should be able to get item in cache and return NULL', () async {
-      when(() => getCacheUsecase.execute<String, String>(any(that: getCacheDtoMatcher()))).thenAnswer(
-        (_) async => right(null),
-      );
+      when(() => getCacheUsecase.execute<String, String>(any(that: getCacheDtoMatcher()))).thenReturn(right(null));
 
       final response = await sut.get<String>(key: 'my_key');
 
@@ -104,8 +102,8 @@ void main() {
     });
 
     test('should NOT be able to get item in cache when UseCase throws an AutoCacheManagerException', () async {
-      when(() => getCacheUsecase.execute<String, String>(any(that: getCacheDtoMatcher()))).thenAnswer(
-        (_) async => left(FakeAutoCacheManagerException()),
+      when(() => getCacheUsecase.execute<String, String>(any(that: getCacheDtoMatcher()))).thenReturn(
+        left(FakeAutoCacheManagerException()),
       );
 
       expect(() => sut.get<String>(key: 'my_key'), throwsA(isA<AutoCacheException>()));
