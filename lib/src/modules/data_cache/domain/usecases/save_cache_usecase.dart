@@ -4,7 +4,7 @@ import 'package:auto_cache_manager/src/modules/data_cache/domain/entities/cache_
 import '../../../../core/core.dart';
 import '../dtos/save_cache_dto.dart';
 import '../repositories/i_cache_repository.dart';
-import '../services/invalidation/invalidation_cache_context.dart';
+import '../services/invalidation_service/invalidation_cache_context.dart';
 
 abstract interface class SaveCacheUsecase {
   AsyncEither<AutoCacheError, Unit> execute<T extends Object>(SaveCacheDTO<T> dto);

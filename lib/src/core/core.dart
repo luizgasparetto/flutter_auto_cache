@@ -1,5 +1,3 @@
-export '../modules/data_cache/domain/constants/cache_constants.dart';
-
 export 'config/cache_config.dart';
 export 'errors/auto_cache_error.dart';
 

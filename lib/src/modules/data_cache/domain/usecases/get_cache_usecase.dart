@@ -2,12 +2,10 @@ import '../../../../core/core.dart';
 import '../dtos/get_cache_dto.dart';
 import '../entities/cache_entity.dart';
 import '../repositories/i_cache_repository.dart';
-import '../services/invalidation/invalidation_cache_context.dart';
+import '../services/invalidation_service/invalidation_cache_context.dart';
 
-typedef GetCacheResponse<T extends Object> = AsyncEither<AutoCacheError, CacheEntity<T>?>;
-
-abstract class GetCacheUsecase {
-  GetCacheResponse<T> execute<T extends Object, DataType extends Object>(GetCacheDTO dto);
+abstract interface class GetCacheUsecase {
+  Either<AutoCacheError, CacheEntity<T>?> execute<T extends Object, DataType extends Object>(GetCacheDTO dto);
 }
 
 class GetCache implements GetCacheUsecase {
@@ -17,8 +15,8 @@ class GetCache implements GetCacheUsecase {
   const GetCache(this._repository, this._invalidationContext);
 
   @override
-  GetCacheResponse<T> execute<T extends Object, DataType extends Object>(GetCacheDTO dto) async {
-    final searchResponse = await _getSearchResponse<T, DataType>(dto);
+  Either<AutoCacheError, CacheEntity<T>?> execute<T extends Object, DataType extends Object>(GetCacheDTO dto) {
+    final searchResponse = _getResponse<T, DataType>(dto);
 
     if (searchResponse.isError) {
       return left(searchResponse.error);
@@ -38,7 +36,7 @@ class GetCache implements GetCacheUsecase {
     return right(cache);
   }
 
-  GetCacheResponse<T> _getSearchResponse<T extends Object, DataType extends Object>(GetCacheDTO dto) async {
+  Either<AutoCacheError, CacheEntity<T>?> _getResponse<T extends Object, DataType extends Object>(GetCacheDTO dto) {
     if (T.isList) return _repository.getList<T, DataType>(dto);
 
     return _repository.get<T>(dto);
