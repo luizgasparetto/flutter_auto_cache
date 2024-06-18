@@ -12,6 +12,8 @@ abstract class Either<TLeft, TRight> {
   T fold<T>(T Function(TLeft l) leftFn, T Function(TRight r) rightFn);
 
   T? foldLeft<T>(T Function(TLeft l) leftFn);
+
+  Either<TLeft, TNewRight> mapRight<TNewRight>(TNewRight Function(TRight r) rightFn);
 }
 
 class _Left<TLeft, TRight> extends Either<TLeft, TRight> {
@@ -40,6 +42,11 @@ class _Left<TLeft, TRight> extends Either<TLeft, TRight> {
   T? foldLeft<T>(T Function(TLeft l) leftFn) {
     return leftFn(value);
   }
+
+  @override
+  Either<TLeft, TNewRight> mapRight<TNewRight>(TNewRight Function(TRight r) rightFn) {
+    return _Left<TLeft, TNewRight>(value);
+  }
 }
 
 class _Right<TLeft, TRight> extends Either<TLeft, TRight> {
@@ -67,6 +74,11 @@ class _Right<TLeft, TRight> extends Either<TLeft, TRight> {
   @override
   T? foldLeft<T>(T Function(TLeft l) leftFn) {
     return null;
+  }
+
+  @override
+  Either<TLeft, TNewRight> mapRight<TNewRight>(TNewRight Function(TRight r) rightFn) {
+    return _Right<TLeft, TNewRight>(rightFn(value));
   }
 }
 
