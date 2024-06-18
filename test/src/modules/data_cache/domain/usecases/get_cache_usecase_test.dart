@@ -46,11 +46,11 @@ void main() {
       endAt: DateTime.now(),
     );
 
-    test('should be able to get data in cache successfully', () async {
+    test('should be able to get data in cache successfully', () {
       when(() => repository.get<String>(dto)).thenReturn(right(successCache));
       when(() => invalidationContext.execute(successCache)).thenReturn(right(unit));
 
-      final response = await sut.execute<String, String>(dto);
+      final response = sut.execute<String, String>(dto);
 
       expect(response.isSuccess, isTrue);
       expect(response.success, successCache);
@@ -58,10 +58,10 @@ void main() {
       verify(() => invalidationContext.execute(successCache)).called(1);
     });
 
-    test('should be able to get data in cache if data is NULL successfully', () async {
+    test('should be able to get data in cache if data is NULL successfully', () {
       when(() => repository.get<String>(dto)).thenReturn(right(null));
 
-      final response = await sut.execute<String, String>(dto);
+      final response = sut.execute<String, String>(dto);
 
       expect(response.isSuccess, isTrue);
       expect(response.success, isNull);
@@ -72,7 +72,7 @@ void main() {
     test('should NOT be able to get data in cache when get retrives an exception', () async {
       when(() => repository.get<String>(dto)).thenReturn(left(FakeAutoCacheManagerException()));
 
-      final response = await sut.execute<String, String>(dto);
+      final response = sut.execute<String, String>(dto);
 
       expect(response.isError, isTrue);
       expect(response.error, isA<AutoCacheException>());
@@ -80,11 +80,11 @@ void main() {
       verifyNever(() => invalidationContext.execute<String>(any<CacheEntity<String>>()));
     });
 
-    test('should NOT be able to get data in cache when invalidation context retrives an exception', () async {
+    test('should NOT be able to get data in cache when invalidation context retrives an exception', () {
       when(() => repository.get<String>(dto)).thenReturn(right(successCache));
       when(() => invalidationContext.execute(successCache)).thenReturn(left(AutoCacheFailureFake()));
 
-      final response = await sut.execute<String, String>(dto);
+      final response = sut.execute<String, String>(dto);
 
       expect(response.isError, isTrue);
       expect(response.error, isA<AutoCacheFailure>());
