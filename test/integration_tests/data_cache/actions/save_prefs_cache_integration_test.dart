@@ -13,7 +13,7 @@ Future<void> main() async {
     test('should be able to save a string in prefs cache and verify values', () async {
       await sut.saveString(key: 'string_key', data: 'string_data');
 
-      final response = await sut.getString(key: 'string_key');
+      final response = sut.getString(key: 'string_key');
 
       expect(response, isNotNull);
       expect(response, equals('string_data'));
@@ -28,7 +28,7 @@ Future<void> main() async {
     test('should be able to save an int in prefs cache and verify values', () async {
       await sut.saveInt(key: 'int_key', data: 1);
 
-      final response = await sut.getInt(key: 'int_key');
+      final response = sut.getInt(key: 'int_key');
 
       expect(response, isNotNull);
       expect(response, equals(1));
@@ -52,8 +52,8 @@ Future<void> main() async {
       await sut.saveJson(key: 'json_key', data: simpleJson);
       await sut.saveJson(key: 'complex_json_key', data: complexJson);
 
-      final simpleResponse = await sut.getJson(key: 'json_key');
-      final complexResponse = await sut.getJson(key: 'complex_json_key');
+      final simpleResponse = sut.getJson(key: 'json_key');
+      final complexResponse = sut.getJson(key: 'complex_json_key');
 
       expect(simpleResponse, isNotNull);
       expect(simpleResponse, equals(simpleJson));
@@ -69,7 +69,7 @@ Future<void> main() async {
     test('should be able to save a list of String in prefs cache and verify values', () async {
       await sut.saveStringList(key: 'string_list_key', data: stringList);
 
-      final response = await sut.getStringList(key: 'string_list_key');
+      final response = sut.getStringList(key: 'string_list_key');
 
       expect(response, isNotNull);
       expect(response, equals(stringList));
@@ -83,7 +83,7 @@ Future<void> main() async {
     test('should be able to save a list of JSON in prefs cache and verify values', () async {
       await sut.saveJsonList(key: 'json_list_key', data: jsonList);
 
-      final response = await sut.getJsonList(key: 'json_list_key');
+      final response = sut.getJsonList(key: 'json_list_key');
 
       expect(response, isNotNull);
       expect(response, equals(jsonList));

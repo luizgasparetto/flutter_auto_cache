@@ -30,6 +30,6 @@ final class GetCache implements GetCacheUsecase {
   Either<AutoCacheError, CacheEntity<T>?> _handleInvalidation<T extends Object>(CacheEntity<T>? cache) {
     if (cache == null) return right(null);
 
-    return _invalidationContext.execute(cache).mapRight((_) => cache);
+    return _invalidationContext.execute<T>(cache).mapRight((_) => cache);
   }
 }
