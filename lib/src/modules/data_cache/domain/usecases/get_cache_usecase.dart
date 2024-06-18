@@ -8,7 +8,7 @@ abstract interface class GetCacheUsecase {
   Either<AutoCacheError, CacheEntity<T>?> execute<T extends Object, DataType extends Object>(GetCacheDTO dto);
 }
 
-class GetCache implements GetCacheUsecase {
+final class GetCache implements GetCacheUsecase {
   final ICacheRepository _repository;
   final IInvalidationCacheContext _invalidationContext;
 
@@ -18,27 +18,18 @@ class GetCache implements GetCacheUsecase {
   Either<AutoCacheError, CacheEntity<T>?> execute<T extends Object, DataType extends Object>(GetCacheDTO dto) {
     final searchResponse = _getResponse<T, DataType>(dto);
 
-    if (searchResponse.isError) {
-      return left(searchResponse.error);
-    }
-
-    if (searchResponse.isSuccess && searchResponse.success == null) {
-      return right(null);
-    }
-
-    final cache = searchResponse.success!;
-    final validation = _invalidationContext.execute(cache);
-
-    if (validation.isError) {
-      return left(validation.error);
-    }
-
-    return right(cache);
+    return searchResponse.fold(left, (cache) => _handleInvalidation(cache));
   }
 
   Either<AutoCacheError, CacheEntity<T>?> _getResponse<T extends Object, DataType extends Object>(GetCacheDTO dto) {
     if (T.isList) return _repository.getList<T, DataType>(dto);
 
     return _repository.get<T>(dto);
+  }
+
+  Either<AutoCacheError, CacheEntity<T>?> _handleInvalidation<T extends Object>(CacheEntity<T>? cache) {
+    if (cache == null) return right(null);
+
+    return _invalidationContext.execute(cache).mapRight((_) => cache);
   }
 }

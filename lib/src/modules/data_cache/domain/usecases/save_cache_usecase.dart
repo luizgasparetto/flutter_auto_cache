@@ -9,7 +9,7 @@ abstract interface class SaveCacheUsecase {
   AsyncEither<AutoCacheError, Unit> execute<T extends Object>(SaveCacheDTO<T> dto);
 }
 
-class SaveCache implements SaveCacheUsecase {
+final class SaveCache implements SaveCacheUsecase {
   final ICacheRepository _repository;
   final IInvalidationCacheContext _invalidationCacheContext;
 
@@ -25,6 +25,7 @@ class SaveCache implements SaveCacheUsecase {
 
   AsyncEither<AutoCacheError, Unit> _saveCache<T extends Object>(CacheEntity<T>? cache, SaveCacheDTO<T> dto) async {
     final validateResponse = _validate(cache);
+
     return validateResponse.fold(left, (_) async => _repository.save(dto));
   }
 
