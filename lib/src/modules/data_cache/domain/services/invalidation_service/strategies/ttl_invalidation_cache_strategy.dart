@@ -1,5 +1,3 @@
-import 'package:shared_preferences/shared_preferences.dart';
-
 import '../../../../../../core/core.dart';
 import '../../../entities/cache_entity.dart';
 import '../../../failures/invalidation_methods_failures.dart';
@@ -11,7 +9,6 @@ final class TTLInvalidationCacheStrategy implements InvalidationCacheStrategy {
     final isExpired = cache.endAt.isBefore(DateTime.now());
 
     if (isExpired) {
-      SharedPreferences.getInstance();
       return left(ExpiredTTLFailure(message: 'The content of cache is expired by TTL'));
     }
 
