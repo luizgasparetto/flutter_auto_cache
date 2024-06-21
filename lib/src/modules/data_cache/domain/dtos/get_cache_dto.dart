@@ -1,9 +1,7 @@
 class GetCacheDTO {
   final String key;
 
-  const GetCacheDTO({
-    required this.key,
-  });
+  const GetCacheDTO({required this.key});
 }
 
 class GetListCacheDTO extends GetCacheDTO {
