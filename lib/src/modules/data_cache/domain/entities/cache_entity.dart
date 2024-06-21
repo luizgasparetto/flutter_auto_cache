@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 
-import '../dtos/save_cache_dto.dart';
+import '../dtos/write_cache_dto.dart';
 import '../enums/invalidation_type.dart';
 
 /// Immutable class representing a cache entity.
@@ -62,7 +62,7 @@ class CacheEntity<T extends Object> {
     );
   }
 
-  factory CacheEntity.toSave(SaveCacheDTO<T> dto) {
+  factory CacheEntity.save(WriteCacheDTO<T> dto) {
     return CacheEntity._generate(
       id: dto.key,
       data: dto.data,
@@ -71,7 +71,7 @@ class CacheEntity<T extends Object> {
     );
   }
 
-  factory CacheEntity.toUpdate(SaveCacheDTO<T> dto) {
+  factory CacheEntity.update(WriteCacheDTO<T> dto) {
     return CacheEntity._generate(
       id: dto.key,
       data: dto.data,

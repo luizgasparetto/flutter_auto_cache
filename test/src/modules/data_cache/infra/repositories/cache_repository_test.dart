@@ -1,7 +1,7 @@
 import 'package:auto_cache_manager/src/core/core.dart';
 import 'package:auto_cache_manager/src/modules/data_cache/domain/dtos/delete_cache_dto.dart';
 import 'package:auto_cache_manager/src/modules/data_cache/domain/dtos/get_cache_dto.dart';
-import 'package:auto_cache_manager/src/modules/data_cache/domain/dtos/save_cache_dto.dart';
+import 'package:auto_cache_manager/src/modules/data_cache/domain/dtos/write_cache_dto.dart';
 import 'package:auto_cache_manager/src/modules/data_cache/domain/entities/cache_entity.dart';
 import 'package:auto_cache_manager/src/modules/data_cache/infra/datasources/i_command_data_cache_datasource.dart';
 import 'package:auto_cache_manager/src/modules/data_cache/infra/datasources/i_query_data_cache_datasource.dart';
@@ -98,7 +98,7 @@ void main() {
   });
 
   group('CacheRepository.save |', () {
-    final prefsDto = SaveCacheDTO<String>(key: 'my_key', data: 'my_data', cacheConfig: fakeCacheConfig);
+    final prefsDto = WriteCacheDTO<String>(key: 'my_key', data: 'my_data', cacheConfig: fakeCacheConfig);
 
     test('should be able to save cache data with prefs successfully', () async {
       when(() => commandDatasource.save<String>(prefsDto)).thenAsyncVoid();

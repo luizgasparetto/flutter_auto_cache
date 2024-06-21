@@ -5,7 +5,7 @@ import '../../../../core/infrastructure/middlewares/initialize_middleware.dart';
 import '../../../../core/services/service_locator/implementations/service_locator.dart';
 import '../../domain/dtos/delete_cache_dto.dart';
 import '../../domain/dtos/get_cache_dto.dart';
-import '../../domain/dtos/save_cache_dto.dart';
+import '../../domain/dtos/write_cache_dto.dart';
 import '../../domain/usecases/clear_cache_usecase.dart';
 import '../../domain/usecases/delete_cache_usecase.dart';
 import '../../domain/usecases/get_cache_usecase.dart';
@@ -86,7 +86,7 @@ class BaseCacheManagerController {
   ///
   /// Throws an exception if the cache save operation encounters an error.
   Future<void> save<T extends Object>({required String key, required T data}) async {
-    final dto = SaveCacheDTO<T>(key: key, data: data, cacheConfig: cacheConfig);
+    final dto = WriteCacheDTO<T>(key: key, data: data, cacheConfig: cacheConfig);
     final response = await _saveCacheUsecase.execute(dto);
 
     return response.foldLeft((error) => throw error);

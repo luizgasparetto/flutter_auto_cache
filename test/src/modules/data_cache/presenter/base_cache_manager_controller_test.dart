@@ -2,7 +2,7 @@ import 'package:auto_cache_manager/src/core/core.dart';
 import 'package:auto_cache_manager/src/core/services/service_locator/implementations/service_locator.dart';
 import 'package:auto_cache_manager/src/modules/data_cache/domain/dtos/delete_cache_dto.dart';
 import 'package:auto_cache_manager/src/modules/data_cache/domain/dtos/get_cache_dto.dart';
-import 'package:auto_cache_manager/src/modules/data_cache/domain/dtos/save_cache_dto.dart';
+import 'package:auto_cache_manager/src/modules/data_cache/domain/dtos/write_cache_dto.dart';
 import 'package:auto_cache_manager/src/modules/data_cache/domain/entities/cache_entity.dart';
 import 'package:auto_cache_manager/src/modules/data_cache/domain/usecases/clear_cache_usecase.dart';
 import 'package:auto_cache_manager/src/modules/data_cache/domain/usecases/delete_cache_usecase.dart';
@@ -111,22 +111,22 @@ void main() {
   });
 
   group('BaseCacheManagerController.save |', () {
-    final saveDTO = SaveCacheDTO(key: 'my_key', data: 'my_data', cacheConfig: cacheConfigMock);
+    final dto = WriteCacheDTO(key: 'my_key', data: 'my_data', cacheConfig: cacheConfigMock);
 
     test('should be able to save a data in cache with a key successfully', () async {
-      when(() => saveCacheUsecase.execute<String>(saveDTO)).thenAnswer((_) async => right(unit));
+      when(() => saveCacheUsecase.execute<String>(dto)).thenAnswer((_) async => right(unit));
 
       await expectLater(sut.save<String>(key: 'my_key', data: 'my_data'), completes);
-      verify(() => saveCacheUsecase.execute<String>(saveDTO)).called(1);
+      verify(() => saveCacheUsecase.execute<String>(dto)).called(1);
     });
 
     test('should NOT be able to save data in cache when UseCase throws an AutoCacheManagerException', () async {
-      when(() => saveCacheUsecase.execute<String>(saveDTO)).thenAnswer(
+      when(() => saveCacheUsecase.execute<String>(dto)).thenAnswer(
         (_) async => left(FakeAutoCacheManagerException()),
       );
 
       expect(() => sut.save<String>(key: 'my_key', data: 'my_data'), throwsA(isA<AutoCacheException>()));
-      verify(() => saveCacheUsecase.execute<String>(saveDTO)).called(1);
+      verify(() => saveCacheUsecase.execute<String>(dto)).called(1);
     });
   });
 

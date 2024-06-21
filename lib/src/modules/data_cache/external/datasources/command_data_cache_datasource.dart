@@ -3,7 +3,7 @@ import 'dart:convert';
 import '../../../../core/services/cryptography_service/i_cryptography_service.dart';
 
 import '../../../../core/services/kvs_service/i_kvs_service.dart';
-import '../../domain/dtos/save_cache_dto.dart';
+import '../../domain/dtos/write_cache_dto.dart';
 import '../../domain/entities/cache_entity.dart';
 import '../../infra/datasources/i_command_data_cache_datasource.dart';
 import '../adapters/cache_adapter.dart';
@@ -25,8 +25,8 @@ final class CommandDataCacheDatasource implements ICommandDataCacheDatasource {
   const CommandDataCacheDatasource(this._kvsService, this._cryptographyService);
 
   @override
-  Future<void> save<T extends Object>(SaveCacheDTO<T> dto) async {
-    final cache = CacheEntity.toSave(dto);
+  Future<void> save<T extends Object>(WriteCacheDTO<T> dto) async {
+    final cache = CacheEntity.save(dto);
     final data = CacheAdapter.toJson(cache);
 
     final encodedData = jsonEncode(data);
@@ -43,5 +43,11 @@ final class CommandDataCacheDatasource implements ICommandDataCacheDatasource {
   @override
   Future<void> clear() async {
     return _kvsService.clear();
+  }
+
+  @override
+  Future<void> update<T extends Object>(WriteCacheDTO<T> dto) {
+    // TODO: implement update
+    throw UnimplementedError();
   }
 }

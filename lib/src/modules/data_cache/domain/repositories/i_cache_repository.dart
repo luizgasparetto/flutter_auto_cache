@@ -2,7 +2,7 @@ import '../../../../core/core.dart';
 
 import '../dtos/delete_cache_dto.dart';
 import '../dtos/get_cache_dto.dart';
-import '../dtos/save_cache_dto.dart';
+import '../dtos/write_cache_dto.dart';
 
 import '../entities/cache_entity.dart';
 
@@ -43,19 +43,19 @@ abstract interface class ICacheRepository {
   ///
   /// The [dto] parameter provides the data and metadata required for caching.
   ///
-  /// - Parameter [dto]: An object of type [SaveCacheDTO] containing the data and metadata to be cached.
+  /// - Parameter [dto]: An object of type [WriteCacheDTO] containing the data and metadata to be cached.
   ///
   /// Returns:
   /// - An [AsyncEither] containing an [AutoCacheException] on failure, or a [Unit] indicating success.
-  AsyncEither<AutoCacheException, Unit> save<T extends Object>(SaveCacheDTO<T> dto);
+  AsyncEither<AutoCacheException, Unit> save<T extends Object>(WriteCacheDTO<T> dto);
 
   /// Updates a cached data object of type [T].
   ///
   /// This method updates the cached data with the new values.
   ///
   /// Returns:
-  /// - An [AsyncEither] containing an [AutoCacheManagerException] on failure, or a [Unit] indicating success.
-  AsyncEither<AutoCacheException, Unit> update<T extends Object>();
+  /// - An [AsyncEither] containing an [AutoCacheException] on failure, or a [Unit] indicating success.
+  AsyncEither<AutoCacheException, Unit> update<T extends Object>(WriteCacheDTO<T> dto);
 
   /// Deletes a cached data entry based on the criteria in [dto].
   ///
