@@ -36,6 +36,12 @@ final class CommandDataCacheDatasource implements ICommandDataCacheDatasource {
   }
 
   @override
+  Future<void> update<T extends Object>(WriteCacheDTO<T> dto) {
+    // TODO: implement update
+    throw UnimplementedError();
+  }
+
+  @override
   Future<void> delete(String key) async {
     return _kvsService.delete(key: key);
   }
@@ -43,11 +49,5 @@ final class CommandDataCacheDatasource implements ICommandDataCacheDatasource {
   @override
   Future<void> clear() async {
     return _kvsService.clear();
-  }
-
-  @override
-  Future<void> update<T extends Object>(WriteCacheDTO<T> dto) {
-    // TODO: implement update
-    throw UnimplementedError();
   }
 }

@@ -2,6 +2,7 @@ import '../../../../core/core.dart';
 
 import '../dtos/delete_cache_dto.dart';
 import '../dtos/get_cache_dto.dart';
+import '../dtos/update_cache_dto.dart';
 import '../dtos/write_cache_dto.dart';
 
 import '../entities/cache_entity.dart';
@@ -55,7 +56,7 @@ abstract interface class ICacheRepository {
   ///
   /// Returns:
   /// - An [AsyncEither] containing an [AutoCacheException] on failure, or a [Unit] indicating success.
-  AsyncEither<AutoCacheException, Unit> update<T extends Object>(WriteCacheDTO<T> dto);
+  AsyncEither<AutoCacheException, Unit> update<T extends Object>(UpdateCacheDTO<T> dto);
 
   /// Deletes a cached data entry based on the criteria in [dto].
   ///
