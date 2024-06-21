@@ -1,6 +1,8 @@
 import '../../../../core/core.dart';
+
 import '../../domain/dtos/delete_cache_dto.dart';
 import '../../domain/dtos/get_cache_dto.dart';
+import '../../domain/dtos/update_cache_dto.dart';
 import '../../domain/dtos/write_cache_dto.dart';
 import '../../domain/entities/cache_entity.dart';
 import '../../domain/repositories/i_cache_repository.dart';
@@ -59,7 +61,7 @@ class CacheRepository implements ICacheRepository {
   }
 
   @override
-  AsyncEither<AutoCacheException, Unit> update<T extends Object>(WriteCacheDTO<T> dto) async {
+  AsyncEither<AutoCacheException, Unit> update<T extends Object>(UpdateCacheDTO<T> dto) async {
     throw UnimplementedError();
   }
 

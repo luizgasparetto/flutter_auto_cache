@@ -32,6 +32,8 @@ class CacheConfig {
   /// algorithm for compressing cache data, potentially saving storage space.
   final bool useDeflateCompresser;
 
+  final bool replaceExpiredCache;
+
   /// Constructs a CacheConfig object.
   ///
   /// [sizeOptions] Options for cache size.
@@ -43,6 +45,7 @@ class CacheConfig {
     this.ttlMaxDuration = CacheInvalidationConstants.maxTtlDuration,
     this.cryptographyOptions,
     this.useDeflateCompresser = false,
+    this.replaceExpiredCache = true,
   }) : sizeOptions = sizeOptions ?? CacheSizeOptions.createDefault();
 
   /// Constructs a default CacheConfig object.
