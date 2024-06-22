@@ -7,14 +7,14 @@ import 'package:auto_cache_manager/src/modules/data_cache/domain/entities/cache_
 import 'package:auto_cache_manager/src/modules/data_cache/domain/usecases/clear_cache_usecase.dart';
 import 'package:auto_cache_manager/src/modules/data_cache/domain/usecases/delete_cache_usecase.dart';
 import 'package:auto_cache_manager/src/modules/data_cache/domain/usecases/get_cache_usecase.dart';
-import 'package:auto_cache_manager/src/modules/data_cache/domain/usecases/save_cache_usecase.dart';
+import 'package:auto_cache_manager/src/modules/data_cache/domain/usecases/write_cache_usecase.dart';
 import 'package:auto_cache_manager/src/modules/data_cache/presenter/controllers/base_cache_manager_controller.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
 class GetCacheUsecaseMock extends Mock implements GetCacheUsecase {}
 
-class SaveCacheUsecaseMock extends Mock implements SaveCacheUsecase {}
+class WriteCacheUsecaseMock extends Mock implements IWriteCacheUsecase {}
 
 class ClearCacheUsecaseMock extends Mock implements ClearCacheUsecase {}
 
@@ -41,7 +41,7 @@ class CacheEntityFake<T extends Object> extends Fake implements CacheEntity<T> {
 
 void main() {
   final getCacheUsecase = GetCacheUsecaseMock();
-  final saveCacheUsecase = SaveCacheUsecaseMock();
+  final writeCacheUsecase = WriteCacheUsecaseMock();
   final clearCacheUsecase = ClearCacheUsecaseMock();
   final deleteCacheUsecase = DeleteCacheUsecaseMock();
 
@@ -49,7 +49,7 @@ void main() {
 
   final sut = BaseCacheManagerController(
     getCacheUsecase,
-    saveCacheUsecase,
+    writeCacheUsecase,
     clearCacheUsecase,
     deleteCacheUsecase,
     cacheConfigMock,
@@ -64,7 +64,7 @@ void main() {
 
   tearDown(() {
     reset(getCacheUsecase);
-    reset(saveCacheUsecase);
+    reset(writeCacheUsecase);
     reset(clearCacheUsecase);
     reset(deleteCacheUsecase);
     reset(cacheConfigMock);
@@ -114,19 +114,19 @@ void main() {
     final dto = WriteCacheDTO(key: 'my_key', data: 'my_data', cacheConfig: cacheConfigMock);
 
     test('should be able to save a data in cache with a key successfully', () async {
-      when(() => saveCacheUsecase.execute<String>(dto)).thenAnswer((_) async => right(unit));
+      when(() => writeCacheUsecase.execute<String>(dto)).thenAnswer((_) async => right(unit));
 
       await expectLater(sut.save<String>(key: 'my_key', data: 'my_data'), completes);
-      verify(() => saveCacheUsecase.execute<String>(dto)).called(1);
+      verify(() => writeCacheUsecase.execute<String>(dto)).called(1);
     });
 
     test('should NOT be able to save data in cache when UseCase throws an AutoCacheManagerException', () async {
-      when(() => saveCacheUsecase.execute<String>(dto)).thenAnswer(
+      when(() => writeCacheUsecase.execute<String>(dto)).thenAnswer(
         (_) async => left(FakeAutoCacheManagerException()),
       );
 
       expect(() => sut.save<String>(key: 'my_key', data: 'my_data'), throwsA(isA<AutoCacheException>()));
-      verify(() => saveCacheUsecase.execute<String>(dto)).called(1);
+      verify(() => writeCacheUsecase.execute<String>(dto)).called(1);
     });
   });
 
