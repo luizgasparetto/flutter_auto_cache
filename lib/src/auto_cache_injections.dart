@@ -18,7 +18,7 @@ import 'modules/data_cache/domain/services/invalidation_service/invalidation_cac
 import 'modules/data_cache/domain/usecases/clear_cache_usecase.dart';
 import 'modules/data_cache/domain/usecases/delete_cache_usecase.dart';
 import 'modules/data_cache/domain/usecases/get_cache_usecase.dart';
-import 'modules/data_cache/domain/usecases/save_cache_usecase.dart';
+import 'modules/data_cache/domain/usecases/write_cache_usecase.dart';
 
 import 'modules/data_cache/external/datasources/command_data_cache_datasource.dart';
 import 'modules/data_cache/external/datasources/query_data_cache_datasource.dart';
@@ -65,7 +65,7 @@ class AutoCacheInjections {
     ServiceLocator.instance.bindFactory<DeleteCacheUsecase>(() => DeleteCache(_get()));
     ServiceLocator.instance.bindFactory<ClearCacheUsecase>(() => ClearCache(_get()));
     ServiceLocator.instance.bindFactory<GetCacheUsecase>(() => GetCache(_get(), _get()));
-    ServiceLocator.instance.bindFactory<SaveCacheUsecase>(() => SaveCache(_get(), _get()));
+    ServiceLocator.instance.bindFactory<IWriteCacheUsecase>(() => WriteCacheUsecase(_get(), _get()));
   }
 
   T _get<T extends Object>() => ServiceLocator.instance.get<T>();

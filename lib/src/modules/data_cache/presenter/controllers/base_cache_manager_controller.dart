@@ -9,7 +9,7 @@ import '../../domain/dtos/write_cache_dto.dart';
 import '../../domain/usecases/clear_cache_usecase.dart';
 import '../../domain/usecases/delete_cache_usecase.dart';
 import '../../domain/usecases/get_cache_usecase.dart';
-import '../../domain/usecases/save_cache_usecase.dart';
+import '../../domain/usecases/write_cache_usecase.dart';
 
 part 'specifications/prefs_cache_manager_controller.dart';
 
@@ -19,7 +19,7 @@ part 'specifications/prefs_cache_manager_controller.dart';
 /// deletion, and clearing of cache content.
 class BaseCacheManagerController {
   final GetCacheUsecase _getCacheUsecase;
-  final SaveCacheUsecase _saveCacheUsecase;
+  final IWriteCacheUsecase _writeCacheUsecase;
   final ClearCacheUsecase _clearCacheUsecase;
   final DeleteCacheUsecase _deleteCacheUsecase;
   final CacheConfig cacheConfig;
@@ -36,7 +36,7 @@ class BaseCacheManagerController {
   /// - [cacheConfig]: Supplies specific cache configuration options to guide caching behavior.
   const BaseCacheManagerController(
     this._getCacheUsecase,
-    this._saveCacheUsecase,
+    this._writeCacheUsecase,
     this._clearCacheUsecase,
     this._deleteCacheUsecase,
     this.cacheConfig,
@@ -50,7 +50,7 @@ class BaseCacheManagerController {
   static BaseCacheManagerController create() {
     return BaseCacheManagerController(
       ServiceLocator.instance.get<GetCacheUsecase>(),
-      ServiceLocator.instance.get<SaveCacheUsecase>(),
+      ServiceLocator.instance.get<IWriteCacheUsecase>(),
       ServiceLocator.instance.get<ClearCacheUsecase>(),
       ServiceLocator.instance.get<DeleteCacheUsecase>(),
       ServiceLocator.instance.get<CacheConfig>(),
@@ -87,7 +87,7 @@ class BaseCacheManagerController {
   /// Throws an exception if the cache save operation encounters an error.
   Future<void> save<T extends Object>({required String key, required T data}) async {
     final dto = WriteCacheDTO<T>(key: key, data: data, cacheConfig: cacheConfig);
-    final response = await _saveCacheUsecase.execute(dto);
+    final response = await _writeCacheUsecase.execute(dto);
 
     return response.foldLeft((error) => throw error);
   }

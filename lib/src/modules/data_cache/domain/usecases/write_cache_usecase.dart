@@ -9,15 +9,15 @@ import '../services/invalidation_service/invalidation_cache_context.dart';
 
 typedef WriteCacheResponse = AsyncEither<AutoCacheError, Unit>;
 
-abstract interface class SaveCacheUsecase {
+abstract interface class IWriteCacheUsecase {
   WriteCacheResponse execute<T extends Object>(WriteCacheDTO<T> dto);
 }
 
-final class SaveCache implements SaveCacheUsecase {
+final class WriteCacheUsecase implements IWriteCacheUsecase {
   final ICacheRepository _repository;
   final IInvalidationCacheContext _invalidationCacheContext;
 
-  const SaveCache(this._repository, this._invalidationCacheContext);
+  const WriteCacheUsecase(this._repository, this._invalidationCacheContext);
 
   @override
   WriteCacheResponse execute<T extends Object>(WriteCacheDTO<T> dto) async {
