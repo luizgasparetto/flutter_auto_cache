@@ -81,12 +81,14 @@ class CacheConfig {
     Duration? ttlMaxDuration,
     CacheCryptographyOptions? cryptographyOptions,
     bool? useDeflateCompresser,
+    bool? replaceExpiredCache,
   }) {
     return CacheConfig(
       sizeOptions: sizeOptions ?? this.sizeOptions,
       ttlMaxDuration: ttlMaxDuration ?? this.ttlMaxDuration,
       cryptographyOptions: cryptographyOptions ?? this.cryptographyOptions,
       useDeflateCompresser: useDeflateCompresser ?? this.useDeflateCompresser,
+      replaceExpiredCache: replaceExpiredCache ?? this.replaceExpiredCache,
     );
   }
 }
