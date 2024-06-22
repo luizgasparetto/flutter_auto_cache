@@ -62,7 +62,13 @@ class CacheRepository implements ICacheRepository {
 
   @override
   AsyncEither<AutoCacheException, Unit> update<T extends Object>(UpdateCacheDTO<T> dto) async {
-    throw UnimplementedError();
+    try {
+      await _commandDataCacheDatasource.update<T>(dto);
+
+      return right(unit);
+    } on AutoCacheException catch (exception) {
+      return left(exception);
+    }
   }
 
   @override

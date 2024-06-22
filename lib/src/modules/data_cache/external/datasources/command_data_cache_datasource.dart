@@ -1,12 +1,15 @@
 import 'dart:convert';
 
 import '../../../../core/services/cryptography_service/i_cryptography_service.dart';
-
 import '../../../../core/services/kvs_service/i_kvs_service.dart';
+
+import '../../domain/dtos/update_cache_dto.dart';
 import '../../domain/dtos/write_cache_dto.dart';
-import '../../domain/entities/cache_entity.dart';
+
 import '../../infra/datasources/i_command_data_cache_datasource.dart';
+
 import '../adapters/cache_adapter.dart';
+import '../adapters/dtos/write_cache_dto_adapter.dart';
 
 /// A concrete implementation of the [ICommandDataCacheDatasource] interface for caching command data.
 ///
@@ -26,8 +29,8 @@ final class CommandDataCacheDatasource implements ICommandDataCacheDatasource {
 
   @override
   Future<void> save<T extends Object>(WriteCacheDTO<T> dto) async {
-    final cache = CacheEntity.save(dto);
-    final data = CacheAdapter.toJson(cache);
+    final dataCache = WriteCacheDTOAdapter.toSave(dto);
+    final data = CacheAdapter.toJson(dataCache);
 
     final encodedData = jsonEncode(data);
     final encrypted = _cryptographyService.encrypt(encodedData);
@@ -36,9 +39,14 @@ final class CommandDataCacheDatasource implements ICommandDataCacheDatasource {
   }
 
   @override
-  Future<void> update<T extends Object>(WriteCacheDTO<T> dto) {
-    // TODO: implement update
-    throw UnimplementedError();
+  Future<void> update<T extends Object>(UpdateCacheDTO<T> dto) async {
+    final dataCache = WriteCacheDTOAdapter.toUpdate(dto);
+    final data = CacheAdapter.toJson(dataCache);
+
+    final encodedData = jsonEncode(data);
+    final encrypted = _cryptographyService.encrypt(encodedData);
+
+    await _kvsService.save(key: dto.previewCache.id, data: encrypted);
   }
 
   @override

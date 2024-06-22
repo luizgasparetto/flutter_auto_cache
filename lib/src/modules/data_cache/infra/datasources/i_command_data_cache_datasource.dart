@@ -1,3 +1,4 @@
+import '../../domain/dtos/update_cache_dto.dart';
 import '../../domain/dtos/write_cache_dto.dart';
 
 /// Defines the contract for a command data cache data source, providing methods to persist,
@@ -19,7 +20,7 @@ abstract interface class ICommandDataCacheDatasource {
   ///   - A `Future<void>` that completes when the operation has successfully persisted the entity.
   Future<void> save<T extends Object>(WriteCacheDTO<T> dto);
 
-  Future<void> update<T extends Object>(WriteCacheDTO<T> dto);
+  Future<void> update<T extends Object>(UpdateCacheDTO<T> dto);
 
   /// Deletes a specific cache entry identified by its key.
   ///
