@@ -1,7 +1,6 @@
-import 'package:auto_cache_manager/src/modules/data_cache/domain/dtos/update_cache_dto.dart';
-
 import '../../../../core/core.dart';
 import '../dtos/get_cache_dto.dart';
+import '../dtos/update_cache_dto.dart';
 import '../dtos/write_cache_dto.dart';
 import '../entities/cache_entity.dart';
 import '../repositories/i_cache_repository.dart';
