@@ -49,7 +49,7 @@ jobs:
         run: melos run format
 
       - name: "Run Tests"
-        run: melos run test_coverage_machine
+        run: flutter test --test-randomize-ordering-seed=random --coverage --machine > test-results.json
 
       - name: Check for existing and non-empty coverage file
         id: test_coverage_file
