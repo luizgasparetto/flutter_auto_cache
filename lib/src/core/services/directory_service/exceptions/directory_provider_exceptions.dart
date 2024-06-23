@@ -7,7 +7,7 @@ import '../../../core.dart';
 ///
 /// - [message]: A string describing the error.
 /// - [stackTrace]: The stack trace at the point where the exception was thrown.
-class DirectoryProviderException extends AutoCacheException {
+final class DirectoryProviderException extends AutoCacheException {
   /// Creates a new `DirectoryProviderException`.
   ///
   /// - [message]: A string describing the error.

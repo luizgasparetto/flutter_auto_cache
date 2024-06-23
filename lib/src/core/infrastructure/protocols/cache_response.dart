@@ -1,17 +1,20 @@
 import 'enums/cache_response_status.dart';
+import 'value_objects/internal_cache_info.dart';
 
 sealed class CacheResponse<T> {
   final T data;
+  final InternalCacheInfo? info;
   final String status;
 
   const CacheResponse({
     required this.data,
+    this.info,
     required this.status,
   });
 }
 
 class SuccessCacheResponse<T extends Object> extends CacheResponse<T> {
-  SuccessCacheResponse({required super.data}) : super(status: CacheResponseStatus.success.status);
+  SuccessCacheResponse({required super.data, required super.info}) : super(status: CacheResponseStatus.success.status);
 }
 
 class NotFoundCacheResponse extends CacheResponse<Null> {
@@ -19,5 +22,5 @@ class NotFoundCacheResponse extends CacheResponse<Null> {
 }
 
 class ExpiredCacheResponse extends CacheResponse<Null> {
-  ExpiredCacheResponse() : super(data: null, status: CacheResponseStatus.expired.status);
+  ExpiredCacheResponse({required super.info}) : super(data: null, status: CacheResponseStatus.expired.status);
 }

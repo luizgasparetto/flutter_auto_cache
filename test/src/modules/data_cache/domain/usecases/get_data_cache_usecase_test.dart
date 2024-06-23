@@ -4,7 +4,7 @@ import 'package:auto_cache_manager/src/modules/data_cache/domain/entities/cache_
 import 'package:auto_cache_manager/src/modules/data_cache/domain/enums/invalidation_type.dart';
 import 'package:auto_cache_manager/src/modules/data_cache/domain/repositories/i_data_cache_repository.dart';
 import 'package:auto_cache_manager/src/modules/data_cache/domain/services/invalidation_service/invalidation_cache_context.dart';
-import 'package:auto_cache_manager/src/modules/data_cache/domain/usecases/get_cache_usecase.dart';
+import 'package:auto_cache_manager/src/modules/data_cache/domain/usecases/get_data_cache_usecase.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
@@ -22,7 +22,7 @@ void main() {
   final repository = CacheRepositoryMock();
   final invalidationContext = InvalidationCacheContextMock();
 
-  final sut = GetCacheUsecase(repository, invalidationContext);
+  final sut = GetDataCacheUsecase(repository, invalidationContext);
 
   final cacheFake = CacheEntityFake<String>();
 

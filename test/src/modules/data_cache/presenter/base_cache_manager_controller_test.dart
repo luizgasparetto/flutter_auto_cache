@@ -6,13 +6,13 @@ import 'package:auto_cache_manager/src/modules/data_cache/domain/dtos/write_cach
 import 'package:auto_cache_manager/src/modules/data_cache/domain/entities/cache_entity.dart';
 import 'package:auto_cache_manager/src/modules/data_cache/domain/usecases/clear_cache_usecase.dart';
 import 'package:auto_cache_manager/src/modules/data_cache/domain/usecases/delete_cache_usecase.dart';
-import 'package:auto_cache_manager/src/modules/data_cache/domain/usecases/get_cache_usecase.dart';
+import 'package:auto_cache_manager/src/modules/data_cache/domain/usecases/get_data_cache_usecase.dart';
 import 'package:auto_cache_manager/src/modules/data_cache/domain/usecases/write_cache_usecase.dart';
 import 'package:auto_cache_manager/src/modules/data_cache/presenter/controllers/base_cache_manager_controller.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
-class GetCacheUsecaseMock extends Mock implements IGetCacheUsecase {}
+class GetCacheUsecaseMock extends Mock implements IGetDataCacheUsecase {}
 
 class WriteCacheUsecaseMock extends Mock implements IWriteCacheUsecase {}
 

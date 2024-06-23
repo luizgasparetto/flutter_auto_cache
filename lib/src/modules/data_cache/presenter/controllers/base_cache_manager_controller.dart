@@ -3,22 +3,24 @@ import 'package:meta/meta.dart';
 import '../../../../core/core.dart';
 import '../../../../core/infrastructure/middlewares/initialize_middleware.dart';
 import '../../../../core/services/service_locator/implementations/service_locator.dart';
+
 import '../../domain/dtos/delete_cache_dto.dart';
 import '../../domain/dtos/get_cache_dto.dart';
 import '../../domain/dtos/write_cache_dto.dart';
 import '../../domain/usecases/clear_cache_usecase.dart';
 import '../../domain/usecases/delete_cache_usecase.dart';
-import '../../domain/usecases/get_cache_usecase.dart';
+import '../../domain/usecases/get_data_cache_usecase.dart';
 import '../../domain/usecases/write_cache_usecase.dart';
 
-part 'specifications/prefs_cache_manager_controller.dart';
+part 'specifications/implementations/prefs_cache_manager_controller.dart';
+part 'specifications/i_prefs_cache_manager_controller.dart';
 
 /// Responsible for managing caching operations through various use cases.
 /// The `BaseCacheManagerController` provides an abstraction layer for interacting
 /// with cached data by offering comprehensive methods for retrieval, saving,
 /// deletion, and clearing of cache content.
 class BaseCacheManagerController {
-  final IGetCacheUsecase _getCacheUsecase;
+  final IGetDataCacheUsecase _getCacheUsecase;
   final IWriteCacheUsecase _writeCacheUsecase;
   final ClearCacheUsecase _clearCacheUsecase;
   final DeleteCacheUsecase _deleteCacheUsecase;
@@ -49,7 +51,7 @@ class BaseCacheManagerController {
   /// implementation for cache management.
   static BaseCacheManagerController create() {
     return BaseCacheManagerController(
-      ServiceLocator.instance.get<IGetCacheUsecase>(),
+      ServiceLocator.instance.get<IGetDataCacheUsecase>(),
       ServiceLocator.instance.get<IWriteCacheUsecase>(),
       ServiceLocator.instance.get<ClearCacheUsecase>(),
       ServiceLocator.instance.get<DeleteCacheUsecase>(),
