@@ -1,6 +1,6 @@
 library auto_cache_manager;
 
-import 'src/modules/data_cache/presenter/controllers/base_cache_manager_controller.dart';
+import 'src/modules/data_cache/presenter/controllers/implementations/data_cache_manager_controller.dart';
 
 export 'src/auto_cache_initializer.dart';
 export 'src/modules/data_cache/data_cache.dart';

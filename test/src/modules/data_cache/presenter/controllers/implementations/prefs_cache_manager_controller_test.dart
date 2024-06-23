@@ -1,16 +1,17 @@
 import 'package:auto_cache_manager/src/core/core.dart';
-import 'package:auto_cache_manager/src/modules/data_cache/presenter/controllers/base_cache_manager_controller.dart';
+import 'package:auto_cache_manager/src/modules/data_cache/presenter/controllers/implementations/data_cache_manager_controller.dart';
+import 'package:auto_cache_manager/src/modules/data_cache/presenter/controllers/interfaces/i_data_cache_controller.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
-import '../../../../../../../commons/extensions/when_extensions.dart';
+import '../../../../../../commons/extensions/when_extensions.dart';
 
-class BaseCacheManagerControllerMock extends Mock implements BaseCacheManagerController {}
+class DataCacheControllerMock extends Mock implements IDataCacheController {}
 
 class FakeAutoCacheException extends Fake implements AutoCacheException {}
 
 void main() {
-  final baseController = BaseCacheManagerControllerMock();
+  final baseController = DataCacheControllerMock();
   final sut = PrefsCacheManagerController(baseController);
 
   tearDown(() {
