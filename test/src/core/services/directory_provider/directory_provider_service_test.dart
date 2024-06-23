@@ -76,17 +76,6 @@ void main() {
     });
   });
 
-  group('DirectoryProviderService.sqlDirectory |', () {
-    test('should be able to get sql directory from state value', () async {
-      when(service.getApplicationDocumentsDirectory).thenAnswer((_) async => Directory('docs_directory'));
-      when(service.getApplicationSupportDirectory).thenAnswer((_) async => Directory('support_directory'));
-
-      await expectLater(sut.getCacheDirectories(), completes);
-      expect(sut.value.isLoaded, isTrue);
-      expect(sut.sqlDirectory.path, equals('support_directory'));
-    });
-  });
-
   group('DirectoryProviderService.reset |', () {
     test('should be able to reset directory provider state value to empty', () async {
       when(service.getApplicationDocumentsDirectory).thenAnswer((_) async => Directory('docs_directory'));

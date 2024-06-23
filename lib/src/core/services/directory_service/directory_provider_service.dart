@@ -11,9 +11,6 @@ abstract interface class IDirectoryProviderService {
   /// Gets the directory for storing preference files.
   Directory get prefsDirectory;
 
-  /// Gets the directory for storing SQL database files.
-  Directory get sqlDirectory;
-
   /// Initializes and loads cache directories. This should set up `prefsDirectory`
   /// and `sqlDirectory` with the correct paths.
   Future<void> getCacheDirectories();
@@ -33,9 +30,6 @@ class DirectoryProviderService extends ValueNotifier<DirectoryProviderState> imp
 
   @override
   Directory get prefsDirectory => this.value.applicationDocumentsDirectory;
-
-  @override
-  Directory get sqlDirectory => this.value.applicationSupportDirectory;
 
   @override
   Future<void> getCacheDirectories() async {

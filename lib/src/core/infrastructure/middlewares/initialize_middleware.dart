@@ -1,6 +1,6 @@
 import '../../../auto_cache_injections.dart';
 
-import '../../errors/exceptions/initializer_exceptions.dart';
+import 'exceptions/initializer_exceptions.dart';
 
 /// A class to handle initialization and configuration verifications.
 class InitializeMiddleware {

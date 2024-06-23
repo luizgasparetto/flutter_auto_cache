@@ -13,7 +13,7 @@ abstract interface class ICacheSizeAnalyzerService {
   ///
   /// The method should asynchronously calculate and return the total size
   /// of the cache used, facilitating the management of application cache.
-  AsyncEither<AutoCacheFailure, double> getCacheSizeUsed();
+  Either<AutoCacheFailure, double> getCacheSizeUsed();
 }
 
 /// A service class for managing cache details.
@@ -24,8 +24,9 @@ abstract interface class ICacheSizeAnalyzerService {
 /// directories, typically used for key-value storage (Prefs) and SQL storage.
 final class CacheSizeAnalyzerService implements ICacheSizeAnalyzerService {
   final IDirectoryProviderService directoryProvider;
+  final CacheConfig config;
 
-  const CacheSizeAnalyzerService(this.directoryProvider);
+  const CacheSizeAnalyzerService(this.directoryProvider, this.config);
 
   /// Retrieves the total cache size used by the application.
   ///
@@ -36,41 +37,16 @@ final class CacheSizeAnalyzerService implements ICacheSizeAnalyzerService {
   /// Returns:
   /// A `Future<double>` representing the total cache size used in megabytes (MB).
   @override
-  AsyncEither<AutoCacheFailure, double> getCacheSizeUsed() async {
+  Either<AutoCacheFailure, double> getCacheSizeUsed() {
     try {
-      final totalPrefsSize = _calculeCacheSizeInMb(directoryProvider.prefsDirectory);
-      final totalSqlSize = _calculeCacheSizeInMb(directoryProvider.sqlDirectory);
+      final files = directoryProvider.prefsDirectory.listSync(recursive: true);
+      final totalBytes = files.whereType<File>().fold(0, (acc, file) => acc + file.lengthSync());
 
-      final total = totalSqlSize + totalPrefsSize;
+      final total = totalBytes / CacheSizeConstants.bytesPerMb;
 
       return right(total);
-    } on AutoCacheFailure catch (e) {
-      return left(e);
     } catch (_) {
-      return left(const GetCacheSizeFailure(message: 'Failed to get size of cache'));
-    }
-  }
-
-  /// Calculates the cache size in megabytes (MB) for a given directory.
-  ///
-  /// This method iterates through all files in the specified directory,
-  /// including subdirectories, to calculate the total size. The size is
-  /// then converted to megabytes (MB) for consistency.
-  ///
-  /// Parameters:
-  /// - [directory] A `Directory` instance representing the directory
-  ///   whose cache size is to be calculated.
-  ///
-  /// Returns:
-  /// A `double` representing the size of the cache in megabytes (MB).
-  double _calculeCacheSizeInMb(Directory directory) {
-    try {
-      final files = directory.listSync(recursive: true);
-
-      final total = files.whereType<File>().fold(0, (acc, file) => acc + file.lengthSync());
-      return total / CacheSizeConstants.bytesPerMb;
-    } catch (_) {
-      throw const CalculateCacheSizeFailure(message: 'Failed to calculate cache size');
+      return left(const CalculateCacheSizeFailure(message: 'Failed to calculate cache size'));
     }
   }
 }

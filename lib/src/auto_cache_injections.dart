@@ -15,6 +15,7 @@ import 'core/services/kvs_service/implementations/shared_preferences_kvs_service
 import 'core/services/service_locator/implementations/service_locator.dart';
 import 'modules/data_cache/domain/repositories/i_data_cache_repository.dart';
 import 'modules/data_cache/domain/services/invalidation_service/invalidation_cache_context.dart';
+import 'modules/data_cache/domain/services/size_analyzer_service/cache_size_analyzer_service.dart';
 import 'modules/data_cache/domain/usecases/clear_cache_usecase.dart';
 import 'modules/data_cache/domain/usecases/delete_cache_usecase.dart';
 import 'modules/data_cache/domain/usecases/get_data_cache_usecase.dart';
@@ -60,6 +61,7 @@ class AutoCacheInjections {
   void _registerDataCache() {
     ServiceLocator.instance.bindFactory<IQueryDataCacheDatasource>(() => QueryDataCacheDatasource(_get(), _get()));
     ServiceLocator.instance.bindFactory<ICommandDataCacheDatasource>(() => CommandDataCacheDatasource(_get(), _get()));
+    ServiceLocator.instance.bindFactory<ICacheSizeAnalyzerService>(() => CacheSizeAnalyzerService(_get(), _get()));
     ServiceLocator.instance.bindFactory<IInvalidationCacheContext>(() => InvalidationCacheContext(_get()));
     ServiceLocator.instance.bindFactory<IDataCacheRepository>(() => DataCacheRepository(_get(), _get()));
     ServiceLocator.instance.bindFactory<DeleteCacheUsecase>(() => DeleteCache(_get()));
