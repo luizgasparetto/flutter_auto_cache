@@ -1,6 +1,6 @@
 import 'enums/cache_response_status.dart';
 
-abstract class CacheResponse<T> {
+sealed class CacheResponse<T> {
   final T data;
   final String status;
 

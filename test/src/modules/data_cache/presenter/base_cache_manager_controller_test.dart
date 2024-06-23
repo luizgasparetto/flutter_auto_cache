@@ -12,7 +12,7 @@ import 'package:auto_cache_manager/src/modules/data_cache/presenter/controllers/
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
-class GetCacheUsecaseMock extends Mock implements GetCacheUsecase {}
+class GetCacheUsecaseMock extends Mock implements IGetCacheUsecase {}
 
 class WriteCacheUsecaseMock extends Mock implements IWriteCacheUsecase {}
 

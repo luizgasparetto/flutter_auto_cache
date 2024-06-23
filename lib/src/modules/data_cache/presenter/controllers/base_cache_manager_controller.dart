@@ -18,7 +18,7 @@ part 'specifications/prefs_cache_manager_controller.dart';
 /// with cached data by offering comprehensive methods for retrieval, saving,
 /// deletion, and clearing of cache content.
 class BaseCacheManagerController {
-  final GetCacheUsecase _getCacheUsecase;
+  final IGetCacheUsecase _getCacheUsecase;
   final IWriteCacheUsecase _writeCacheUsecase;
   final ClearCacheUsecase _clearCacheUsecase;
   final DeleteCacheUsecase _deleteCacheUsecase;
@@ -49,7 +49,7 @@ class BaseCacheManagerController {
   /// implementation for cache management.
   static BaseCacheManagerController create() {
     return BaseCacheManagerController(
-      ServiceLocator.instance.get<GetCacheUsecase>(),
+      ServiceLocator.instance.get<IGetCacheUsecase>(),
       ServiceLocator.instance.get<IWriteCacheUsecase>(),
       ServiceLocator.instance.get<ClearCacheUsecase>(),
       ServiceLocator.instance.get<DeleteCacheUsecase>(),
