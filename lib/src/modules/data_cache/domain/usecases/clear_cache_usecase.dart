@@ -1,6 +1,6 @@
 import '../../../../core/core.dart';
 
-import '../repositories/i_cache_repository.dart';
+import '../repositories/i_data_cache_repository.dart';
 
 /// Abstract interface for the ClearCache use case.
 abstract interface class ClearCacheUsecase {
@@ -13,7 +13,7 @@ abstract interface class ClearCacheUsecase {
 
 /// Implementation of the [ClearCacheUsecase].
 class ClearCache implements ClearCacheUsecase {
-  final ICacheRepository _repository;
+  final IDataCacheRepository _repository;
 
   const ClearCache(this._repository);
 

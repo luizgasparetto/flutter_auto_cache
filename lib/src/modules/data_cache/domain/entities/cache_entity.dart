@@ -1,6 +1,5 @@
 import 'package:flutter/foundation.dart';
 
-import '../dtos/write_cache_dto.dart';
 import '../enums/invalidation_type.dart';
 
 /// Immutable class representing a cache entity.
@@ -44,42 +43,6 @@ class CacheEntity<T extends Object> {
     this.updatedAt,
     required this.endAt,
   });
-
-  factory CacheEntity._generate({
-    required String id,
-    required T data,
-    required InvalidationType invalidationType,
-    required Duration expireMaxDuration,
-    DateTime? updatedAt,
-  }) {
-    return CacheEntity<T>(
-      id: id,
-      data: data,
-      invalidationType: invalidationType,
-      createdAt: DateTime.now(),
-      endAt: DateTime.now().add(expireMaxDuration),
-      updatedAt: updatedAt,
-    );
-  }
-
-  factory CacheEntity.save(WriteCacheDTO<T> dto) {
-    return CacheEntity._generate(
-      id: dto.key,
-      data: dto.data,
-      invalidationType: dto.cacheConfig.invalidationType,
-      expireMaxDuration: dto.cacheConfig.ttlMaxDuration,
-    );
-  }
-
-  factory CacheEntity.update(WriteCacheDTO<T> dto) {
-    return CacheEntity._generate(
-      id: dto.key,
-      data: dto.data,
-      invalidationType: dto.cacheConfig.invalidationType,
-      expireMaxDuration: dto.cacheConfig.ttlMaxDuration,
-      updatedAt: DateTime.now(),
-    );
-  }
 
   CacheEntity<T> copyWith({
     String? id,

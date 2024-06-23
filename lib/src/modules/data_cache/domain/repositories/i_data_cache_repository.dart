@@ -11,7 +11,7 @@ import '../entities/cache_entity.dart';
 ///
 /// This repository provides methods for retrieving, saving, updating, deleting, and clearing
 /// cached data while handling potential exceptions.
-abstract interface class ICacheRepository {
+abstract interface class IDataCacheRepository {
   /// Retrieves a cached entity of type [T] using the data transfer object [dto].
   ///
   /// The [dto] parameter specifies the criteria to identify and fetch the cached entity.

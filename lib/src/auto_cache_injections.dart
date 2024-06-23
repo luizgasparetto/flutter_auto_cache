@@ -13,7 +13,7 @@ import 'core/services/directory_service/path_provider/path_provider_service.dart
 import 'core/services/kvs_service/i_kvs_service.dart';
 import 'core/services/kvs_service/implementations/shared_preferences_kvs_service.dart';
 import 'core/services/service_locator/implementations/service_locator.dart';
-import 'modules/data_cache/domain/repositories/i_cache_repository.dart';
+import 'modules/data_cache/domain/repositories/i_data_cache_repository.dart';
 import 'modules/data_cache/domain/services/invalidation_service/invalidation_cache_context.dart';
 import 'modules/data_cache/domain/usecases/clear_cache_usecase.dart';
 import 'modules/data_cache/domain/usecases/delete_cache_usecase.dart';
@@ -24,7 +24,7 @@ import 'modules/data_cache/external/datasources/command_data_cache_datasource.da
 import 'modules/data_cache/external/datasources/query_data_cache_datasource.dart';
 import 'modules/data_cache/infra/datasources/i_command_data_cache_datasource.dart';
 import 'modules/data_cache/infra/datasources/i_query_data_cache_datasource.dart';
-import 'modules/data_cache/infra/repositories/cache_repository.dart';
+import 'modules/data_cache/infra/repositories/data_cache_repository.dart';
 
 class AutoCacheInjections {
   /// Private constructor for the singleton pattern.
@@ -61,7 +61,7 @@ class AutoCacheInjections {
     ServiceLocator.instance.bindFactory<IQueryDataCacheDatasource>(() => QueryDataCacheDatasource(_get(), _get()));
     ServiceLocator.instance.bindFactory<ICommandDataCacheDatasource>(() => CommandDataCacheDatasource(_get(), _get()));
     ServiceLocator.instance.bindFactory<IInvalidationCacheContext>(() => InvalidationCacheContext(_get()));
-    ServiceLocator.instance.bindFactory<ICacheRepository>(() => CacheRepository(_get(), _get()));
+    ServiceLocator.instance.bindFactory<IDataCacheRepository>(() => DataCacheRepository(_get(), _get()));
     ServiceLocator.instance.bindFactory<DeleteCacheUsecase>(() => DeleteCache(_get()));
     ServiceLocator.instance.bindFactory<ClearCacheUsecase>(() => ClearCache(_get()));
     ServiceLocator.instance.bindFactory<GetCacheUsecase>(() => GetCache(_get(), _get()));
