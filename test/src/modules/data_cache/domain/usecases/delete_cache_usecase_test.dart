@@ -3,10 +3,10 @@ import 'package:auto_cache_manager/src/modules/data_cache/domain/dtos/delete_cac
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
-import 'package:auto_cache_manager/src/modules/data_cache/domain/repositories/i_cache_repository.dart';
+import 'package:auto_cache_manager/src/modules/data_cache/domain/repositories/i_data_cache_repository.dart';
 import 'package:auto_cache_manager/src/modules/data_cache/domain/usecases/delete_cache_usecase.dart';
 
-class CacheRepositoryMock extends Mock implements ICacheRepository {}
+class CacheRepositoryMock extends Mock implements IDataCacheRepository {}
 
 class FakeAutoCacheManagerException extends Fake implements AutoCacheException {}
 

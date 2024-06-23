@@ -5,7 +5,7 @@ import 'package:auto_cache_manager/src/modules/data_cache/domain/dtos/write_cach
 import 'package:auto_cache_manager/src/modules/data_cache/domain/entities/cache_entity.dart';
 import 'package:auto_cache_manager/src/modules/data_cache/infra/datasources/i_command_data_cache_datasource.dart';
 import 'package:auto_cache_manager/src/modules/data_cache/infra/datasources/i_query_data_cache_datasource.dart';
-import 'package:auto_cache_manager/src/modules/data_cache/infra/repositories/cache_repository.dart';
+import 'package:auto_cache_manager/src/modules/data_cache/infra/repositories/data_cache_repository.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
@@ -34,7 +34,7 @@ void main() {
 
   final fakeCacheConfig = FakeCacheConfig();
 
-  final sut = CacheRepository(queryDatasource, commandDatasource);
+  final sut = DataCacheRepository(queryDatasource, commandDatasource);
 
   tearDown(() {
     reset(queryDatasource);

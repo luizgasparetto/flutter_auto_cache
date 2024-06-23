@@ -1,7 +1,7 @@
 import '../../../../core/core.dart';
 import '../dtos/get_cache_dto.dart';
 import '../entities/cache_entity.dart';
-import '../repositories/i_cache_repository.dart';
+import '../repositories/i_data_cache_repository.dart';
 import '../services/invalidation_service/invalidation_cache_context.dart';
 
 abstract interface class GetCacheUsecase {
@@ -9,7 +9,7 @@ abstract interface class GetCacheUsecase {
 }
 
 final class GetCache implements GetCacheUsecase {
-  final ICacheRepository _repository;
+  final IDataCacheRepository _repository;
   final IInvalidationCacheContext _invalidationContext;
 
   const GetCache(this._repository, this._invalidationContext);

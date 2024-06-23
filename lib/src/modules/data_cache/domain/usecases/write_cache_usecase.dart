@@ -3,7 +3,7 @@ import '../dtos/get_cache_dto.dart';
 import '../dtos/update_cache_dto.dart';
 import '../dtos/write_cache_dto.dart';
 import '../entities/cache_entity.dart';
-import '../repositories/i_cache_repository.dart';
+import '../repositories/i_data_cache_repository.dart';
 import '../services/invalidation_service/invalidation_cache_context.dart';
 
 typedef WriteCacheResponse = AsyncEither<AutoCacheError, Unit>;
@@ -13,7 +13,7 @@ abstract interface class IWriteCacheUsecase {
 }
 
 final class WriteCacheUsecase implements IWriteCacheUsecase {
-  final ICacheRepository _repository;
+  final IDataCacheRepository _repository;
   final IInvalidationCacheContext _invalidationCacheContext;
 
   const WriteCacheUsecase(this._repository, this._invalidationCacheContext);

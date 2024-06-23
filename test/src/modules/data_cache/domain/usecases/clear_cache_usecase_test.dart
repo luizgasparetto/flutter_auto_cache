@@ -1,10 +1,10 @@
 import 'package:auto_cache_manager/src/core/core.dart';
-import 'package:auto_cache_manager/src/modules/data_cache/domain/repositories/i_cache_repository.dart';
+import 'package:auto_cache_manager/src/modules/data_cache/domain/repositories/i_data_cache_repository.dart';
 import 'package:auto_cache_manager/src/modules/data_cache/domain/usecases/clear_cache_usecase.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
-class CacheRepositoryMock extends Mock implements ICacheRepository {}
+class CacheRepositoryMock extends Mock implements IDataCacheRepository {}
 
 class AutoCacheExceptionFake extends Fake implements AutoCacheException {}
 
