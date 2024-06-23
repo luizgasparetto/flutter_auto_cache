@@ -64,7 +64,7 @@ class AutoCacheInjections {
     ServiceLocator.instance.bindFactory<IDataCacheRepository>(() => DataCacheRepository(_get(), _get()));
     ServiceLocator.instance.bindFactory<DeleteCacheUsecase>(() => DeleteCache(_get()));
     ServiceLocator.instance.bindFactory<ClearCacheUsecase>(() => ClearCache(_get()));
-    ServiceLocator.instance.bindFactory<GetCacheUsecase>(() => GetCache(_get(), _get()));
+    ServiceLocator.instance.bindFactory<GetCacheUsecase>(() => GetCacheUsecase(_get(), _get()));
     ServiceLocator.instance.bindFactory<IWriteCacheUsecase>(() => WriteCacheUsecase(_get(), _get()));
   }
 

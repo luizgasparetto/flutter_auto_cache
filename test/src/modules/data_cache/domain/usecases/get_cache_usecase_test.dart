@@ -22,7 +22,7 @@ void main() {
   final repository = CacheRepositoryMock();
   final invalidationContext = InvalidationCacheContextMock();
 
-  final sut = GetCache(repository, invalidationContext);
+  final sut = GetCacheUsecase(repository, invalidationContext);
 
   final cacheFake = CacheEntityFake<String>();
 
