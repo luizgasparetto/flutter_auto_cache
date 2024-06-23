@@ -36,7 +36,7 @@ jobs:
       - name: "Flutter Action"
         uses: subosito/flutter-action@v2
         with:
-          flutter-version-file: pubspec.yaml
+          flutter-version: 3.19.x
           channel: "stable"
 
       - name: Install Melos
