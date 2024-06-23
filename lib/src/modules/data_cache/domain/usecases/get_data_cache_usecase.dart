@@ -4,15 +4,15 @@ import '../entities/cache_entity.dart';
 import '../repositories/i_data_cache_repository.dart';
 import '../services/invalidation_service/invalidation_cache_context.dart';
 
-abstract interface class IGetCacheUsecase {
+abstract interface class IGetDataCacheUsecase {
   Either<AutoCacheError, CacheEntity<T>?> execute<T extends Object, DataType extends Object>(GetCacheDTO dto);
 }
 
-final class GetCacheUsecase implements IGetCacheUsecase {
+final class GetDataCacheUsecase implements IGetDataCacheUsecase {
   final IDataCacheRepository _repository;
   final IInvalidationCacheContext _invalidationContext;
 
-  const GetCacheUsecase(this._repository, this._invalidationContext);
+  const GetDataCacheUsecase(this._repository, this._invalidationContext);
 
   @override
   Either<AutoCacheError, CacheEntity<T>?> execute<T extends Object, DataType extends Object>(GetCacheDTO dto) {

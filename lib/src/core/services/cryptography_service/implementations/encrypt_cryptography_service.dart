@@ -7,7 +7,7 @@ import '../i_cryptography_service.dart';
 
 import 'factories/encrypter_factory.dart';
 
-class EncryptCryptographyService implements ICryptographyService {
+final class EncryptCryptographyService implements ICryptographyService {
   final CacheConfig cacheConfig;
 
   const EncryptCryptographyService(this.cacheConfig);
