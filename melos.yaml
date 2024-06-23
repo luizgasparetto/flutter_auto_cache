@@ -1,4 +1,4 @@
-name: auto_cache_manager
+name: flutter_auto_cache
 
 packages:
   - .
@@ -9,6 +9,9 @@ scripts:
 
   test_coverage:
     run: flutter test --test-randomize-ordering-seed=random --coverage
+
+  test_coverage_machine:
+    run: flutter test --test-randomize-ordering-seed=random --coverage --machine > test-results.json
 
   format:
     run: dart format --set-exit-if-changed --line-length 120 .
