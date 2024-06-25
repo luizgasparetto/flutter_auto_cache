@@ -5,6 +5,10 @@ import '../../../commons/helpers/integration_test_helpers.dart';
 Future<void> main() async {
   final sut = await initializePrefsController();
 
+  tearDown(() {
+    sut.clear();
+  });
+
   group('GetCacheIntegrationTest.getString |', () {
     test('should be able to call getString and return NULL when doesnt have cache', () {
       final response = sut.getString(key: 'string_key');

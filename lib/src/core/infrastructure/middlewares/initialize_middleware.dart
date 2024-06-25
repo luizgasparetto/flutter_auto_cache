@@ -18,7 +18,7 @@ class InitializeMiddleware {
   /// This method checks if the auto cache manager is initialized.
   /// If not, it throws a [NotInitializedAutoCacheException] with a message and the current stack trace.
   static void _initializedConfigVerification() {
-    final isInitialized = AutoCacheInjections.isInjectorInitialized;
+    final isInitialized = AutoCacheInjections.instance.isInjectorInitialized;
 
     if (!isInitialized) {
       throw NotInitializedAutoCacheException(
