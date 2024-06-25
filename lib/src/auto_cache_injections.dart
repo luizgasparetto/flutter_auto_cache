@@ -55,7 +55,7 @@ class AutoCacheInjections {
     ServiceLocator.instance.bindSingleton<IPathProviderService>(PathProviderService());
     ServiceLocator.instance.bindSingleton<ICompressorService>(CompressorService());
     ServiceLocator.instance.bindFactory<ICacheSizeService>(() => CacheSizeService(_get(), _get()));
-    ServiceLocator.instance.bindSingleton<IKVSService>(SharedPreferencesKVSService(_get()));
+    ServiceLocator.instance.bindSingleton<IKvsService>(SharedPreferencesKvsService(_get()));
     ServiceLocator.instance.bindSingleton<ICryptographyService>(EncryptCryptographyService(_get()));
     ServiceLocator.instance.bindSingleton<IDirectoryProviderService>(DirectoryProviderService(_get()));
   }

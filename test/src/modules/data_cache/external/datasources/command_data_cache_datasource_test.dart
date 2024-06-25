@@ -8,7 +8,7 @@ import 'package:mocktail/mocktail.dart';
 
 import '../../../../../commons/extensions/when_extensions.dart';
 
-class PrefsServiceMock extends Mock implements IKVSService {}
+class PrefsServiceMock extends Mock implements IKvsService {}
 
 class CryptographyServiceMock extends Mock implements ICryptographyService {}
 
