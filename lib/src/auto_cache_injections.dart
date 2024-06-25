@@ -38,7 +38,7 @@ class AutoCacheInjections {
   /// Provides global access to the [AutoCacheInjections] instance.
   static AutoCacheInjections get instance => _instance;
 
-  static bool get isInjectorInitialized => ServiceLocator.instance.hasBinds;
+  bool get isInjectorInitialized => ServiceLocator.instance.hasBinds;
 
   Future<void> registerBinds() async {
     await _registerLibs();
