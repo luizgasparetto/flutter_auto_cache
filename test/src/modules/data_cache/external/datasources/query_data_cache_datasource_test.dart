@@ -9,7 +9,7 @@ import 'package:auto_cache_manager/src/modules/data_cache/external/datasources/q
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
-class PrefsServiceMock extends Mock implements IKVSService {}
+class PrefsServiceMock extends Mock implements IKvsService {}
 
 class CryptographyServiceMock extends Mock implements ICryptographyService {}
 

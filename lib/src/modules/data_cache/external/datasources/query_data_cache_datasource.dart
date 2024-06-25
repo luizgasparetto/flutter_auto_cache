@@ -1,8 +1,7 @@
 import 'dart:convert';
 
-import 'package:auto_cache_manager/src/core/services/kvs_service/i_kvs_service.dart';
-
 import '../../../../core/services/cryptography_service/i_cryptography_service.dart';
+import '../../../../core/services/kvs_service/i_kvs_service.dart';
 import '../../domain/entities/cache_entity.dart';
 import '../../infra/datasources/i_query_data_cache_datasource.dart';
 import '../adapters/cache_adapter.dart';
@@ -11,8 +10,9 @@ import '../adapters/cache_adapter.dart';
 ///
 /// This class utilizes a preferences service and a cryptography service to securely retrieve cached query data.
 final class QueryDataCacheDatasource implements IQueryDataCacheDatasource {
+  final IKvsService _kvsService;
+
   /// The service responsible for managing persistent storage of key-value pairs.
-  final IKVSService _kvsService;
 
   /// The service providing encryption and decryption utilities for secure data handling.
   final ICryptographyService _cryptographyService;

@@ -16,7 +16,7 @@ import '../adapters/dtos/write_cache_dto_adapter.dart';
 /// This class uses a preferences service and a cryptography service to store, encrypt, and clear cached data securely.
 final class CommandDataCacheDatasource implements ICommandDataCacheDatasource {
   /// The service responsible for managing persistent storage of key-value pairs.
-  final IKVSService _kvsService;
+  final IKvsService _kvsService;
 
   /// The service providing encryption and decryption utilities for secure data handling.
   final ICryptographyService _cryptographyService;

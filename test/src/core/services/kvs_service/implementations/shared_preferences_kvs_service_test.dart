@@ -10,7 +10,7 @@ class SharedPreferencesMock extends Mock implements SharedPreferences {}
 
 void main() {
   final prefs = SharedPreferencesMock();
-  final sut = SharedPreferencesKVSService(prefs);
+  final sut = SharedPreferencesKvsService(prefs);
 
   tearDown(() {
     reset(prefs);
