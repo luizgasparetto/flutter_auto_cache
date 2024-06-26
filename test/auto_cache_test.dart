@@ -17,14 +17,14 @@ void main() {
   });
 
   group('AutoCache |', () {
+    test('should be able to throw a NotInitializedAutoCacheManagerException when NOT initialize AutoCache', () {
+      expect(() => AutoCache.prefs, throwsA(isA<NotInitializedAutoCacheException>()));
+    });
+
     test('should be able to verify instances and binds of cache controllers', () async {
       await AutoCacheInitializer.instance.init();
 
       expect(AutoCache.prefs, equals(PrefsCacheManagerController.instance));
-    });
-
-    test('should be able to throw a NotInitializedAutoCacheManagerException when NOT initialize AutoCache', () {
-      expect(() => AutoCache.prefs, throwsA(isA<NotInitializedAutoCacheException>()));
     });
   });
 }

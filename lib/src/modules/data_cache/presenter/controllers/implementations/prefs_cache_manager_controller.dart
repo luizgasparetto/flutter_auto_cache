@@ -13,9 +13,9 @@ final class PrefsCacheManagerController implements IPrefsCacheManagerController 
 
   PrefsCacheManagerController._() : _dataCacheManagerController = DataCacheManagerController.create();
 
-  static final _instance = InitializeMiddleware.accessInstance(() => PrefsCacheManagerController._());
+  static final _instance = PrefsCacheManagerController._();
 
-  static PrefsCacheManagerController get instance => _instance;
+  static PrefsCacheManagerController get instance => InitializeMiddleware.accessInstance(() => _instance);
 
   /// Retrieves a string value from the cache for the given [key].
   ///
