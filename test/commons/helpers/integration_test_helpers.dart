@@ -1,6 +1,6 @@
-import 'package:auto_cache_manager/auto_cache_manager.dart';
+import 'package:auto_cache_manager/auto_cache.dart';
 import 'package:auto_cache_manager/src/core/config/cache_config.dart';
-import 'package:auto_cache_manager/src/modules/data_cache/presenter/controllers/base_cache_manager_controller.dart';
+import 'package:auto_cache_manager/src/modules/data_cache/presenter/controllers/implementations/data_cache_manager_controller.dart';
 import 'package:meta/meta.dart';
 import 'package:fake_async/fake_async.dart';
 
@@ -22,7 +22,7 @@ typedef FakeAsyncCallback = void Function(FakeAsync fakeAsync);
 ///
 /// Usage example:
 /// ```dart
-/// integrationTest('should handle timeouts correctly', (fakeAsync) async {
+/// fakeAsyncTest('should handle timeouts correctly', (fakeAsync) async {
 ///   // Simulate passing time
 ///   fakeAsync.elapse(Duration(seconds: 1));
 ///
@@ -57,7 +57,7 @@ Future<PrefsCacheManagerController> initializePrefsController({CacheConfig? conf
 
   SharedPreferences.setMockInitialValues({});
 
-  await AutoCacheManagerInitializer.instance.init(config: config);
+  await AutoCacheInitializer.instance.init(config: config);
 
-  return AutoCacheManager.prefs;
+  return AutoCache.prefs;
 }

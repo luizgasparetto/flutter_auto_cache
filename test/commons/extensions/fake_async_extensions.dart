@@ -8,7 +8,7 @@ import 'package:fake_async/fake_async.dart';
 ///
 /// The method captures the result of the asynchronous function and returns it,
 /// ensuring all microtasks are flushed before concluding the test step.
-extension AsyncMethod on FakeAsync {
+extension FakeAsyncMethodExtension on FakeAsync {
   T integrationAsync<T>(Future<T> Function() callback) {
     late final T response;
 

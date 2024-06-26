@@ -1,15 +1,14 @@
 import 'package:auto_cache_manager/src/core/core.dart';
 import 'package:auto_cache_manager/src/modules/data_cache/domain/dtos/delete_cache_dto.dart';
-import 'package:auto_cache_manager/src/modules/data_cache/domain/enums/storage_type.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
-import 'package:auto_cache_manager/src/modules/data_cache/domain/repositories/i_cache_repository.dart';
+import 'package:auto_cache_manager/src/modules/data_cache/domain/repositories/i_data_cache_repository.dart';
 import 'package:auto_cache_manager/src/modules/data_cache/domain/usecases/delete_cache_usecase.dart';
 
-class CacheRepositoryMock extends Mock implements ICacheRepository {}
+class CacheRepositoryMock extends Mock implements IDataCacheRepository {}
 
-class FakeAutoCacheManagerException extends Fake implements AutoCacheManagerException {}
+class FakeAutoCacheManagerException extends Fake implements AutoCacheException {}
 
 void main() {
   final repository = CacheRepositoryMock();
@@ -20,7 +19,7 @@ void main() {
   });
 
   group('DeleteCache |', () {
-    const dto = DeleteCacheDTO(key: 'my_key', storageType: StorageType.prefs);
+    const dto = DeleteCacheDTO(key: 'my_key');
 
     test('should be able to delete cache by key successfully', () async {
       when(() => repository.delete(dto)).thenAnswer((_) async => right(unit));
@@ -38,7 +37,7 @@ void main() {
       final response = await sut.execute(dto);
 
       expect(response.isError, isTrue);
-      expect(response.error, isA<AutoCacheManagerException>());
+      expect(response.error, isA<AutoCacheException>());
       verify(() => repository.delete(dto)).called(1);
     });
   });

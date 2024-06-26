@@ -9,15 +9,13 @@ on:
       - "**/*.md"
   push:
     tags:
-      - "v*"
-    paths-ignore:
-      - "**/*.md"
+      - v*
 
 jobs:
   build:
-    name: Analyzer & Tests Reporter
-
+    name: Analyzer & Test Reporter
     runs-on: ubuntu-latest
+
     permissions:
       pull-requests: write
       contents: write
@@ -38,35 +36,17 @@ jobs:
       - name: "Flutter Action"
         uses: subosito/flutter-action@v2
         with:
+          flutter-version: 3.19.x
           channel: "stable"
 
-      - name: "Flutter Pub Get"
-        run: flutter pub get
+      - name: Install Melos
+        run: dart pub global activate melos
 
-      - name: "Run Analyze"
-        run: flutter analyze
+      - name: "Bootstrap"
+        run: melos bs
 
       - name: "Run Format"
-        run: dart format --set-exit-if-changed --line-length 120 .
-
-      - name: "Run Dart Fixes"
-        run: |
-          dart fix --apply --code=unused_import
-          dart fix --apply --code=always_specify_types
-          dart fix --apply --code=always_declare_return_types
-
-      - name: "Check Modified Dart Files"
-        id: check_modified_files
-        run: if git diff --exit-code '*.dart'; then echo "modified=true" >> $GITHUB_STATE; else echo "modified=false" >> $GITHUB_STATE; fi
-
-      - name: "Automatically Commit Changes"
-        if: env.GITHUB_STATE == 'modified=true'
-        run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-          git add .
-          git commit -m "fix: automatically fix code issues"
-          git push
+        run: melos run format
 
       - name: "Run Tests"
         run: flutter test --test-randomize-ordering-seed=random --coverage --machine > test-results.json
