@@ -2,19 +2,19 @@ import 'dart:convert';
 
 import 'package:encrypt/encrypt.dart';
 
-import '../../../config/cache_config.dart';
+import '../../../configuration/cache_configuration.dart';
 import '../i_cryptography_service.dart';
 
 import 'factories/encrypter_factory.dart';
 
 final class EncryptCryptographyService implements ICryptographyService {
-  final CacheConfig cacheConfig;
+  final CacheConfiguration configuration;
 
-  const EncryptCryptographyService(this.cacheConfig);
+  const EncryptCryptographyService(this.configuration);
 
   @override
   String encrypt(String value) {
-    final cryptographyOptions = cacheConfig.cryptographyOptions;
+    final cryptographyOptions = configuration.cryptographyOptions;
 
     if (cryptographyOptions == null) return value;
 
@@ -27,7 +27,7 @@ final class EncryptCryptographyService implements ICryptographyService {
 
   @override
   String decrypt(String value) {
-    final cryptographyOptions = cacheConfig.cryptographyOptions;
+    final cryptographyOptions = configuration.cryptographyOptions;
 
     if (cryptographyOptions == null) return value;
 

@@ -2,7 +2,7 @@ import 'dart:io';
 
 import '../../core.dart';
 
-import '../../config/constants/cache_size_constants.dart';
+import '../../configuration/constants/cache_size_constants.dart';
 import 'exceptions/cache_size_exceptions.dart';
 
 part './implementations/cache_size_service.dart';

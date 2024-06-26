@@ -1,6 +1,6 @@
 import 'auto_cache_injections.dart';
 
-import 'core/config/stores/cache_config_store.dart';
+import 'core/configuration/stores/cache_configuration_store.dart';
 import 'core/core.dart';
 
 /// A singleton class responsible for initializing and configuring the auto cache manager.
@@ -19,9 +19,9 @@ class AutoCacheInitializer {
   /// Initializes the cache management system with optional custom configuration.
   /// This method sets up necessary bindings and applies the provided `CacheConfig`.
   ///
-  /// - [config]: An optional `CacheConfig` to customize cache behavior.
-  Future<void> init({CacheConfig? config}) async {
-    CacheConfigStore.instance.setConfig(config);
+  /// - [config]: An optional `CacheConfiguration` to customize cache behavior.
+  Future<void> init({CacheConfiguration? configuration}) async {
+    CacheConfigurationStore.instance.setConfiguration(configuration);
     await AutoCacheInjections.instance.registerBinds();
   }
 }

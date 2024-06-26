@@ -8,7 +8,7 @@ part of '../i_cache_size_service.dart';
 /// directories, typically used for key-value storage (Prefs) and SQL storage.
 final class CacheSizeService implements ICacheSizeService {
   final IDirectoryProviderService directoryProvider;
-  final CacheConfig config;
+  final CacheConfiguration config;
 
   const CacheSizeService(this.directoryProvider, this.config);
 

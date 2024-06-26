@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 
-import '../constants/cache_size_constants.dart';
-import '../../extensions/double_extensions.dart';
+import '../../constants/cache_size_constants.dart';
+import '../../../extensions/double_extensions.dart';
 
 /// Represents cache size options with configurable maximum sizes in kilobytes (KB) and megabytes (MB).
 ///
@@ -27,13 +27,6 @@ class CacheSizeOptions {
     this.maxMb = CacheSizeConstants.defaultMaxMb,
   })  : assert(maxKb >= 0, 'maxKb must be non-negative'),
         assert(maxMb > 0, 'maxMb must be non-negative');
-
-  /// Factory constructor to create a default cache size option instance.
-  /// This is a convenience method that returns a CacheSizeOptions instance with default values.
-  ///
-  /// Returns:
-  ///   A CacheSizeOptions instance with default settings (0 KB and 20 MB).
-  factory CacheSizeOptions.createDefault() => const CacheSizeOptions();
 
   /// Calculates the total cache size in megabytes.
   ///

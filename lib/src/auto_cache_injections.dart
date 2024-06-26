@@ -1,7 +1,5 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'core/config/stores/cache_config_store.dart';
-
 import 'core/core.dart';
 
 import 'core/services/cache_size_service/i_cache_size_service.dart';
@@ -51,7 +49,7 @@ class AutoCacheInjections {
   }
 
   void _registerCore() {
-    ServiceLocator.instance.bindSingleton<CacheConfig>(CacheConfigStore.instance.config);
+    ServiceLocator.instance.bindSingleton<CacheConfiguration>(CacheConfigurationStore.instance.config);
     ServiceLocator.instance.bindSingleton<IPathProviderService>(PathProviderService());
     ServiceLocator.instance.bindSingleton<ICompressorService>(CompressorService());
     ServiceLocator.instance.bindFactory<ICacheSizeService>(() => CacheSizeService(_get(), _get()));
@@ -63,7 +61,6 @@ class AutoCacheInjections {
   void _registerDataCache() {
     ServiceLocator.instance.bindFactory<IQueryDataCacheDatasource>(() => QueryDataCacheDatasource(_get(), _get()));
     ServiceLocator.instance.bindFactory<ICommandDataCacheDatasource>(() => CommandDataCacheDatasource(_get(), _get()));
-
     ServiceLocator.instance.bindFactory<IInvalidationCacheContext>(() => InvalidationCacheContext(_get()));
     ServiceLocator.instance.bindFactory<IDataCacheRepository>(() => DataCacheRepository(_get(), _get()));
     ServiceLocator.instance.bindFactory<DeleteCacheUsecase>(() => DeleteCache(_get()));

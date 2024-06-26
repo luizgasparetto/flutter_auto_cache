@@ -1,8 +1,8 @@
 // ignore_for_file: avoid_redundant_argument_values
 import 'package:auto_cache_manager/auto_cache.dart';
 import 'package:auto_cache_manager/src/auto_cache_injections.dart';
-import 'package:auto_cache_manager/src/core/config/cache_config.dart';
-import 'package:auto_cache_manager/src/core/config/stores/cache_config_store.dart';
+import 'package:auto_cache_manager/src/core/configuration/cache_configuration.dart';
+import 'package:auto_cache_manager/src/core/configuration/stores/cache_configuration_store.dart';
 import 'package:auto_cache_manager/src/core/core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
