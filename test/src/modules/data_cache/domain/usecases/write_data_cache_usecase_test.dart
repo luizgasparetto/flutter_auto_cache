@@ -6,7 +6,7 @@ import 'package:flutter_auto_cache/src/modules/data_cache/domain/entities/cache_
 import 'package:flutter_auto_cache/src/modules/data_cache/domain/enums/invalidation_type.dart';
 import 'package:flutter_auto_cache/src/modules/data_cache/domain/repositories/i_data_cache_repository.dart';
 import 'package:flutter_auto_cache/src/modules/data_cache/domain/services/invalidation_service/invalidation_cache_context.dart';
-import 'package:flutter_auto_cache/src/modules/data_cache/domain/usecases/write_cache_usecase.dart';
+import 'package:flutter_auto_cache/src/modules/data_cache/domain/usecases/write_data_cache_usecase.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
@@ -49,7 +49,7 @@ class CacheEntityFake<T extends Object> extends Fake implements CacheEntity<T> {
 void main() {
   final repository = CacheRepositoryMock();
   final invalidationContext = InvalidationCacheContextMock();
-  final sut = WriteCacheUsecase(repository, invalidationContext);
+  final sut = WriteDataCacheUsecase(repository, invalidationContext);
 
   final fakeCache = CacheEntityFake<String>('my_string');
 

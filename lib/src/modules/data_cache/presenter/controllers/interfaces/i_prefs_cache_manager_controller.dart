@@ -71,6 +71,11 @@ abstract interface class _ICommandPrefsCachaManagerController {
   /// when the operation is finished. The data must be a list of strings.
   Future<void> saveStringList({required String key, required List<String> data});
 
+  /// Saves a list of JSON objects in the cache with the specified [key].
+  ///
+  /// This method is asynchronous and returns a `Future<void>` that completes
+  /// when the operation is finished. The data must be a list of JSON objects
+  /// represented as maps with `String` keys and dynamic values.
   Future<void> saveJsonList({required String key, required List<Map<String, dynamic>> data});
 
   /// Deletes the cache entry for the specified [key].

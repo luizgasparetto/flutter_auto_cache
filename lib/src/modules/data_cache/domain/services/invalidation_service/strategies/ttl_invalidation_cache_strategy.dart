@@ -8,9 +8,7 @@ final class TTLInvalidationCacheStrategy implements InvalidationCacheStrategy {
   Either<AutoCacheFailure, Unit> validate<T extends Object>(CacheEntity<T> cache) {
     final isExpired = cache.endAt.isBefore(DateTime.now());
 
-    if (isExpired) {
-      return left(ExpiredTTLFailure(message: 'The content of cache is expired by TTL'));
-    }
+    if (isExpired) return left(ExpiredTTLFailure());
 
     return right(unit);
   }

@@ -4,7 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
 import 'package:flutter_auto_cache/src/modules/data_cache/domain/repositories/i_data_cache_repository.dart';
-import 'package:flutter_auto_cache/src/modules/data_cache/domain/usecases/delete_cache_usecase.dart';
+import 'package:flutter_auto_cache/src/modules/data_cache/domain/usecases/delete_data_cache_usecase.dart';
 
 class CacheRepositoryMock extends Mock implements IDataCacheRepository {}
 
@@ -12,7 +12,7 @@ class FakeAutoCacheManagerException extends Fake implements AutoCacheException {
 
 void main() {
   final repository = CacheRepositoryMock();
-  final sut = DeleteCache(repository);
+  final sut = DeleteDataCacheUsecase(repository);
 
   tearDown(() {
     reset(repository);

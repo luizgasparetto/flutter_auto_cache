@@ -7,10 +7,10 @@ import '../../../../../core/services/service_locator/implementations/service_loc
 import '../../../domain/dtos/delete_cache_dto.dart';
 import '../../../domain/dtos/get_cache_dto.dart';
 import '../../../domain/dtos/write_cache_dto.dart';
-import '../../../domain/usecases/clear_cache_usecase.dart';
-import '../../../domain/usecases/delete_cache_usecase.dart';
+import '../../../domain/usecases/clear_data_cache_usecase.dart';
+import '../../../domain/usecases/delete_data_cache_usecase.dart';
 import '../../../domain/usecases/get_data_cache_usecase.dart';
-import '../../../domain/usecases/write_cache_usecase.dart';
+import '../../../domain/usecases/write_data_cache_usecase.dart';
 
 import '../interfaces/i_data_cache_controller.dart';
 
@@ -23,9 +23,9 @@ part '../interfaces/i_prefs_cache_manager_controller.dart';
 /// deletion, and clearing of cache content.
 class DataCacheManagerController implements IDataCacheController {
   final IGetDataCacheUsecase _getCacheUsecase;
-  final IWriteCacheUsecase _writeCacheUsecase;
-  final ClearCacheUsecase _clearCacheUsecase;
-  final DeleteCacheUsecase _deleteCacheUsecase;
+  final IWriteDataCacheUsecase _writeCacheUsecase;
+  final IClearDataCacheUsecase _clearCacheUsecase;
+  final IDeleteDataCacheUsecase _deleteCacheUsecase;
   final CacheConfiguration cacheConfiguration;
 
   /// Initializes the `BaseDataCacheManagerController` with the specified use cases and cache configuration.
@@ -54,9 +54,9 @@ class DataCacheManagerController implements IDataCacheController {
   factory DataCacheManagerController.create() {
     return DataCacheManagerController(
       ServiceLocator.instance.get<IGetDataCacheUsecase>(),
-      ServiceLocator.instance.get<IWriteCacheUsecase>(),
-      ServiceLocator.instance.get<ClearCacheUsecase>(),
-      ServiceLocator.instance.get<DeleteCacheUsecase>(),
+      ServiceLocator.instance.get<IWriteDataCacheUsecase>(),
+      ServiceLocator.instance.get<ClearDataCacheUsecase>(),
+      ServiceLocator.instance.get<IDeleteDataCacheUsecase>(),
       ServiceLocator.instance.get<CacheConfiguration>(),
     );
   }

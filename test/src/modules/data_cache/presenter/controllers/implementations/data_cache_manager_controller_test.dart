@@ -4,21 +4,21 @@ import 'package:flutter_auto_cache/src/modules/data_cache/domain/dtos/delete_cac
 import 'package:flutter_auto_cache/src/modules/data_cache/domain/dtos/get_cache_dto.dart';
 import 'package:flutter_auto_cache/src/modules/data_cache/domain/dtos/write_cache_dto.dart';
 import 'package:flutter_auto_cache/src/modules/data_cache/domain/entities/cache_entity.dart';
-import 'package:flutter_auto_cache/src/modules/data_cache/domain/usecases/clear_cache_usecase.dart';
-import 'package:flutter_auto_cache/src/modules/data_cache/domain/usecases/delete_cache_usecase.dart';
+import 'package:flutter_auto_cache/src/modules/data_cache/domain/usecases/clear_data_cache_usecase.dart';
+import 'package:flutter_auto_cache/src/modules/data_cache/domain/usecases/delete_data_cache_usecase.dart';
 import 'package:flutter_auto_cache/src/modules/data_cache/domain/usecases/get_data_cache_usecase.dart';
-import 'package:flutter_auto_cache/src/modules/data_cache/domain/usecases/write_cache_usecase.dart';
+import 'package:flutter_auto_cache/src/modules/data_cache/domain/usecases/write_data_cache_usecase.dart';
 import 'package:flutter_auto_cache/src/modules/data_cache/presenter/controllers/implementations/data_cache_manager_controller.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
 class GetCacheUsecaseMock extends Mock implements IGetDataCacheUsecase {}
 
-class WriteCacheUsecaseMock extends Mock implements IWriteCacheUsecase {}
+class WriteDataCacheUsecaseMock extends Mock implements IWriteDataCacheUsecase {}
 
-class ClearCacheUsecaseMock extends Mock implements ClearCacheUsecase {}
+class ClearDataCacheUsecaseMock extends Mock implements IClearDataCacheUsecase {}
 
-class DeleteCacheUsecaseMock extends Mock implements DeleteCacheUsecase {}
+class DeleteDataCacheUsecaseMock extends Mock implements IDeleteDataCacheUsecase {}
 
 class CacheConfigMock extends Mock implements CacheConfiguration {}
 
@@ -41,9 +41,9 @@ class CacheEntityFake<T extends Object> extends Fake implements CacheEntity<T> {
 
 void main() {
   final getCacheUsecase = GetCacheUsecaseMock();
-  final writeCacheUsecase = WriteCacheUsecaseMock();
-  final clearCacheUsecase = ClearCacheUsecaseMock();
-  final deleteCacheUsecase = DeleteCacheUsecaseMock();
+  final writeCacheUsecase = WriteDataCacheUsecaseMock();
+  final clearCacheUsecase = ClearDataCacheUsecaseMock();
+  final deleteCacheUsecase = DeleteDataCacheUsecaseMock();
 
   final cacheConfigMock = CacheConfigMock();
 
