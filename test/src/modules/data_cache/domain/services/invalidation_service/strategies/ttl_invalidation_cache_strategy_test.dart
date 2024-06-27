@@ -1,7 +1,7 @@
-import 'package:auto_cache_manager/src/core/core.dart';
-import 'package:auto_cache_manager/src/modules/data_cache/domain/entities/cache_entity.dart';
-import 'package:auto_cache_manager/src/modules/data_cache/domain/failures/invalidation_methods_failures.dart';
-import 'package:auto_cache_manager/src/modules/data_cache/domain/services/invalidation_service/strategies/ttl_invalidation_cache_strategy.dart';
+import 'package:flutter_auto_cache/src/core/core.dart';
+import 'package:flutter_auto_cache/src/modules/data_cache/domain/entities/cache_entity.dart';
+import 'package:flutter_auto_cache/src/modules/data_cache/domain/failures/invalidation_methods_failures.dart';
+import 'package:flutter_auto_cache/src/modules/data_cache/domain/services/invalidation_service/strategies/ttl_invalidation_cache_strategy.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 class FakeNonExpiredCacheEntity extends Fake implements CacheEntity<String> {

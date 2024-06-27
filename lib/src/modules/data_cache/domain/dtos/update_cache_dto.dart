@@ -3,7 +3,7 @@ import '../entities/cache_entity.dart';
 
 class UpdateCacheDTO<T extends Object> {
   final CacheEntity<T> previewCache;
-  final CacheConfig config;
+  final CacheConfiguration config;
 
   const UpdateCacheDTO({
     required this.previewCache,

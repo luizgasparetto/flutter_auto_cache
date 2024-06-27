@@ -26,7 +26,7 @@ class DataCacheManagerController implements IDataCacheController {
   final IWriteCacheUsecase _writeCacheUsecase;
   final ClearCacheUsecase _clearCacheUsecase;
   final DeleteCacheUsecase _deleteCacheUsecase;
-  final CacheConfig cacheConfig;
+  final CacheConfiguration cacheConfiguration;
 
   /// Initializes the `BaseDataCacheManagerController` with the specified use cases and cache configuration.
   ///
@@ -43,7 +43,7 @@ class DataCacheManagerController implements IDataCacheController {
     this._writeCacheUsecase,
     this._clearCacheUsecase,
     this._deleteCacheUsecase,
-    this.cacheConfig,
+    this.cacheConfiguration,
   );
 
   /// Factory method for creating a new instance of `BaseDataCacheManagerController`.
@@ -57,7 +57,7 @@ class DataCacheManagerController implements IDataCacheController {
       ServiceLocator.instance.get<IWriteCacheUsecase>(),
       ServiceLocator.instance.get<ClearCacheUsecase>(),
       ServiceLocator.instance.get<DeleteCacheUsecase>(),
-      ServiceLocator.instance.get<CacheConfig>(),
+      ServiceLocator.instance.get<CacheConfiguration>(),
     );
   }
 
@@ -73,7 +73,7 @@ class DataCacheManagerController implements IDataCacheController {
 
   @override
   Future<void> save<T extends Object>({required String key, required T data}) async {
-    final dto = WriteCacheDTO<T>(key: key, data: data, cacheConfig: cacheConfig);
+    final dto = WriteCacheDTO<T>(key: key, data: data, cacheConfig: cacheConfiguration);
     final response = await _writeCacheUsecase.execute(dto);
 
     return response.foldLeft((error) => throw error);

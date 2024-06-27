@@ -1,13 +1,12 @@
-import 'package:auto_cache_manager/src/core/configuration/stores/cache_configuration_store.dart';
-import 'package:auto_cache_manager/src/core/core.dart';
-import 'package:auto_cache_manager/src/modules/data_cache/domain/dtos/get_cache_dto.dart';
-import 'package:auto_cache_manager/src/modules/data_cache/domain/dtos/update_cache_dto.dart';
-import 'package:auto_cache_manager/src/modules/data_cache/domain/dtos/write_cache_dto.dart';
-import 'package:auto_cache_manager/src/modules/data_cache/domain/entities/cache_entity.dart';
-import 'package:auto_cache_manager/src/modules/data_cache/domain/enums/invalidation_type.dart';
-import 'package:auto_cache_manager/src/modules/data_cache/domain/repositories/i_data_cache_repository.dart';
-import 'package:auto_cache_manager/src/modules/data_cache/domain/services/invalidation_service/invalidation_cache_context.dart';
-import 'package:auto_cache_manager/src/modules/data_cache/domain/usecases/write_cache_usecase.dart';
+import 'package:flutter_auto_cache/src/core/core.dart';
+import 'package:flutter_auto_cache/src/modules/data_cache/domain/dtos/get_cache_dto.dart';
+import 'package:flutter_auto_cache/src/modules/data_cache/domain/dtos/update_cache_dto.dart';
+import 'package:flutter_auto_cache/src/modules/data_cache/domain/dtos/write_cache_dto.dart';
+import 'package:flutter_auto_cache/src/modules/data_cache/domain/entities/cache_entity.dart';
+import 'package:flutter_auto_cache/src/modules/data_cache/domain/enums/invalidation_type.dart';
+import 'package:flutter_auto_cache/src/modules/data_cache/domain/repositories/i_data_cache_repository.dart';
+import 'package:flutter_auto_cache/src/modules/data_cache/domain/services/invalidation_service/invalidation_cache_context.dart';
+import 'package:flutter_auto_cache/src/modules/data_cache/domain/usecases/write_cache_usecase.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
@@ -23,17 +22,17 @@ class FakeGetCacheDTO extends Fake implements GetCacheDTO {}
 
 class FakeUpdateCacheDTO extends Fake implements UpdateCacheDTO<String> {}
 
-class ReplaceFakeCacheConfig extends Fake implements CacheConfig {
+class ReplaceFakeCacheConfig extends Fake implements CacheConfiguration {
   @override
   bool get replaceExpiredCache => true;
 }
 
-class NotReplaceFakeCacheConfig extends Fake implements CacheConfig {
+class NotReplaceFakeCacheConfig extends Fake implements CacheConfiguration {
   @override
   bool get replaceExpiredCache => false;
 }
 
-class BaseConfigFake extends Fake implements CacheConfig {
+class BaseConfigFake extends Fake implements CacheConfiguration {
   @override
   InvalidationType get invalidationType => InvalidationType.ttl;
 }
@@ -61,7 +60,7 @@ void main() {
   final fakeUpdateCacheDto = FakeUpdateCacheDTO();
 
   setUpAll(() {
-    CacheConfigStore.instance.setConfig(BaseConfigFake());
+    CacheConfigurationStore.instance.setConfiguration(BaseConfigFake());
   });
 
   setUp(() {

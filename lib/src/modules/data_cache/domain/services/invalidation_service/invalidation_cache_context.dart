@@ -17,10 +17,10 @@ abstract interface class IInvalidationCacheContext {
 /// This class provides an implementation of [IInvalidationCacheContext].
 /// It uses a [CacheConfig] to determine the appropriate invalidation strategy.
 final class InvalidationCacheContext implements IInvalidationCacheContext {
-  final CacheConfig config;
+  final CacheConfiguration configuration;
 
   /// Constructs an [InvalidationCacheContext] with the given [config].
-  const InvalidationCacheContext(this.config);
+  const InvalidationCacheContext(this.configuration);
 
   /// Executes the cache invalidation strategy based on the provided [cache].
   ///
@@ -32,7 +32,7 @@ final class InvalidationCacheContext implements IInvalidationCacheContext {
 
   /// Determines the cache invalidation strategy based on the configuration.
   InvalidationCacheStrategy get invalidationCacheStrategy {
-    return switch (config.invalidationType) {
+    return switch (configuration.invalidationType) {
       InvalidationType.ttl => TTLInvalidationCacheStrategy(),
       _ => TTLInvalidationCacheStrategy(),
     };

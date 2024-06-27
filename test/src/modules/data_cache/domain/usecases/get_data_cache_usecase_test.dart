@@ -1,10 +1,10 @@
-import 'package:auto_cache_manager/src/core/core.dart';
-import 'package:auto_cache_manager/src/modules/data_cache/domain/dtos/get_cache_dto.dart';
-import 'package:auto_cache_manager/src/modules/data_cache/domain/entities/cache_entity.dart';
-import 'package:auto_cache_manager/src/modules/data_cache/domain/enums/invalidation_type.dart';
-import 'package:auto_cache_manager/src/modules/data_cache/domain/repositories/i_data_cache_repository.dart';
-import 'package:auto_cache_manager/src/modules/data_cache/domain/services/invalidation_service/invalidation_cache_context.dart';
-import 'package:auto_cache_manager/src/modules/data_cache/domain/usecases/get_data_cache_usecase.dart';
+import 'package:flutter_auto_cache/src/core/core.dart';
+import 'package:flutter_auto_cache/src/modules/data_cache/domain/dtos/get_cache_dto.dart';
+import 'package:flutter_auto_cache/src/modules/data_cache/domain/entities/cache_entity.dart';
+import 'package:flutter_auto_cache/src/modules/data_cache/domain/enums/invalidation_type.dart';
+import 'package:flutter_auto_cache/src/modules/data_cache/domain/repositories/i_data_cache_repository.dart';
+import 'package:flutter_auto_cache/src/modules/data_cache/domain/services/invalidation_service/invalidation_cache_context.dart';
+import 'package:flutter_auto_cache/src/modules/data_cache/domain/usecases/get_data_cache_usecase.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 

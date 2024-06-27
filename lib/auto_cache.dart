@@ -1,4 +1,4 @@
-library auto_cache_manager;
+library flutter_auto_cache;
 
 import 'src/modules/data_cache/presenter/controllers/implementations/data_cache_manager_controller.dart';
 

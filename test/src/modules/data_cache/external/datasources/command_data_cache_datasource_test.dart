@@ -1,8 +1,8 @@
-import 'package:auto_cache_manager/src/core/core.dart';
-import 'package:auto_cache_manager/src/core/services/cryptography_service/i_cryptography_service.dart';
-import 'package:auto_cache_manager/src/core/services/kvs_service/i_kvs_service.dart';
-import 'package:auto_cache_manager/src/modules/data_cache/domain/dtos/write_cache_dto.dart';
-import 'package:auto_cache_manager/src/modules/data_cache/external/datasources/command_data_cache_datasource.dart';
+import 'package:flutter_auto_cache/src/core/core.dart';
+import 'package:flutter_auto_cache/src/core/services/cryptography_service/i_cryptography_service.dart';
+import 'package:flutter_auto_cache/src/core/services/kvs_service/i_kvs_service.dart';
+import 'package:flutter_auto_cache/src/modules/data_cache/domain/dtos/write_cache_dto.dart';
+import 'package:flutter_auto_cache/src/modules/data_cache/external/datasources/command_data_cache_datasource.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
@@ -26,7 +26,7 @@ void main() {
   });
 
   group('CommandDataCacheDatasource.save |', () {
-    final config = CacheConfig.defaultConfig();
+    final config = CacheConfiguration.defaultConfig();
     final dto = WriteCacheDTO<String>(key: 'my_key', data: 'data', cacheConfig: config);
 
     Matcher matcher() {

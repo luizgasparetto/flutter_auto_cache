@@ -1,5 +1,5 @@
-import 'package:auto_cache_manager/src/modules/data_cache/domain/entities/cache_entity.dart';
-import 'package:auto_cache_manager/src/modules/data_cache/domain/enums/invalidation_type.dart';
+import 'package:flutter_auto_cache/src/modules/data_cache/domain/entities/cache_entity.dart';
+import 'package:flutter_auto_cache/src/modules/data_cache/domain/enums/invalidation_type.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 class FakeCacheEntity extends Fake implements CacheEntity {

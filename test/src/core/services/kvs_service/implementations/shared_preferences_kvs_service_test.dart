@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import 'package:auto_cache_manager/src/core/services/kvs_service/exceptions/kvs_storage_exceptions.dart';
-import 'package:auto_cache_manager/src/core/services/kvs_service/implementations/shared_preferences_kvs_service.dart';
+import 'package:flutter_auto_cache/src/core/services/kvs_service/exceptions/kvs_storage_exceptions.dart';
+import 'package:flutter_auto_cache/src/core/services/kvs_service/implementations/shared_preferences_kvs_service.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:shared_preferences/shared_preferences.dart';

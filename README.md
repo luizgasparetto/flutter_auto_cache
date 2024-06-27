@@ -1,7 +1,7 @@
 # AutoCacheManager
 
-![GitHub Issues](https://img.shields.io/github/issues/luizgasparetto/auto_cache_manager)
-![GitHub Pull Requests](https://img.shields.io/github/issues-pr/luizgasparetto/auto_cache_manager)
+![GitHub Issues](https://img.shields.io/github/issues/luizgasparetto/flutter_auto_cache)
+![GitHub Pull Requests](https://img.shields.io/github/issues-pr/luizgasparetto/flutter_auto_cache)
 
 AutoCacheManager é um gerenciador de cache avançado para Flutter, projetado para otimizar o gerenciamento de cache em aplicações móveis com recursos de alta tecnologia, incluindo criptografia de dados e gestão eficiente do espaço de disco. Utilizando `shared_preferences` e `sqflite`, oferece uma solução abrangente para gerenciamento de dados em cache.
 
@@ -21,7 +21,7 @@ Instalar o AutoCacheManager no seu projeto Flutter é rápido e fácil. Siga os 
 
 Você pode adicionar o AutoCacheManager diretamente ao seu projeto Flutter utilizando o comando abaixo no terminal:
 
-```flutter pub add auto_cache_manager```
+```flutter pub add flutter_auto_cache```
 
 
 Este comando irá buscar a versão mais recente do AutoCacheManager e adicioná-la ao seu arquivo `pubspec.yaml` automaticamente.
@@ -31,7 +31,7 @@ Este comando irá buscar a versão mais recente do AutoCacheManager e adicioná-
 Depois de adicionar a dependência, você precisa importar o AutoCacheManager em seu projeto para começar a utilizá-lo:
 
 ```dart
-import 'package:auto_cache_manager/auto_cache_manager.dart';
+import 'package:flutter_auto_cache/flutter_auto_cache.dart';
 ```
 
 ### Passo 3: Começar a usar
@@ -69,7 +69,7 @@ Contribuições para o AutoCacheManager são muito bem-vindas! Se você está in
 
 ### Relatar Bugs
 
-Se você encontrar um bug, por favor, abra uma issue no [GitHub Issues](https://github.com/luizgasparetto/auto_cache_manager/issues) do projeto.
+Se você encontrar um bug, por favor, abra uma issue no [GitHub Issues](https://github.com/luizgasparetto/flutter_auto_cache/issues) do projeto.
 
 ### Sugerir Melhorias
 

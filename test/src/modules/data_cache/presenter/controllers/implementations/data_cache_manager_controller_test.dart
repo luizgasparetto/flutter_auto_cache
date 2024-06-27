@@ -1,14 +1,14 @@
-import 'package:auto_cache_manager/src/core/core.dart';
-import 'package:auto_cache_manager/src/core/services/service_locator/implementations/service_locator.dart';
-import 'package:auto_cache_manager/src/modules/data_cache/domain/dtos/delete_cache_dto.dart';
-import 'package:auto_cache_manager/src/modules/data_cache/domain/dtos/get_cache_dto.dart';
-import 'package:auto_cache_manager/src/modules/data_cache/domain/dtos/write_cache_dto.dart';
-import 'package:auto_cache_manager/src/modules/data_cache/domain/entities/cache_entity.dart';
-import 'package:auto_cache_manager/src/modules/data_cache/domain/usecases/clear_cache_usecase.dart';
-import 'package:auto_cache_manager/src/modules/data_cache/domain/usecases/delete_cache_usecase.dart';
-import 'package:auto_cache_manager/src/modules/data_cache/domain/usecases/get_data_cache_usecase.dart';
-import 'package:auto_cache_manager/src/modules/data_cache/domain/usecases/write_cache_usecase.dart';
-import 'package:auto_cache_manager/src/modules/data_cache/presenter/controllers/implementations/data_cache_manager_controller.dart';
+import 'package:flutter_auto_cache/src/core/core.dart';
+import 'package:flutter_auto_cache/src/core/services/service_locator/implementations/service_locator.dart';
+import 'package:flutter_auto_cache/src/modules/data_cache/domain/dtos/delete_cache_dto.dart';
+import 'package:flutter_auto_cache/src/modules/data_cache/domain/dtos/get_cache_dto.dart';
+import 'package:flutter_auto_cache/src/modules/data_cache/domain/dtos/write_cache_dto.dart';
+import 'package:flutter_auto_cache/src/modules/data_cache/domain/entities/cache_entity.dart';
+import 'package:flutter_auto_cache/src/modules/data_cache/domain/usecases/clear_cache_usecase.dart';
+import 'package:flutter_auto_cache/src/modules/data_cache/domain/usecases/delete_cache_usecase.dart';
+import 'package:flutter_auto_cache/src/modules/data_cache/domain/usecases/get_data_cache_usecase.dart';
+import 'package:flutter_auto_cache/src/modules/data_cache/domain/usecases/write_cache_usecase.dart';
+import 'package:flutter_auto_cache/src/modules/data_cache/presenter/controllers/implementations/data_cache_manager_controller.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
@@ -20,7 +20,7 @@ class ClearCacheUsecaseMock extends Mock implements ClearCacheUsecase {}
 
 class DeleteCacheUsecaseMock extends Mock implements DeleteCacheUsecase {}
 
-class CacheConfigMock extends Mock implements CacheConfig {}
+class CacheConfigMock extends Mock implements CacheConfiguration {}
 
 class FakeBindClass extends Fake {}
 
