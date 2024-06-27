@@ -1,12 +1,12 @@
 import '../../domain/entities/data_cache_entity.dart';
-import 'enums/invalidation_type_adapter.dart';
+import 'enums/invalidation_types_adapter.dart';
 
 /// A utility class responsible for serializing and deserializing cache entities to and from JSON.
 ///
 /// The [CacheAdapter] provides methods that facilitate converting cache data to a JSON format
 /// and reconstructing entities back from the JSON structure. It also handles type mapping and
 /// invalidation type conversions.
-class CacheAdapter {
+class DataCacheAdapter {
   /// Deserializes a JSON map into a [DataCacheEntity] of type [T].
   ///
   /// This method creates a new [DataCacheEntity] from the given JSON structure, converting the values
@@ -19,7 +19,7 @@ class CacheAdapter {
     return DataCacheEntity<T>(
       id: json['id'],
       data: json['data'],
-      invalidationType: InvalidationTypeAdapter.fromKey(json['invalidation_type']),
+      invalidationType: InvalidationTypesAdapter.fromKey(json['invalidation_type']),
       createdAt: DateTime.parse(json['created_at']),
       endAt: DateTime.parse(json['end_at']),
     );
@@ -37,7 +37,7 @@ class CacheAdapter {
     return DataCacheEntity<T>(
       id: json['id'],
       data: List.from(json['data']).whereType<DataType>().toList() as T,
-      invalidationType: InvalidationTypeAdapter.fromKey(json['invalidation_type']),
+      invalidationType: InvalidationTypesAdapter.fromKey(json['invalidation_type']),
       createdAt: DateTime.parse(json['created_at']),
       endAt: DateTime.parse(json['end_at']),
     );
@@ -55,7 +55,7 @@ class CacheAdapter {
     return {
       'id': cache.id,
       'data': cache.data,
-      'invalidation_type': InvalidationTypeAdapter.toKey(cache.invalidationType),
+      'invalidation_type': InvalidationTypesAdapter.toKey(cache.invalidationType),
       'created_at': cache.createdAt.toIso8601String(),
       'end_at': cache.endAt.toIso8601String(),
     };

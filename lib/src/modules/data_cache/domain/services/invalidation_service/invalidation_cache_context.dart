@@ -1,6 +1,6 @@
 import '../../../../../core/core.dart';
 import '../../entities/data_cache_entity.dart';
-import '../../enums/invalidation_type.dart';
+import '../../enums/invalidation_types.dart';
 import 'invalidation_cache_strategy.dart';
 import 'strategies/ttl_invalidation_cache_strategy.dart';
 
@@ -33,7 +33,7 @@ final class InvalidationCacheContext implements IInvalidationCacheContext {
   /// Determines the cache invalidation strategy based on the configuration.
   InvalidationCacheStrategy get invalidationCacheStrategy {
     return switch (configuration.invalidationType) {
-      InvalidationType.ttl => TTLInvalidationCacheStrategy(),
+      InvalidationTypes.ttl => TTLInvalidationCacheStrategy(),
       _ => TTLInvalidationCacheStrategy(),
     };
   }

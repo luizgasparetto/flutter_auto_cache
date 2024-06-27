@@ -1,36 +1,36 @@
-import 'package:flutter_auto_cache/src/modules/data_cache/domain/enums/invalidation_type.dart';
-import 'package:flutter_auto_cache/src/modules/data_cache/external/adapters/enums/invalidation_type_adapter.dart';
+import 'package:flutter_auto_cache/src/modules/data_cache/domain/enums/invalidation_types.dart';
+import 'package:flutter_auto_cache/src/modules/data_cache/external/adapters/enums/invalidation_types_adapter.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  group('InvalidationTypeAdapter.fromKey |', () {
-    test('should be able to get InvalidationType from key successfully', () {
-      final refreshKey = InvalidationType.refresh.name;
-      final ttlKey = InvalidationType.ttl.name;
+  group('InvalidationTypesAdapter.fromKey |', () {
+    test('should be able to get InvalidationTypes from key successfully', () {
+      final refreshKey = InvalidationTypes.refresh.name;
+      final ttlKey = InvalidationTypes.ttl.name;
 
-      final refresh = InvalidationTypeAdapter.fromKey(refreshKey);
-      final ttl = InvalidationTypeAdapter.fromKey(ttlKey);
+      final refresh = InvalidationTypesAdapter.fromKey(refreshKey);
+      final ttl = InvalidationTypesAdapter.fromKey(ttlKey);
 
-      expect(refresh, equals(InvalidationType.refresh));
-      expect(ttl, equals(InvalidationType.ttl));
+      expect(refresh, equals(InvalidationTypes.refresh));
+      expect(ttl, equals(InvalidationTypes.ttl));
     });
 
-    test('should be able to get InvalidationType.refresh from invalid key successfully', () {
+    test('should be able to get InvalidationTypes.refresh from invalid key successfully', () {
       const invalidKey = 'invalid';
 
-      final refresh = InvalidationTypeAdapter.fromKey(invalidKey);
+      final refresh = InvalidationTypesAdapter.fromKey(invalidKey);
 
-      expect(refresh, equals(InvalidationType.refresh));
+      expect(refresh, equals(InvalidationTypes.refresh));
     });
   });
 
-  group('InvalidationTypeAdapter.toKey |', () {
-    test('should be able to get key from InvalidationType successfully', () {
-      final expectedRefreshKey = InvalidationType.refresh.name;
-      final expectedTtlKey = InvalidationType.ttl.name;
+  group('InvalidationTypesAdapter.toKey |', () {
+    test('should be able to get key from InvalidationTypes successfully', () {
+      final expectedRefreshKey = InvalidationTypes.refresh.name;
+      final expectedTtlKey = InvalidationTypes.ttl.name;
 
-      final refreshKey = InvalidationTypeAdapter.toKey(InvalidationType.refresh);
-      final ttlKey = InvalidationTypeAdapter.toKey(InvalidationType.ttl);
+      final refreshKey = InvalidationTypesAdapter.toKey(InvalidationTypes.refresh);
+      final ttlKey = InvalidationTypesAdapter.toKey(InvalidationTypes.ttl);
 
       expect(refreshKey, equals(expectedRefreshKey));
       expect(ttlKey, equals(expectedTtlKey));

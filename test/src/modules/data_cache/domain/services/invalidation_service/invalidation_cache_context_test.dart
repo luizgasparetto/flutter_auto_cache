@@ -1,6 +1,6 @@
 import 'package:flutter_auto_cache/src/core/core.dart';
 import 'package:flutter_auto_cache/src/modules/data_cache/domain/entities/data_cache_entity.dart';
-import 'package:flutter_auto_cache/src/modules/data_cache/domain/enums/invalidation_type.dart';
+import 'package:flutter_auto_cache/src/modules/data_cache/domain/enums/invalidation_types.dart';
 import 'package:flutter_auto_cache/src/modules/data_cache/domain/services/invalidation_service/invalidation_cache_context.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
@@ -27,7 +27,7 @@ void main() {
     final cache = FakeDataCacheEntity();
 
     test('should be able to get a strategy and validate by passing the cache entity', () {
-      when(() => config.invalidationType).thenReturn(InvalidationType.ttl);
+      when(() => config.invalidationType).thenReturn(InvalidationTypes.ttl);
 
       final response = sut.execute<String>(cache);
 

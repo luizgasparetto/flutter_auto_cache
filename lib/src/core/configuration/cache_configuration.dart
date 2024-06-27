@@ -1,6 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'constants/cache_invalidation_constants.dart';
-import '../../modules/data_cache/domain/enums/invalidation_type.dart';
+import '../../modules/data_cache/domain/enums/invalidation_types.dart';
 import 'models/cache_cryptography_options.dart';
 import 'models/cache_size_options.dart';
 
@@ -58,14 +58,14 @@ class CacheConfiguration {
   ///
   /// This method retrieves the type of invalidation strategy
   /// used by the cache.
-  InvalidationType get invalidationType => InvalidationType.ttl;
+  InvalidationTypes get invalidationType => InvalidationTypes.ttl;
 
   /// Checks if this is the default configuration.
   ///
   /// This method verifies whether the current configuration
   /// matches the default settings for the cache.
   bool get isDefaultConfig {
-    final isDefaultInvalidation = invalidationType == CacheInvalidationConstants.defaultInvalidationType;
+    final isDefaultInvalidation = invalidationType == CacheInvalidationConstants.defaultInvalidationTypes;
     final isDefaultCacheSizeOptions = sizeOptions == const CacheSizeOptions();
     final isNotUsingDeflateCompresser = !useDeflateCompresser;
 

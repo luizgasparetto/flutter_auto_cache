@@ -1,12 +1,12 @@
 import 'package:flutter/foundation.dart';
 
-import '../enums/invalidation_type.dart';
+import '../enums/invalidation_types.dart';
 
 /// Immutable class representing a cache entity.
 ///
 /// A `DataCacheEntity` encapsulates data along with metadata for caching purposes.
 /// It contains a unique identifier `id`, the associated data `data`,
-/// the type of invalidation `invalidationType`, creation timestamp `createdAt`,
+/// the type of invalidation `InvalidationTypes`, creation timestamp `createdAt`,
 /// expiration timestamp `endAt`, and an optional last update timestamp `updatedAt`.
 ///
 /// This class provides several factory constructors for convenience in creating instances,
@@ -24,7 +24,7 @@ class DataCacheEntity<T extends Object> {
   final T data;
 
   /// Type of invalidation for the cache entity.
-  final InvalidationType invalidationType;
+  final InvalidationTypes invalidationType;
 
   /// Timestamp indicating when the cache entity was created.
   final DateTime createdAt;

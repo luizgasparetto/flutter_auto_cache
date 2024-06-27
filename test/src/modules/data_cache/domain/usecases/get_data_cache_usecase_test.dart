@@ -1,7 +1,7 @@
 import 'package:flutter_auto_cache/src/core/core.dart';
 import 'package:flutter_auto_cache/src/modules/data_cache/domain/dtos/get_cache_dto.dart';
 import 'package:flutter_auto_cache/src/modules/data_cache/domain/entities/data_cache_entity.dart';
-import 'package:flutter_auto_cache/src/modules/data_cache/domain/enums/invalidation_type.dart';
+import 'package:flutter_auto_cache/src/modules/data_cache/domain/enums/invalidation_types.dart';
 import 'package:flutter_auto_cache/src/modules/data_cache/domain/repositories/i_data_cache_repository.dart';
 import 'package:flutter_auto_cache/src/modules/data_cache/domain/services/invalidation_service/invalidation_cache_context.dart';
 import 'package:flutter_auto_cache/src/modules/data_cache/domain/usecases/get_data_cache_usecase.dart';
@@ -41,7 +41,7 @@ void main() {
     final successCache = DataCacheEntity<String>(
       id: 'any_id',
       data: 'cache_data',
-      invalidationType: InvalidationType.refresh,
+      invalidationType: InvalidationTypes.refresh,
       createdAt: DateTime.now(),
       endAt: DateTime.now(),
     );

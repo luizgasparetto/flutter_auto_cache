@@ -4,7 +4,7 @@ import 'package:flutter_auto_cache/src/core/core.dart';
 import 'package:flutter_auto_cache/src/core/services/cryptography_service/i_cryptography_service.dart';
 import 'package:flutter_auto_cache/src/core/services/kvs_service/i_kvs_service.dart';
 import 'package:flutter_auto_cache/src/modules/data_cache/domain/entities/data_cache_entity.dart';
-import 'package:flutter_auto_cache/src/modules/data_cache/domain/enums/invalidation_type.dart';
+import 'package:flutter_auto_cache/src/modules/data_cache/domain/enums/invalidation_types.dart';
 import 'package:flutter_auto_cache/src/modules/data_cache/external/datasources/query_data_cache_datasource.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
@@ -33,7 +33,7 @@ void main() {
     final successBody = {
       'id': 'key',
       'data': 'my_data',
-      'invalidation_type': InvalidationType.ttl.name,
+      'invalidation_type': InvalidationTypes.ttl.name,
       'created_at': createdAt.toIso8601String(),
       'end_at': endAt.toIso8601String(),
     };

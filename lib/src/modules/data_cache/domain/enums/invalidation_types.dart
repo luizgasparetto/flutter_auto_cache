@@ -1,5 +1,5 @@
 ///List of available invalidation methods to use in cache, which one has his own purporse and need to be learned until you used.
-enum InvalidationType {
+enum InvalidationTypes {
   ///The content is replaced with a new version fetched from the application.
   ///Refresh is the default invalidation type, this means that if you just use this, your cache data will always be replaced
   refresh,

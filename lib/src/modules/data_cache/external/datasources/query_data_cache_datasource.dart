@@ -4,7 +4,7 @@ import '../../../../core/services/cryptography_service/i_cryptography_service.da
 import '../../../../core/services/kvs_service/i_kvs_service.dart';
 import '../../domain/entities/data_cache_entity.dart';
 import '../../infra/datasources/i_query_data_cache_datasource.dart';
-import '../adapters/cache_adapter.dart';
+import '../adapters/data_cache_adapter.dart';
 
 /// A concrete implementation of the [IQueryDataCacheDatasource] interface for caching query data.
 ///
@@ -29,7 +29,7 @@ final class QueryDataCacheDatasource implements IQueryDataCacheDatasource {
 
     if (decodedResponse == null) return null;
 
-    return CacheAdapter.fromJson<T>(decodedResponse);
+    return DataCacheAdapter.fromJson<T>(decodedResponse);
   }
 
   @override
@@ -38,7 +38,7 @@ final class QueryDataCacheDatasource implements IQueryDataCacheDatasource {
 
     if (decodedResponse == null) return null;
 
-    return CacheAdapter.listFromJson<T, DataType>(decodedResponse);
+    return DataCacheAdapter.listFromJson<T, DataType>(decodedResponse);
   }
 
   @override
