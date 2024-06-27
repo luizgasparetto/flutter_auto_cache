@@ -1,6 +1,6 @@
 import 'package:flutter_auto_cache/src/core/core.dart';
 import 'package:flutter_auto_cache/src/modules/data_cache/presenter/controllers/implementations/data_cache_manager_controller.dart';
-import 'package:flutter_auto_cache/src/modules/data_cache/presenter/controllers/interfaces/i_data_cache_controller.dart';
+import 'package:flutter_auto_cache/src/modules/data_cache/presenter/controllers/i_data_cache_controller.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 

@@ -1,4 +1,4 @@
-import '../../domain/entities/cache_entity.dart';
+import '../../domain/entities/data_cache_entity.dart';
 
 /// Defines the contract for querying data from the cache, providing methods to retrieve
 /// specific cached entities and obtain a list of all cached keys.
@@ -16,10 +16,10 @@ abstract interface class IQueryDataCacheDatasource {
   ///   - [key]: A `String` representing the unique key associated with the cache entry.
   ///
   /// Returns:
-  ///   - A `CacheEntity<T>?`, which is the cached entity if found, or `null` if no such entity exists.
-  CacheEntity<T>? get<T extends Object>(String key);
+  ///   - A `DataCacheEntity<T>?`, which is the cached entity if found, or `null` if no such entity exists.
+  DataCacheEntity<T>? get<T extends Object>(String key);
 
-  CacheEntity<T>? getList<T extends Object, DataType extends Object>(String key);
+  DataCacheEntity<T>? getList<T extends Object, DataType extends Object>(String key);
 
   /// Retrieves a comprehensive list of all keys currently stored in the cache.
   ///

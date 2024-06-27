@@ -12,10 +12,10 @@ import '../../../domain/usecases/delete_data_cache_usecase.dart';
 import '../../../domain/usecases/get_data_cache_usecase.dart';
 import '../../../domain/usecases/write_data_cache_usecase.dart';
 
-import '../interfaces/i_data_cache_controller.dart';
+import '../i_data_cache_controller.dart';
 
 part 'prefs_cache_manager_controller.dart';
-part '../interfaces/i_prefs_cache_manager_controller.dart';
+part '../i_prefs_cache_manager_controller.dart';
 
 /// Responsible for managing caching operations through various use cases.
 /// The `BaseDataCacheManagerController` provides an abstraction layer for interacting
@@ -55,7 +55,7 @@ class DataCacheManagerController implements IDataCacheController {
     return DataCacheManagerController(
       ServiceLocator.instance.get<IGetDataCacheUsecase>(),
       ServiceLocator.instance.get<IWriteDataCacheUsecase>(),
-      ServiceLocator.instance.get<ClearDataCacheUsecase>(),
+      ServiceLocator.instance.get<IClearDataCacheUsecase>(),
       ServiceLocator.instance.get<IDeleteDataCacheUsecase>(),
       ServiceLocator.instance.get<CacheConfiguration>(),
     );

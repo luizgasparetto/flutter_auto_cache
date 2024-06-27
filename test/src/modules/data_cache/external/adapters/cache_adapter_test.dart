@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:flutter_auto_cache/src/core/extensions/map_extensions.dart';
-import 'package:flutter_auto_cache/src/modules/data_cache/domain/entities/cache_entity.dart';
+import 'package:flutter_auto_cache/src/modules/data_cache/domain/entities/data_cache_entity.dart';
 import 'package:flutter_auto_cache/src/modules/data_cache/domain/enums/invalidation_type.dart';
 import 'package:flutter_auto_cache/src/modules/data_cache/external/adapters/cache_adapter.dart';
 import 'package:flutter_auto_cache/src/modules/data_cache/external/adapters/enums/invalidation_type_adapter.dart';
@@ -22,7 +22,7 @@ void main() {
       'end_at': endAt.toIso8601String()
     };
 
-    // test('should be able to get CacheEntity from json successfully', () {
+    // test('should be able to get DataCacheEntity from json successfully', () {
     //   final cache = CacheAdapter.fromJson<String>(jsonCache);
 
     //   expect(cache.id, equals(id));
@@ -32,13 +32,13 @@ void main() {
     //   expect(cache.endAt, equals(endAt));
     // });
 
-    test('should NOT be able to get CacheEntity from json when invalid values', () {
+    test('should NOT be able to get DataCacheEntity from json when invalid values', () {
       final invalidJson = jsonCache.updateValueByKey(key: 'created_at', newValue: 'invalid_value');
 
       expect(() => CacheAdapter.fromJson(invalidJson), throwsFormatException);
     });
 
-    test('should NOT be able to get CacheEntity from json when invalid keys', () {
+    test('should NOT be able to get DataCacheEntity from json when invalid keys', () {
       final jsonInvalidKeys = jsonCache.updateKey(oldKey: 'created_at', newKey: 'invalid_created_at');
 
       expect(() => CacheAdapter.fromJson(jsonInvalidKeys), throwsA(isA<TypeError>()));
@@ -46,7 +46,7 @@ void main() {
   });
 
   group('CacheAdapter.toJson |', () {
-    final cache = CacheEntity(
+    final cache = DataCacheEntity(
       id: id,
       data: data,
       invalidationType: invalidationType,
@@ -54,7 +54,7 @@ void main() {
       endAt: endAt,
     );
 
-    test('should be able to parse CacheEntity to json and verify keys', () {
+    test('should be able to parse DataCacheEntity to json and verify keys', () {
       final jsonCache = CacheAdapter.toJson(cache);
 
       expect(jsonCache.containsKey('id'), isTrue);
@@ -64,7 +64,7 @@ void main() {
       expect(jsonCache.containsKey('end_at'), isTrue);
     });
 
-    test('should be able to parse CacheEntity to json and verify values', () {
+    test('should be able to parse DataCacheEntity to json and verify values', () {
       final jsonCache = CacheAdapter.toJson(cache);
 
       expect(jsonCache['id'], equals(id));

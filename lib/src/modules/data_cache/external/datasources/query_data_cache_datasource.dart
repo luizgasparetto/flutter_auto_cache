@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import '../../../../core/services/cryptography_service/i_cryptography_service.dart';
 import '../../../../core/services/kvs_service/i_kvs_service.dart';
-import '../../domain/entities/cache_entity.dart';
+import '../../domain/entities/data_cache_entity.dart';
 import '../../infra/datasources/i_query_data_cache_datasource.dart';
 import '../adapters/cache_adapter.dart';
 
@@ -24,7 +24,7 @@ final class QueryDataCacheDatasource implements IQueryDataCacheDatasource {
   const QueryDataCacheDatasource(this._kvsService, this._cryptographyService);
 
   @override
-  CacheEntity<T>? get<T extends Object>(String key) {
+  DataCacheEntity<T>? get<T extends Object>(String key) {
     final decodedResponse = _getDecodedResponse(key);
 
     if (decodedResponse == null) return null;
@@ -33,7 +33,7 @@ final class QueryDataCacheDatasource implements IQueryDataCacheDatasource {
   }
 
   @override
-  CacheEntity<T>? getList<T extends Object, DataType extends Object>(String key) {
+  DataCacheEntity<T>? getList<T extends Object, DataType extends Object>(String key) {
     final decodedResponse = _getDecodedResponse(key);
 
     if (decodedResponse == null) return null;

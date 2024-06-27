@@ -1,4 +1,4 @@
-import '../../domain/entities/cache_entity.dart';
+import '../../domain/entities/data_cache_entity.dart';
 import 'enums/invalidation_type_adapter.dart';
 
 /// A utility class responsible for serializing and deserializing cache entities to and from JSON.
@@ -7,16 +7,16 @@ import 'enums/invalidation_type_adapter.dart';
 /// and reconstructing entities back from the JSON structure. It also handles type mapping and
 /// invalidation type conversions.
 class CacheAdapter {
-  /// Deserializes a JSON map into a [CacheEntity] of type [T].
+  /// Deserializes a JSON map into a [DataCacheEntity] of type [T].
   ///
-  /// This method creates a new [CacheEntity] from the given JSON structure, converting the values
+  /// This method creates a new [DataCacheEntity] from the given JSON structure, converting the values
   /// and applying the appropriate invalidation type.
   ///
   /// - Parameter [json]: A `Map<String, dynamic>` representing the JSON structure of a cache entity.
   ///
-  /// - Returns: A fully constructed [CacheEntity] of type [T] based on the provided JSON data.
-  static CacheEntity<T> fromJson<T extends Object>(Map<String, dynamic> json) {
-    return CacheEntity<T>(
+  /// - Returns: A fully constructed [DataCacheEntity] of type [T] based on the provided JSON data.
+  static DataCacheEntity<T> fromJson<T extends Object>(Map<String, dynamic> json) {
+    return DataCacheEntity<T>(
       id: json['id'],
       data: json['data'],
       invalidationType: InvalidationTypeAdapter.fromKey(json['invalidation_type']),
@@ -25,16 +25,16 @@ class CacheAdapter {
     );
   }
 
-  /// Deserializes a JSON map into a list-based [CacheEntity] of type [T], where the list contains elements of type [DataType].
+  /// Deserializes a JSON map into a list-based [DataCacheEntity] of type [T], where the list contains elements of type [DataType].
   ///
   /// This method specifically reconstructs cache entities containing lists of data items,
   /// converting and filtering based on the provided data type.
   ///
   /// - Parameter [json]: A `Map<String, dynamic>` representing the JSON structure of a list-based cache entity.
   ///
-  /// - Returns: A [CacheEntity] of type [T], containing a list of data elements of type [DataType].
-  static CacheEntity<T> listFromJson<T extends Object, DataType extends Object>(Map<String, dynamic> json) {
-    return CacheEntity<T>(
+  /// - Returns: A [DataCacheEntity] of type [T], containing a list of data elements of type [DataType].
+  static DataCacheEntity<T> listFromJson<T extends Object, DataType extends Object>(Map<String, dynamic> json) {
+    return DataCacheEntity<T>(
       id: json['id'],
       data: List.from(json['data']).whereType<DataType>().toList() as T,
       invalidationType: InvalidationTypeAdapter.fromKey(json['invalidation_type']),
@@ -43,15 +43,15 @@ class CacheAdapter {
     );
   }
 
-  /// Serializes a [CacheEntity] of type [T] into a JSON map.
+  /// Serializes a [DataCacheEntity] of type [T] into a JSON map.
   ///
   /// This method converts the specified cache entity into a JSON-compatible structure, including
   /// appropriate key-value pairs for serialization and storage.
   ///
-  /// - Parameter [cache]: The [CacheEntity] instance to be serialized into JSON.
+  /// - Parameter [cache]: The [DataCacheEntity] instance to be serialized into JSON.
   ///
   /// - Returns: A `Map<String, dynamic>` containing the serialized form of the given cache entity.
-  static Map<String, dynamic> toJson<T extends Object>(CacheEntity<T> cache) {
+  static Map<String, dynamic> toJson<T extends Object>(DataCacheEntity<T> cache) {
     return {
       'id': cache.id,
       'data': cache.data,

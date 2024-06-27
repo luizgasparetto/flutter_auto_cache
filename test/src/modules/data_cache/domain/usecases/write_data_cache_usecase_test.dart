@@ -2,7 +2,7 @@ import 'package:flutter_auto_cache/src/core/core.dart';
 import 'package:flutter_auto_cache/src/modules/data_cache/domain/dtos/get_cache_dto.dart';
 import 'package:flutter_auto_cache/src/modules/data_cache/domain/dtos/update_cache_dto.dart';
 import 'package:flutter_auto_cache/src/modules/data_cache/domain/dtos/write_cache_dto.dart';
-import 'package:flutter_auto_cache/src/modules/data_cache/domain/entities/cache_entity.dart';
+import 'package:flutter_auto_cache/src/modules/data_cache/domain/entities/data_cache_entity.dart';
 import 'package:flutter_auto_cache/src/modules/data_cache/domain/enums/invalidation_type.dart';
 import 'package:flutter_auto_cache/src/modules/data_cache/domain/repositories/i_data_cache_repository.dart';
 import 'package:flutter_auto_cache/src/modules/data_cache/domain/services/invalidation_service/invalidation_cache_context.dart';
@@ -37,10 +37,10 @@ class BaseConfigFake extends Fake implements CacheConfiguration {
   InvalidationType get invalidationType => InvalidationType.ttl;
 }
 
-class CacheEntityFake<T extends Object> extends Fake implements CacheEntity<T> {
+class DataCacheEntityFake<T extends Object> extends Fake implements DataCacheEntity<T> {
   final T fakeData;
 
-  CacheEntityFake(this.fakeData);
+  DataCacheEntityFake(this.fakeData);
 
   @override
   T get data => fakeData;
@@ -51,7 +51,7 @@ void main() {
   final invalidationContext = InvalidationCacheContextMock();
   final sut = WriteDataCacheUsecase(repository, invalidationContext);
 
-  final fakeCache = CacheEntityFake<String>('my_string');
+  final fakeCache = DataCacheEntityFake<String>('my_string');
 
   final replaceFakeCacheConfig = ReplaceFakeCacheConfig();
   final notReplaceFakeCacheConfig = NotReplaceFakeCacheConfig();

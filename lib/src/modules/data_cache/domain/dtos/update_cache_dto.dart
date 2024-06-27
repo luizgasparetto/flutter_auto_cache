@@ -1,8 +1,8 @@
 import '../../../../core/core.dart';
-import '../entities/cache_entity.dart';
+import '../entities/data_cache_entity.dart';
 
 class UpdateCacheDTO<T extends Object> {
-  final CacheEntity<T> previewCache;
+  final DataCacheEntity<T> previewCache;
   final CacheConfiguration config;
 
   const UpdateCacheDTO({

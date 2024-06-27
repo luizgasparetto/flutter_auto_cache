@@ -4,7 +4,7 @@ import '../../domain/dtos/delete_cache_dto.dart';
 import '../../domain/dtos/get_cache_dto.dart';
 import '../../domain/dtos/update_cache_dto.dart';
 import '../../domain/dtos/write_cache_dto.dart';
-import '../../domain/entities/cache_entity.dart';
+import '../../domain/entities/data_cache_entity.dart';
 import '../../domain/repositories/i_data_cache_repository.dart';
 
 import '../datasources/i_command_data_cache_datasource.dart';
@@ -17,7 +17,7 @@ class DataCacheRepository implements IDataCacheRepository {
   const DataCacheRepository(this._queryDataCacheDatasource, this._commandDataCacheDatasource);
 
   @override
-  Either<AutoCacheException, CacheEntity<T>?> get<T extends Object>(GetCacheDTO dto) {
+  Either<AutoCacheException, DataCacheEntity<T>?> get<T extends Object>(GetCacheDTO dto) {
     try {
       final response = _queryDataCacheDatasource.get<T>(dto.key);
 
@@ -28,7 +28,7 @@ class DataCacheRepository implements IDataCacheRepository {
   }
 
   @override
-  Either<AutoCacheException, CacheEntity<T>?> getList<T extends Object, DataType extends Object>(GetCacheDTO dto) {
+  Either<AutoCacheException, DataCacheEntity<T>?> getList<T extends Object, DataType extends Object>(GetCacheDTO dto) {
     try {
       final response = _queryDataCacheDatasource.getList<T, DataType>(dto.key);
 

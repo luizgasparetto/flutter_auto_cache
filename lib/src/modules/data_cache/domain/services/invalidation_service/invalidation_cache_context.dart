@@ -1,5 +1,5 @@
 import '../../../../../core/core.dart';
-import '../../entities/cache_entity.dart';
+import '../../entities/data_cache_entity.dart';
 import '../../enums/invalidation_type.dart';
 import 'invalidation_cache_strategy.dart';
 import 'strategies/ttl_invalidation_cache_strategy.dart';
@@ -9,9 +9,9 @@ import 'strategies/ttl_invalidation_cache_strategy.dart';
 abstract interface class IInvalidationCacheContext {
   /// Executes the cache invalidation logic.
   ///
-  /// This method takes a [CacheEntity] of a generic type [T] and returns an [Either] type,
+  /// This method takes a [DataCacheEntity] of a generic type [T] and returns an [Either] type,
   /// indicating either a failure of type [AutoCacheFailure] or success as a [Unit].
-  Either<AutoCacheFailure, Unit> execute<T extends Object>(CacheEntity<T> cache);
+  Either<AutoCacheFailure, Unit> execute<T extends Object>(DataCacheEntity<T> cache);
 }
 
 /// This class provides an implementation of [IInvalidationCacheContext].
@@ -26,7 +26,7 @@ final class InvalidationCacheContext implements IInvalidationCacheContext {
   ///
   /// The method utilizes the configured invalidation strategy to validate the cache entity.
   @override
-  Either<AutoCacheFailure, Unit> execute<T extends Object>(CacheEntity<T> cache) {
+  Either<AutoCacheFailure, Unit> execute<T extends Object>(DataCacheEntity<T> cache) {
     return invalidationCacheStrategy.validate<T>(cache);
   }
 

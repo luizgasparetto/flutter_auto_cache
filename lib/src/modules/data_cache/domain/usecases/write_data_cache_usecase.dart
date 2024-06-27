@@ -2,7 +2,7 @@ import '../../../../core/core.dart';
 import '../dtos/get_cache_dto.dart';
 import '../dtos/update_cache_dto.dart';
 import '../dtos/write_cache_dto.dart';
-import '../entities/cache_entity.dart';
+import '../entities/data_cache_entity.dart';
 import '../repositories/i_data_cache_repository.dart';
 import '../services/invalidation_service/invalidation_cache_context.dart';
 
@@ -26,7 +26,7 @@ final class WriteDataCacheUsecase implements IWriteDataCacheUsecase {
     return findByKeyResponse.fold(left, (cache) async => _validateCache(cache, dto));
   }
 
-  WriteDataCacheResponse _validateCache<T extends Object>(CacheEntity<T>? cache, WriteCacheDTO<T> dto) async {
+  WriteDataCacheResponse _validateCache<T extends Object>(DataCacheEntity<T>? cache, WriteCacheDTO<T> dto) async {
     if (cache == null) return _repository.save(dto);
 
     final validateResponse = _invalidationCacheContext.execute(cache);
@@ -40,7 +40,7 @@ final class WriteDataCacheUsecase implements IWriteDataCacheUsecase {
     return _repository.save(dto);
   }
 
-  WriteDataCacheResponse _updateDataCache<T extends Object>(CacheEntity<T> cache, WriteCacheDTO<T> dto) async {
+  WriteDataCacheResponse _updateDataCache<T extends Object>(DataCacheEntity<T> cache, WriteCacheDTO<T> dto) async {
     final updateDTO = UpdateCacheDTO<T>(previewCache: cache, config: dto.cacheConfig);
 
     return _repository.update(updateDTO);

@@ -2,13 +2,13 @@
 ///
 /// Implements the base data cache operations for querying and manipulating cached data.
 /// This mixin provides a unified interface for fetching, saving, deleting, and clearing cached data.
-mixin IDataCacheController on _IQueryBaseDataCacheController, _ICommandBaseDataCacheController {}
+mixin IDataCacheController on _IQueryDataCacheController, _ICommandDataCacheController {}
 
 /// An abstract class that defines query operations for a data cache.
 ///
 /// Provides methods to retrieve cached objects and lists of cached objects based on a unique key.
 /// Implementations of this interface should handle data retrieval and error management.
-abstract interface class _IQueryBaseDataCacheController {
+abstract interface class _IQueryDataCacheController {
   /// Fetches a cached object of type [T] corresponding to the specified [key].
   ///
   /// - [key]: A unique identifier associated with the desired cached object.
@@ -32,7 +32,7 @@ abstract interface class _IQueryBaseDataCacheController {
 ///
 /// Provides methods to save, delete, and clear cached data based on a unique key.
 /// Implementations of this interface should handle data manipulation and error management.
-abstract interface class _ICommandBaseDataCacheController {
+abstract interface class _ICommandDataCacheController {
   /// Saves an object of type [T] into the cache under the provided [key].
   ///
   /// - [key]: The unique identifier to associate with the cached object.

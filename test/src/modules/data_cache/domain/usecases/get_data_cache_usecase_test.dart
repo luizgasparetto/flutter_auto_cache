@@ -1,6 +1,6 @@
 import 'package:flutter_auto_cache/src/core/core.dart';
 import 'package:flutter_auto_cache/src/modules/data_cache/domain/dtos/get_cache_dto.dart';
-import 'package:flutter_auto_cache/src/modules/data_cache/domain/entities/cache_entity.dart';
+import 'package:flutter_auto_cache/src/modules/data_cache/domain/entities/data_cache_entity.dart';
 import 'package:flutter_auto_cache/src/modules/data_cache/domain/enums/invalidation_type.dart';
 import 'package:flutter_auto_cache/src/modules/data_cache/domain/repositories/i_data_cache_repository.dart';
 import 'package:flutter_auto_cache/src/modules/data_cache/domain/services/invalidation_service/invalidation_cache_context.dart';
@@ -14,7 +14,7 @@ class InvalidationCacheContextMock extends Mock implements IInvalidationCacheCon
 
 class FakeAutoCacheManagerException extends Fake implements AutoCacheException {}
 
-class CacheEntityFake<T extends Object> extends Fake implements CacheEntity<T> {}
+class DataCacheEntityFake<T extends Object> extends Fake implements DataCacheEntity<T> {}
 
 class AutoCacheFailureFake extends Fake implements AutoCacheFailure {}
 
@@ -24,7 +24,7 @@ void main() {
 
   final sut = GetDataCacheUsecase(repository, invalidationContext);
 
-  final cacheFake = CacheEntityFake<String>();
+  final cacheFake = DataCacheEntityFake<String>();
 
   setUp(() {
     registerFallbackValue(cacheFake);
@@ -38,7 +38,7 @@ void main() {
   group('GetCache |', () {
     const dto = GetCacheDTO(key: 'my_key');
 
-    final successCache = CacheEntity<String>(
+    final successCache = DataCacheEntity<String>(
       id: 'any_id',
       data: 'cache_data',
       invalidationType: InvalidationType.refresh,
@@ -66,7 +66,7 @@ void main() {
       expect(response.isSuccess, isTrue);
       expect(response.success, isNull);
       verify(() => repository.get<String>(dto)).called(1);
-      verifyNever(() => invalidationContext.execute<String>(any<CacheEntity<String>>()));
+      verifyNever(() => invalidationContext.execute<String>(any<DataCacheEntity<String>>()));
     });
 
     test('should NOT be able to get data in cache when get retrives an exception', () async {
@@ -77,7 +77,7 @@ void main() {
       expect(response.isError, isTrue);
       expect(response.error, isA<AutoCacheException>());
       verify(() => repository.get<String>(dto)).called(1);
-      verifyNever(() => invalidationContext.execute<String>(any<CacheEntity<String>>()));
+      verifyNever(() => invalidationContext.execute<String>(any<DataCacheEntity<String>>()));
     });
 
     test('should NOT be able to get data in cache when invalidation context retrives an exception', () {

@@ -1,4 +1,4 @@
-part of '../implementations/data_cache_manager_controller.dart';
+part of 'implementations/data_cache_manager_controller.dart';
 
 /// Combines query and command cache management operations
 ///

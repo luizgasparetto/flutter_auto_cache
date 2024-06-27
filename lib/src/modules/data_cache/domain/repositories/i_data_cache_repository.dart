@@ -5,7 +5,7 @@ import '../dtos/get_cache_dto.dart';
 import '../dtos/update_cache_dto.dart';
 import '../dtos/write_cache_dto.dart';
 
-import '../entities/cache_entity.dart';
+import '../entities/data_cache_entity.dart';
 
 /// An interface defining the repository for managing cache operations.
 ///
@@ -19,8 +19,8 @@ abstract interface class IDataCacheRepository {
   /// - Parameter [dto]: An object of type [GetCacheDTO] that contains the criteria to locate the cache.
   ///
   /// Returns:
-  /// - An [Either] containing an [AutoCacheException] on failure, or a nullable [CacheEntity] of type [T] on success.
-  Either<AutoCacheException, CacheEntity<T>?> get<T extends Object>(GetCacheDTO dto);
+  /// - An [Either] containing an [AutoCacheException] on failure, or a nullable [DataCacheEntity] of type [T] on success.
+  Either<AutoCacheException, DataCacheEntity<T>?> get<T extends Object>(GetCacheDTO dto);
 
   /// Retrieves a list of cached entities of type [T] using the data transfer object [dto].
   ///
@@ -29,8 +29,8 @@ abstract interface class IDataCacheRepository {
   /// - Parameter [dto]: An object of type [GetCacheDTO] that contains the criteria to locate the cache.
   ///
   /// Returns:
-  /// - An [Either] containing an [AutoCacheException] on failure, or a nullable list of [CacheEntity] of type [T] on success.
-  Either<AutoCacheException, CacheEntity<T>?> getList<T extends Object, DataType extends Object>(GetCacheDTO dto);
+  /// - An [Either] containing an [AutoCacheException] on failure, or a nullable list of [DataCacheEntity] of type [T] on success.
+  Either<AutoCacheException, DataCacheEntity<T>?> getList<T extends Object, DataType extends Object>(GetCacheDTO dto);
 
   /// Retrieves all keys associated with a specific storage type [storageType].
   ///

@@ -5,7 +5,7 @@ import '../../../domain/enums/invalidation_type.dart';
 /// The [InvalidationTypeAdapter] class provides methods to map string representations
 /// to enumeration values and vice versa. It facilitates consistent and type-safe conversions
 /// for cache invalidation types.
-class InvalidationTypeAdapter {
+final class InvalidationTypeAdapter {
   /// Converts a string key into an [InvalidationType] enumeration value.
   ///
   /// This method matches the given string key to a corresponding [InvalidationType] value.

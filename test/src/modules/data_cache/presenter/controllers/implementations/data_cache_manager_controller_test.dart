@@ -3,7 +3,7 @@ import 'package:flutter_auto_cache/src/core/services/service_locator/implementat
 import 'package:flutter_auto_cache/src/modules/data_cache/domain/dtos/delete_cache_dto.dart';
 import 'package:flutter_auto_cache/src/modules/data_cache/domain/dtos/get_cache_dto.dart';
 import 'package:flutter_auto_cache/src/modules/data_cache/domain/dtos/write_cache_dto.dart';
-import 'package:flutter_auto_cache/src/modules/data_cache/domain/entities/cache_entity.dart';
+import 'package:flutter_auto_cache/src/modules/data_cache/domain/entities/data_cache_entity.dart';
 import 'package:flutter_auto_cache/src/modules/data_cache/domain/usecases/clear_data_cache_usecase.dart';
 import 'package:flutter_auto_cache/src/modules/data_cache/domain/usecases/delete_data_cache_usecase.dart';
 import 'package:flutter_auto_cache/src/modules/data_cache/domain/usecases/get_data_cache_usecase.dart';
@@ -30,10 +30,10 @@ class FakeGetCacheDTO extends Fake implements GetCacheDTO {}
 
 class FakeDeleteCacheDTO extends Fake implements DeleteCacheDTO {}
 
-class CacheEntityFake<T extends Object> extends Fake implements CacheEntity<T> {
+class DataCacheEntityFake<T extends Object> extends Fake implements DataCacheEntity<T> {
   final T fakeData;
 
-  CacheEntityFake({required this.fakeData});
+  DataCacheEntityFake({required this.fakeData});
 
   @override
   T get data => fakeData;
@@ -83,7 +83,7 @@ void main() {
   group('DataCacheManagerController.get |', () {
     test('should be able to get data in cache with a key successfully', () {
       when(() => getCacheUsecase.execute<String, String>(any(that: getCacheDtoMatcher()))).thenReturn(
-        right(CacheEntityFake<String>(fakeData: 'my_string_cached')),
+        right(DataCacheEntityFake<String>(fakeData: 'my_string_cached')),
       );
 
       final response = sut.get<String>(key: 'my_key');
@@ -113,7 +113,7 @@ void main() {
   group('DataCacheManagerController.getList |', () {
     test('should be able to get data list in cache with a key successfully', () {
       when(() => getCacheUsecase.execute<List<String>, String>(any(that: getCacheDtoMatcher()))).thenReturn(
-        right(CacheEntityFake<List<String>>(fakeData: ['fake_list_data'])),
+        right(DataCacheEntityFake<List<String>>(fakeData: ['fake_list_data'])),
       );
 
       final response = sut.getList<String>(key: 'my_key');

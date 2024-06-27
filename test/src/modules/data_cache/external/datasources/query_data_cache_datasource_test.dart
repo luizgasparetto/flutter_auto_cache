@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter_auto_cache/src/core/core.dart';
 import 'package:flutter_auto_cache/src/core/services/cryptography_service/i_cryptography_service.dart';
 import 'package:flutter_auto_cache/src/core/services/kvs_service/i_kvs_service.dart';
-import 'package:flutter_auto_cache/src/modules/data_cache/domain/entities/cache_entity.dart';
+import 'package:flutter_auto_cache/src/modules/data_cache/domain/entities/data_cache_entity.dart';
 import 'package:flutter_auto_cache/src/modules/data_cache/domain/enums/invalidation_type.dart';
 import 'package:flutter_auto_cache/src/modules/data_cache/external/datasources/query_data_cache_datasource.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -46,7 +46,7 @@ void main() {
 
       final response = sut.get<String>('my_key');
 
-      expect(response, isA<CacheEntity<String>>());
+      expect(response, isA<DataCacheEntity<String>>());
       expect(response?.data, equals('my_data'));
       verify(() => prefsService.get(key: 'my_key')).called(1);
     });
