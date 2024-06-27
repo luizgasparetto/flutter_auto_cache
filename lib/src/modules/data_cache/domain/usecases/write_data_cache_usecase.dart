@@ -6,9 +6,25 @@ import '../entities/data_cache_entity.dart';
 import '../repositories/i_data_cache_repository.dart';
 import '../services/invalidation_service/invalidation_cache_context.dart';
 
+/// Type definition for the response of the write data cache operation.
+///
+/// This type represents an asynchronous operation result, which can either be
+/// an [AutoCacheError] in case of failure, or a [Unit] in case of success.
 typedef WriteDataCacheResponse = AsyncEither<AutoCacheError, Unit>;
 
+/// Interface for writing data to the cache.
+///
+/// This interface defines a method for writing data to the cache based on the
+/// provided [WriteCacheDTO] data transfer object. The operation returns an
+/// `AsyncEither` type that represents either an [AutoCacheError] in case of
+/// failure, or a [Unit] in case of success.
 abstract interface class IWriteDataCacheUsecase {
+  /// Writes data to the cache based on the provided [dto].
+  ///
+  /// This method is asynchronous and returns a `WriteDataCacheResponse` which is a type
+  /// representing a computation that can either result in an `AutoCacheError`
+  /// (in case of failure) or a [Unit] (in case of success). The [dto] parameter
+  /// encapsulates the necessary information for the cache data to be written.
   WriteDataCacheResponse execute<T extends Object>(WriteCacheDTO<T> dto);
 }
 

@@ -1,6 +1,6 @@
 import 'package:flutter_auto_cache/src/core/core.dart';
 import 'package:flutter_auto_cache/src/core/services/cryptography_service/implementations/encrypt_cryptography_service.dart';
-import 'package:flutter_auto_cache/src/core/configuration/domain/value_objects/cache_cryptography_options.dart';
+import 'package:flutter_auto_cache/src/core/configuration/models/cache_cryptography_options.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 

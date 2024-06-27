@@ -1,8 +1,8 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'constants/cache_invalidation_constants.dart';
 import '../../modules/data_cache/domain/enums/invalidation_type.dart';
-import 'domain/value_objects/cache_cryptography_options.dart';
-import 'domain/value_objects/cache_size_options.dart';
+import 'models/cache_cryptography_options.dart';
+import 'models/cache_size_options.dart';
 
 /// A configuration class for managing cache settings.
 ///

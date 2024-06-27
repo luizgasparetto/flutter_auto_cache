@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 
-import '../../constants/cache_size_constants.dart';
-import '../../../extensions/double_extensions.dart';
+import '../constants/cache_size_constants.dart';
+import '../../extensions/double_extensions.dart';
 
 /// Represents cache size options with configurable maximum sizes in kilobytes (KB) and megabytes (MB).
 ///

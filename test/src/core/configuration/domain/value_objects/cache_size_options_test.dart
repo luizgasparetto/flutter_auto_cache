@@ -1,5 +1,5 @@
 import 'package:flutter_auto_cache/src/core/configuration/constants/cache_size_constants.dart';
-import 'package:flutter_auto_cache/src/core/configuration/domain/value_objects/cache_size_options.dart';
+import 'package:flutter_auto_cache/src/core/configuration/models/cache_size_options.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
