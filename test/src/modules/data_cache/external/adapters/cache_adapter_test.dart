@@ -27,7 +27,7 @@ void main() {
 
       expect(cache.id, equals(id));
       expect(cache.data, equals(data));
-      expect(cache.invalidationType, equals(InvalidationTypes));
+      expect(cache.invalidationType, equals(invalidationType));
       expect(cache.createdAt, equals(createdAt));
       expect(cache.endAt, equals(endAt));
     });
