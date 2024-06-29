@@ -5,7 +5,7 @@ import 'package:flutter_auto_cache/src/core/services/cryptography_service/i_cryp
 import 'package:flutter_auto_cache/src/core/services/kvs_service/i_kvs_service.dart';
 import 'package:flutter_auto_cache/src/modules/data_cache/domain/entities/data_cache_entity.dart';
 import 'package:flutter_auto_cache/src/modules/data_cache/domain/enums/invalidation_types.dart';
-import 'package:flutter_auto_cache/src/modules/data_cache/external/datasources/query_data_cache_datasource.dart';
+import 'package:flutter_auto_cache/src/modules/data_cache/external/datasources/data_cache/query_data_cache_datasource.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 

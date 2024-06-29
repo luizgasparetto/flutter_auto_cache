@@ -1,4 +1,4 @@
-import '../../domain/entities/data_cache_entity.dart';
+import '../../../domain/entities/data_cache_entity.dart';
 
 /// Defines the contract for querying data from the cache, providing methods to retrieve
 /// specific cached entities and obtain a list of all cached keys.

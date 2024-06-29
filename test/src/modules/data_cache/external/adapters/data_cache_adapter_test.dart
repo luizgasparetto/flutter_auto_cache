@@ -7,13 +7,14 @@ import 'package:flutter_auto_cache/src/modules/data_cache/external/adapters/data
 import 'package:flutter_auto_cache/src/modules/data_cache/external/adapters/enums/invalidation_types_adapter.dart';
 
 void main() {
-  const id = 'zanelladev';
+  const id = 'dev';
   const data = 'test';
+  const usageCount = 0;
   const invalidationType = InvalidationTypes.ttl;
   final createdAt = DateTime.now();
   final endAt = createdAt.add(const Duration(days: 3));
 
-  group('CacheAdapter.fromJson |', () {
+  group('DataCacheAdapter.fromJson |', () {
     final jsonCache = {
       'id': id,
       'data': data,
@@ -28,6 +29,7 @@ void main() {
       expect(cache.id, equals(id));
       expect(cache.data, equals(data));
       expect(cache.invalidationType, equals(invalidationType));
+      expect(cache.usageCount, equals(usageCount));
       expect(cache.createdAt, equals(createdAt));
       expect(cache.endAt, equals(endAt));
     });
@@ -45,11 +47,12 @@ void main() {
     });
   });
 
-  group('CacheAdapter.toJson |', () {
+  group('DataCacheAdapter.toJson |', () {
     final cache = DataCacheEntity(
       id: id,
       data: data,
       invalidationType: invalidationType,
+      usageCount: usageCount,
       createdAt: createdAt,
       endAt: endAt,
     );
@@ -60,6 +63,7 @@ void main() {
       expect(jsonCache.containsKey('id'), isTrue);
       expect(jsonCache.containsKey('data'), isTrue);
       expect(jsonCache.containsKey('invalidation_type'), isTrue);
+      expect(jsonCache.containsKey('usage_count'), isTrue);
       expect(jsonCache.containsKey('created_at'), isTrue);
       expect(jsonCache.containsKey('end_at'), isTrue);
     });
@@ -70,6 +74,7 @@ void main() {
       expect(jsonCache['id'], equals(id));
       expect(jsonCache['data'], equals(data));
       expect(jsonCache['invalidation_type'], equals(InvalidationTypesAdapter.toKey(invalidationType)));
+      expect(jsonCache['usage_count'], equals(usageCount));
       expect(jsonCache['created_at'], equals(createdAt.toIso8601String()));
       expect(jsonCache['end_at'], equals(endAt.toIso8601String()));
     });

@@ -3,12 +3,15 @@ import 'package:flutter_auto_cache/src/modules/data_cache/domain/dtos/get_cache_
 import 'package:flutter_auto_cache/src/modules/data_cache/domain/entities/data_cache_entity.dart';
 import 'package:flutter_auto_cache/src/modules/data_cache/domain/enums/invalidation_types.dart';
 import 'package:flutter_auto_cache/src/modules/data_cache/domain/repositories/i_data_cache_repository.dart';
+import 'package:flutter_auto_cache/src/modules/data_cache/domain/repositories/i_substitution_data_cache_repository.dart';
 import 'package:flutter_auto_cache/src/modules/data_cache/domain/services/invalidation_service/invalidation_cache_context.dart';
 import 'package:flutter_auto_cache/src/modules/data_cache/domain/usecases/get_data_cache_usecase.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
-class CacheRepositoryMock extends Mock implements IDataCacheRepository {}
+class DataCacheRepositoryMock extends Mock implements IDataCacheRepository {}
+
+class SubstitutionDataCacheRepositoryMock extends Mock implements ISubstitutionDataCacheRepository {}
 
 class InvalidationCacheContextMock extends Mock implements IInvalidationCacheContext {}
 
@@ -19,10 +22,11 @@ class DataCacheEntityFake<T extends Object> extends Fake implements DataCacheEnt
 class AutoCacheFailureFake extends Fake implements AutoCacheFailure {}
 
 void main() {
-  final repository = CacheRepositoryMock();
+  final repository = DataCacheRepositoryMock();
+  final substitutionRepository = SubstitutionDataCacheRepositoryMock();
   final invalidationContext = InvalidationCacheContextMock();
 
-  final sut = GetDataCacheUsecase(repository, invalidationContext);
+  final sut = GetDataCacheUsecase(repository, substitutionRepository, invalidationContext);
 
   final cacheFake = DataCacheEntityFake<String>();
 
@@ -33,6 +37,7 @@ void main() {
   tearDown(() {
     reset(repository);
     reset(invalidationContext);
+    reset(substitutionRepository);
   });
 
   group('GetCache |', () {
@@ -41,16 +46,17 @@ void main() {
     final successCache = DataCacheEntity<String>(
       id: 'any_id',
       data: 'cache_data',
+      usageCount: 1,
       invalidationType: InvalidationTypes.refresh,
       createdAt: DateTime.now(),
       endAt: DateTime.now(),
     );
 
-    test('should be able to get data in cache successfully', () {
+    test('should be able to get data in cache successfully', () async {
       when(() => repository.get<String>(dto)).thenReturn(right(successCache));
       when(() => invalidationContext.execute(successCache)).thenReturn(right(unit));
 
-      final response = sut.execute<String, String>(dto);
+      final response = await sut.execute<String, String>(dto);
 
       expect(response.isSuccess, isTrue);
       expect(response.success, successCache);
@@ -58,10 +64,10 @@ void main() {
       verify(() => invalidationContext.execute(successCache)).called(1);
     });
 
-    test('should be able to get data in cache if data is NULL successfully', () {
+    test('should be able to get data in cache if data is NULL successfully', () async {
       when(() => repository.get<String>(dto)).thenReturn(right(null));
 
-      final response = sut.execute<String, String>(dto);
+      final response = await sut.execute<String, String>(dto);
 
       expect(response.isSuccess, isTrue);
       expect(response.success, isNull);
@@ -72,7 +78,7 @@ void main() {
     test('should NOT be able to get data in cache when get retrives an exception', () async {
       when(() => repository.get<String>(dto)).thenReturn(left(FakeAutoCacheManagerException()));
 
-      final response = sut.execute<String, String>(dto);
+      final response = await sut.execute<String, String>(dto);
 
       expect(response.isError, isTrue);
       expect(response.error, isA<AutoCacheException>());
@@ -80,11 +86,11 @@ void main() {
       verifyNever(() => invalidationContext.execute<String>(any<DataCacheEntity<String>>()));
     });
 
-    test('should NOT be able to get data in cache when invalidation context retrives an exception', () {
+    test('should NOT be able to get data in cache when invalidation context retrives an exception', () async {
       when(() => repository.get<String>(dto)).thenReturn(right(successCache));
       when(() => invalidationContext.execute(successCache)).thenReturn(left(AutoCacheFailureFake()));
 
-      final response = sut.execute<String, String>(dto);
+      final response = await sut.execute<String, String>(dto);
 
       expect(response.isError, isTrue);
       expect(response.error, isA<AutoCacheFailure>());

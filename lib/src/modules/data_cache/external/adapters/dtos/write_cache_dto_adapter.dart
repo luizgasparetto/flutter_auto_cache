@@ -7,6 +7,7 @@ final class WriteCacheDTOAdapter {
     return DataCacheEntity<T>(
       id: dto.key,
       data: dto.data,
+      usageCount: 0,
       invalidationType: dto.cacheConfig.invalidationType,
       createdAt: DateTime.now(),
       endAt: DateTime.now().add(dto.cacheConfig.ttlMaxDuration),
@@ -17,6 +18,7 @@ final class WriteCacheDTOAdapter {
     return DataCacheEntity<T>(
       id: dto.previewCache.id,
       data: dto.previewCache.data,
+      usageCount: dto.previewCache.usageCount,
       invalidationType: dto.config.invalidationType,
       createdAt: dto.previewCache.createdAt,
       endAt: DateTime.now().add(dto.config.ttlMaxDuration),

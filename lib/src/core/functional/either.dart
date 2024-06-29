@@ -1,6 +1,8 @@
 // coverage:ignore-file
 
-typedef AsyncEither<TLeft, TRight> = Future<Either<TLeft, TRight>>;
+import 'dart:async';
+
+typedef AsyncEither<TLeft, TRight> = FutureOr<Either<TLeft, TRight>>;
 
 abstract class Either<TLeft, TRight> {
   bool get isError;
@@ -11,7 +13,8 @@ abstract class Either<TLeft, TRight> {
 
   T fold<T>(T Function(TLeft l) leftFn, T Function(TRight r) rightFn);
 
-  T? foldLeft<T>(T Function(TLeft l) leftFn);
+  T foldLeft<T>(T Function(TLeft l) leftFn);
+  T foldRight<T>(T Function(TRight r) rightFn);
 
   Either<TLeft, TNewRight> mapRight<TNewRight>(TNewRight Function(TRight r) rightFn);
 }
@@ -39,8 +42,13 @@ class _Left<TLeft, TRight> extends Either<TLeft, TRight> {
   TRight get success => throw UnimplementedError();
 
   @override
-  T? foldLeft<T>(T Function(TLeft l) leftFn) {
+  T foldLeft<T>(T Function(TLeft l) leftFn) {
     return leftFn(value);
+  }
+
+  @override
+  T foldRight<T>(T Function(TRight r) rightFn) {
+    throw UnimplementedError();
   }
 
   @override
@@ -72,8 +80,13 @@ class _Right<TLeft, TRight> extends Either<TLeft, TRight> {
   TRight get success => value;
 
   @override
-  T? foldLeft<T>(T Function(TLeft l) leftFn) {
-    return null;
+  T foldLeft<T>(T Function(TLeft l) leftFn) {
+    throw UnimplementedError();
+  }
+
+  @override
+  T foldRight<T>(T Function(TRight r) rightFn) {
+    return rightFn(value);
   }
 
   @override

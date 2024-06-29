@@ -14,33 +14,33 @@ abstract interface class _IQueryPrefsCacheManagerController {
   ///
   /// Returns a `String?` that completes with the string value
   /// associated with `key` if it exists, or `null` if the key is not found.
-  String? getString({required String key});
+  Future<String?> getString({required String key});
 
   /// Retrieves an integer value from the cache for the given [key].
   ///
   /// Returns a `int?` that completes with the integer value
   /// associated with `key` if it exists, or `null` if the key is not found.
-  int? getInt({required String key});
+  Future<int?> getInt({required String key});
 
   /// Retrieves a JSON map from the cache associated with the specified [key].
   ///
   /// This method is asynchronous and returns a `Map<String, dynamic>?`.
   /// It returns the JSON map if it exists, or `null` if no data is found for the [key].
-  Map<String, dynamic>? getJson({required String key});
+  Future<Map<String, dynamic>?> getJson({required String key});
 
   /// Retrieves a list of strings from the cache associated with the specified [key].
   ///
   /// This method is asynchronous and returns a `Future<List<String>?>`.
   /// If the data exists for the [key], it returns the list; otherwise,
   /// it returns `null` if no data is found.
-  List<String>? getStringList({required String key});
+  Future<List<String>?> getStringList({required String key});
 
   /// Retrieves a list of JSON maps from the cache associated with the specified [key].
   ///
   /// This method returns a `List<Map<String, dynamic>>?`.
   /// If the data exists for the [key], it returns the list of JSON maps; otherwise,
   /// it returns `null` if no data is found.
-  List<Map<String, dynamic>>? getJsonList({required String key});
+  Future<List<Map<String, dynamic>>?> getJsonList({required String key});
 }
 
 /// Interface for writing cache operations.

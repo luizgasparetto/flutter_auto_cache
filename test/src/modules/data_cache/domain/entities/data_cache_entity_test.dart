@@ -12,6 +12,7 @@ void main() {
     id: 'exclusive_id',
     data: 'data',
     invalidationType: InvalidationTypes.ttl,
+    usageCount: 0,
     createdAt: DateTime.now(),
     endAt: DateTime.now(),
   );
@@ -20,6 +21,7 @@ void main() {
     id: 'exclusive_id',
     data: 'data',
     invalidationType: InvalidationTypes.ttl,
+    usageCount: 0,
     createdAt: DateTime.now(),
     endAt: DateTime.now(),
   );
@@ -28,6 +30,7 @@ void main() {
     id: 'different_id',
     data: 'data',
     invalidationType: InvalidationTypes.ttl,
+    usageCount: 0,
     createdAt: DateTime.now(),
     endAt: DateTime.now(),
   );

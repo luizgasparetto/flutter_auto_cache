@@ -3,8 +3,8 @@ import 'package:flutter_auto_cache/src/modules/data_cache/domain/dtos/delete_cac
 import 'package:flutter_auto_cache/src/modules/data_cache/domain/dtos/get_cache_dto.dart';
 import 'package:flutter_auto_cache/src/modules/data_cache/domain/dtos/write_cache_dto.dart';
 import 'package:flutter_auto_cache/src/modules/data_cache/domain/entities/data_cache_entity.dart';
-import 'package:flutter_auto_cache/src/modules/data_cache/infra/datasources/i_command_data_cache_datasource.dart';
-import 'package:flutter_auto_cache/src/modules/data_cache/infra/datasources/i_query_data_cache_datasource.dart';
+import 'package:flutter_auto_cache/src/modules/data_cache/infra/datasources/data_cache/i_command_data_cache_datasource.dart';
+import 'package:flutter_auto_cache/src/modules/data_cache/infra/datasources/data_cache/i_query_data_cache_datasource.dart';
 import 'package:flutter_auto_cache/src/modules/data_cache/infra/repositories/data_cache_repository.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';

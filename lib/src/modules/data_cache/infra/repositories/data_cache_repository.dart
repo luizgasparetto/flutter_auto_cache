@@ -7,8 +7,8 @@ import '../../domain/dtos/write_cache_dto.dart';
 import '../../domain/entities/data_cache_entity.dart';
 import '../../domain/repositories/i_data_cache_repository.dart';
 
-import '../datasources/i_command_data_cache_datasource.dart';
-import '../datasources/i_query_data_cache_datasource.dart';
+import '../datasources/data_cache/i_command_data_cache_datasource.dart';
+import '../datasources/data_cache/i_query_data_cache_datasource.dart';
 
 class DataCacheRepository implements IDataCacheRepository {
   final IQueryDataCacheDatasource _queryDataCacheDatasource;

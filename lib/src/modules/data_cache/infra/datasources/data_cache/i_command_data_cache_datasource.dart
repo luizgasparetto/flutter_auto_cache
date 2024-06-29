@@ -1,5 +1,5 @@
-import '../../domain/dtos/update_cache_dto.dart';
-import '../../domain/dtos/write_cache_dto.dart';
+import '../../../domain/dtos/update_cache_dto.dart';
+import '../../../domain/dtos/write_cache_dto.dart';
 
 /// Defines the contract for a command data cache data source, providing methods to persist,
 /// delete, and clear cached entities.

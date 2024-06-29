@@ -20,6 +20,8 @@ class CacheConfiguration {
   /// This specifies the maximum duration for which a cache item remains valid.
   final Duration ttlMaxDuration;
 
+  final InvalidationTypes invalidationType;
+
   /// Options for cache cryptography.
   ///
   /// This provides flexibility for applying cryptographic operations
@@ -43,6 +45,7 @@ class CacheConfiguration {
   const CacheConfiguration({
     this.sizeOptions = const CacheSizeOptions(),
     this.ttlMaxDuration = CacheInvalidationConstants.maxTtlDuration,
+    this.invalidationType = InvalidationTypes.ttl,
     this.cryptographyOptions,
     this.useDeflateCompresser = false,
     this.replaceExpiredCache = true,
@@ -53,12 +56,6 @@ class CacheConfiguration {
   /// This factory method provides a default configuration
   /// for caching settings.
   factory CacheConfiguration.defaultConfig() => const CacheConfiguration();
-
-  /// Gets the invalidation type.
-  ///
-  /// This method retrieves the type of invalidation strategy
-  /// used by the cache.
-  InvalidationTypes get invalidationType => InvalidationTypes.ttl;
 
   /// Checks if this is the default configuration.
   ///

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 /// A mixin that combines the functionalities of querying and commanding a data cache.
 ///
 /// Implements the base data cache operations for querying and manipulating cached data.
@@ -16,7 +18,7 @@ abstract interface class _IQueryDataCacheController {
   /// Returns the cached object of type [T] if found, or `null` if not present.
   ///
   /// Throws an error if data retrieval fails.
-  T? get<T extends Object>({required String key});
+  FutureOr<T?> get<T extends Object>({required String key});
 
   /// Retrieves a list of cached objects of type [T] associated with the specified [key].
   ///
@@ -25,7 +27,7 @@ abstract interface class _IQueryDataCacheController {
   /// Returns a list of cached objects if found, or `null` if not present.
   ///
   /// Throws an error if data retrieval encounters an issue.
-  List<T>? getList<T extends Object>({required String key});
+  FutureOr<List<T>?> getList<T extends Object>({required String key});
 }
 
 /// An abstract class that defines command operations for a data cache.

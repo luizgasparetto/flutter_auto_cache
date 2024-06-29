@@ -2,34 +2,47 @@ import '../../../../core/core.dart';
 import '../dtos/get_cache_dto.dart';
 import '../entities/data_cache_entity.dart';
 import '../repositories/i_data_cache_repository.dart';
+import '../repositories/i_substitution_data_cache_repository.dart';
 import '../services/invalidation_service/invalidation_cache_context.dart';
 
+typedef GetDataCacheResponse<T extends Object> = AsyncEither<AutoCacheError, DataCacheEntity<T>?>;
+
 abstract interface class IGetDataCacheUsecase {
-  Either<AutoCacheError, DataCacheEntity<T>?> execute<T extends Object, DataType extends Object>(GetCacheDTO dto);
+  GetDataCacheResponse<T> execute<T extends Object, DataType extends Object>(GetCacheDTO dto);
 }
 
 final class GetDataCacheUsecase implements IGetDataCacheUsecase {
-  final IDataCacheRepository _repository;
+  final IDataCacheRepository _dataCacheRepository;
+  final ISubstitutionDataCacheRepository _substitutionDataCacheRepository;
   final IInvalidationCacheContext _invalidationContext;
 
-  const GetDataCacheUsecase(this._repository, this._invalidationContext);
+  const GetDataCacheUsecase(
+    this._dataCacheRepository,
+    this._substitutionDataCacheRepository,
+    this._invalidationContext,
+  );
 
   @override
-  Either<AutoCacheError, DataCacheEntity<T>?> execute<T extends Object, DataType extends Object>(GetCacheDTO dto) {
-    final searchResponse = _getResponse<T, DataType>(dto);
+  GetDataCacheResponse<T> execute<T extends Object, DataType extends Object>(GetCacheDTO dto) async {
+    final response = await _getResponse<T, DataType>(dto);
 
-    return searchResponse.fold(left, (cache) => _handleInvalidation(cache));
+    return response.foldRight((cache) => _validateCacheResponse(cache));
   }
 
-  Either<AutoCacheError, DataCacheEntity<T>?> _getResponse<T extends Object, DataType extends Object>(GetCacheDTO dto) {
-    if (T.isList) return _repository.getList<T, DataType>(dto);
+  GetDataCacheResponse<T> _getResponse<T extends Object, DataType extends Object>(GetCacheDTO dto) async {
+    if (T.isList) return _dataCacheRepository.getList<T, DataType>(dto);
 
-    return _repository.get<T>(dto);
+    return _dataCacheRepository.get<T>(dto);
   }
 
-  Either<AutoCacheError, DataCacheEntity<T>?> _handleInvalidation<T extends Object>(DataCacheEntity<T>? cache) {
+  GetDataCacheResponse<T> _validateCacheResponse<T extends Object>(DataCacheEntity<T>? cache) async {
     if (cache == null) return right(null);
 
-    return _invalidationContext.execute<T>(cache).mapRight((_) => cache);
+    return _invalidationContext.execute<T>(cache).foldRight((_) => _updateCacheUsage(cache));
+  }
+
+  GetDataCacheResponse<T> _updateCacheUsage<T extends Object>(DataCacheEntity<T> cache) async {
+    final response = await _substitutionDataCacheRepository.updateCacheUsage(cache);
+    return response.mapRight((_) => cache);
   }
 }

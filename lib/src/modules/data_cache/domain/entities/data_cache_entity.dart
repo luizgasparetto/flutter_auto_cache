@@ -26,22 +26,28 @@ class DataCacheEntity<T extends Object> {
   /// Type of invalidation for the cache entity.
   final InvalidationTypes invalidationType;
 
+  final int usageCount;
+
   /// Timestamp indicating when the cache entity was created.
   final DateTime createdAt;
-
-  /// Timestamp indicating when the cache entity will expire.
-  final DateTime endAt;
 
   /// Timestamp indicating when the cache entity was last updated (nullable).
   final DateTime? updatedAt;
 
+  /// Timestamp indicating when the cache entity will expire.
+  final DateTime endAt;
+
+  final DateTime? lastAccessAt;
+
   const DataCacheEntity({
     required this.id,
     required this.data,
+    required this.usageCount,
     required this.invalidationType,
     required this.createdAt,
     this.updatedAt,
     required this.endAt,
+    this.lastAccessAt,
   });
 
   @override

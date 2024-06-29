@@ -22,7 +22,7 @@ void main() {
     test('should be able to get string by key successfully', () async {
       when(() => baseController.get<String>(key: 'my_key')).thenReturn('cached_data');
 
-      final response = sut.getString(key: 'my_key');
+      final response = await sut.getString(key: 'my_key');
 
       expect(response, equals('cached_data'));
       verify(() => baseController.get<String>(key: 'my_key')).called(1);
@@ -31,7 +31,7 @@ void main() {
     test('should be able to get NULL when request an non existent string cache', () async {
       when(() => baseController.get<String>(key: 'my_key')).thenReturn(null);
 
-      final response = sut.getString(key: 'my_key');
+      final response = await sut.getString(key: 'my_key');
 
       expect(response, isNull);
       verify(() => baseController.get<String>(key: 'my_key')).called(1);
@@ -65,7 +65,7 @@ void main() {
     test('should be able to get int data in prefs successfully', () async {
       when(() => baseController.get<int>(key: 'id_key')).thenReturn(1);
 
-      final response = sut.getInt(key: 'id_key');
+      final response = await sut.getInt(key: 'id_key');
 
       expect(response, equals(1));
       verify(() => baseController.get<int>(key: 'id_key')).called(1);
@@ -74,7 +74,7 @@ void main() {
     test('should be able to get NULL when request an non existent int cache', () async {
       when(() => baseController.get<int>(key: 'my_key')).thenReturn(null);
 
-      final response = sut.getInt(key: 'my_key');
+      final response = await sut.getInt(key: 'my_key');
 
       expect(response, isNull);
       verify(() => baseController.get<int>(key: 'my_key')).called(1);
@@ -108,7 +108,7 @@ void main() {
     test('should be able to get json in prefs successfully', () async {
       when(() => baseController.get<Map<String, dynamic>>(key: 'key')).thenReturn(<String, dynamic>{});
 
-      final response = sut.getJson(key: 'key');
+      final response = await sut.getJson(key: 'key');
 
       expect(response, equals(<String, dynamic>{}));
       verify(() => baseController.get<Map<String, dynamic>>(key: 'key')).called(1);
@@ -117,7 +117,7 @@ void main() {
     test('should be able to get NULL when request an non existent JSON cache', () async {
       when(() => baseController.get<Map<String, dynamic>>(key: 'key')).thenReturn(null);
 
-      final response = sut.getJson(key: 'key');
+      final response = await sut.getJson(key: 'key');
 
       expect(response, isNull);
       verify(() => baseController.get<Map<String, dynamic>>(key: 'key')).called(1);
@@ -151,7 +151,7 @@ void main() {
     test('should be able to get list of String in prefs successfully', () async {
       when(() => baseController.getList<String>(key: 'my_key')).thenAnswer((_) => ['value']);
 
-      final response = sut.getStringList(key: 'my_key');
+      final response = await sut.getStringList(key: 'my_key');
 
       expect(response?.length, equals(1));
       verify(() => baseController.getList<String>(key: 'my_key')).called(1);
@@ -160,7 +160,7 @@ void main() {
     test('should be able to get NULL when request a list of String that doesnt exists in cache', () async {
       when(() => baseController.getList<String>(key: 'my_key')).thenReturn(null);
 
-      final response = sut.getStringList(key: 'my_key');
+      final response = await sut.getStringList(key: 'my_key');
 
       expect(response, isNull);
       verify(() => baseController.getList<String>(key: 'my_key')).called(1);
