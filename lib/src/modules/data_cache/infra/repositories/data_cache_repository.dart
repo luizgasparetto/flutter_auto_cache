@@ -7,19 +7,17 @@ import '../../domain/dtos/write_cache_dto.dart';
 import '../../domain/entities/data_cache_entity.dart';
 import '../../domain/repositories/i_data_cache_repository.dart';
 
-import '../datasources/data_cache/i_command_data_cache_datasource.dart';
-import '../datasources/data_cache/i_query_data_cache_datasource.dart';
+import '../datasources/i_data_cache_datasource.dart';
 
 class DataCacheRepository implements IDataCacheRepository {
-  final IQueryDataCacheDatasource _queryDataCacheDatasource;
-  final ICommandDataCacheDatasource _commandDataCacheDatasource;
+  final IDataCacheDatasource _dataCacheDatasource;
 
-  const DataCacheRepository(this._queryDataCacheDatasource, this._commandDataCacheDatasource);
+  const DataCacheRepository(this._dataCacheDatasource);
 
   @override
   Either<AutoCacheException, DataCacheEntity<T>?> get<T extends Object>(GetCacheDTO dto) {
     try {
-      final response = _queryDataCacheDatasource.get<T>(dto.key);
+      final response = _dataCacheDatasource.get<T>(dto.key);
 
       return right(response);
     } on AutoCacheException catch (exception) {
@@ -30,7 +28,18 @@ class DataCacheRepository implements IDataCacheRepository {
   @override
   Either<AutoCacheException, DataCacheEntity<T>?> getList<T extends Object, DataType extends Object>(GetCacheDTO dto) {
     try {
-      final response = _queryDataCacheDatasource.getList<T, DataType>(dto.key);
+      final response = _dataCacheDatasource.getList<T, DataType>(dto.key);
+
+      return right(response);
+    } on AutoCacheException catch (exception) {
+      return left(exception);
+    }
+  }
+
+  @override
+  Either<AutoCacheException, String> getEncryptedData<T extends Object>(DataCacheEntity<T> dataCache) {
+    try {
+      final response = _dataCacheDatasource.getEncryptData<T>(dataCache);
 
       return right(response);
     } on AutoCacheException catch (exception) {
@@ -41,7 +50,7 @@ class DataCacheRepository implements IDataCacheRepository {
   @override
   Either<AutoCacheException, List<String>> getKeys() {
     try {
-      final response = _queryDataCacheDatasource.getKeys();
+      final response = _dataCacheDatasource.getKeys();
 
       return right(response);
     } on AutoCacheException catch (exception) {
@@ -52,7 +61,7 @@ class DataCacheRepository implements IDataCacheRepository {
   @override
   AsyncEither<AutoCacheException, Unit> save<T extends Object>(WriteCacheDTO<T> dto) async {
     try {
-      await _commandDataCacheDatasource.save<T>(dto);
+      await _dataCacheDatasource.save<T>(dto);
 
       return right(unit);
     } on AutoCacheException catch (exception) {
@@ -63,7 +72,7 @@ class DataCacheRepository implements IDataCacheRepository {
   @override
   AsyncEither<AutoCacheException, Unit> update<T extends Object>(UpdateCacheDTO<T> dto) async {
     try {
-      await _commandDataCacheDatasource.update<T>(dto);
+      await _dataCacheDatasource.update<T>(dto);
 
       return right(unit);
     } on AutoCacheException catch (exception) {
@@ -74,7 +83,7 @@ class DataCacheRepository implements IDataCacheRepository {
   @override
   AsyncEither<AutoCacheException, Unit> delete(DeleteCacheDTO dto) async {
     try {
-      await _commandDataCacheDatasource.delete(dto.key);
+      await _dataCacheDatasource.delete(dto.key);
 
       return right(unit);
     } on AutoCacheException catch (exception) {
@@ -85,7 +94,7 @@ class DataCacheRepository implements IDataCacheRepository {
   @override
   AsyncEither<AutoCacheException, Unit> clear() async {
     try {
-      await _commandDataCacheDatasource.clear();
+      await _dataCacheDatasource.clear();
 
       return right(unit);
     } on AutoCacheException catch (exception) {

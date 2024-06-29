@@ -47,6 +47,18 @@ class DataCacheEntity<T extends Object> {
     this.lastAccessAt,
   });
 
+  factory DataCacheEntity.fakeConfig(T data) {
+    return DataCacheEntity(
+      id: 'any_id',
+      data: data,
+      invalidationType: InvalidationTypes.ttl,
+      createdAt: DateTime.now(),
+      endAt: DateTime.now(),
+      lastAccessAt: DateTime.now(),
+      updatedAt: DateTime.now(),
+    );
+  }
+
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;

@@ -18,12 +18,8 @@ import 'modules/data_cache/domain/usecases/clear_data_cache_usecase.dart';
 import 'modules/data_cache/domain/usecases/delete_data_cache_usecase.dart';
 import 'modules/data_cache/domain/usecases/get_data_cache_usecase.dart';
 import 'modules/data_cache/domain/usecases/write_data_cache_usecase.dart';
-
-import 'modules/data_cache/external/datasources/data_cache/command_data_cache_datasource.dart';
-import 'modules/data_cache/external/datasources/data_cache/query_data_cache_datasource.dart';
-
-import 'modules/data_cache/infra/datasources/data_cache/i_command_data_cache_datasource.dart';
-import 'modules/data_cache/infra/datasources/data_cache/i_query_data_cache_datasource.dart';
+import 'modules/data_cache/external/datasources/data_cache_datasource.dart';
+import 'modules/data_cache/infra/datasources/i_data_cache_datasource.dart';
 import 'modules/data_cache/infra/repositories/data_cache_repository.dart';
 
 class AutoCacheInjections {
@@ -59,11 +55,9 @@ class AutoCacheInjections {
   }
 
   void _registerDataCache() {
-    ServiceLocator.instance.bindFactory<IQueryDataCacheDatasource>(() => QueryDataCacheDatasource(_get(), _get()));
-    ServiceLocator.instance.bindFactory<ICommandDataCacheDatasource>(() => CommandDataCacheDatasource(_get(), _get()));
+    ServiceLocator.instance.bindFactory<IDataCacheDatasource>(() => DataCacheDatasource(_get(), _get()));
     ServiceLocator.instance.bindFactory<IInvalidationCacheContext>(() => InvalidationCacheContext(_get()));
-    //ServiceLocator.instance.bindFactory<ISubstitutionDataCacheRepository>(() => SubstitutionDataCacheRepository());
-    ServiceLocator.instance.bindFactory<IDataCacheRepository>(() => DataCacheRepository(_get(), _get()));
+    ServiceLocator.instance.bindFactory<IDataCacheRepository>(() => DataCacheRepository(_get()));
     ServiceLocator.instance.bindFactory<IDeleteDataCacheUsecase>(() => DeleteDataCacheUsecase(_get()));
     ServiceLocator.instance.bindFactory<IClearDataCacheUsecase>(() => ClearDataCacheUsecase(_get()));
     ServiceLocator.instance.bindFactory<IGetDataCacheUsecase>(() => GetDataCacheUsecase(_get(), _get()));
