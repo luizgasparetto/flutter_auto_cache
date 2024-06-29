@@ -1,13 +1,13 @@
 import '../../../../../core/core.dart';
 
-abstract interface class ISubstitutionServiceContext {
+abstract interface class ISubstitutionCacheContext {
   Either<AutoCacheError, Unit> substitute();
 }
 
-class SubstitutionServiceContext implements ISubstitutionServiceContext {
+class SubstitutionCacheContext implements ISubstitutionCacheContext {
   final CacheConfiguration configuration;
 
-  const SubstitutionServiceContext(this.configuration);
+  const SubstitutionCacheContext(this.configuration);
 
   @override
   Either<AutoCacheError, Unit> substitute() {

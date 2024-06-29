@@ -55,7 +55,7 @@ void main() {
       when(() => repository.get<String>(dto)).thenReturn(right(successCache));
       when(() => invalidationContext.execute(successCache)).thenReturn(right(unit));
 
-      final response = await sut.execute<String, String>(dto);
+      final response = sut.execute<String, String>(dto);
 
       expect(response.isSuccess, isTrue);
       expect(response.success, successCache);
@@ -66,7 +66,7 @@ void main() {
     test('should be able to get data in cache if data is NULL successfully', () async {
       when(() => repository.get<String>(dto)).thenReturn(right(null));
 
-      final response = await sut.execute<String, String>(dto);
+      final response = sut.execute<String, String>(dto);
 
       expect(response.isSuccess, isTrue);
       expect(response.success, isNull);
@@ -89,7 +89,7 @@ void main() {
       when(() => repository.get<String>(dto)).thenReturn(right(successCache));
       when(() => invalidationContext.execute(successCache)).thenReturn(left(AutoCacheFailureFake()));
 
-      final response = await sut.execute<String, String>(dto);
+      final response = sut.execute<String, String>(dto);
 
       expect(response.isError, isTrue);
       expect(response.error, isA<AutoCacheFailure>());

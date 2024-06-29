@@ -62,12 +62,12 @@ class DataCacheManagerController implements IDataCacheController {
   }
 
   @override
-  Future<T?> get<T extends Object>({required String key}) async {
+  T? get<T extends Object>({required String key}) {
     return _getDataCache.call<T, T>(key: key);
   }
 
   @override
-  Future<List<T>?> getList<T extends Object>({required String key}) async {
+  List<T>? getList<T extends Object>({required String key}) {
     return _getDataCache<List<T>, T>(key: key);
   }
 
@@ -94,10 +94,10 @@ class DataCacheManagerController implements IDataCacheController {
     return response.fold((error) => throw error, (_) {});
   }
 
-  Future<T?> _getDataCache<T extends Object, DataType extends Object>({required String key}) async {
+  T? _getDataCache<T extends Object, DataType extends Object>({required String key}) {
     final dto = GetCacheDTO(key: key);
 
-    final response = await _getCacheUsecase.execute<T, DataType>(dto);
+    final response = _getCacheUsecase.execute<T, DataType>(dto);
     return response.fold((error) => throw error, (success) => success?.data);
   }
 }

@@ -20,7 +20,7 @@ class DataCacheOptions {
   factory DataCacheOptions.defaultConfig() {
     return DataCacheOptions._(
       invalidationType: InvalidationTypes.ttl,
-      substitutionPolicy: SubstitutionPolicies.lfu,
+      substitutionPolicy: SubstitutionPolicies.fifo,
       ttlMaxDuration: const Duration(days: 1),
       replaceExpiredCache: true,
     );
