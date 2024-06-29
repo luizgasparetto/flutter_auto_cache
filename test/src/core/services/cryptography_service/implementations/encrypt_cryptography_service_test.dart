@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter_auto_cache/src/core/core.dart';
 import 'package:flutter_auto_cache/src/core/services/cryptography_service/implementations/encrypt_cryptography_service.dart';
 import 'package:flutter_auto_cache/src/core/configuration/models/cache_cryptography_options.dart';
@@ -27,7 +29,10 @@ void main() {
 
       final stopwatch = Stopwatch()..start();
 
-      final encrypted = sut.encrypt(decryptedStringValue);
+      final map = {'key': 'personal-key', 'data': 'personal_data'};
+      final jsonEncoded = jsonEncode(map);
+
+      final encrypted = sut.encrypt(jsonEncoded);
 
       stopwatch.stop();
       expect(stopwatch.elapsedMilliseconds, lessThan(500));

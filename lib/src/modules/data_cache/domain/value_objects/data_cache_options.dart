@@ -10,21 +10,12 @@ class DataCacheOptions {
   final Duration ttlMaxDuration;
   final bool replaceExpiredCache;
 
-  DataCacheOptions._({
-    required this.invalidationType,
-    required this.substitutionPolicy,
-    required this.ttlMaxDuration,
-    required this.replaceExpiredCache,
+  DataCacheOptions({
+    this.invalidationType = InvalidationTypes.ttl,
+    this.substitutionPolicy = SubstitutionPolicies.fifo,
+    this.ttlMaxDuration = const Duration(days: 1),
+    this.replaceExpiredCache = true,
   }) : assert(_assertTtlConfig(invalidationType, ttlMaxDuration));
-
-  factory DataCacheOptions.defaultConfig() {
-    return DataCacheOptions._(
-      invalidationType: InvalidationTypes.ttl,
-      substitutionPolicy: SubstitutionPolicies.fifo,
-      ttlMaxDuration: const Duration(days: 1),
-      replaceExpiredCache: true,
-    );
-  }
 
   static bool _assertTtlConfig(InvalidationTypes invalidationType, Duration? ttlMaxDuration) {
     final isNotTtl = invalidationType != InvalidationTypes.ttl;

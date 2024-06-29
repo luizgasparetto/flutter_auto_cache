@@ -24,14 +24,13 @@ void main() {
       await sut.init();
 
       expect(AutoCacheInjections.instance.isInjectorInitialized, isTrue);
-      expect(CacheConfigurationStore.instance.config.isDefaultConfig, isTrue);
     });
 
     test('should be able to init AutoCacheManagerInitializer with base config, even passing NULL', () async {
       await sut.init(configuration: null);
 
       expect(AutoCacheInjections.instance.isInjectorInitialized, isTrue);
-      expect(CacheConfigurationStore.instance.config.isDefaultConfig, isTrue);
+      expect(CacheConfigurationStore.instance.config, isTrue);
     });
   });
 }

@@ -32,7 +32,7 @@ final class InvalidationCacheContext implements IInvalidationCacheContext {
 
   /// Determines the cache invalidation strategy based on the configuration.
   InvalidationCacheStrategy get invalidationCacheStrategy {
-    return switch (configuration.invalidationType) {
+    return switch (configuration.dataCacheOptions.invalidationType) {
       InvalidationTypes.ttl => TTLInvalidationCacheStrategy(),
       _ => TTLInvalidationCacheStrategy(),
     };

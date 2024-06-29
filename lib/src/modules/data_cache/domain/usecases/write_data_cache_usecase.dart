@@ -51,14 +51,13 @@ final class WriteDataCacheUsecase implements IWriteDataCacheUsecase {
   }
 
   WriteDataCacheResponse _writeExpiredCache<T extends Object>(WriteCacheDTO<T> dto, AutoCacheFailure failure) async {
-    if (!dto.cacheConfig.replaceExpiredCache) return left(failure);
+    if (!dto.cacheConfig.dataCacheOptions.replaceExpiredCache) return left(failure);
 
     return _repository.save(dto);
   }
 
   WriteDataCacheResponse _updateDataCache<T extends Object>(DataCacheEntity<T> cache, WriteCacheDTO<T> dto) async {
     final updateDTO = UpdateCacheDTO<T>(previewCache: cache, config: dto.cacheConfig);
-
     return _repository.update(updateDTO);
   }
 }
