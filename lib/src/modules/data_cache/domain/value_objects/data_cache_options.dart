@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/foundation.dart';
 
 import '../enums/invalidation_types.dart';
@@ -25,8 +26,20 @@ class DataCacheOptions {
   }
 
   @override
-  bool operator ==(covariant DataCacheOptions other) => identical(this, other);
+  bool operator ==(covariant DataCacheOptions other) {
+    if (identical(this, other)) return true;
+
+    return other.invalidationType == invalidationType &&
+        other.substitutionPolicy == substitutionPolicy &&
+        other.ttlMaxDuration == ttlMaxDuration &&
+        other.replaceExpiredCache == replaceExpiredCache;
+  }
 
   @override
-  int get hashCode => invalidationType.hashCode ^ ttlMaxDuration.hashCode ^ replaceExpiredCache.hashCode;
+  int get hashCode {
+    return invalidationType.hashCode ^
+        substitutionPolicy.hashCode ^
+        ttlMaxDuration.hashCode ^
+        replaceExpiredCache.hashCode;
+  }
 }

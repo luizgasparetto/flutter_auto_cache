@@ -1,7 +1,8 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/foundation.dart';
 
-import '../constants/cache_size_constants.dart';
 import '../../extensions/double_extensions.dart';
+import '../constants/cache_size_constants.dart';
 
 /// Represents cache size options with configurable maximum sizes in kilobytes (KB) and megabytes (MB).
 ///
@@ -46,7 +47,11 @@ class CacheSizeOptions {
   }
 
   @override
-  bool operator ==(covariant CacheSizeOptions other) => identical(this, other);
+  bool operator ==(covariant CacheSizeOptions other) {
+    if (identical(this, other)) return true;
+
+    return other.maxKb == maxKb && other.maxMb == maxMb;
+  }
 
   @override
   int get hashCode => maxKb.hashCode ^ maxMb.hashCode;

@@ -1,7 +1,5 @@
 import 'dart:io';
 
-import 'package:flutter_auto_cache/src/core/extensions/double_extensions.dart';
-
 import '../../core.dart';
 
 import '../../configuration/constants/cache_size_constants.dart';

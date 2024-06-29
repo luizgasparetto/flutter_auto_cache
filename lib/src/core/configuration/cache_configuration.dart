@@ -1,3 +1,5 @@
+import 'package:meta/meta.dart';
+
 import '../../modules/data_cache/domain/value_objects/data_cache_options.dart';
 import 'models/cache_cryptography_options.dart';
 import 'models/cache_size_options.dart';
@@ -45,4 +47,13 @@ class CacheConfiguration {
   /// This factory method provides a default configuration
   /// for caching settings.
   factory CacheConfiguration.defaultConfig() => CacheConfiguration();
+
+  @visibleForTesting
+  bool get isDefaultConfig {
+    final isSameCacheSizeOptions = sizeOptions == const CacheSizeOptions();
+    final isCryptographyOptionsNull = cryptographyOptions == null;
+    final isDefaultDataOptions = dataCacheOptions == DataCacheOptions();
+
+    return isSameCacheSizeOptions && isCryptographyOptionsNull && isDefaultDataOptions;
+  }
 }

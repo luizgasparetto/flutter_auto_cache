@@ -3,15 +3,12 @@ import 'package:flutter_auto_cache/src/modules/data_cache/domain/dtos/get_cache_
 import 'package:flutter_auto_cache/src/modules/data_cache/domain/entities/data_cache_entity.dart';
 import 'package:flutter_auto_cache/src/modules/data_cache/domain/enums/invalidation_types.dart';
 import 'package:flutter_auto_cache/src/modules/data_cache/domain/repositories/i_data_cache_repository.dart';
-import 'package:flutter_auto_cache/src/modules/data_cache/domain/repositories/i_substitution_data_cache_repository.dart';
 import 'package:flutter_auto_cache/src/modules/data_cache/domain/services/invalidation_service/invalidation_cache_context.dart';
 import 'package:flutter_auto_cache/src/modules/data_cache/domain/usecases/get_data_cache_usecase.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
 class DataCacheRepositoryMock extends Mock implements IDataCacheRepository {}
-
-class SubstitutionDataCacheRepositoryMock extends Mock implements ISubstitutionDataCacheRepository {}
 
 class InvalidationCacheContextMock extends Mock implements IInvalidationCacheContext {}
 
@@ -23,7 +20,6 @@ class AutoCacheFailureFake extends Fake implements AutoCacheFailure {}
 
 void main() {
   final repository = DataCacheRepositoryMock();
-  final substitutionRepository = SubstitutionDataCacheRepositoryMock();
   final invalidationContext = InvalidationCacheContextMock();
 
   final sut = GetDataCacheUsecase(repository, invalidationContext);
@@ -37,7 +33,6 @@ void main() {
   tearDown(() {
     reset(repository);
     reset(invalidationContext);
-    reset(substitutionRepository);
   });
 
   group('GetCache |', () {

@@ -8,7 +8,3 @@ export 'src/modules/data_cache/data_cache.dart';
 class AutoCache {
   static PrefsCacheManagerController get prefs => PrefsCacheManagerController.instance;
 }
-
-void main() {
-  AutoCache.prefs.getJsonList(key: 'users');
-}
