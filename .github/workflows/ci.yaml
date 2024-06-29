@@ -7,9 +7,6 @@ on:
       - main
     paths-ignore:
       - "**/*.md"
-  push:
-    tags:
-      - v*
 
 jobs:
   build:
