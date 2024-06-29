@@ -29,21 +29,21 @@ class CacheSizeOptions {
   })  : assert(maxKb >= 0, 'maxKb must be non-negative'),
         assert(maxMb > 0, 'maxMb must be non-negative');
 
-  /// Calculates the total cache size in megabytes.
+  /// Calculates the total cache size in kilobytes.
   ///
   /// This method combines the maxKb and maxMb properties, converts the total cache size into bytes,
-  /// and then converts back to megabytes for a comprehensive size in MB.
+  /// and then converts back to megabytes for a comprehensive size in KB.
   ///
   /// Returns:
-  ///   The total cache size in megabytes (double).
-  double get totalMb {
+  ///   The total cache size in kilobytes (double).
+  double get totalKb {
     final totalMbBytes = maxMb * CacheSizeConstants.bytesPerMb;
     final totalKbBytes = maxKb * CacheSizeConstants.bytesPerKb;
 
-    final total = totalMbBytes + totalKbBytes;
+    final totalBytes = totalMbBytes + totalKbBytes;
 
-    final totalMb = total.toDouble() / CacheSizeConstants.bytesPerMb;
-    return totalMb.roundToDecimal();
+    final totalKb = totalBytes.toDouble() / CacheSizeConstants.bytesPerKb;
+    return totalKb.roundToDecimal();
   }
 
   @override

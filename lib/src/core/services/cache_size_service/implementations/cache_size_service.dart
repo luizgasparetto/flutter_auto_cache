@@ -13,11 +13,13 @@ final class CacheSizeService implements ICacheSizeService {
   const CacheSizeService(this.directoryProvider, this.config);
 
   @override
-  bool get isCacheAvailable {
-    final maxMbAllowed = config.sizeOptions.totalMb;
-    final cacheUsedInMb = this.getCacheSizeUsed();
+  bool canAccomodateCache(String value) {
+    final cacheSizeUsed = getCacheSizeUsed();
+    final valueKb = value.kbUsed;
 
-    return cacheUsedInMb < maxMbAllowed;
+    final newTotalCacheUsed = cacheSizeUsed + valueKb;
+
+    return newTotalCacheUsed < config.sizeOptions.totalKb;
   }
 
   @override
@@ -26,7 +28,7 @@ final class CacheSizeService implements ICacheSizeService {
       final files = directoryProvider.prefsDirectory.listSync(recursive: true);
       final totalBytes = files.whereType<File>().fold(0, (acc, file) => acc + file.lengthSync());
 
-      return totalBytes / CacheSizeConstants.bytesPerMb;
+      return totalBytes / CacheSizeConstants.bytesPerKb;
     } catch (exception, stackTrace) {
       throw CalculateCacheSizeException(message: 'Failed to calculate cache size', stackTrace: stackTrace);
     }

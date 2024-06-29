@@ -1,6 +1,7 @@
 import '../../../../../core/core.dart';
 
 import '../../../../../core/services/cache_size_service/i_cache_size_service.dart';
+
 import '../../enums/substitution_policies.dart';
 
 import '../../repositories/i_data_cache_repository.dart';
@@ -9,7 +10,7 @@ import 'strategies/random_substitution_cache_strategy.dart';
 import 'substitution_cache_strategy.dart';
 
 abstract interface class ISubstitutionCacheService {
-  AsyncEither<AutoCacheError, Unit> substitute(SubstitutionCallback callback);
+  AsyncEither<AutoCacheError, Unit> substitute<T extends Object>(T data, SubstitutionCallback callback);
 }
 
 final class SubstitutionCacheService implements ISubstitutionCacheService {
@@ -20,8 +21,8 @@ final class SubstitutionCacheService implements ISubstitutionCacheService {
   const SubstitutionCacheService(this.configuration, this.sizeService, this.repository);
 
   @override
-  AsyncEither<AutoCacheError, Unit> substitute(SubstitutionCallback callback) {
-    if (sizeService.isCacheAvailable) return callback();
+  AsyncEither<AutoCacheError, Unit> substitute<T extends Object>(T data, SubstitutionCallback callback) async {
+    if (sizeService.canAccomodateCache('')) return callback();
 
     return _strategy.substitute(callback);
   }

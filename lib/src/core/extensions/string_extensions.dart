@@ -1,14 +1,13 @@
 import '../configuration/constants/cache_size_constants.dart';
 
-import 'double_extensions.dart';
-
 /// Extension on the [String] class to calculate approximate megabytes used.
-extension MbStringExtension on String {
-  /// Computes the approximate megabytes occupied by the string.
+extension KbStringExtension on String {
+  /// Computes the approximate kylobytes occupied by the string.
   ///
-  /// Returns the number of megabytes by dividing the length of the string in bytes
-  /// by [CacheSizeConstants.bytesPerMb], rounded to the nearest decimal.
-  double get mbUsed {
-    return (this.codeUnits.length / CacheSizeConstants.bytesPerMb).roundToDecimal();
+  /// Returns the number of kylobytes by dividing the length of the string in bytes
+  /// by [CacheSizeConstants.bytesPerKb], rounded to the nearest decimal.
+  double get kbUsed {
+    final kbPerString = this.codeUnits.length / CacheSizeConstants.bytesPerKb;
+    return double.parse(kbPerString.toStringAsFixed(4));
   }
 }

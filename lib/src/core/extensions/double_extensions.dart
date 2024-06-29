@@ -11,6 +11,6 @@ extension DoubleExtensions on double {
     final scaledNumber = this * scale; // Scale the original number
 
     // Round the scaled number to the nearest integer, convert to double, and adjust back by scale
-    return scaledNumber.round().toDouble() / scale;
+    return scaledNumber.round() / scale;
   }
 }

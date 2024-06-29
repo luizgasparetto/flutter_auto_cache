@@ -37,10 +37,10 @@ void main() {
     });
   });
 
-  group('CacheSizeOptions.totalMb |', () {
-    test('should be able to calculate totalMb basead on maxKb and maxMb setted', () {
+  group('CacheSizeOptions.totalKb |', () {
+    test('should be able to calculate totalKb basead on maxKb and maxMb setted', () {
       const options = CacheSizeOptions(maxMb: 50, maxKb: 500);
-      expect(options.totalMb, equals(50.5));
+      expect(options.totalKb, equals(51700.0));
     });
   });
 

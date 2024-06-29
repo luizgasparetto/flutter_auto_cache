@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:flutter_auto_cache/src/modules/data_cache/domain/entities/data_cache_entity.dart';
+
 import '../../../../../core/services/cryptography_service/i_cryptography_service.dart';
 import '../../../../../core/services/kvs_service/i_kvs_service.dart';
 
@@ -30,23 +32,17 @@ final class CommandDataCacheDatasource implements ICommandDataCacheDatasource {
   @override
   Future<void> save<T extends Object>(WriteCacheDTO<T> dto) async {
     final dataCache = WriteCacheDTOAdapter.toSave(dto);
-    final data = DataCacheAdapter.toJson(dataCache);
+    final encryptedJson = _getEncryptedJson(dataCache);
 
-    final encodedData = jsonEncode(data);
-    final encrypted = _cryptographyService.encrypt(encodedData);
-
-    await _kvsService.save(key: dto.key, data: encrypted);
+    await _kvsService.save(key: dto.key, data: encryptedJson);
   }
 
   @override
   Future<void> update<T extends Object>(UpdateCacheDTO<T> dto) async {
     final dataCache = WriteCacheDTOAdapter.toUpdate(dto);
-    final data = DataCacheAdapter.toJson(dataCache);
+    final encryptedJson = _getEncryptedJson(dataCache);
 
-    final encodedData = jsonEncode(data);
-    final encrypted = _cryptographyService.encrypt(encodedData);
-
-    await _kvsService.save(key: dto.previewCache.id, data: encrypted);
+    await _kvsService.save(key: dto.previewCache.id, data: encryptedJson);
   }
 
   @override
@@ -57,5 +53,12 @@ final class CommandDataCacheDatasource implements ICommandDataCacheDatasource {
   @override
   Future<void> clear() async {
     return _kvsService.clear();
+  }
+
+  String _getEncryptedJson<T extends Object>(DataCacheEntity<T> dataCache) {
+    final data = DataCacheAdapter.toJson(dataCache);
+
+    final encodedData = jsonEncode(data);
+    return _cryptographyService.encrypt(encodedData);
   }
 }
