@@ -26,8 +26,6 @@ class DataCacheEntity<T extends Object> {
   /// Type of invalidation for the cache entity.
   final InvalidationTypes invalidationType;
 
-  final int usageCount;
-
   /// Timestamp indicating when the cache entity was created.
   final DateTime createdAt;
 
@@ -42,7 +40,6 @@ class DataCacheEntity<T extends Object> {
   const DataCacheEntity({
     required this.id,
     required this.data,
-    required this.usageCount,
     required this.invalidationType,
     required this.createdAt,
     this.updatedAt,

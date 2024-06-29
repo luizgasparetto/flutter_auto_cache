@@ -19,7 +19,6 @@ class DataCacheAdapter {
     return DataCacheEntity<T>(
       id: json['id'],
       data: json['data'],
-      usageCount: json['usage_count'],
       invalidationType: InvalidationTypesAdapter.fromKey(json['invalidation_type']),
       createdAt: DateTime.parse(json['created_at']),
       endAt: DateTime.parse(json['end_at']),
@@ -38,7 +37,6 @@ class DataCacheAdapter {
     return DataCacheEntity<T>(
       id: json['id'],
       data: List.from(json['data']).whereType<DataType>().toList() as T,
-      usageCount: json['usage_count'],
       invalidationType: InvalidationTypesAdapter.fromKey(json['invalidation_type']),
       createdAt: DateTime.parse(json['created_at']),
       endAt: DateTime.parse(json['end_at']),
@@ -57,7 +55,6 @@ class DataCacheAdapter {
     return {
       'id': cache.id,
       'data': cache.data,
-      'usage_count': cache.usageCount,
       'invalidation_type': InvalidationTypesAdapter.toKey(cache.invalidationType),
       'created_at': cache.createdAt.toIso8601String(),
       'end_at': cache.endAt.toIso8601String(),

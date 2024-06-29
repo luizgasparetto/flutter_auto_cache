@@ -26,7 +26,7 @@ void main() {
   final substitutionRepository = SubstitutionDataCacheRepositoryMock();
   final invalidationContext = InvalidationCacheContextMock();
 
-  final sut = GetDataCacheUsecase(repository, substitutionRepository, invalidationContext);
+  final sut = GetDataCacheUsecase(repository, invalidationContext);
 
   final cacheFake = DataCacheEntityFake<String>();
 
@@ -46,7 +46,6 @@ void main() {
     final successCache = DataCacheEntity<String>(
       id: 'any_id',
       data: 'cache_data',
-      usageCount: 1,
       invalidationType: InvalidationTypes.refresh,
       createdAt: DateTime.now(),
       endAt: DateTime.now(),

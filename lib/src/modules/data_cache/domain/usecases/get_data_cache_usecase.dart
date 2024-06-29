@@ -2,7 +2,6 @@ import '../../../../core/core.dart';
 import '../dtos/get_cache_dto.dart';
 import '../entities/data_cache_entity.dart';
 import '../repositories/i_data_cache_repository.dart';
-import '../repositories/i_substitution_data_cache_repository.dart';
 import '../services/invalidation_service/invalidation_cache_context.dart';
 
 typedef GetDataCacheResponse<T extends Object> = AsyncEither<AutoCacheError, DataCacheEntity<T>?>;
@@ -13,20 +12,15 @@ abstract interface class IGetDataCacheUsecase {
 
 final class GetDataCacheUsecase implements IGetDataCacheUsecase {
   final IDataCacheRepository _dataCacheRepository;
-  final ISubstitutionDataCacheRepository _substitutionDataCacheRepository;
   final IInvalidationCacheContext _invalidationContext;
 
-  const GetDataCacheUsecase(
-    this._dataCacheRepository,
-    this._substitutionDataCacheRepository,
-    this._invalidationContext,
-  );
+  const GetDataCacheUsecase(this._dataCacheRepository, this._invalidationContext);
 
   @override
   GetDataCacheResponse<T> execute<T extends Object, DataType extends Object>(GetCacheDTO dto) async {
     final response = await _getResponse<T, DataType>(dto);
 
-    return response.foldRight((cache) => _validateCacheResponse(cache));
+    return response.fold(left, (cache) => _validateCacheResponse(cache));
   }
 
   GetDataCacheResponse<T> _getResponse<T extends Object, DataType extends Object>(GetCacheDTO dto) async {
@@ -38,11 +32,6 @@ final class GetDataCacheUsecase implements IGetDataCacheUsecase {
   GetDataCacheResponse<T> _validateCacheResponse<T extends Object>(DataCacheEntity<T>? cache) async {
     if (cache == null) return right(null);
 
-    return _invalidationContext.execute<T>(cache).foldRight((_) => _updateCacheUsage(cache));
-  }
-
-  GetDataCacheResponse<T> _updateCacheUsage<T extends Object>(DataCacheEntity<T> cache) async {
-    final response = await _substitutionDataCacheRepository.updateCacheUsage(cache);
-    return response.mapRight((_) => cache);
+    return _invalidationContext.execute<T>(cache).mapRight((_) => cache);
   }
 }

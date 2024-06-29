@@ -199,7 +199,7 @@ void main() {
     test('should be able to get list of JSON in prefs successfully', () async {
       when(() => baseController.getList<Map<String, dynamic>>(key: 'my_key')).thenAnswer((_) => data);
 
-      final response = sut.getJsonList(key: 'my_key');
+      final response = await sut.getJsonList(key: 'my_key');
 
       expect(response, equals(data));
       verify(() => baseController.getList<Map<String, dynamic>>(key: 'my_key')).called(1);
@@ -208,7 +208,7 @@ void main() {
     test('should be able to get NULL when request a list of String that doesnt exists in cache', () async {
       when(() => baseController.getList<Map<String, dynamic>>(key: 'my_key')).thenReturn(null);
 
-      final response = sut.getJsonList(key: 'my_key');
+      final response = await sut.getJsonList(key: 'my_key');
 
       expect(response, isNull);
       verify(() => baseController.getList<Map<String, dynamic>>(key: 'my_key')).called(1);

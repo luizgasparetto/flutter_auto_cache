@@ -76,7 +76,7 @@ class DataCacheManagerController implements IDataCacheController {
     final dto = WriteCacheDTO<T>(key: key, data: data, cacheConfig: cacheConfiguration);
     final response = await _writeCacheUsecase.execute(dto);
 
-    return response.foldLeft((error) => throw error);
+    return response.fold((error) => throw error, (_) {});
   }
 
   @override
@@ -84,14 +84,14 @@ class DataCacheManagerController implements IDataCacheController {
     final dto = DeleteCacheDTO(key: key);
     final response = await _deleteCacheUsecase.execute(dto);
 
-    return response.foldLeft((error) => throw error);
+    return response.fold((error) => throw error, (_) {});
   }
 
   @override
   Future<void> clear() async {
     final response = await _clearCacheUsecase.execute();
 
-    return response.foldLeft((error) => throw error);
+    return response.fold((error) => throw error, (_) {});
   }
 
   Future<T?> _getDataCache<T extends Object, DataType extends Object>({required String key}) async {

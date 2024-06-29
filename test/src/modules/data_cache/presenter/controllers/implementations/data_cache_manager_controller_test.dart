@@ -81,21 +81,21 @@ void main() {
   }
 
   group('DataCacheManagerController.get |', () {
-    test('should be able to get data in cache with a key successfully', () {
+    test('should be able to get data in cache with a key successfully', () async {
       when(() => getCacheUsecase.execute<String, String>(any(that: getCacheDtoMatcher()))).thenReturn(
         right(DataCacheEntityFake<String>(fakeData: 'my_string_cached')),
       );
 
-      final response = sut.get<String>(key: 'my_key');
+      final response = await sut.get<String>(key: 'my_key');
 
       expect(response, equals('my_string_cached'));
       verify(() => getCacheUsecase.execute<String, String>(any(that: getCacheDtoMatcher()))).called(1);
     });
 
-    test('should be able to get item in cache and return NULL when not find cache item', () {
+    test('should be able to get item in cache and return NULL when not find cache item', () async {
       when(() => getCacheUsecase.execute<String, String>(any(that: getCacheDtoMatcher()))).thenReturn(right(null));
 
-      final response = sut.get<String>(key: 'my_key');
+      final response = await sut.get<String>(key: 'my_key');
 
       expect(response, isNull);
       verify(() => getCacheUsecase.execute<String, String>(any(that: getCacheDtoMatcher()))).called(1);
@@ -111,23 +111,23 @@ void main() {
   });
 
   group('DataCacheManagerController.getList |', () {
-    test('should be able to get data list in cache with a key successfully', () {
+    test('should be able to get data list in cache with a key successfully', () async {
       when(() => getCacheUsecase.execute<List<String>, String>(any(that: getCacheDtoMatcher()))).thenReturn(
         right(DataCacheEntityFake<List<String>>(fakeData: ['fake_list_data'])),
       );
 
-      final response = sut.getList<String>(key: 'my_key');
+      final response = await sut.getList<String>(key: 'my_key');
 
       expect(response, equals(['fake_list_data']));
       verify(() => getCacheUsecase.execute<List<String>, String>(any(that: getCacheDtoMatcher()))).called(1);
     });
 
-    test('should be able to return NULL on get data list when not find cache item', () {
+    test('should be able to return NULL on get data list when not find cache item', () async {
       when(() => getCacheUsecase.execute<List<String>, String>(any(that: getCacheDtoMatcher()))).thenReturn(
         right(null),
       );
 
-      final response = sut.getList<String>(key: 'my_key');
+      final response = await sut.getList<String>(key: 'my_key');
 
       expect(response, isNull);
       verify(() => getCacheUsecase.execute<List<String>, String>(any(that: getCacheDtoMatcher()))).called(1);
