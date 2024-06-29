@@ -11,15 +11,17 @@ void main() {
   const data = 'test';
   const invalidationType = InvalidationTypes.ttl;
   final createdAt = DateTime.now();
+  final updatedAt = DateTime.now();
   final endAt = createdAt.add(const Duration(days: 3));
 
   group('DataCacheAdapter.fromJson |', () {
-    final jsonCache = {
+    final jsonCache = <String, dynamic>{
       'id': id,
       'data': data,
       'invalidation_type': InvalidationTypesAdapter.toKey(invalidationType),
       'created_at': createdAt.toIso8601String(),
-      'end_at': endAt.toIso8601String()
+      'end_at': endAt.toIso8601String(),
+      'updated_at': updatedAt.toIso8601String(),
     };
 
     test('should be able to get DataCacheEntity from json successfully', () {
@@ -28,7 +30,6 @@ void main() {
       expect(cache.id, equals(id));
       expect(cache.data, equals(data));
       expect(cache.invalidationType, equals(invalidationType));
-
       expect(cache.createdAt, equals(createdAt));
       expect(cache.endAt, equals(endAt));
     });
@@ -46,6 +47,42 @@ void main() {
     });
   });
 
+  group('DataCacheAdapter.listFromJson |', () {
+    final listData = ['data', 'data', 'data', 'data'];
+
+    final listJson = <String, dynamic>{
+      'id': id,
+      'data': listData,
+      'invalidation_type': InvalidationTypesAdapter.toKey(invalidationType),
+      'created_at': createdAt.toIso8601String(),
+      'end_at': endAt.toIso8601String(),
+      'updated_at': updatedAt.toIso8601String(),
+    };
+
+    test('should be able to serialize JSON into a DataCacheEntity with List as data content', () {
+      final response = DataCacheAdapter.listFromJson<List<String>, String>(listJson);
+
+      expect(response.id, equals(id));
+      expect(response.data, equals(listData));
+      expect(response.data, isA<List<String>>());
+      expect(response.createdAt, equals(createdAt));
+      expect(response.endAt, equals(endAt));
+      expect(response.updatedAt, equals(updatedAt));
+    });
+
+    test('should NOT be able to get DataCacheEntity from json with data list when has invalid values', () {
+      final invalidJson = listJson.updateValueByKey(key: 'created_at', newValue: 'invalid_value');
+
+      expect(() => DataCacheAdapter.listFromJson<List<String>, String>(invalidJson), throwsFormatException);
+    });
+
+    test('should NOT be able to get DataCacheEntity from json with data list when has invalid keys', () {
+      final invalidJson = listJson.updateValueByKey(key: 'created_at', newValue: 'invalid_value');
+
+      expect(() => DataCacheAdapter.listFromJson<List<String>, String>(invalidJson), throwsFormatException);
+    });
+  });
+
   group('DataCacheAdapter.toJson |', () {
     final cache = DataCacheEntity(
       id: id,
@@ -53,6 +90,7 @@ void main() {
       invalidationType: invalidationType,
       createdAt: createdAt,
       endAt: endAt,
+      updatedAt: updatedAt,
     );
 
     test('should be able to parse DataCacheEntity to json and verify keys', () {
@@ -63,6 +101,7 @@ void main() {
       expect(jsonCache.containsKey('invalidation_type'), isTrue);
       expect(jsonCache.containsKey('created_at'), isTrue);
       expect(jsonCache.containsKey('end_at'), isTrue);
+      expect(jsonCache.containsKey('updated_at'), isTrue);
     });
 
     test('should be able to parse DataCacheEntity to json and verify values', () {
@@ -73,6 +112,7 @@ void main() {
       expect(jsonCache['invalidation_type'], equals(InvalidationTypesAdapter.toKey(invalidationType)));
       expect(jsonCache['created_at'], equals(createdAt.toIso8601String()));
       expect(jsonCache['end_at'], equals(endAt.toIso8601String()));
+      expect(jsonCache['updated_at'], equals(updatedAt.toIso8601String()));
     });
   });
 }

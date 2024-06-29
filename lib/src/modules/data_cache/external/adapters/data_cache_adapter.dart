@@ -22,6 +22,7 @@ class DataCacheAdapter {
       invalidationType: InvalidationTypesAdapter.fromKey(json['invalidation_type']),
       createdAt: DateTime.parse(json['created_at']),
       endAt: DateTime.parse(json['end_at']),
+      updatedAt: DateTime.tryParse(json['updated_at'] ?? ''),
     );
   }
 
@@ -40,6 +41,7 @@ class DataCacheAdapter {
       invalidationType: InvalidationTypesAdapter.fromKey(json['invalidation_type']),
       createdAt: DateTime.parse(json['created_at']),
       endAt: DateTime.parse(json['end_at']),
+      updatedAt: DateTime.tryParse(json['updated_at'] ?? ''),
     );
   }
 
@@ -58,6 +60,7 @@ class DataCacheAdapter {
       'invalidation_type': InvalidationTypesAdapter.toKey(cache.invalidationType),
       'created_at': cache.createdAt.toIso8601String(),
       'end_at': cache.endAt.toIso8601String(),
+      'updated_at': cache.updatedAt?.toIso8601String(),
     };
   }
 }
