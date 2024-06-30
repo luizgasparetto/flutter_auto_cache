@@ -1,5 +1,4 @@
 import 'package:flutter_auto_cache/src/modules/data_cache/domain/entities/data_cache_entity.dart';
-import 'package:flutter_auto_cache/src/modules/data_cache/domain/enums/invalidation_types.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 class FakeDataCacheEntity extends Fake implements DataCacheEntity {
@@ -11,7 +10,6 @@ void main() {
   final baseCacheEntity = DataCacheEntity(
     id: 'exclusive_id',
     data: 'data',
-    invalidationType: InvalidationTypes.ttl,
     createdAt: DateTime.now(),
     endAt: DateTime.now(),
   );
@@ -19,7 +17,6 @@ void main() {
   final duplicateCacheEntity = DataCacheEntity(
     id: 'exclusive_id',
     data: 'data',
-    invalidationType: InvalidationTypes.ttl,
     createdAt: DateTime.now(),
     endAt: DateTime.now(),
   );
@@ -27,7 +24,6 @@ void main() {
   final differentIdCacheEntity = DataCacheEntity(
     id: 'different_id',
     data: 'data',
-    invalidationType: InvalidationTypes.ttl,
     createdAt: DateTime.now(),
     endAt: DateTime.now(),
   );

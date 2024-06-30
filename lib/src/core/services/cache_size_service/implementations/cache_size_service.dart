@@ -13,17 +13,11 @@ final class CacheSizeService implements ICacheSizeService {
   const CacheSizeService(this.directoryProvider, this.config);
 
   @override
-  Either<AutoCacheException, bool> canAccomodateCache(String value, {bool recursive = false}) {
-    try {
-      final cacheSizeUsed = this.getCacheSizeUsed();
-      final newTotalCacheUsed = cacheSizeUsed + value.kbUsed;
+  bool canAccomodateCache(String value, {bool recursive = false}) {
+    final cacheSizeUsed = this.getCacheSizeUsed();
+    final newTotalCacheUsed = cacheSizeUsed + value.kbUsed;
 
-      final canAccomodate = newTotalCacheUsed < config.sizeOptions.totalKb;
-
-      return right(canAccomodate);
-    } on AutoCacheException catch (exception) {
-      return left(exception);
-    }
+    return newTotalCacheUsed < config.sizeOptions.totalKb;
   }
 
   @override
@@ -34,7 +28,10 @@ final class CacheSizeService implements ICacheSizeService {
 
       return totalBytes / CacheSizeConstants.bytesPerKb;
     } catch (exception, stackTrace) {
-      throw CalculateCacheSizeException(message: 'Failed to calculate cache size', stackTrace: stackTrace);
+      throw CalculateCacheSizeException(
+        message: 'An error occurred while calculating cache size: ${exception.toString()}',
+        stackTrace: stackTrace,
+      );
     }
   }
 }

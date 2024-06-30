@@ -53,10 +53,10 @@ class AutoCacheInjections {
   }
 
   void _registerDataCache() {
-    ServiceLocator.instance.bindFactory<IDataCacheDatasource>(() => DataCacheDatasource(_get(), _get()));
+    ServiceLocator.instance.bindFactory<IDataCacheDatasource>(() => DataCacheDatasource(_get(), _get(), _get()));
     ServiceLocator.instance.bindFactory<IInvalidationCacheService>(() => InvalidationCacheService(_get()));
     ServiceLocator.instance.bindFactory<IDataCacheRepository>(() => DataCacheRepository(_get()));
-    ServiceLocator.instance.bindFactory<ISubstitutionCacheService>(() => SubstitutionCacheService(_get(), _get(), _get()));
+    ServiceLocator.instance.bindFactory<ISubstitutionCacheService>(() => SubstitutionCacheService(_get(), _get()));
     ServiceLocator.instance.bindFactory<IDeleteDataCacheUsecase>(() => DeleteDataCacheUsecase(_get()));
     ServiceLocator.instance.bindFactory<IClearDataCacheUsecase>(() => ClearDataCacheUsecase(_get()));
     ServiceLocator.instance.bindFactory<IGetDataCacheUsecase>(() => GetDataCacheUsecase(_get(), _get()));

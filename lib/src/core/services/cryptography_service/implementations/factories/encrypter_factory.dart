@@ -3,31 +3,29 @@ import 'dart:convert';
 import 'package:crypto/crypto.dart';
 import 'package:encrypt/encrypt.dart';
 
+/// A factory class for creating AES encrypters using a secret key.
+///
+/// This class provides a static method to create an [Encrypter] instance
+/// configured with an AES algorithm and a key derived from a given secret key.
 class EncrypterFactory {
-  EncrypterFactory._();
-
-  static final _instance = EncrypterFactory._();
-
-  static EncrypterFactory get instance => _instance;
-
-  Encrypter createEncrypter(String secretKey) {
-    final secretKeyHash = _generateSecretHash(secretKey);
-    final key = Key.fromUtf8(secretKeyHash);
-
-    return Encrypter(AES(key));
-  }
-
-  IV createIv(String secretKey) {
-    final utf8Encode = utf8.encode(secretKey);
-    final base64Encoded = base64Encode(utf8Encode);
-
-    return IV.fromBase64(base64Encoded);
-  }
-
-  String _generateSecretHash(String secretKey) {
+  /// Creates an [Encrypter] instance using the given secret key.
+  ///
+  /// This method takes a secret key, hashes it using SHA-256, and then
+  /// encodes the resulting hash to base64. The first 32 characters of the
+  /// base64-encoded hash are used as the AES key for the [Encrypter].
+  ///
+  /// Args:
+  ///   secretKey: A [String] representing the secret key.
+  ///
+  /// Returns:
+  ///   An [Encrypter] object configured with an AES algorithm and the derived key.
+  static Encrypter createEncrypter(String secretKey) {
     final secretKeyBytes = utf8.encode(secretKey);
     final digest = sha256.convert(secretKeyBytes);
 
-    return base64Url.encode(digest.bytes).substring(0, 32);
+    final secretKeyHash = base64Url.encode(digest.bytes).substring(0, 32);
+    final key = Key.fromUtf8(secretKeyHash);
+
+    return Encrypter(AES(key));
   }
 }

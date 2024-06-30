@@ -2,14 +2,11 @@ import 'package:flutter_test/flutter_test.dart';
 
 import 'package:flutter_auto_cache/src/core/extensions/map_extensions.dart';
 import 'package:flutter_auto_cache/src/modules/data_cache/domain/entities/data_cache_entity.dart';
-import 'package:flutter_auto_cache/src/modules/data_cache/domain/enums/invalidation_types.dart';
 import 'package:flutter_auto_cache/src/modules/data_cache/external/adapters/data_cache_adapter.dart';
-import 'package:flutter_auto_cache/src/modules/data_cache/external/adapters/enums/invalidation_types_adapter.dart';
 
 void main() {
   const id = 'dev';
   const data = 'test';
-  const invalidationType = InvalidationTypes.ttl;
   final createdAt = DateTime.now();
   final updatedAt = DateTime.now();
   final endAt = createdAt.add(const Duration(days: 3));
@@ -18,7 +15,6 @@ void main() {
     final jsonCache = <String, dynamic>{
       'id': id,
       'data': data,
-      'invalidation_type': InvalidationTypesAdapter.toKey(invalidationType),
       'created_at': createdAt.toIso8601String(),
       'end_at': endAt.toIso8601String(),
       'updated_at': updatedAt.toIso8601String(),
@@ -29,7 +25,6 @@ void main() {
 
       expect(cache.id, equals(id));
       expect(cache.data, equals(data));
-      expect(cache.invalidationType, equals(invalidationType));
       expect(cache.createdAt, equals(createdAt));
       expect(cache.endAt, equals(endAt));
     });
@@ -53,7 +48,6 @@ void main() {
     final listJson = <String, dynamic>{
       'id': id,
       'data': listData,
-      'invalidation_type': InvalidationTypesAdapter.toKey(invalidationType),
       'created_at': createdAt.toIso8601String(),
       'end_at': endAt.toIso8601String(),
       'updated_at': updatedAt.toIso8601String(),
@@ -87,7 +81,6 @@ void main() {
     final cache = DataCacheEntity(
       id: id,
       data: data,
-      invalidationType: invalidationType,
       createdAt: createdAt,
       endAt: endAt,
       updatedAt: updatedAt,
@@ -109,7 +102,6 @@ void main() {
 
       expect(jsonCache['id'], equals(id));
       expect(jsonCache['data'], equals(data));
-      expect(jsonCache['invalidation_type'], equals(InvalidationTypesAdapter.toKey(invalidationType)));
       expect(jsonCache['created_at'], equals(createdAt.toIso8601String()));
       expect(jsonCache['end_at'], equals(endAt.toIso8601String()));
       expect(jsonCache['updated_at'], equals(updatedAt.toIso8601String()));

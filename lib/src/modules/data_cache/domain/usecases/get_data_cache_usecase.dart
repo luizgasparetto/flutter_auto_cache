@@ -18,7 +18,7 @@ final class GetDataCacheUsecase implements IGetDataCacheUsecase {
   Either<AutoCacheError, DataCacheEntity<T>?> execute<T extends Object, DataType extends Object>(GetCacheDTO dto) {
     final response = _getResponse<T, DataType>(dto);
 
-    return response.fold(left, (cache) => _validateCacheResponse(cache));
+    return response.fold(left, _validateCacheResponse);
   }
 
   Either<AutoCacheError, DataCacheEntity<T>?> _getResponse<T extends Object, DataType extends Object>(GetCacheDTO dto) {
@@ -30,6 +30,6 @@ final class GetDataCacheUsecase implements IGetDataCacheUsecase {
   Either<AutoCacheError, DataCacheEntity<T>?> _validateCacheResponse<T extends Object>(DataCacheEntity<T>? cache) {
     if (cache == null) return right(null);
 
-    return _invalidationCacheService.execute<T>(cache).mapRight((_) => cache);
+    return _invalidationCacheService.validate<T>(cache).mapRight((_) => cache);
   }
 }

@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:flutter_auto_cache/src/core/services/cache_size_service/i_cache_size_service.dart';
+
 import '../../../../core/services/cryptography_service/i_cryptography_service.dart';
 import '../../../../core/services/kvs_service/i_kvs_service.dart';
 
@@ -15,12 +17,13 @@ import '../adapters/dtos/write_cache_dto_adapter.dart';
 final class DataCacheDatasource implements IDataCacheDatasource {
   final IKvsService _kvsService;
   final ICryptographyService _cryptographyService;
+  final ICacheSizeService _sizeService;
 
-  const DataCacheDatasource(this._kvsService, this._cryptographyService);
+  const DataCacheDatasource(this._kvsService, this._cryptographyService, this._sizeService);
 
   @override
   DataCacheEntity<T>? get<T extends Object>(String key) {
-    final decodedResponse = _getDecryptedJson(key);
+    final decodedResponse = getDecryptedJson(key);
 
     if (decodedResponse == null) return null;
 
@@ -29,7 +32,7 @@ final class DataCacheDatasource implements IDataCacheDatasource {
 
   @override
   DataCacheEntity<T>? getList<T extends Object, DataType extends Object>(String key) {
-    final decodedResponse = _getDecryptedJson(key);
+    final decodedResponse = getDecryptedJson(key);
 
     if (decodedResponse == null) return null;
 
@@ -37,11 +40,10 @@ final class DataCacheDatasource implements IDataCacheDatasource {
   }
 
   @override
-  String getEncryptData<T extends Object>(DataCacheEntity<T> dataCache) {
-    final data = DataCacheAdapter.toJson(dataCache);
+  bool accomodateCache<T extends Object>(DataCacheEntity<T> dataCache) {
+    final data = getEncryptData<T>(dataCache);
 
-    final encodedData = jsonEncode(data);
-    return _cryptographyService.encrypt(encodedData);
+    return _sizeService.canAccomodateCache(data);
   }
 
   @override
@@ -69,7 +71,14 @@ final class DataCacheDatasource implements IDataCacheDatasource {
   @override
   Future<void> clear() async => _kvsService.clear();
 
-  Map<String, dynamic>? _getDecryptedJson(String key) {
+  String getEncryptData<T extends Object>(DataCacheEntity<T> dataCache) {
+    final data = DataCacheAdapter.toJson(dataCache);
+
+    final encodedData = jsonEncode(data);
+    return _cryptographyService.encrypt(encodedData);
+  }
+
+  Map<String, dynamic>? getDecryptedJson(String key) {
     final response = _kvsService.get(key: key);
 
     if (response == null) return null;

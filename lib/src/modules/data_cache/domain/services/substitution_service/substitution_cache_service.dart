@@ -1,7 +1,5 @@
 import '../../../../../core/core.dart';
 
-import '../../../../../core/services/cache_size_service/i_cache_size_service.dart';
-
 import '../../entities/data_cache_entity.dart';
 import '../../enums/substitution_policies.dart';
 
@@ -15,29 +13,28 @@ abstract interface class ISubstitutionCacheService {
 
 final class SubstitutionCacheService implements ISubstitutionCacheService {
   final CacheConfiguration configuration;
-  final ICacheSizeService sizeService;
   final IDataCacheRepository repository;
 
-  const SubstitutionCacheService(this.configuration, this.sizeService, this.repository);
+  const SubstitutionCacheService(this.configuration, this.repository);
 
   @override
   AsyncEither<AutoCacheError, Unit> substitute<T extends Object>(T data) async {
     final dataCache = DataCacheEntity.fakeConfig(data);
-    final encryptedValue = repository.getEncryptedData(dataCache);
+    final accomodateResponse = repository.accomodateCache<T>(dataCache);
 
-    return encryptedValue.fold(left, (value) => _handleSizeVerification(value));
+    return accomodateResponse.fold(left, (accomodate) => _handleSizeVerification(accomodate, dataCache));
   }
 
-  AsyncEither<AutoCacheError, Unit> _handleSizeVerification(String value) async {
-    final response = sizeService.canAccomodateCache(value);
+  AsyncEither<AutoCacheError, Unit> _handleSizeVerification<T extends Object>(bool canAccomodate, DataCacheEntity<T> data) async {
+    if (canAccomodate) return right(unit);
 
-    return response.fold(left, (canAccomodate) => canAccomodate ? right(unit) : _strategy.substitute(value));
+    return _strategy.substitute(data);
   }
 
   ISubstitutionCacheStrategy get _strategy {
     return switch (configuration.dataCacheOptions.substitutionPolicy) {
-      SubstitutionPolicies.fifo => FifoSubstitutionCacheStrategy(repository, sizeService),
-      SubstitutionPolicies.random => RandomSubstitutionCacheStrategy(repository, sizeService),
+      SubstitutionPolicies.fifo => FifoSubstitutionCacheStrategy(repository),
+      SubstitutionPolicies.random => RandomSubstitutionCacheStrategy(repository),
     };
   }
 }

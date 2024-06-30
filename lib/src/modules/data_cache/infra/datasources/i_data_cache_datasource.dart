@@ -68,7 +68,7 @@ abstract interface class IQueryDataCacheDatasource {
 
   DataCacheEntity<T>? getList<T extends Object, DataType extends Object>(String key);
 
-  String getEncryptData<T extends Object>(DataCacheEntity<T> dataCache);
+  bool accomodateCache<T extends Object>(DataCacheEntity<T> dataCache);
 
   /// Retrieves a comprehensive list of all keys currently stored in the cache.
   ///

@@ -1,5 +1,8 @@
 import '../../../../../core/core.dart';
 import '../../entities/data_cache_entity.dart';
+import '../../enums/invalidation_status.dart';
+
+part 'strategies/ttl_invalidation_cache_strategy.dart';
 
 /// This abstract interface defines the contract for cache invalidation strategies.
 /// Implementations of this interface should provide a method to validate cache entities.
@@ -9,5 +12,5 @@ abstract interface class InvalidationCacheStrategy {
   /// This method takes a [DataCacheEntity] and returns an [Either] type, indicating either
   /// a failure of type [AutoCacheFailure] or success as a [Unit]. The validation logic
   /// should determine whether the cache entity is still valid or needs invalidation.
-  Either<AutoCacheFailure, Unit> validate<T extends Object>(DataCacheEntity<T> cache);
+  Either<AutoCacheFailure, InvalidationStatus> validate<T extends Object>(DataCacheEntity<T> cache);
 }

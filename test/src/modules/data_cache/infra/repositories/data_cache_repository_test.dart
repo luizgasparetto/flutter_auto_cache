@@ -105,30 +105,6 @@ void main() {
     });
   });
 
-  group('DataCacheRepository.getEncryptedData |', () {
-    final cache = DataCacheEntityFake<String>(fakeData: 'fake_data');
-
-    test('should be able to get encrypted data successfully', () {
-      when(() => datasource.getEncryptData<String>(cache)).thenReturn('encrypted_data');
-
-      final response = sut.getEncryptedData<String>(cache);
-
-      expect(response.isSuccess, isTrue);
-      expect(response.fold((l) => l, (r) => r), equals('encrypted_data'));
-      verify(() => datasource.getEncryptData<String>(cache)).called(1);
-    });
-
-    test('should NOT be able to get encrypted data when datasource fails', () {
-      when(() => datasource.getEncryptData<String>(cache)).thenThrow(FakeAutoCacheException());
-
-      final response = sut.getEncryptedData<String>(cache);
-
-      expect(response.isError, isTrue);
-      expect(response.fold((l) => l, (r) => r), isA<AutoCacheException>());
-      verify(() => datasource.getEncryptData<String>(cache)).called(1);
-    });
-  });
-
   group('DataCacheRepository.getKeys |', () {
     test('should be able to get keys of prefs datasource successfully', () {
       when(() => datasource.getKeys()).thenReturn(['keys']);

@@ -24,13 +24,13 @@ void main() {
     reset(config);
   });
 
-  group('InvalidationCacheContext.execute |', () {
+  group('InvalidationCacheService.validate |', () {
     final cache = FakeDataCacheEntity();
 
     test('should be able to get a strategy and validate by passing the cache entity', () {
       when(() => config.dataCacheOptions).thenReturn(DataCacheOptions(invalidationType: InvalidationTypes.ttl));
 
-      final response = sut.execute<String>(cache);
+      final response = sut.validate<String>(cache);
 
       expect(response.isSuccess, isTrue);
       expect(response.fold((l) => l, (r) => r), equals(unit));

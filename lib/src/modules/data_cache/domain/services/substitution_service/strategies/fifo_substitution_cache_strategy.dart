@@ -1,12 +1,12 @@
 part of '../substitution_cache_strategy.dart';
 
 final class FifoSubstitutionCacheStrategy extends ISubstitutionCacheStrategy {
-  const FifoSubstitutionCacheStrategy(super.repository, super.sizeService);
+  const FifoSubstitutionCacheStrategy(super.repository);
 
   @override
-  AsyncEither<AutoCacheError, Unit> substitute(String value) async {
+  AsyncEither<AutoCacheError, Unit> substitute<T extends Object>(DataCacheEntity<T> value) async {
     final keysResponse = this.getCacheKey();
-    return keysResponse.fold(left, (key) => super.deleteDataCache(key, value));
+    return keysResponse.fold(left, (key) => super.deleteDataCache<T>(key, value));
   }
 
   @override

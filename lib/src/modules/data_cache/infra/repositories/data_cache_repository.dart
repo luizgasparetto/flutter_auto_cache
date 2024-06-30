@@ -37,9 +37,9 @@ class DataCacheRepository implements IDataCacheRepository {
   }
 
   @override
-  Either<AutoCacheException, String> getEncryptedData<T extends Object>(DataCacheEntity<T> dataCache) {
+  Either<AutoCacheException, List<String>> getKeys() {
     try {
-      final response = _dataCacheDatasource.getEncryptData<T>(dataCache);
+      final response = _dataCacheDatasource.getKeys();
 
       return right(response);
     } on AutoCacheException catch (exception) {
@@ -48,9 +48,9 @@ class DataCacheRepository implements IDataCacheRepository {
   }
 
   @override
-  Either<AutoCacheException, List<String>> getKeys() {
+  Either<AutoCacheException, bool> accomodateCache<T extends Object>(DataCacheEntity<T> dataCache, {bool recursive = false}) {
     try {
-      final response = _dataCacheDatasource.getKeys();
+      final response = _dataCacheDatasource.accomodateCache(dataCache);
 
       return right(response);
     } on AutoCacheException catch (exception) {

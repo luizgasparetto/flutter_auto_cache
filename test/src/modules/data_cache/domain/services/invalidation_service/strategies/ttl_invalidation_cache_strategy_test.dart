@@ -1,7 +1,6 @@
-import 'package:flutter_auto_cache/src/core/core.dart';
 import 'package:flutter_auto_cache/src/modules/data_cache/domain/entities/data_cache_entity.dart';
-import 'package:flutter_auto_cache/src/modules/data_cache/domain/failures/invalidation_methods_failures.dart';
-import 'package:flutter_auto_cache/src/modules/data_cache/domain/services/invalidation_service/strategies/ttl_invalidation_cache_strategy.dart';
+import 'package:flutter_auto_cache/src/modules/data_cache/domain/enums/invalidation_status.dart';
+import 'package:flutter_auto_cache/src/modules/data_cache/domain/services/invalidation_service/invalidation_cache_strategy.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 class FakeNonExpiredDataCacheEntity extends Fake implements DataCacheEntity<String> {
@@ -25,14 +24,14 @@ void main() {
       final response = sut.validate(nonExpiredDataCacheEntity);
 
       expect(response.isSuccess, isTrue);
-      expect(response.success, isA<Unit>());
+      expect(response.fold((l) => l, (r) => r), InvalidationStatus.valid);
     });
 
     test('should be able to validate an expired cache when endAt is before now', () {
       final response = sut.validate(expiredCachEntity);
 
-      expect(response.isError, isTrue);
-      expect(response.error, isA<ExpiredTTLFailure>());
+      expect(response.isSuccess, isTrue);
+      expect(response.fold((l) => l, (r) => r), InvalidationStatus.invalid);
     });
   });
 }

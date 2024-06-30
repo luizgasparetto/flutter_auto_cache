@@ -1,5 +1,4 @@
 import '../../domain/entities/data_cache_entity.dart';
-import 'enums/invalidation_types_adapter.dart';
 
 /// A utility class responsible for serializing and deserializing cache entities to and from JSON.
 ///
@@ -19,7 +18,6 @@ class DataCacheAdapter {
     return DataCacheEntity<T>(
       id: json['id'],
       data: json['data'],
-      invalidationType: InvalidationTypesAdapter.fromKey(json['invalidation_type']),
       createdAt: DateTime.parse(json['created_at']),
       endAt: DateTime.parse(json['end_at']),
       updatedAt: DateTime.tryParse(json['updated_at'] ?? ''),
@@ -38,7 +36,6 @@ class DataCacheAdapter {
     return DataCacheEntity<T>(
       id: json['id'],
       data: List.from(json['data']).whereType<DataType>().toList() as T,
-      invalidationType: InvalidationTypesAdapter.fromKey(json['invalidation_type']),
       createdAt: DateTime.parse(json['created_at']),
       endAt: DateTime.parse(json['end_at']),
       updatedAt: DateTime.tryParse(json['updated_at'] ?? ''),
@@ -57,7 +54,6 @@ class DataCacheAdapter {
     return {
       'id': cache.id,
       'data': cache.data,
-      'invalidation_type': InvalidationTypesAdapter.toKey(cache.invalidationType),
       'created_at': cache.createdAt.toIso8601String(),
       'end_at': cache.endAt.toIso8601String(),
       'updated_at': cache.updatedAt?.toIso8601String(),
