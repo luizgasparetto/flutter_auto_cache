@@ -3,7 +3,7 @@ import 'package:flutter_auto_cache/src/modules/data_cache/domain/dtos/get_cache_
 import 'package:flutter_auto_cache/src/modules/data_cache/domain/entities/data_cache_entity.dart';
 import 'package:flutter_auto_cache/src/modules/data_cache/domain/enums/invalidation_types.dart';
 import 'package:flutter_auto_cache/src/modules/data_cache/domain/repositories/i_data_cache_repository.dart';
-import 'package:flutter_auto_cache/src/modules/data_cache/domain/services/invalidation_service/invalidation_cache_context.dart';
+import 'package:flutter_auto_cache/src/modules/data_cache/domain/services/invalidation_service/invalidation_cache_service.dart';
 import 'package:flutter_auto_cache/src/modules/data_cache/domain/usecases/get_data_cache_usecase.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
@@ -72,7 +72,7 @@ void main() {
     test('should NOT be able to get data in cache when get retrives an exception', () async {
       when(() => repository.get<String>(dto)).thenReturn(left(FakeAutoCacheManagerException()));
 
-      final response = await sut.execute<String, String>(dto);
+      final response = sut.execute<String, String>(dto);
 
       expect(response.isError, isTrue);
       expect(response.error, isA<AutoCacheException>());

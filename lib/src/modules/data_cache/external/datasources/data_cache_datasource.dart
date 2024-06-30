@@ -45,9 +45,6 @@ final class DataCacheDatasource implements IDataCacheDatasource {
   }
 
   @override
-  List<String> getKeys() => _kvsService.getKeys();
-
-  @override
   Future<void> save<T extends Object>(WriteCacheDTO<T> dto) async {
     final dataCache = WriteCacheDTOAdapter.toSave(dto);
     final encryptedData = getEncryptData<T>(dataCache);
@@ -62,6 +59,9 @@ final class DataCacheDatasource implements IDataCacheDatasource {
 
     await _kvsService.save(key: dto.previewCache.id, data: encryptedData);
   }
+
+  @override
+  List<String> getKeys() => _kvsService.getKeys();
 
   @override
   Future<void> delete(String key) => _kvsService.delete(key: key);

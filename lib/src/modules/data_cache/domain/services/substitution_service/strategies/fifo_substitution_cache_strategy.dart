@@ -5,9 +5,9 @@ final class FifoSubstitutionCacheStrategy extends ISubstitutionCacheStrategy {
   const FifoSubstitutionCacheStrategy(super.repository, super.sizeService);
 
   @override
-  AsyncEither<AutoCacheError, Unit> substitute(String value, SubstitutionCallback callback) async {
+  AsyncEither<AutoCacheError, Unit> substitute(String value) async {
     final keysResponse = this.getCacheKey();
-    return keysResponse.fold(left, (key) => super.deleteDataCache(key, value, callback));
+    return keysResponse.fold(left, (key) => super.deleteDataCache(key, value));
   }
 
   @override

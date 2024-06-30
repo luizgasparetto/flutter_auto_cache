@@ -5,7 +5,8 @@ import 'package:flutter_auto_cache/src/modules/data_cache/domain/dtos/write_cach
 import 'package:flutter_auto_cache/src/modules/data_cache/domain/entities/data_cache_entity.dart';
 import 'package:flutter_auto_cache/src/modules/data_cache/domain/enums/invalidation_types.dart';
 import 'package:flutter_auto_cache/src/modules/data_cache/domain/repositories/i_data_cache_repository.dart';
-import 'package:flutter_auto_cache/src/modules/data_cache/domain/services/invalidation_service/invalidation_cache_context.dart';
+import 'package:flutter_auto_cache/src/modules/data_cache/domain/services/invalidation_service/invalidation_cache_service.dart';
+import 'package:flutter_auto_cache/src/modules/data_cache/domain/services/substitution_service/substitution_cache_service.dart';
 import 'package:flutter_auto_cache/src/modules/data_cache/domain/usecases/write_data_cache_usecase.dart';
 import 'package:flutter_auto_cache/src/modules/data_cache/domain/value_objects/data_cache_options.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -14,6 +15,8 @@ import 'package:mocktail/mocktail.dart';
 class CacheRepositoryMock extends Mock implements IDataCacheRepository {}
 
 class InvalidationCacheContextMock extends Mock implements IInvalidationCacheContext {}
+
+class SubstitutionCacheServiceMock extends Mock implements ISubstitutionCacheService {}
 
 class AutoCacheExceptionFake extends Fake implements AutoCacheException {}
 
@@ -50,10 +53,11 @@ class DataCacheEntityFake<T extends Object> extends Fake implements DataCacheEnt
 void main() {
   final repository = CacheRepositoryMock();
   final invalidationContext = InvalidationCacheContextMock();
-  final sut = WriteDataCacheUsecase(repository, invalidationContext);
+  final substitutionService = SubstitutionCacheServiceMock();
+
+  final sut = WriteDataCacheUsecase(repository, substitutionService, invalidationContext);
 
   final fakeCache = DataCacheEntityFake<String>('my_string');
-
   final replaceFakeCacheConfig = ReplaceFakeCacheConfig();
   final notReplaceFakeCacheConfig = NotReplaceFakeCacheConfig();
 
@@ -85,6 +89,7 @@ void main() {
 
     test('should be able to save cache data successfully when not find any previous cache with same key', () async {
       when(() => repository.get<String>(any(that: cacheDtoMatcher()))).thenReturn(right(null));
+      when(() => substitutionService.substitute(replaceDto.data)).thenAnswer((_) => right(unit));
       when(() => repository.save<String>(replaceDto)).thenAnswer((_) async => right(unit));
 
       final response = await sut.execute<String>(replaceDto);

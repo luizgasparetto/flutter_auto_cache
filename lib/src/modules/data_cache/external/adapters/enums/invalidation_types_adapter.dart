@@ -17,9 +17,8 @@ final class InvalidationTypesAdapter {
   ///            or the default [InvalidationTypes.refresh] if no match is found.
   static InvalidationTypes fromKey(String key) {
     return switch (key) {
-      'refresh' => InvalidationTypes.refresh,
       'ttl' => InvalidationTypes.ttl,
-      _ => InvalidationTypes.refresh,
+      _ => InvalidationTypes.ttl,
     };
   }
 
@@ -33,7 +32,6 @@ final class InvalidationTypesAdapter {
   /// - Returns: A `String` that represents the key associated with the given invalidation type.
   static String toKey(InvalidationTypes type) {
     return switch (type) {
-      InvalidationTypes.refresh => 'refresh',
       InvalidationTypes.ttl => 'ttl',
     };
   }

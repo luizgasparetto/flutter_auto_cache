@@ -1,3 +1,4 @@
+import 'package:flutter_auto_cache/src/modules/data_cache/domain/services/substitution_service/substitution_cache_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'core/core.dart';
@@ -11,7 +12,7 @@ import 'core/services/kvs_service/implementations/shared_preferences_kvs_service
 import 'core/services/service_locator/implementations/service_locator.dart';
 
 import 'modules/data_cache/domain/repositories/i_data_cache_repository.dart';
-import 'modules/data_cache/domain/services/invalidation_service/invalidation_cache_context.dart';
+import 'modules/data_cache/domain/services/invalidation_service/invalidation_cache_service.dart';
 import 'modules/data_cache/domain/usecases/clear_data_cache_usecase.dart';
 import 'modules/data_cache/domain/usecases/delete_data_cache_usecase.dart';
 import 'modules/data_cache/domain/usecases/get_data_cache_usecase.dart';
@@ -55,10 +56,11 @@ class AutoCacheInjections {
     ServiceLocator.instance.bindFactory<IDataCacheDatasource>(() => DataCacheDatasource(_get(), _get()));
     ServiceLocator.instance.bindFactory<IInvalidationCacheContext>(() => InvalidationCacheContext(_get()));
     ServiceLocator.instance.bindFactory<IDataCacheRepository>(() => DataCacheRepository(_get()));
+    ServiceLocator.instance.bindFactory<ISubstitutionCacheService>(() => SubstitutionCacheService(_get(), _get(), _get()));
     ServiceLocator.instance.bindFactory<IDeleteDataCacheUsecase>(() => DeleteDataCacheUsecase(_get()));
     ServiceLocator.instance.bindFactory<IClearDataCacheUsecase>(() => ClearDataCacheUsecase(_get()));
     ServiceLocator.instance.bindFactory<IGetDataCacheUsecase>(() => GetDataCacheUsecase(_get(), _get()));
-    ServiceLocator.instance.bindFactory<IWriteDataCacheUsecase>(() => WriteDataCacheUsecase(_get(), _get()));
+    ServiceLocator.instance.bindFactory<IWriteDataCacheUsecase>(() => WriteDataCacheUsecase(_get(), _get(), _get()));
   }
 
   T _get<T extends Object>() => ServiceLocator.instance.get<T>();

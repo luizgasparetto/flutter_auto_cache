@@ -7,9 +7,9 @@ final class RandomSubstitutionCacheStrategy extends ISubstitutionCacheStrategy {
   const RandomSubstitutionCacheStrategy(super.repository, super.sizeService);
 
   @override
-  AsyncEither<AutoCacheError, Unit> substitute(String value, SubstitutionCallback callback) {
+  AsyncEither<AutoCacheError, Unit> substitute(String value) {
     final keysResponse = this.getCacheKey();
-    return keysResponse.fold(left, (key) => super.deleteDataCache(key, value, callback));
+    return keysResponse.fold(left, (key) => super.deleteDataCache(key, value));
   }
 
   @override

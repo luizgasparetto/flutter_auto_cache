@@ -6,7 +6,7 @@ import 'strategies/ttl_invalidation_cache_strategy.dart';
 
 /// This abstract interface defines the contract for cache invalidation contexts.
 /// Implementations of this interface should provide a strategy for invalidating caches.
-abstract interface class IInvalidationCacheContext {
+abstract interface class IInvalidationCacheService {
   /// Executes the cache invalidation logic.
   ///
   /// This method takes a [DataCacheEntity] of a generic type [T] and returns an [Either] type,
@@ -14,13 +14,13 @@ abstract interface class IInvalidationCacheContext {
   Either<AutoCacheFailure, Unit> execute<T extends Object>(DataCacheEntity<T> cache);
 }
 
-/// This class provides an implementation of [IInvalidationCacheContext].
+/// This class provides an implementation of [IInvalidationCacheService].
 /// It uses a [CacheConfig] to determine the appropriate invalidation strategy.
-final class InvalidationCacheContext implements IInvalidationCacheContext {
+final class InvalidationCacheService implements IInvalidationCacheService {
   final CacheConfiguration configuration;
 
-  /// Constructs an [InvalidationCacheContext] with the given [config].
-  const InvalidationCacheContext(this.configuration);
+  /// Constructs an [InvalidationCacheService] with the given [config].
+  const InvalidationCacheService(this.configuration);
 
   /// Executes the cache invalidation strategy based on the provided [cache].
   ///
@@ -34,7 +34,6 @@ final class InvalidationCacheContext implements IInvalidationCacheContext {
   InvalidationCacheStrategy get invalidationCacheStrategy {
     return switch (configuration.dataCacheOptions.invalidationType) {
       InvalidationTypes.ttl => TTLInvalidationCacheStrategy(),
-      _ => TTLInvalidationCacheStrategy(),
     };
   }
 }

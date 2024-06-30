@@ -2,7 +2,7 @@ import '../../../../core/core.dart';
 import '../dtos/get_cache_dto.dart';
 import '../entities/data_cache_entity.dart';
 import '../repositories/i_data_cache_repository.dart';
-import '../services/invalidation_service/invalidation_cache_context.dart';
+import '../services/invalidation_service/invalidation_cache_service.dart';
 
 abstract interface class IGetDataCacheUsecase {
   Either<AutoCacheError, DataCacheEntity<T>?> execute<T extends Object, DataType extends Object>(GetCacheDTO dto);

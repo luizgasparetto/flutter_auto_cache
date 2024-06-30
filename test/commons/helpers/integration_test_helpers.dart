@@ -1,5 +1,6 @@
 import 'package:flutter_auto_cache/auto_cache.dart';
 import 'package:flutter_auto_cache/src/core/configuration/cache_configuration.dart';
+import 'package:flutter_auto_cache/src/core/configuration/models/cache_size_options.dart';
 import 'package:flutter_auto_cache/src/modules/data_cache/presenter/controllers/implementations/data_cache_manager_controller.dart';
 import 'package:meta/meta.dart';
 import 'package:fake_async/fake_async.dart';
@@ -57,7 +58,8 @@ Future<PrefsCacheManagerController> initializePrefsController({CacheConfiguratio
 
   SharedPreferences.setMockInitialValues({});
 
-  await AutoCacheInitializer.instance.init(configuration: config);
+  final defaultConfig = CacheConfiguration(sizeOptions: const CacheSizeOptions(maxMb: 100));
+  await AutoCacheInitializer.instance.init(configuration: config ?? defaultConfig);
 
   return AutoCache.prefs;
 }

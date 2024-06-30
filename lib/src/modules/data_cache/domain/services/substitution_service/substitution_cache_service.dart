@@ -11,7 +11,7 @@ import 'strategies/random_substitution_cache_strategy.dart';
 import 'substitution_cache_strategy.dart';
 
 abstract interface class ISubstitutionCacheService {
-  AsyncEither<AutoCacheError, Unit> substitute<T extends Object>(T data, SubstitutionCallback callback);
+  AsyncEither<AutoCacheError, Unit> substitute<T extends Object>(T data);
 }
 
 final class SubstitutionCacheService implements ISubstitutionCacheService {
@@ -22,17 +22,17 @@ final class SubstitutionCacheService implements ISubstitutionCacheService {
   const SubstitutionCacheService(this.configuration, this.sizeService, this.repository);
 
   @override
-  AsyncEither<AutoCacheError, Unit> substitute<T extends Object>(T data, SubstitutionCallback callback) async {
+  AsyncEither<AutoCacheError, Unit> substitute<T extends Object>(T data) async {
     final dataCache = DataCacheEntity.fakeConfig(data);
     final encryptedValue = repository.getEncryptedData(dataCache);
 
-    return encryptedValue.fold(left, (value) => _handleSizeVerification(value, callback));
+    return encryptedValue.fold(left, (value) => _handleSizeVerification(value));
   }
 
-  AsyncEither<AutoCacheError, Unit> _handleSizeVerification(String value, SubstitutionCallback callback) async {
+  AsyncEither<AutoCacheError, Unit> _handleSizeVerification(String value) async {
     final response = sizeService.canAccomodateCache(value);
 
-    return response.fold(left, (canAccomodate) => canAccomodate ? callback() : _strategy.substitute(value, callback));
+    return response.fold(left, (canAccomodate) => canAccomodate ? right(unit) : _strategy.substitute(value));
   }
 
   ISubstitutionCacheStrategy get _strategy {

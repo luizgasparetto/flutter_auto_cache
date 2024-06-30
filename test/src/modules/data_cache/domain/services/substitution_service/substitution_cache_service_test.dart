@@ -50,7 +50,7 @@ void main() {
       when(() => sizeService.canAccomodateCache('encrypted_data', recursive: true)).thenReturn(right(true));
       when(() => configuration.dataCacheOptions).thenReturn(dataOptions);
 
-      final response = await sut.substitute<String>('data', () => right(unit));
+      final response = await sut.substitute<String>('data');
 
       expect(response.isSuccess, isTrue);
       verify(() => repository.getEncryptedData<String>(any())).called(1);
@@ -65,7 +65,7 @@ void main() {
       when(() => repository.getEncryptedData<String>(any())).thenReturn(right('encrypted_data'));
       when(() => sizeService.canAccomodateCache('encrypted_data')).thenReturn(right(true));
 
-      final response = await sut.substitute<String>('data', () => right(unit));
+      final response = await sut.substitute<String>('data');
 
       expect(response.isSuccess, isTrue);
       verify(() => repository.getEncryptedData<String>(any())).called(1);
@@ -78,7 +78,7 @@ void main() {
     test('should NOT be able to substitute cache when getEncryptedData fails', () async {
       when(() => repository.getEncryptedData<String>(any())).thenReturn(left(FakeAutoCacheException()));
 
-      final response = await sut.substitute<String>('data', () => right(unit));
+      final response = await sut.substitute<String>('data');
 
       expect(response.isError, isTrue);
       expect(response.fold((l) => l, (r) => r), isA<AutoCacheException>());
@@ -93,7 +93,7 @@ void main() {
       when(() => repository.getEncryptedData<String>(any())).thenReturn(right('encrypted_data'));
       when(() => sizeService.canAccomodateCache('encrypted_data')).thenReturn(left(FakeAutoCacheException()));
 
-      final response = await sut.substitute<String>('data', () => right(unit));
+      final response = await sut.substitute<String>('data');
 
       expect(response.isError, isTrue);
       expect(response.fold((l) => l, (r) => r), isA<AutoCacheException>());
@@ -110,7 +110,7 @@ void main() {
       when(() => configuration.dataCacheOptions).thenReturn(dataOptions);
       when(() => repository.getKeys()).thenReturn(left(FakeAutoCacheException()));
 
-      final response = await sut.substitute<String>('data', () => right(unit));
+      final response = await sut.substitute<String>('data');
 
       expect(response.isError, isTrue);
       expect(response.fold((l) => l, (r) => r), isA<AutoCacheException>());
@@ -131,7 +131,7 @@ void main() {
         left(FakeAutoCacheException()),
       );
 
-      final response = await sut.substitute<String>('data', () => right(unit));
+      final response = await sut.substitute<String>('data');
 
       expect(response.isError, isTrue);
       verify(() => repository.getEncryptedData<String>(any())).called(1);
