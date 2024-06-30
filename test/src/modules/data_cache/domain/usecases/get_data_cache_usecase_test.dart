@@ -10,7 +10,7 @@ import 'package:mocktail/mocktail.dart';
 
 class DataCacheRepositoryMock extends Mock implements IDataCacheRepository {}
 
-class InvalidationCacheContextMock extends Mock implements IInvalidationCacheContext {}
+class InvalidationCacheServiceMock extends Mock implements IInvalidationCacheService {}
 
 class FakeAutoCacheManagerException extends Fake implements AutoCacheException {}
 
@@ -20,9 +20,9 @@ class AutoCacheFailureFake extends Fake implements AutoCacheFailure {}
 
 void main() {
   final repository = DataCacheRepositoryMock();
-  final invalidationContext = InvalidationCacheContextMock();
+  final invalidationService = InvalidationCacheServiceMock();
 
-  final sut = GetDataCacheUsecase(repository, invalidationContext);
+  final sut = GetDataCacheUsecase(repository, invalidationService);
 
   final cacheFake = DataCacheEntityFake<String>();
 
@@ -32,7 +32,7 @@ void main() {
 
   tearDown(() {
     reset(repository);
-    reset(invalidationContext);
+    reset(invalidationService);
   });
 
   group('GetCache |', () {
@@ -41,21 +41,21 @@ void main() {
     final successCache = DataCacheEntity<String>(
       id: 'any_id',
       data: 'cache_data',
-      invalidationType: InvalidationTypes.refresh,
+      invalidationType: InvalidationTypes.ttl,
       createdAt: DateTime.now(),
       endAt: DateTime.now(),
     );
 
     test('should be able to get data in cache successfully', () async {
       when(() => repository.get<String>(dto)).thenReturn(right(successCache));
-      when(() => invalidationContext.execute(successCache)).thenReturn(right(unit));
+      when(() => invalidationService.execute(successCache)).thenReturn(right(unit));
 
       final response = sut.execute<String, String>(dto);
 
       expect(response.isSuccess, isTrue);
       expect(response.success, successCache);
       verify(() => repository.get<String>(dto)).called(1);
-      verify(() => invalidationContext.execute(successCache)).called(1);
+      verify(() => invalidationService.execute(successCache)).called(1);
     });
 
     test('should be able to get data in cache if data is NULL successfully', () async {
@@ -66,7 +66,7 @@ void main() {
       expect(response.isSuccess, isTrue);
       expect(response.success, isNull);
       verify(() => repository.get<String>(dto)).called(1);
-      verifyNever(() => invalidationContext.execute<String>(any<DataCacheEntity<String>>()));
+      verifyNever(() => invalidationService.execute<String>(any<DataCacheEntity<String>>()));
     });
 
     test('should NOT be able to get data in cache when get retrives an exception', () async {
@@ -77,19 +77,19 @@ void main() {
       expect(response.isError, isTrue);
       expect(response.error, isA<AutoCacheException>());
       verify(() => repository.get<String>(dto)).called(1);
-      verifyNever(() => invalidationContext.execute<String>(any<DataCacheEntity<String>>()));
+      verifyNever(() => invalidationService.execute<String>(any<DataCacheEntity<String>>()));
     });
 
     test('should NOT be able to get data in cache when invalidation context retrives an exception', () async {
       when(() => repository.get<String>(dto)).thenReturn(right(successCache));
-      when(() => invalidationContext.execute(successCache)).thenReturn(left(AutoCacheFailureFake()));
+      when(() => invalidationService.execute(successCache)).thenReturn(left(AutoCacheFailureFake()));
 
       final response = sut.execute<String, String>(dto);
 
       expect(response.isError, isTrue);
       expect(response.error, isA<AutoCacheFailure>());
       verify(() => repository.get<String>(dto)).called(1);
-      verify(() => invalidationContext.execute(successCache)).called(1);
+      verify(() => invalidationService.execute(successCache)).called(1);
     });
   });
 }

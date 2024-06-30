@@ -10,9 +10,9 @@ abstract interface class IGetDataCacheUsecase {
 
 final class GetDataCacheUsecase implements IGetDataCacheUsecase {
   final IDataCacheRepository _dataCacheRepository;
-  final IInvalidationCacheContext _invalidationContext;
+  final IInvalidationCacheService _invalidationCacheService;
 
-  const GetDataCacheUsecase(this._dataCacheRepository, this._invalidationContext);
+  const GetDataCacheUsecase(this._dataCacheRepository, this._invalidationCacheService);
 
   @override
   Either<AutoCacheError, DataCacheEntity<T>?> execute<T extends Object, DataType extends Object>(GetCacheDTO dto) {
@@ -30,6 +30,6 @@ final class GetDataCacheUsecase implements IGetDataCacheUsecase {
   Either<AutoCacheError, DataCacheEntity<T>?> _validateCacheResponse<T extends Object>(DataCacheEntity<T>? cache) {
     if (cache == null) return right(null);
 
-    return _invalidationContext.execute<T>(cache).mapRight((_) => cache);
+    return _invalidationCacheService.execute<T>(cache).mapRight((_) => cache);
   }
 }

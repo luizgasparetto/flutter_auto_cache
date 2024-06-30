@@ -35,17 +35,8 @@ class DataCacheEntity<T extends Object> {
   /// Timestamp indicating when the cache entity will expire.
   final DateTime endAt;
 
-  final DateTime? lastAccessAt;
-
-  const DataCacheEntity({
-    required this.id,
-    required this.data,
-    required this.invalidationType,
-    required this.createdAt,
-    this.updatedAt,
-    required this.endAt,
-    this.lastAccessAt,
-  });
+  const DataCacheEntity(
+      {required this.id, required this.data, required this.invalidationType, required this.createdAt, this.updatedAt, required this.endAt});
 
   factory DataCacheEntity.fakeConfig(T data) {
     return DataCacheEntity<T>(
@@ -54,7 +45,6 @@ class DataCacheEntity<T extends Object> {
       invalidationType: InvalidationTypes.ttl,
       createdAt: DateTime.now(),
       endAt: DateTime.now(),
-      lastAccessAt: DateTime.now(),
       updatedAt: DateTime.now(),
     );
   }

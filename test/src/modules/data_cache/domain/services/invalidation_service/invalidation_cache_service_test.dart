@@ -18,7 +18,7 @@ class FakeDataCacheEntity extends Fake implements DataCacheEntity<String> {
 
 void main() {
   final config = CacheConfigMock();
-  final sut = InvalidationCacheContext(config);
+  final sut = InvalidationCacheService(config);
 
   tearDown(() {
     reset(config);

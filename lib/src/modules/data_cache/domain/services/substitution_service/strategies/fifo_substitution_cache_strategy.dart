@@ -1,5 +1,4 @@
-import '../../../../../../core/core.dart';
-import '../substitution_cache_strategy.dart';
+part of '../substitution_cache_strategy.dart';
 
 final class FifoSubstitutionCacheStrategy extends ISubstitutionCacheStrategy {
   const FifoSubstitutionCacheStrategy(super.repository, super.sizeService);

@@ -1,7 +1,4 @@
-import 'dart:math';
-
-import '../../../../../../core/core.dart';
-import '../substitution_cache_strategy.dart';
+part of '../substitution_cache_strategy.dart';
 
 final class RandomSubstitutionCacheStrategy extends ISubstitutionCacheStrategy {
   const RandomSubstitutionCacheStrategy(super.repository, super.sizeService);

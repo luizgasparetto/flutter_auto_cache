@@ -1,10 +1,15 @@
+import 'dart:math';
+
 import '../../../../../core/core.dart';
 import '../../../../../core/services/cache_size_service/i_cache_size_service.dart';
 
 import '../../dtos/delete_cache_dto.dart';
 import '../../repositories/i_data_cache_repository.dart';
 
-abstract class ISubstitutionCacheStrategy {
+part './strategies/fifo_substitution_cache_strategy.dart';
+part './strategies/random_substitution_cache_strategy.dart';
+
+sealed class ISubstitutionCacheStrategy {
   final IDataCacheRepository repository;
   final ICacheSizeService sizeService;
 
