@@ -18,7 +18,7 @@ abstract interface class ICacheSizeService {
   ///
   /// Returns `true` if the cache can accommodate the additional size specified in kilobytes,
   /// `false` otherwise.
-  bool canAccomodateCache(String value);
+  Either<AutoCacheException, bool> canAccomodateCache(String value, {bool recursive = false});
 
   /// Returns the total cache size used by the application in megabytes (MB).
   ///

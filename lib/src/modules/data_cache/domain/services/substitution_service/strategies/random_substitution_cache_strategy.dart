@@ -1,26 +1,25 @@
 import 'dart:math';
 
 import '../../../../../../core/core.dart';
-import '../../../dtos/delete_cache_dto.dart';
-import '../../../repositories/i_data_cache_repository.dart';
 import '../substitution_cache_strategy.dart';
 
-final class RandomSubstitutionCacheStrategy implements ISubstitutionCacheStrategy {
-  final IDataCacheRepository _repository;
-
-  const RandomSubstitutionCacheStrategy(this._repository);
+final class RandomSubstitutionCacheStrategy extends ISubstitutionCacheStrategy {
+  const RandomSubstitutionCacheStrategy(super.repository, super.sizeService);
 
   @override
-  AsyncEither<AutoCacheError, Unit> substitute(SubstitutionCallback callback) async {
-    final keysResponse = _repository.getKeys();
-    return keysResponse.fold(left, (keys) => _deleteRandomCache(keys, callback));
+  AsyncEither<AutoCacheError, Unit> substitute(String value, SubstitutionCallback callback) {
+    final keysResponse = this.getCacheKey();
+    return keysResponse.fold(left, (key) => super.deleteDataCache(key, value, callback));
   }
 
-  AsyncEither<AutoCacheError, Unit> _deleteRandomCache(List<String> keys, SubstitutionCallback callback) async {
-    final randomIndex = Random().nextInt(keys.length);
-    final dataCacheKey = keys[randomIndex];
+  @override
+  Either<AutoCacheError, String> getCacheKey() {
+    final keysResponse = repository.getKeys();
+    return keysResponse.mapRight(_generateCacheKey);
+  }
 
-    final response = await _repository.delete(DeleteCacheDTO(key: dataCacheKey));
-    return response.fold(left, (_) => callback());
+  String _generateCacheKey(List<String> keys) {
+    final randomIndex = Random().nextInt(keys.length);
+    return keys[randomIndex];
   }
 }

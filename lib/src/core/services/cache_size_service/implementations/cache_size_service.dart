@@ -5,7 +5,7 @@ part of '../i_cache_size_service.dart';
 /// This class provides functionalities to calculate and retrieve
 /// the size of cache used by the application. It works by assessing
 /// the size of files stored in the application's documents and support
-/// directories, typically used for key-value storage (Prefs) and SQL storage.
+/// directories, typically used for key-value storage (Prefs).
 final class CacheSizeService implements ICacheSizeService {
   final IDirectoryProviderService directoryProvider;
   final CacheConfiguration config;
@@ -13,13 +13,17 @@ final class CacheSizeService implements ICacheSizeService {
   const CacheSizeService(this.directoryProvider, this.config);
 
   @override
-  bool canAccomodateCache(String value) {
-    final cacheSizeUsed = getCacheSizeUsed();
-    final valueKb = value.kbUsed;
+  Either<AutoCacheException, bool> canAccomodateCache(String value, {bool recursive = false}) {
+    try {
+      final cacheSizeUsed = this.getCacheSizeUsed();
+      final newTotalCacheUsed = cacheSizeUsed + value.kbUsed;
 
-    final newTotalCacheUsed = cacheSizeUsed + valueKb;
+      final canAccomodate = newTotalCacheUsed < config.sizeOptions.totalKb;
 
-    return newTotalCacheUsed < config.sizeOptions.totalKb;
+      return right(canAccomodate);
+    } on AutoCacheException catch (exception) {
+      return left(exception);
+    }
   }
 
   @override

@@ -48,7 +48,7 @@ class DataCacheEntity<T extends Object> {
   });
 
   factory DataCacheEntity.fakeConfig(T data) {
-    return DataCacheEntity(
+    return DataCacheEntity<T>(
       id: String.fromCharCode(5),
       data: data,
       invalidationType: InvalidationTypes.ttl,
