@@ -39,9 +39,4 @@ sealed class AutoCacheError {
     required this.code,
     required this.stackTrace,
   });
-
-  @override
-  String toString() {
-    return '$runtimeType: $message\n' '${stackTrace.toString()}';
-  }
 }

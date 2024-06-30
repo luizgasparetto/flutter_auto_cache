@@ -23,12 +23,6 @@ class CacheConfiguration {
   /// to cache data, ensuring its security.
   final CacheCryptographyOptions? cryptographyOptions;
 
-  /// Flag indicating whether to use Deflate compressor.
-  ///
-  /// This flag determines whether to utilize the Deflate compression
-  /// algorithm for compressing cache data, potentially saving storage space.
-  final bool useDeflateCompresser;
-
   /// Constructs a CacheConfig object.
   ///
   /// [sizeOptions] Options for cache size.
@@ -39,7 +33,6 @@ class CacheConfiguration {
     this.sizeOptions = const CacheSizeOptions(),
     this.cryptographyOptions,
     DataCacheOptions? dataCacheOptions,
-    this.useDeflateCompresser = false,
   }) : this.dataCacheOptions = dataCacheOptions ?? DataCacheOptions();
 
   /// Constructs a default CacheConfig object.

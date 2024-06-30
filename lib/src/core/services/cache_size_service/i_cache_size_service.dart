@@ -1,8 +1,8 @@
 import 'dart:io';
 
-import 'package:flutter_auto_cache/src/core/extensions/string_extensions.dart';
-
 import '../../core.dart';
+
+import '../../extensions/string_extensions.dart';
 
 import '../../configuration/constants/cache_size_constants.dart';
 import 'exceptions/cache_size_exceptions.dart';

@@ -3,8 +3,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'core/core.dart';
 
 import 'core/services/cache_size_service/i_cache_size_service.dart';
-import 'core/services/compressor_service/i_compressor_service.dart';
-import 'core/services/compressor_service/implementations/compressor_service.dart';
 import 'core/services/cryptography_service/implementations/encrypt_cryptography_service.dart';
 import 'core/services/cryptography_service/i_cryptography_service.dart';
 import 'core/services/directory_service/path_provider/path_provider_service.dart';
@@ -47,7 +45,6 @@ class AutoCacheInjections {
   void _registerCore() {
     ServiceLocator.instance.bindSingleton<CacheConfiguration>(CacheConfigurationStore.instance.config);
     ServiceLocator.instance.bindSingleton<IPathProviderService>(PathProviderService());
-    ServiceLocator.instance.bindSingleton<ICompressorService>(CompressorService());
     ServiceLocator.instance.bindFactory<ICacheSizeService>(() => CacheSizeService(_get(), _get()));
     ServiceLocator.instance.bindSingleton<IKvsService>(SharedPreferencesKvsService(_get()));
     ServiceLocator.instance.bindSingleton<ICryptographyService>(EncryptCryptographyService(_get()));
