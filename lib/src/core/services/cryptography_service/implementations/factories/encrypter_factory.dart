@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:crypto/crypto.dart';
 import 'package:encrypt/encrypt.dart';
+import 'package:flutter_auto_cache/src/core/core.dart';
 
 /// A factory class for creating AES encrypters using a secret key.
 ///
@@ -15,12 +16,12 @@ class EncrypterFactory {
   /// base64-encoded hash are used as the AES key for the [Encrypter].
   ///
   /// Args:
-  ///   secretKey: A [String] representing the secret key.
+  ///   configuration: A instance of [CacheConfiguration].
   ///
   /// Returns:
   ///   An [Encrypter] object configured with an AES algorithm and the derived key.
-  static Encrypter createEncrypter(String secretKey) {
-    final secretKeyBytes = utf8.encode(secretKey);
+  static Encrypter createEncrypter(CacheConfiguration configuration) {
+    final secretKeyBytes = utf8.encode(configuration.cryptographyOptions?.secretKey ?? '');
     final digest = sha256.convert(secretKeyBytes);
 
     final secretKeyHash = base64Url.encode(digest.bytes).substring(0, 32);
