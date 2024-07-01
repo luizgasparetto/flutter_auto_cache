@@ -1,7 +1,7 @@
 name: auto_cache_manager
-description: Package that automates cache management policies, using sqflite and shared preferences under the hood.
-homepage: https://github.com/luizgasparetto/auto_cache_manager
-repository: https://github.com/luizgasparetto/auto_cache_manager.git
+description: Package that automates cache management policies, using shared preferences under the hood.
+homepage: https://github.com/luizgasparetto/flutter_auto_cache
+repository: https://github.com/luizgasparetto/flutter_auto_cache.git
 version: 0.0.1
 
 environment:
@@ -9,20 +9,23 @@ environment:
   flutter: ">=1.17.0"
 
 dependencies:
-  flutter:
-    sdk: flutter
   path_provider: 2.1.3
   shared_preferences: 2.2.3
   encrypt: 5.0.3
   crypto: 3.0.3
+  meta: 1.11.0
+
+  flutter:
+    sdk: flutter
 
 dev_dependencies:
+  flutter_lints: ">=2.0.0 <4.0.0"
+  mocktail: 1.0.3
+  fake_async: 1.3.1
+  melos: 6.0.0
+
   flutter_test:
     sdk: flutter
-  flutter_lints: ">=2.0.0 <4.0.0"
-  flutterando_analysis: 0.0.2
-  mocktail: 1.0.3
-  melos: 5.3.0
 
 platforms:
   android:

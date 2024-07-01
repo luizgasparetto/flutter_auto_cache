@@ -1,95 +1,76 @@
-import 'package:auto_cache_manager/auto_cache_manager.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'core/config/stores/cache_config_store.dart';
+
 import 'core/core.dart';
-import 'core/services/compressor/compressor_service.dart';
-import 'core/services/cryptography/encrypt/encrypt_cryptography_service.dart';
-import 'core/services/cryptography/i_cryptography_service.dart';
-import 'core/services/directory_provider/path_provider/path_provider_service.dart';
-import 'core/services/storages/prefs/i_prefs_service.dart';
-import 'core/services/storages/prefs/shared_preferences/shared_preferences_service.dart';
-import 'modules/data_cache/domain/repositories/i_cache_repository.dart';
-import 'modules/data_cache/domain/services/invalidation/invalidation_cache_context.dart';
+
+import 'core/services/cache_size_service/i_cache_size_service.dart';
+import 'core/services/compressor_service/i_compressor_service.dart';
+import 'core/services/compressor_service/implementations/compressor_service.dart';
+import 'core/services/cryptography_service/implementations/encrypt_cryptography_service.dart';
+import 'core/services/cryptography_service/i_cryptography_service.dart';
+import 'core/services/directory_service/path_provider/path_provider_service.dart';
+import 'core/services/kvs_service/i_kvs_service.dart';
+import 'core/services/kvs_service/implementations/shared_preferences_kvs_service.dart';
+import 'core/services/service_locator/implementations/service_locator.dart';
+
+import 'modules/data_cache/domain/repositories/i_data_cache_repository.dart';
+import 'modules/data_cache/domain/services/invalidation_service/invalidation_cache_context.dart';
 import 'modules/data_cache/domain/usecases/clear_cache_usecase.dart';
-import 'modules/data_cache/domain/usecases/get_cache_usecase.dart';
-import 'modules/data_cache/domain/usecases/save_cache_usecase.dart';
-import 'modules/data_cache/external/datasources/prefs_cache_datasource.dart';
-import 'modules/data_cache/external/datasources/sql_cache_datasource.dart';
-import 'modules/data_cache/infra/datasources/i_prefs_cache_datasource.dart';
-import 'modules/data_cache/infra/datasources/i_sql_cache_datasource.dart';
-import 'modules/data_cache/infra/repositories/cache_repository.dart';
+import 'modules/data_cache/domain/usecases/delete_cache_usecase.dart';
+import 'modules/data_cache/domain/usecases/get_data_cache_usecase.dart';
+import 'modules/data_cache/domain/usecases/write_cache_usecase.dart';
+
+import 'modules/data_cache/external/datasources/command_data_cache_datasource.dart';
+import 'modules/data_cache/external/datasources/query_data_cache_datasource.dart';
+
+import 'modules/data_cache/infra/datasources/i_command_data_cache_datasource.dart';
+import 'modules/data_cache/infra/datasources/i_query_data_cache_datasource.dart';
+import 'modules/data_cache/infra/repositories/data_cache_repository.dart';
 
 class AutoCacheInjections {
-  static Future<void> registerBinds() async {
-    await Injector.I.asyncBind(SharedPreferences.getInstance);
+  /// Private constructor for the singleton pattern.
+  AutoCacheInjections._();
 
-    Injector.I.bindSingleton<CacheConfig>(
-      AutoCacheManagerInitializer.I.config,
-    );
-    Injector.I.bindSingleton<IPathProviderService>(
-      PathProviderService(),
-    );
-    Injector.I.bindSingleton<ICompressorService>(
-      CompressorService(),
-    );
+  /// The single instance of [AutoCacheManagerConfig].
+  static final _instance = AutoCacheInjections._();
 
-    Injector.I.bindSingleton<IPrefsService>(
-      SharedPreferencesService(
-        Injector.I.get<SharedPreferences>(),
-      ),
-    );
+  /// Provides global access to the [AutoCacheInjections] instance.
+  static AutoCacheInjections get instance => _instance;
 
-    Injector.I.bindSingleton<ICryptographyService>(
-      EncryptCryptographyService(
-        Injector.I.get<CacheConfig>(),
-      ),
-    );
+  bool get isInjectorInitialized => ServiceLocator.instance.hasBinds;
 
-    Injector.I.bindFactory<IPrefsCacheDatasource>(
-      () => PrefsCacheDatasource(
-        Injector.I.get<IPrefsService>(),
-      ),
-    );
-    Injector.I.bindFactory<ISQLCacheDatasource>(
-      SQLCacheDatasource.new,
-    );
-    Injector.I.bindFactory<InvalidationCacheContext>(
-      () => InvalidationCacheContext(
-        Injector.I.get<CacheConfig>(),
-      ),
-    );
-
-    Injector.I.bindSingleton<IDirectoryProviderService>(
-      DirectoryProviderService(
-        Injector.I.get<IPathProviderService>(),
-      ),
-    );
-
-    Injector.I.bindFactory<ICacheRepository>(
-      () => CacheRepository(
-        Injector.I.get<IPrefsCacheDatasource>(),
-        Injector.I.get<ISQLCacheDatasource>(),
-      ),
-    );
-
-    Injector.I.bindFactory<GetCacheUsecase>(
-      () => GetCache(
-        Injector.I.get<ICacheRepository>(),
-        Injector.I.get<InvalidationCacheContext>(),
-      ),
-    );
-
-    Injector.I.bindFactory<SaveCacheUsecase>(
-      () => SaveCache(
-        Injector.I.get<ICacheRepository>(),
-        Injector.I.get<InvalidationCacheContext>(),
-      ),
-    );
-
-    Injector.I.bindFactory<ClearCacheUsecase>(
-      () => ClearCache(
-        Injector.I.get<ICacheRepository>(),
-      ),
-    );
+  Future<void> registerBinds() async {
+    await _registerLibs();
+    _registerCore();
+    _registerDataCache();
   }
+
+  Future<void> _registerLibs() async {
+    await ServiceLocator.instance.asyncBind(SharedPreferences.getInstance);
+  }
+
+  void _registerCore() {
+    ServiceLocator.instance.bindSingleton<CacheConfig>(CacheConfigStore.instance.config);
+    ServiceLocator.instance.bindSingleton<IPathProviderService>(PathProviderService());
+    ServiceLocator.instance.bindSingleton<ICompressorService>(CompressorService());
+    ServiceLocator.instance.bindFactory<ICacheSizeService>(() => CacheSizeService(_get(), _get()));
+    ServiceLocator.instance.bindSingleton<IKvsService>(SharedPreferencesKvsService(_get()));
+    ServiceLocator.instance.bindSingleton<ICryptographyService>(EncryptCryptographyService(_get()));
+    ServiceLocator.instance.bindSingleton<IDirectoryProviderService>(DirectoryProviderService(_get()));
+  }
+
+  void _registerDataCache() {
+    ServiceLocator.instance.bindFactory<IQueryDataCacheDatasource>(() => QueryDataCacheDatasource(_get(), _get()));
+    ServiceLocator.instance.bindFactory<ICommandDataCacheDatasource>(() => CommandDataCacheDatasource(_get(), _get()));
+
+    ServiceLocator.instance.bindFactory<IInvalidationCacheContext>(() => InvalidationCacheContext(_get()));
+    ServiceLocator.instance.bindFactory<IDataCacheRepository>(() => DataCacheRepository(_get(), _get()));
+    ServiceLocator.instance.bindFactory<DeleteCacheUsecase>(() => DeleteCache(_get()));
+    ServiceLocator.instance.bindFactory<ClearCacheUsecase>(() => ClearCache(_get()));
+    ServiceLocator.instance.bindFactory<IGetDataCacheUsecase>(() => GetDataCacheUsecase(_get(), _get()));
+    ServiceLocator.instance.bindFactory<IWriteCacheUsecase>(() => WriteCacheUsecase(_get(), _get()));
+  }
+
+  T _get<T extends Object>() => ServiceLocator.instance.get<T>();
 }

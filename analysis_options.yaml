@@ -1,4 +1,4 @@
-include: package:flutterando_analysis/flutter.yaml
+include: package:flutter_lints/flutter.yaml
 
 linter:
   rules:
@@ -16,3 +16,4 @@ linter:
     avoid_catching_errors: false
     prefer_constructors_over_static_methods: false
     always_declare_return_types: true
+    library_private_types_in_public_api: false

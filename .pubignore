@@ -1,0 +1,13 @@
+**/*.md
+**/pubspec.lock
+
+workspaces/**
+scripts/**
+docs/**
+build/**
+coverage/**
+
+.vscode/**
+.github/**
+
+melos.yaml

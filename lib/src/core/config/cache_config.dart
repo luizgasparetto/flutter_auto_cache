@@ -1,8 +1,8 @@
-import '../../modules/data_cache/domain/constants/cache_constants.dart';
+// ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'constants/cache_invalidation_constants.dart';
 import '../../modules/data_cache/domain/enums/invalidation_type.dart';
-
-import '../../modules/data_cache/domain/value_objects/cache_cryptography_options.dart';
-import '../../modules/data_cache/domain/value_objects/cache_size_options.dart';
+import 'value_objects/cache_cryptography_options.dart';
+import 'value_objects/cache_size_options.dart';
 
 /// A configuration class for managing cache settings.
 ///
@@ -32,6 +32,8 @@ class CacheConfig {
   /// algorithm for compressing cache data, potentially saving storage space.
   final bool useDeflateCompresser;
 
+  final bool replaceExpiredCache;
+
   /// Constructs a CacheConfig object.
   ///
   /// [sizeOptions] Options for cache size.
@@ -40,9 +42,10 @@ class CacheConfig {
   /// [useDeflateCompresser] Flag indicating whether to use Deflate compressor.
   CacheConfig({
     CacheSizeOptions? sizeOptions,
-    this.ttlMaxDuration = CacheConstants.maxTtlDuration,
+    this.ttlMaxDuration = CacheInvalidationConstants.maxTtlDuration,
     this.cryptographyOptions,
     this.useDeflateCompresser = false,
+    this.replaceExpiredCache = true,
   }) : sizeOptions = sizeOptions ?? CacheSizeOptions.createDefault();
 
   /// Constructs a default CacheConfig object.
@@ -62,14 +65,30 @@ class CacheConfig {
   /// This method verifies whether the current configuration
   /// matches the default settings for the cache.
   bool get isDefaultConfig {
-    final isDefaultInvalidation =
-        invalidationType == CacheConstants.defaultInvalidationType;
-    final isDefaultCacheSizeOptions =
-        sizeOptions == CacheSizeOptions.createDefault();
+    final isDefaultInvalidation = invalidationType == CacheInvalidationConstants.defaultInvalidationType;
+    final isDefaultCacheSizeOptions = sizeOptions == CacheSizeOptions.createDefault();
     final isNotUsingDeflateCompresser = !useDeflateCompresser;
 
-    return isDefaultInvalidation &&
-        isDefaultCacheSizeOptions &&
-        isNotUsingDeflateCompresser;
+    return isDefaultInvalidation && isDefaultCacheSizeOptions && isNotUsingDeflateCompresser;
+  }
+
+  CacheConfig setCryptographyOptions(CacheCryptographyOptions? options) {
+    return _copyWith(cryptographyOptions: options);
+  }
+
+  CacheConfig _copyWith({
+    CacheSizeOptions? sizeOptions,
+    Duration? ttlMaxDuration,
+    CacheCryptographyOptions? cryptographyOptions,
+    bool? useDeflateCompresser,
+    bool? replaceExpiredCache,
+  }) {
+    return CacheConfig(
+      sizeOptions: sizeOptions ?? this.sizeOptions,
+      ttlMaxDuration: ttlMaxDuration ?? this.ttlMaxDuration,
+      cryptographyOptions: cryptographyOptions ?? this.cryptographyOptions,
+      useDeflateCompresser: useDeflateCompresser ?? this.useDeflateCompresser,
+      replaceExpiredCache: replaceExpiredCache ?? this.replaceExpiredCache,
+    );
   }
 }
