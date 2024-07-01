@@ -3,12 +3,12 @@ import 'package:flutter/foundation.dart';
 @immutable
 class InternalCacheInfo {
   final DateTime createdAt;
-  final DateTime endAt;
+  final DateTime? endAt;
   final DateTime? updatedAt;
 
   const InternalCacheInfo({
     required this.createdAt,
-    required this.endAt,
+    this.endAt,
     this.updatedAt,
   });
 

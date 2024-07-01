@@ -2,7 +2,10 @@ import 'dart:io';
 
 import '../../core.dart';
 
-import '../../config/constants/cache_size_constants.dart';
+import '../../extensions/string_extensions.dart';
+
+import '../../configuration/constants/cache_size_constants.dart';
+import '../directory_service/directory_provider_service.dart';
 import 'exceptions/cache_size_exceptions.dart';
 
 part './implementations/cache_size_service.dart';
@@ -12,12 +15,11 @@ part './implementations/cache_size_service.dart';
 /// This interface requires implementing classes to provide functionality
 /// for retrieving the total size of cache used by the application.
 abstract interface class ICacheSizeService {
-  /// Indicates whether cache is available for use.
+  /// Checks if the cache can accommodate the specified additional size in kilobytes.
   ///
-  /// This property should return `true` if the cache is available and
-  /// `false` otherwise. It helps in determining whether the cache size
-  /// can be retrieved.
-  bool get isCacheAvailable;
+  /// Returns `true` if the cache can accommodate the additional size specified in kilobytes,
+  /// `false` otherwise.
+  Future<bool> canAccomodateCache(String value, {bool recursive = false});
 
   /// Returns the total cache size used by the application in megabytes (MB).
   ///
@@ -26,5 +28,5 @@ abstract interface class ICacheSizeService {
   ///
   /// Throws a `CacheSizeException` if there is an error in calculating
   /// the cache size.
-  double getCacheSizeUsed();
+  Future<double> getCacheSizeUsed();
 }

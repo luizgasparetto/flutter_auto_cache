@@ -22,7 +22,7 @@ class InitializeMiddleware {
 
     if (!isInitialized) {
       throw NotInitializedAutoCacheException(
-        message: 'Auto cache manager is not initialized.',
+        message: 'Auto Cache is not initialized yet.',
         stackTrace: StackTrace.current,
       );
     }

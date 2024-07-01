@@ -1,0 +1,1 @@
+enum CacheCryptographyAlgorithms { aes, fernet }

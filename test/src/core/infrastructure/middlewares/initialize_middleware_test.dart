@@ -1,6 +1,6 @@
-import 'package:auto_cache_manager/src/core/infrastructure/middlewares/exceptions/initializer_exceptions.dart';
-import 'package:auto_cache_manager/src/core/infrastructure/middlewares/initialize_middleware.dart';
-import 'package:auto_cache_manager/src/core/services/service_locator/implementations/service_locator.dart';
+import 'package:flutter_auto_cache/src/core/infrastructure/middlewares/exceptions/initializer_exceptions.dart';
+import 'package:flutter_auto_cache/src/core/infrastructure/middlewares/initialize_middleware.dart';
+import 'package:flutter_auto_cache/src/core/services/service_locator/implementations/service_locator.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 class FakeInstance extends Fake {}
