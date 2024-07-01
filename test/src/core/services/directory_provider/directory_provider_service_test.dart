@@ -1,14 +1,14 @@
 import 'dart:io';
 
 import 'package:auto_cache_manager/src/core/core.dart';
-import 'package:auto_cache_manager/src/core/services/directory_provider/exceptions/directory_provider_exceptions.dart';
-import 'package:auto_cache_manager/src/core/services/directory_provider/path_provider/path_provider_service.dart';
+import 'package:auto_cache_manager/src/core/services/directory_service/exceptions/directory_provider_exceptions.dart';
+import 'package:auto_cache_manager/src/core/services/directory_service/path_provider/path_provider_service.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
 class PathProviderServiceMock extends Mock implements IPathProviderService {}
 
-class FakeAutoCacheManagerException extends Fake implements AutoCacheManagerException {}
+class FakeAutoCacheManagerException extends Fake implements AutoCacheException {}
 
 void main() {
   final service = PathProviderServiceMock();
@@ -73,17 +73,6 @@ void main() {
       await expectLater(sut.getCacheDirectories(), completes);
       expect(sut.value.isLoaded, isTrue);
       expect(sut.prefsDirectory.path, equals('docs_directory'));
-    });
-  });
-
-  group('DirectoryProviderService.sqlDirectory |', () {
-    test('should be able to get sql directory from state value', () async {
-      when(service.getApplicationDocumentsDirectory).thenAnswer((_) async => Directory('docs_directory'));
-      when(service.getApplicationSupportDirectory).thenAnswer((_) async => Directory('support_directory'));
-
-      await expectLater(sut.getCacheDirectories(), completes);
-      expect(sut.value.isLoaded, isTrue);
-      expect(sut.sqlDirectory.path, equals('support_directory'));
     });
   });
 
