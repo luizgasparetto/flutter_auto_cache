@@ -22,8 +22,6 @@ class SubstitutionCacheServiceMock extends Mock implements ISubstitutionCacheSer
 
 class AutoCacheExceptionFake extends Fake implements AutoCacheException {}
 
-class AutoCacheFailureFake extends Fake implements AutoCacheFailure {}
-
 class FakeGetCacheDTO extends Fake implements GetCacheDTO {}
 
 class FakeUpdateCacheDTO extends Fake implements UpdateCacheDTO<String> {}
@@ -137,7 +135,7 @@ void main() {
 
     test('should NOT be abel to save cache when is expired and config dont allow replacement', () async {
       when(() => repository.get<String>(any(that: cacheDtoMatcher()))).thenReturn(right(fakeCache));
-      when(() => invalidationService.validate(fakeCache)).thenReturn(left(AutoCacheFailureFake()));
+      when(() => invalidationService.validate(fakeCache)).thenReturn(left(AutoCacheExceptionFake()));
 
       final response = await sut.execute<String>(notReplaceDto);
 

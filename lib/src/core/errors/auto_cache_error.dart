@@ -1,14 +1,3 @@
-/// A base class for representing failures in the application.
-///
-/// This class extends [AutoCacheError] and is used to define specific types of failures.
-/// Each failure must provide a [message] and a [code], and inherits the [stackTrace] from [AppError].
-abstract class AutoCacheFailure extends AutoCacheError {
-  const AutoCacheFailure({
-    required super.message,
-    required super.code,
-  }) : super(stackTrace: StackTrace.empty);
-}
-
 /// A base class for representing exceptions in the application.
 ///
 /// This class extends [AutoCacheError] and implements [Exception] to define specific types of exceptions.
