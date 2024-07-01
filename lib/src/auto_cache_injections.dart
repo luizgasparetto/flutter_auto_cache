@@ -1,3 +1,4 @@
+import 'package:encrypt/encrypt.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'core/core.dart';
@@ -7,6 +8,7 @@ import 'core/configuration/stores/cache_configuration_store.dart';
 import 'core/services/cache_size_service/i_cache_size_service.dart';
 import 'core/services/cryptography_service/implementations/encrypt_cryptography_service.dart';
 import 'core/services/cryptography_service/i_cryptography_service.dart';
+import 'core/services/cryptography_service/implementations/factories/encrypter_factory.dart';
 import 'core/services/directory_service/directory_provider_service.dart';
 import 'core/services/directory_service/path_provider/path_provider_service.dart';
 import 'core/services/kvs_service/i_kvs_service.dart';
@@ -45,10 +47,11 @@ class AutoCacheInjections {
 
   void _registerCore() {
     ServiceLocator.instance.bindSingleton<CacheConfiguration>(CacheConfigurationStore.instance.config);
+    ServiceLocator.instance.bindSingleton<Encrypter>(EncrypterFactory.createEncrypter(_get()));
     ServiceLocator.instance.bindSingleton<IPathProviderService>(PathProviderService());
     ServiceLocator.instance.bindFactory<ICacheSizeService>(() => CacheSizeService(_get(), _get()));
     ServiceLocator.instance.bindSingleton<IKvsService>(SharedPreferencesKvsService(_get()));
-    ServiceLocator.instance.bindSingleton<ICryptographyService>(EncryptCryptographyService(_get()));
+    ServiceLocator.instance.bindSingleton<ICryptographyService>(EncryptCryptographyService(_get(), _get()));
     ServiceLocator.instance.bindSingleton<IDirectoryProviderService>(DirectoryProviderService(_get()));
   }
 

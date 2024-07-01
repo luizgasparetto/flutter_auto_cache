@@ -7,22 +7,19 @@ import '../../../configuration/cache_configuration.dart';
 import '../exceptions/cryptography_exceptions.dart';
 import '../i_cryptography_service.dart';
 
-import 'factories/encrypter_factory.dart';
 import 'factories/iv_factory.dart';
 
 final class EncryptCryptographyService implements ICryptographyService {
+  final Encrypter encrypter;
   final CacheConfiguration configuration;
 
-  const EncryptCryptographyService(this.configuration);
+  const EncryptCryptographyService(this.configuration, this.encrypter);
 
   @override
   String encrypt(String value) {
     try {
-      final cryptographyOptions = configuration.cryptographyOptions;
+      if (configuration.cryptographyOptions == null) return value;
 
-      if (cryptographyOptions == null) return value;
-
-      final encrypter = EncrypterFactory.createEncrypter(cryptographyOptions.secretKey);
       final iv = IvFactory.createEncryptIv();
 
       final encrypted = encrypter.encrypt(value, iv: iv);
@@ -40,16 +37,12 @@ final class EncryptCryptographyService implements ICryptographyService {
   @override
   String decrypt(String value) {
     try {
-      final cryptographyOptions = configuration.cryptographyOptions;
-
-      if (cryptographyOptions == null) return value;
+      if (configuration.cryptographyOptions == null) return value;
 
       final combined = base64Decode(value);
 
       final iv = IvFactory.createDecryptIv(combined);
       final encrypted = Encrypted(Uint8List.fromList(combined.sublist(16)));
-
-      final encrypter = EncrypterFactory.createEncrypter(cryptographyOptions.secretKey);
 
       return encrypter.decrypt(encrypted, iv: iv);
     } catch (exception, stackTrace) {
