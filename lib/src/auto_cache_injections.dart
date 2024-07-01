@@ -2,9 +2,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'core/core.dart';
 
+import 'core/configuration/stores/cache_configuration_store.dart';
+
 import 'core/services/cache_size_service/i_cache_size_service.dart';
 import 'core/services/cryptography_service/implementations/encrypt_cryptography_service.dart';
 import 'core/services/cryptography_service/i_cryptography_service.dart';
+import 'core/services/directory_service/directory_provider_service.dart';
 import 'core/services/directory_service/path_provider/path_provider_service.dart';
 import 'core/services/kvs_service/i_kvs_service.dart';
 import 'core/services/kvs_service/implementations/shared_preferences_kvs_service.dart';

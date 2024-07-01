@@ -1,4 +1,6 @@
 import '../../../../../core/core.dart';
+import '../../../../../core/functional/either.dart';
+
 import '../../entities/data_cache_entity.dart';
 import '../../enums/invalidation/invalidation_status.dart';
 import '../../enums/invalidation/invalidation_types.dart';

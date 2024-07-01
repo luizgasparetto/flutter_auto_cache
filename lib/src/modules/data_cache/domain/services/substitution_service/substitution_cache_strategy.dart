@@ -2,6 +2,7 @@ import 'dart:math';
 
 import '../../../../../core/core.dart';
 
+import '../../../../../core/functional/either.dart';
 import '../../dtos/delete_cache_dto.dart';
 import '../../entities/data_cache_entity.dart';
 import '../../repositories/i_data_cache_repository.dart';

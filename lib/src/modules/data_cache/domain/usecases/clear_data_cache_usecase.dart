@@ -1,5 +1,6 @@
 import '../../../../core/core.dart';
 
+import '../../../../core/functional/either.dart';
 import '../repositories/i_data_cache_repository.dart';
 
 /// Abstract interface for the ClearCache use case.

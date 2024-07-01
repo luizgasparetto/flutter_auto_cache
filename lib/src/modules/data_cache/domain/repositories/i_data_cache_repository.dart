@@ -1,5 +1,6 @@
 import '../../../../core/core.dart';
 
+import '../../../../core/functional/either.dart';
 import '../dtos/delete_cache_dto.dart';
 import '../dtos/get_cache_dto.dart';
 import '../dtos/update_cache_dto.dart';
