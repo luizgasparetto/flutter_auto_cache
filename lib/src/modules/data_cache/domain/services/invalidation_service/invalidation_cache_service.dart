@@ -2,8 +2,8 @@ import '../../../../../core/core.dart';
 import '../../../../../core/functional/either.dart';
 
 import '../../entities/data_cache_entity.dart';
-import '../../enums/invalidation/invalidation_status.dart';
-import '../../enums/invalidation/invalidation_types.dart';
+import '../../value_objects/invalidation_methods/invalidation_method.dart';
+import '../../enums/invalidation_status.dart';
 
 import 'invalidation_cache_strategy.dart';
 
@@ -28,8 +28,8 @@ final class InvalidationCacheService implements IInvalidationCacheService {
   }
 
   InvalidationCacheStrategy get invalidationCacheStrategy {
-    return switch (configuration.dataCacheOptions.invalidationType) {
-      InvalidationTypes.ttl => TTLInvalidationCacheStrategy(),
+    return switch (configuration.dataCacheOptions.invalidationMethod) {
+      TTLInvalidationMethod _ => TTLInvalidationCacheStrategy(),
     };
   }
 }

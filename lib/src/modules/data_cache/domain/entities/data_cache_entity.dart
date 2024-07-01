@@ -11,7 +11,7 @@ class DataCacheEntity<T extends Object> {
   final T data;
   final DateTime createdAt;
   final DateTime? updatedAt;
-  final DateTime endAt;
+  final DateTime? endAt;
 
   const DataCacheEntity({
     required this.id,

@@ -8,7 +8,7 @@ final class WriteCacheDTOAdapter {
       id: dto.key,
       data: dto.data,
       createdAt: DateTime.now(),
-      endAt: DateTime.now().add(dto.cacheConfig.dataCacheOptions.ttlMaxDuration),
+      endAt: dto.cacheConfig.dataCacheOptions.invalidationMethod.endAt,
     );
   }
 
@@ -17,7 +17,7 @@ final class WriteCacheDTOAdapter {
       id: dto.previewCache.id,
       data: dto.previewCache.data,
       createdAt: dto.previewCache.createdAt,
-      endAt: DateTime.now().add(dto.config.dataCacheOptions.ttlMaxDuration),
+      endAt: dto.config.dataCacheOptions.invalidationMethod.endAt,
       updatedAt: DateTime.now(),
     );
   }

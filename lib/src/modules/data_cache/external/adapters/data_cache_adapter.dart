@@ -26,7 +26,7 @@ class DataCacheAdapter {
       'id': cache.id,
       'data': cache.data,
       'created_at': cache.createdAt.toIso8601String(),
-      'end_at': cache.endAt.toIso8601String(),
+      'end_at': cache.endAt?.toIso8601String(),
       'updated_at': cache.updatedAt?.toIso8601String(),
     };
   }

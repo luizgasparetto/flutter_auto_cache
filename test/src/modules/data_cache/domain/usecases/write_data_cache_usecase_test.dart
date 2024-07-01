@@ -5,7 +5,6 @@ import 'package:flutter_auto_cache/src/modules/data_cache/domain/dtos/key_cache_
 import 'package:flutter_auto_cache/src/modules/data_cache/domain/dtos/update_cache_dto.dart';
 import 'package:flutter_auto_cache/src/modules/data_cache/domain/dtos/write_cache_dto.dart';
 import 'package:flutter_auto_cache/src/modules/data_cache/domain/entities/data_cache_entity.dart';
-import 'package:flutter_auto_cache/src/modules/data_cache/domain/enums/invalidation/invalidation_types.dart';
 import 'package:flutter_auto_cache/src/modules/data_cache/domain/repositories/i_data_cache_repository.dart';
 import 'package:flutter_auto_cache/src/modules/data_cache/domain/services/invalidation_service/invalidation_cache_service.dart';
 import 'package:flutter_auto_cache/src/modules/data_cache/domain/services/substitution_service/substitution_cache_service.dart';
@@ -28,17 +27,17 @@ class FakeUpdateCacheDTO extends Fake implements UpdateCacheDTO<String> {}
 
 class ReplaceFakeCacheConfig extends Fake implements CacheConfiguration {
   @override
-  DataCacheOptions get dataCacheOptions => DataCacheOptions(replaceExpiredCache: true);
+  DataCacheOptions get dataCacheOptions => const DataCacheOptions(replaceExpiredCache: true);
 }
 
 class NotReplaceFakeCacheConfig extends Fake implements CacheConfiguration {
   @override
-  DataCacheOptions get dataCacheOptions => DataCacheOptions(replaceExpiredCache: false);
+  DataCacheOptions get dataCacheOptions => const DataCacheOptions(replaceExpiredCache: false);
 }
 
 class BaseConfigFake extends Fake implements CacheConfiguration {
   @override
-  DataCacheOptions get dataCacheOptions => DataCacheOptions(invalidationType: InvalidationTypes.ttl);
+  DataCacheOptions get dataCacheOptions => const DataCacheOptions();
 }
 
 class DataCacheEntityFake<T extends Object> extends Fake implements DataCacheEntity<T> {
