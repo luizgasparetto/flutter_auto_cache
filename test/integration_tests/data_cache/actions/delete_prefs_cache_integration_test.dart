@@ -13,13 +13,13 @@ Future<void> main() async {
     test('should be able to delete an existent cache item by key', () async {
       await sut.saveString(key: 'string_key', data: 'string_value');
 
-      final response = sut.getString(key: 'string_key');
+      final response = await sut.getString(key: 'string_key');
 
       expect(response, equals('string_value'));
 
       await sut.delete(key: 'string_key');
 
-      final deletedResponse = sut.getString(key: 'string_key');
+      final deletedResponse = await sut.getString(key: 'string_key');
 
       expect(deletedResponse, isNull);
     });

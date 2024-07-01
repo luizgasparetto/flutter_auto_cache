@@ -1,11 +1,12 @@
-import 'package:auto_cache_manager/src/core/core.dart';
 import 'package:flutter/foundation.dart';
+
+import '../../../../core/core.dart';
 
 @immutable
 class WriteCacheDTO<T extends Object> {
   final String key;
   final T data;
-  final CacheConfig cacheConfig;
+  final CacheConfiguration cacheConfig;
 
   const WriteCacheDTO({
     required this.key,

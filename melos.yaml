@@ -11,4 +11,4 @@ scripts:
     run: flutter test --test-randomize-ordering-seed=random --coverage
 
   format:
-    run: dart format --set-exit-if-changed --line-length 120 .
+    run: dart format --set-exit-if-changed --line-length 140 .

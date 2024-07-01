@@ -1,4 +1,4 @@
-name: auto_cache_manager
+name: flutter_auto_cache
 description: Package that automates cache management policies, using shared preferences under the hood.
 homepage: https://github.com/luizgasparetto/flutter_auto_cache
 repository: https://github.com/luizgasparetto/flutter_auto_cache.git
@@ -19,7 +19,7 @@ dependencies:
     sdk: flutter
 
 dev_dependencies:
-  flutter_lints: ">=2.0.0 <4.0.0"
+  flutter_lints: ">=2.0.0 <5.0.0"
   mocktail: 1.0.3
   fake_async: 1.3.1
   melos: 6.0.0

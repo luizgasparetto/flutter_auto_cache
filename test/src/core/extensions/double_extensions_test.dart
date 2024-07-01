@@ -1,4 +1,4 @@
-import 'package:auto_cache_manager/src/core/extensions/double_extensions.dart';
+import 'package:flutter_auto_cache/src/core/extensions/double_extensions.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

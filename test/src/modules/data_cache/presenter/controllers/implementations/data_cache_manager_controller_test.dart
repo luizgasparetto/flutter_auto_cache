@@ -1,26 +1,27 @@
-import 'package:auto_cache_manager/src/core/core.dart';
-import 'package:auto_cache_manager/src/core/services/service_locator/implementations/service_locator.dart';
-import 'package:auto_cache_manager/src/modules/data_cache/domain/dtos/delete_cache_dto.dart';
-import 'package:auto_cache_manager/src/modules/data_cache/domain/dtos/get_cache_dto.dart';
-import 'package:auto_cache_manager/src/modules/data_cache/domain/dtos/write_cache_dto.dart';
-import 'package:auto_cache_manager/src/modules/data_cache/domain/entities/cache_entity.dart';
-import 'package:auto_cache_manager/src/modules/data_cache/domain/usecases/clear_cache_usecase.dart';
-import 'package:auto_cache_manager/src/modules/data_cache/domain/usecases/delete_cache_usecase.dart';
-import 'package:auto_cache_manager/src/modules/data_cache/domain/usecases/get_data_cache_usecase.dart';
-import 'package:auto_cache_manager/src/modules/data_cache/domain/usecases/write_cache_usecase.dart';
-import 'package:auto_cache_manager/src/modules/data_cache/presenter/controllers/implementations/data_cache_manager_controller.dart';
+import 'package:flutter_auto_cache/src/core/core.dart';
+import 'package:flutter_auto_cache/src/core/functional/either.dart';
+import 'package:flutter_auto_cache/src/core/services/service_locator/implementations/service_locator.dart';
+import 'package:flutter_auto_cache/src/modules/data_cache/domain/dtos/delete_cache_dto.dart';
+import 'package:flutter_auto_cache/src/modules/data_cache/domain/dtos/get_cache_dto.dart';
+import 'package:flutter_auto_cache/src/modules/data_cache/domain/dtos/write_cache_dto.dart';
+import 'package:flutter_auto_cache/src/modules/data_cache/domain/entities/data_cache_entity.dart';
+import 'package:flutter_auto_cache/src/modules/data_cache/domain/usecases/clear_data_cache_usecase.dart';
+import 'package:flutter_auto_cache/src/modules/data_cache/domain/usecases/delete_data_cache_usecase.dart';
+import 'package:flutter_auto_cache/src/modules/data_cache/domain/usecases/get_data_cache_usecase.dart';
+import 'package:flutter_auto_cache/src/modules/data_cache/domain/usecases/write_data_cache_usecase.dart';
+import 'package:flutter_auto_cache/src/modules/data_cache/presenter/controllers/implementations/data_cache_manager_controller.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
 class GetCacheUsecaseMock extends Mock implements IGetDataCacheUsecase {}
 
-class WriteCacheUsecaseMock extends Mock implements IWriteCacheUsecase {}
+class WriteDataCacheUsecaseMock extends Mock implements IWriteDataCacheUsecase {}
 
-class ClearCacheUsecaseMock extends Mock implements ClearCacheUsecase {}
+class ClearDataCacheUsecaseMock extends Mock implements IClearDataCacheUsecase {}
 
-class DeleteCacheUsecaseMock extends Mock implements DeleteCacheUsecase {}
+class DeleteDataCacheUsecaseMock extends Mock implements IDeleteDataCacheUsecase {}
 
-class CacheConfigMock extends Mock implements CacheConfig {}
+class CacheConfigMock extends Mock implements CacheConfiguration {}
 
 class FakeBindClass extends Fake {}
 
@@ -30,10 +31,10 @@ class FakeGetCacheDTO extends Fake implements GetCacheDTO {}
 
 class FakeDeleteCacheDTO extends Fake implements DeleteCacheDTO {}
 
-class CacheEntityFake<T extends Object> extends Fake implements CacheEntity<T> {
+class DataCacheEntityFake<T extends Object> extends Fake implements DataCacheEntity<T> {
   final T fakeData;
 
-  CacheEntityFake({required this.fakeData});
+  DataCacheEntityFake({required this.fakeData});
 
   @override
   T get data => fakeData;
@@ -41,9 +42,9 @@ class CacheEntityFake<T extends Object> extends Fake implements CacheEntity<T> {
 
 void main() {
   final getCacheUsecase = GetCacheUsecaseMock();
-  final writeCacheUsecase = WriteCacheUsecaseMock();
-  final clearCacheUsecase = ClearCacheUsecaseMock();
-  final deleteCacheUsecase = DeleteCacheUsecaseMock();
+  final writeCacheUsecase = WriteDataCacheUsecaseMock();
+  final clearCacheUsecase = ClearDataCacheUsecaseMock();
+  final deleteCacheUsecase = DeleteDataCacheUsecaseMock();
 
   final cacheConfigMock = CacheConfigMock();
 
@@ -81,9 +82,9 @@ void main() {
   }
 
   group('DataCacheManagerController.get |', () {
-    test('should be able to get data in cache with a key successfully', () {
+    test('should be able to get data in cache with a key successfully', () async {
       when(() => getCacheUsecase.execute<String, String>(any(that: getCacheDtoMatcher()))).thenReturn(
-        right(CacheEntityFake<String>(fakeData: 'my_string_cached')),
+        right(DataCacheEntityFake<String>(fakeData: 'my_string_cached')),
       );
 
       final response = sut.get<String>(key: 'my_key');
@@ -92,7 +93,7 @@ void main() {
       verify(() => getCacheUsecase.execute<String, String>(any(that: getCacheDtoMatcher()))).called(1);
     });
 
-    test('should be able to get item in cache and return NULL when not find cache item', () {
+    test('should be able to get item in cache and return NULL when not find cache item', () async {
       when(() => getCacheUsecase.execute<String, String>(any(that: getCacheDtoMatcher()))).thenReturn(right(null));
 
       final response = sut.get<String>(key: 'my_key');
@@ -111,9 +112,9 @@ void main() {
   });
 
   group('DataCacheManagerController.getList |', () {
-    test('should be able to get data list in cache with a key successfully', () {
+    test('should be able to get data list in cache with a key successfully', () async {
       when(() => getCacheUsecase.execute<List<String>, String>(any(that: getCacheDtoMatcher()))).thenReturn(
-        right(CacheEntityFake<List<String>>(fakeData: ['fake_list_data'])),
+        right(DataCacheEntityFake<List<String>>(fakeData: ['fake_list_data'])),
       );
 
       final response = sut.getList<String>(key: 'my_key');
@@ -122,7 +123,7 @@ void main() {
       verify(() => getCacheUsecase.execute<List<String>, String>(any(that: getCacheDtoMatcher()))).called(1);
     });
 
-    test('should be able to return NULL on get data list when not find cache item', () {
+    test('should be able to return NULL on get data list when not find cache item', () async {
       when(() => getCacheUsecase.execute<List<String>, String>(any(that: getCacheDtoMatcher()))).thenReturn(
         right(null),
       );

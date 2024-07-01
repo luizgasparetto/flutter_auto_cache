@@ -1,0 +1,29 @@
+{
+  "folders": [
+    {
+      "name": "package",
+      "path": ".."
+    },
+    {
+      "name": "data_cache",
+      "path": "../lib/src/modules/data_cache"
+    },
+    {
+      "name": "file_cache",
+      "path": "../lib/src/modules/file_cache"
+    }
+  ],
+  "settings": {
+    "dart.runPubGetOnPubspecChanges": "never",
+    "dart.lineLength": 140,
+    "editor.codeActionsOnSave": {
+      "source.fixAll": "explicit"
+    },
+    "search.exclude": {
+      "/.fvm": true
+    },
+    "files.watcherExclude": {
+      "/.fvm": true
+    }
+  },
+}

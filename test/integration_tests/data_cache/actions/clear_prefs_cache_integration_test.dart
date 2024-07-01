@@ -16,8 +16,8 @@ Future<void> main() async {
 
       await expectLater(sut.clear(), completes);
 
-      final stringResponse = sut.getString(key: 'string_key');
-      final intResponse = sut.getInt(key: 'int_key');
+      final stringResponse = await sut.getString(key: 'string_key');
+      final intResponse = await sut.getInt(key: 'int_key');
 
       expect(stringResponse, isNull);
       expect(intResponse, isNull);

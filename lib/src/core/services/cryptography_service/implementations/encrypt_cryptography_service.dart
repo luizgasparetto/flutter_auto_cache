@@ -1,40 +1,69 @@
 import 'dart:convert';
 
 import 'package:encrypt/encrypt.dart';
+import 'package:flutter/foundation.dart';
 
-import '../../../config/cache_config.dart';
+import '../../../configuration/cache_configuration.dart';
+import '../exceptions/cryptography_exceptions.dart';
 import '../i_cryptography_service.dart';
 
 import 'factories/encrypter_factory.dart';
+import 'factories/iv_factory.dart';
 
 final class EncryptCryptographyService implements ICryptographyService {
-  final CacheConfig cacheConfig;
+  final CacheConfiguration configuration;
 
-  const EncryptCryptographyService(this.cacheConfig);
+  const EncryptCryptographyService(this.configuration);
 
   @override
   String encrypt(String value) {
-    final cryptographyOptions = cacheConfig.cryptographyOptions;
+    try {
+      final cryptographyOptions = configuration.cryptographyOptions;
 
-    if (cryptographyOptions == null) return value;
+      if (cryptographyOptions == null) return value;
 
-    final encrypter = EncrypterFactory.instance.createEncrypter(cryptographyOptions.secretKey);
-    final iv = EncrypterFactory.instance.createIv(cryptographyOptions.secretKey);
+      final encrypter = EncrypterFactory.createEncrypter(cryptographyOptions.secretKey);
+      final iv = IvFactory.createEncryptIv();
 
-    final encrypted = encrypter.encrypt(value, iv: iv);
-    return base64Encode(encrypted.bytes);
+      final encrypted = encrypter.encrypt(value, iv: iv);
+      final combined = _getCombinedBytes(iv, encrypted.bytes);
+
+      return base64Encode(combined);
+    } catch (exception, stackTrace) {
+      throw EncryptException(
+        message: 'An error occurred while encrypting data: ${exception.toString()}',
+        stackTrace: stackTrace,
+      );
+    }
   }
 
   @override
   String decrypt(String value) {
-    final cryptographyOptions = cacheConfig.cryptographyOptions;
+    try {
+      final cryptographyOptions = configuration.cryptographyOptions;
 
-    if (cryptographyOptions == null) return value;
+      if (cryptographyOptions == null) return value;
 
-    final encrypter = EncrypterFactory.instance.createEncrypter(cryptographyOptions.secretKey);
-    final iv = EncrypterFactory.instance.createIv(cryptographyOptions.secretKey);
+      final combined = base64Decode(value);
 
-    final bytes = base64Decode(value);
-    return encrypter.decrypt(Encrypted(bytes), iv: iv);
+      final iv = IvFactory.createDecryptIv(combined);
+      final encrypted = Encrypted(Uint8List.fromList(combined.sublist(16)));
+
+      final encrypter = EncrypterFactory.createEncrypter(cryptographyOptions.secretKey);
+
+      return encrypter.decrypt(encrypted, iv: iv);
+    } catch (exception, stackTrace) {
+      throw DecryptException(
+        message: 'An error occurred while decrypting data: ${exception.toString()}',
+        stackTrace: stackTrace,
+      );
+    }
+  }
+
+  Uint8List _getCombinedBytes(IV iv, Uint8List encryptedBytes) {
+    final uint8List = Uint8List(iv.bytes.length + encryptedBytes.length);
+    final uint8ListWithIv = uint8List..setAll(0, iv.bytes);
+
+    return uint8ListWithIv..setAll(iv.bytes.length, encryptedBytes);
   }
 }

@@ -7,15 +7,15 @@ import '../../../../../core/services/service_locator/implementations/service_loc
 import '../../../domain/dtos/delete_cache_dto.dart';
 import '../../../domain/dtos/get_cache_dto.dart';
 import '../../../domain/dtos/write_cache_dto.dart';
-import '../../../domain/usecases/clear_cache_usecase.dart';
-import '../../../domain/usecases/delete_cache_usecase.dart';
+import '../../../domain/usecases/clear_data_cache_usecase.dart';
+import '../../../domain/usecases/delete_data_cache_usecase.dart';
 import '../../../domain/usecases/get_data_cache_usecase.dart';
-import '../../../domain/usecases/write_cache_usecase.dart';
+import '../../../domain/usecases/write_data_cache_usecase.dart';
 
-import '../interfaces/i_data_cache_controller.dart';
+import '../i_data_cache_controller.dart';
 
 part 'prefs_cache_manager_controller.dart';
-part '../interfaces/i_prefs_cache_manager_controller.dart';
+part '../i_prefs_cache_manager_controller.dart';
 
 /// Responsible for managing caching operations through various use cases.
 /// The `BaseDataCacheManagerController` provides an abstraction layer for interacting
@@ -23,10 +23,10 @@ part '../interfaces/i_prefs_cache_manager_controller.dart';
 /// deletion, and clearing of cache content.
 class DataCacheManagerController implements IDataCacheController {
   final IGetDataCacheUsecase _getCacheUsecase;
-  final IWriteCacheUsecase _writeCacheUsecase;
-  final ClearCacheUsecase _clearCacheUsecase;
-  final DeleteCacheUsecase _deleteCacheUsecase;
-  final CacheConfig cacheConfig;
+  final IWriteDataCacheUsecase _writeCacheUsecase;
+  final IClearDataCacheUsecase _clearCacheUsecase;
+  final IDeleteDataCacheUsecase _deleteCacheUsecase;
+  final CacheConfiguration cacheConfiguration;
 
   /// Initializes the `BaseDataCacheManagerController` with the specified use cases and cache configuration.
   ///
@@ -43,7 +43,7 @@ class DataCacheManagerController implements IDataCacheController {
     this._writeCacheUsecase,
     this._clearCacheUsecase,
     this._deleteCacheUsecase,
-    this.cacheConfig,
+    this.cacheConfiguration,
   );
 
   /// Factory method for creating a new instance of `BaseDataCacheManagerController`.
@@ -54,10 +54,10 @@ class DataCacheManagerController implements IDataCacheController {
   factory DataCacheManagerController.create() {
     return DataCacheManagerController(
       ServiceLocator.instance.get<IGetDataCacheUsecase>(),
-      ServiceLocator.instance.get<IWriteCacheUsecase>(),
-      ServiceLocator.instance.get<ClearCacheUsecase>(),
-      ServiceLocator.instance.get<DeleteCacheUsecase>(),
-      ServiceLocator.instance.get<CacheConfig>(),
+      ServiceLocator.instance.get<IWriteDataCacheUsecase>(),
+      ServiceLocator.instance.get<IClearDataCacheUsecase>(),
+      ServiceLocator.instance.get<IDeleteDataCacheUsecase>(),
+      ServiceLocator.instance.get<CacheConfiguration>(),
     );
   }
 
@@ -73,10 +73,10 @@ class DataCacheManagerController implements IDataCacheController {
 
   @override
   Future<void> save<T extends Object>({required String key, required T data}) async {
-    final dto = WriteCacheDTO<T>(key: key, data: data, cacheConfig: cacheConfig);
+    final dto = WriteCacheDTO<T>(key: key, data: data, cacheConfig: cacheConfiguration);
     final response = await _writeCacheUsecase.execute(dto);
 
-    return response.foldLeft((error) => throw error);
+    return response.fold((error) => throw error, (_) {});
   }
 
   @override
@@ -84,14 +84,14 @@ class DataCacheManagerController implements IDataCacheController {
     final dto = DeleteCacheDTO(key: key);
     final response = await _deleteCacheUsecase.execute(dto);
 
-    return response.foldLeft((error) => throw error);
+    return response.fold((error) => throw error, (_) {});
   }
 
   @override
   Future<void> clear() async {
     final response = await _clearCacheUsecase.execute();
 
-    return response.foldLeft((error) => throw error);
+    return response.fold((error) => throw error, (_) {});
   }
 
   T? _getDataCache<T extends Object, DataType extends Object>({required String key}) {
