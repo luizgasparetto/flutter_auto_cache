@@ -11,6 +11,7 @@
   <a href="https://github.com/luizgasparetto/flutter_auto_cache/graphs/contributors">
     <img src="https://img.shields.io/github/contributors-anon/luizgasparetto/flutter_auto_cache?color=yellow&style=flat-square" alt="contributors" style="height: 20px;">
   </a>
+  
   <a href="https://opensource.org/license/bsd-3-clause">
   <img src="https://img.shields.io/github/license/luizgasparetto/flutter_auto_cache?style=flat-square&color=blue" style: "height: 20px;">
   </a>
@@ -42,19 +43,19 @@ If you prefer to install FlutterAutoCache locally, follow these steps:
 
 #### 1. Clone the FlutterAutoCache repository:
 
-```
+```bash
 git clone https://github.com/luizgasparetto/flutter_auto_cache.git
 ```
 
 #### 2. Navigate to your project's pubspec.yaml file and add the following dependency:
-```
+```yaml
 dependencies:
   flutter_auto_cache:
     path: ../path_to_flutter_auto_cache
 ```
 
 #### 3. Install the dependency by running:
-```
+```bash
 flutter pub get
 ```
 
@@ -74,7 +75,7 @@ Future<void> main() async {
 
 After initialization, you can use the cache management methods directly from the AutoCache class. Here is an example of how to access the preferences cache manager:
 
-```
+```dart
 await AutoCache.prefs.getString(key: "my_string_cached");
 ```
 
@@ -88,7 +89,7 @@ With this setup, you can easily manage your application's cache using the method
 
 The majority of FlutterAutoCache code is open-source. We are committed to a transparent development process and highly appreciate any contributions. Whether you are helping us fix bugs, proposing new features, improving our documentation, or spreading the word - we would love to have you as a part of the FlutterAutoCache community.
 
-- Bug Report: If you see an error message or encounter an issue while using Amplication, please create a [bug report](https://github.com/luizgasparetto/flutter_auto_cache/issues/new?assignees=&labels=type%3A+feature+request&template=BUG-REPORT.yml).
+- Bug Report: If you encounter an issue while using FlutterAutoCache, please create a [bug report](https://github.com/luizgasparetto/flutter_auto_cache/issues/new?assignees=&labels=type%3A+feature+request&template=BUG-REPORT.yml).
 
 - Feature Request: If you have an idea or if there is a capability that is missing and would make development easier and more robust, please submit a [feature request](https://github.com/luizgasparetto/flutter_auto_cache/issues/new?assignees=&labels=type%3A+feature+request&template=SUGGESTION-REQUEST.yml).
 
