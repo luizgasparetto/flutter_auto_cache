@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:flutter_auto_cache/src/core/core.dart';
-import 'package:flutter_auto_cache/src/core/services/directory_service/exceptions/directory_provider_exceptions.dart';
 import 'package:flutter_auto_cache/src/core/services/directory_service/path_provider/path_provider_service.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';

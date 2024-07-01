@@ -2,6 +2,7 @@ import '../../domain/dtos/update_cache_dto.dart';
 import '../../domain/dtos/write_cache_dto.dart';
 import '../../domain/entities/data_cache_entity.dart';
 
+/// A mixin that combines both query and command data cache data source functionalities.
 mixin IDataCacheDatasource on IQueryDataCacheDatasource, ICommandDataCacheDatasource {}
 
 /// Defines the contract for a command data cache data source, providing methods to persist,
@@ -15,35 +16,24 @@ abstract interface class ICommandDataCacheDatasource {
   ///
   /// This asynchronous operation saves an entity to the cache using a key-value pair encapsulated within
   /// the provided DTO. It ensures data integrity and type safety during the save operation.
-  ///
-  /// Parameters:
-  ///   - [dto]: A `SaveCacheDTO<T>` object containing the key under which the entity is stored and the entity itself.
-  ///
-  /// Returns:
-  ///   - A `Future<void>` that completes when the operation has successfully persisted the entity.
   Future<void> save<T extends Object>(WriteCacheDTO<T> dto);
 
+  /// Updates a cached data entity based on the details provided within a data transfer object (DTO).
+  ///
+  /// This asynchronous operation updates an entity in the cache using a key-value pair encapsulated within
+  /// the provided DTO. It ensures data integrity and type safety during the update operation.
   Future<void> update<T extends Object>(UpdateCacheDTO<T> dto);
 
   /// Deletes a specific cache entry identified by its key.
   ///
   /// This asynchronous operation removes a cache entry corresponding to the specified key. It is typically used
   /// to manage cache size or remove outdated or unnecessary data.
-  ///
-  /// Parameters:
-  ///   - [key]: A `String` representing the unique key associated with the cache entry to be deleted.
-  ///
-  /// Returns:
-  ///   - A `Future<void>` that completes when the entry has been successfully removed.
   Future<void> delete(String key);
 
   /// Clears all entries from the cache.
   ///
   /// This comprehensive asynchronous operation is used to completely empty the cache, effectively resetting it.
   /// It is useful during scenarios such as application resets, user logout, or when transitioning between major updates.
-  ///
-  /// Returns:
-  ///   - A `Future<void>` that completes when the cache has been entirely cleared.
   Future<void> clear();
 }
 
@@ -58,24 +48,24 @@ abstract interface class IQueryDataCacheDatasource {
   /// The method attempts to find an entity in the cache that matches the specified key. If no such entity exists,
   /// the method returns `null`. This operation is type-safe, ensuring that the retrieved entity, if present,
   /// is of the expected data type.
-  ///
-  /// Parameters:
-  ///   - [key]: A `String` representing the unique key associated with the cache entry.
-  ///
-  /// Returns:
-  ///   - A `DataCacheEntity<T>?`, which is the cached entity if found, or `null` if no such entity exists.
   DataCacheEntity<T>? get<T extends Object>(String key);
 
+  /// Retrieves a list of cached entities associated with a specific key.
+  ///
+  /// The method attempts to find entities in the cache that match the specified key. If no such entities exist,
+  /// the method returns `null`. This operation is type-safe, ensuring that the retrieved entities, if present,
+  /// are of the expected data type.
   DataCacheEntity<T>? getList<T extends Object, DataType extends Object>(String key);
 
+  /// Attempts to accommodate a data cache entity in the cache.
+  ///
+  /// This asynchronous operation checks if the cache can accommodate the provided data cache entity. It handles
+  /// necessary adjustments to ensure the entity fits within the cache constraints.
   Future<bool> accomodateCache<T extends Object>(DataCacheEntity<T> dataCache);
 
   /// Retrieves a comprehensive list of all keys currently stored in the cache.
   ///
   /// This method provides an overview of the cache's contents by listing all the keys. It can be useful for
   /// debugging purposes or when performing bulk operations on the cache.
-  ///
-  /// Returns:
-  ///   - A `List<String>` containing all the keys within the cache.
   List<String> getKeys();
 }

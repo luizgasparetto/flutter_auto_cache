@@ -1,6 +1,6 @@
 import 'package:flutter_auto_cache/src/core/configuration/models/cache_size_options.dart';
 import 'package:flutter_auto_cache/src/core/core.dart';
-import 'package:flutter_auto_cache/src/modules/data_cache/domain/enums/invalidation_types.dart';
+import 'package:flutter_auto_cache/src/modules/data_cache/domain/enums/invalidation/invalidation_types.dart';
 
 import 'package:flutter_test/flutter_test.dart';
 

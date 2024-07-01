@@ -4,7 +4,17 @@ import '../entities/data_cache_entity.dart';
 import '../repositories/i_data_cache_repository.dart';
 import '../services/invalidation_service/invalidation_cache_service.dart';
 
+/// An interface defining the use case for retrieving data from the cache.
+///
+/// This use case provides a method to execute cache retrieval operations,
+/// returning either an error or the cached data entity. It ensures the
+/// retrieval and validation of cached data based on specified criteria.
 abstract interface class IGetDataCacheUsecase {
+  /// Executes the use case for retrieving a cached data entity based on the provided criteria.
+  ///
+  /// The method attempts to retrieve a cached entity that matches the criteria specified
+  /// in the data transfer object (DTO). If successful, it returns the cached entity; otherwise,
+  /// it returns an error.
   Either<AutoCacheError, DataCacheEntity<T>?> execute<T extends Object, DataType extends Object>(GetCacheDTO dto);
 }
 

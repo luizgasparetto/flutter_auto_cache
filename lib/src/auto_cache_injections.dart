@@ -22,13 +22,10 @@ import 'modules/data_cache/infra/datasources/i_data_cache_datasource.dart';
 import 'modules/data_cache/infra/repositories/data_cache_repository.dart';
 
 class AutoCacheInjections {
-  /// Private constructor for the singleton pattern.
   AutoCacheInjections._();
 
-  /// The single instance of [AutoCacheManagerConfig].
   static final _instance = AutoCacheInjections._();
 
-  /// Provides global access to the [AutoCacheInjections] instance.
   static AutoCacheInjections get instance => _instance;
 
   bool get isInjectorInitialized => ServiceLocator.instance.hasBinds;

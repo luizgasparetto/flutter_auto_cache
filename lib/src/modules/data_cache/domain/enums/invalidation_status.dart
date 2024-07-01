@@ -1,1 +1,0 @@
-enum InvalidationStatus { valid, invalid }

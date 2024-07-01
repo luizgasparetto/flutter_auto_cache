@@ -7,7 +7,17 @@ import '../../repositories/i_data_cache_repository.dart';
 
 import 'substitution_cache_strategy.dart';
 
+/// An interface for a cache service that handles data substitution policies.
+///
+/// This interface defines a method for substituting data in the cache, which
+/// must be implemented by any class that adheres to this interface.
 abstract interface class ISubstitutionCacheService {
+  /// Substitutes data in the cache.
+  ///
+  /// This method attempts to substitute the given data in the cache and returns
+  /// either an error or a success unit wrapped in an [AsyncEither].
+  ///
+  /// [data]: The data to be substituted in the cache.
   AsyncEither<AutoCacheError, Unit> substitute<T extends Object>(T data);
 }
 
