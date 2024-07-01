@@ -5,13 +5,17 @@
       "path": ".."
     },
     {
-      "name": "cache_module",
-      "path": "../lib/src/modules/cache"
+      "name": "data_cache",
+      "path": "../lib/src/modules/data_cache"
+    },
+    {
+      "name": "file_cache",
+      "path": "../lib/src/modules/file_cache"
     }
   ],
   "settings": {
     "dart.runPubGetOnPubspecChanges": "never",
-    "dart.lineLength": 120,
+    "dart.lineLength": 140,
     "editor.codeActionsOnSave": {
       "source.fixAll": "explicit"
     },
