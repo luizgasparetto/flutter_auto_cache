@@ -18,7 +18,7 @@ abstract interface class _IQueryDataCacheController {
   /// Returns the cached object of type [T] if found, or `null` if not present.
   ///
   /// Throws an error if data retrieval fails.
-  T? get<T extends Object>({required String key});
+  Future<T?> get<T extends Object>({required String key});
 
   /// Retrieves a list of cached objects of type [T] associated with the specified [key].
   ///
@@ -27,7 +27,7 @@ abstract interface class _IQueryDataCacheController {
   /// Returns a list of cached objects if found, or `null` if not present.
   ///
   /// Throws an error if data retrieval encounters an issue.
-  List<T>? getList<T extends Object>({required String key});
+  Future<List<T>?> getList<T extends Object>({required String key});
 }
 
 /// An abstract class that defines command operations for a data cache.
