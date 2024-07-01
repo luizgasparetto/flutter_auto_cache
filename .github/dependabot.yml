@@ -3,5 +3,6 @@ enable-beta-ecosystems: true
 updates:
   - package-ecosystem: "pub"
     directory: "/"
+    target-branch: "develop"
     schedule:
       interval: "daily"
