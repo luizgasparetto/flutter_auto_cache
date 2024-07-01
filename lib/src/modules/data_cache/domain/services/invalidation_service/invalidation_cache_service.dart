@@ -14,7 +14,7 @@ abstract interface class IInvalidationCacheService {
   ///
   /// This method takes a [DataCacheEntity] of a generic type [T] and returns an [Either] type,
   /// indicating either a failure of type [AutoCacheFailure] or success as a [Unit].
-  Either<AutoCacheFailure, bool> validate<T extends Object>(DataCacheEntity<T> cache);
+  Either<AutoCacheError, bool> validate<T extends Object>(DataCacheEntity<T> cache);
 }
 
 final class InvalidationCacheService implements IInvalidationCacheService {
@@ -23,7 +23,7 @@ final class InvalidationCacheService implements IInvalidationCacheService {
   const InvalidationCacheService(this.configuration);
 
   @override
-  Either<AutoCacheFailure, bool> validate<T extends Object>(DataCacheEntity<T> cache) {
+  Either<AutoCacheError, bool> validate<T extends Object>(DataCacheEntity<T> cache) {
     return invalidationCacheStrategy.validate<T>(cache).mapRight((status) => status == InvalidationStatus.valid);
   }
 

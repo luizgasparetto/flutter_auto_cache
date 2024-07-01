@@ -1,7 +1,7 @@
 import 'package:flutter_auto_cache/src/core/configuration/stores/cache_configuration_store.dart';
 import 'package:flutter_auto_cache/src/core/core.dart';
 import 'package:flutter_auto_cache/src/core/functional/either.dart';
-import 'package:flutter_auto_cache/src/modules/data_cache/domain/dtos/get_cache_dto.dart';
+import 'package:flutter_auto_cache/src/modules/data_cache/domain/dtos/key_cache_dto.dart';
 import 'package:flutter_auto_cache/src/modules/data_cache/domain/dtos/update_cache_dto.dart';
 import 'package:flutter_auto_cache/src/modules/data_cache/domain/dtos/write_cache_dto.dart';
 import 'package:flutter_auto_cache/src/modules/data_cache/domain/entities/data_cache_entity.dart';
@@ -22,9 +22,7 @@ class SubstitutionCacheServiceMock extends Mock implements ISubstitutionCacheSer
 
 class AutoCacheExceptionFake extends Fake implements AutoCacheException {}
 
-class AutoCacheFailureFake extends Fake implements AutoCacheFailure {}
-
-class FakeGetCacheDTO extends Fake implements GetCacheDTO {}
+class FakeKeyCacheDTO extends Fake implements KeyCacheDTO {}
 
 class FakeUpdateCacheDTO extends Fake implements UpdateCacheDTO<String> {}
 
@@ -63,7 +61,7 @@ void main() {
   final replaceFakeCacheConfig = ReplaceFakeCacheConfig();
   final notReplaceFakeCacheConfig = NotReplaceFakeCacheConfig();
 
-  final fakeGetCacheDto = FakeGetCacheDTO();
+  final fakeGetCacheDto = FakeKeyCacheDTO();
   final fakeUpdateCacheDto = FakeUpdateCacheDTO();
 
   setUpAll(() {
@@ -83,7 +81,7 @@ void main() {
   });
 
   Matcher cacheDtoMatcher() {
-    return predicate<GetCacheDTO>((dto) => dto.key == 'my_key');
+    return predicate<KeyCacheDTO>((dto) => dto.key == 'my_key');
   }
 
   group('WriteCacheUsecase |', () {
@@ -137,7 +135,7 @@ void main() {
 
     test('should NOT be abel to save cache when is expired and config dont allow replacement', () async {
       when(() => repository.get<String>(any(that: cacheDtoMatcher()))).thenReturn(right(fakeCache));
-      when(() => invalidationService.validate(fakeCache)).thenReturn(left(AutoCacheFailureFake()));
+      when(() => invalidationService.validate(fakeCache)).thenReturn(left(AutoCacheExceptionFake()));
 
       final response = await sut.execute<String>(notReplaceDto);
 

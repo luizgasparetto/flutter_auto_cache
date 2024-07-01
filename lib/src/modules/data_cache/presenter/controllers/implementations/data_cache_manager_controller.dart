@@ -4,8 +4,7 @@ import '../../../../../core/core.dart';
 import '../../../../../core/infrastructure/middlewares/initialize_middleware.dart';
 import '../../../../../core/services/service_locator/implementations/service_locator.dart';
 
-import '../../../domain/dtos/delete_cache_dto.dart';
-import '../../../domain/dtos/get_cache_dto.dart';
+import '../../../domain/dtos/key_cache_dto.dart';
 import '../../../domain/dtos/write_cache_dto.dart';
 import '../../../domain/usecases/clear_data_cache_usecase.dart';
 import '../../../domain/usecases/delete_data_cache_usecase.dart';
@@ -62,12 +61,12 @@ class DataCacheManagerController implements IDataCacheController {
   }
 
   @override
-  T? get<T extends Object>({required String key}) {
+  Future<T?> get<T extends Object>({required String key}) async {
     return _getDataCache.call<T, T>(key: key);
   }
 
   @override
-  List<T>? getList<T extends Object>({required String key}) {
+  Future<List<T>?> getList<T extends Object>({required String key}) async {
     return _getDataCache<List<T>, T>(key: key);
   }
 
@@ -81,7 +80,7 @@ class DataCacheManagerController implements IDataCacheController {
 
   @override
   Future<void> delete({required String key}) async {
-    final dto = DeleteCacheDTO(key: key);
+    final dto = KeyCacheDTO(key: key);
     final response = await _deleteCacheUsecase.execute(dto);
 
     return response.fold((error) => throw error, (_) {});
@@ -94,10 +93,10 @@ class DataCacheManagerController implements IDataCacheController {
     return response.fold((error) => throw error, (_) {});
   }
 
-  T? _getDataCache<T extends Object, DataType extends Object>({required String key}) {
-    final dto = GetCacheDTO(key: key);
+  Future<T?> _getDataCache<T extends Object, DataType extends Object>({required String key}) async {
+    final dto = KeyCacheDTO(key: key);
 
-    final response = _getCacheUsecase.execute<T, DataType>(dto);
+    final response = await _getCacheUsecase.execute<T, DataType>(dto);
     return response.fold((error) => throw error, (success) => success?.data);
   }
 }
