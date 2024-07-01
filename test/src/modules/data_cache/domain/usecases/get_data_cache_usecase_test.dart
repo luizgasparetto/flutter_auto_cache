@@ -1,6 +1,6 @@
 import 'package:flutter_auto_cache/src/core/core.dart';
 import 'package:flutter_auto_cache/src/core/functional/either.dart';
-import 'package:flutter_auto_cache/src/modules/data_cache/domain/dtos/get_cache_dto.dart';
+import 'package:flutter_auto_cache/src/modules/data_cache/domain/dtos/key_cache_dto.dart';
 import 'package:flutter_auto_cache/src/modules/data_cache/domain/entities/data_cache_entity.dart';
 import 'package:flutter_auto_cache/src/modules/data_cache/domain/repositories/i_data_cache_repository.dart';
 import 'package:flutter_auto_cache/src/modules/data_cache/domain/services/invalidation_service/invalidation_cache_service.dart';
@@ -33,8 +33,8 @@ void main() {
     reset(invalidationService);
   });
 
-  group('GetCache |', () {
-    const dto = GetCacheDTO(key: 'my_key');
+  group('GetDataCacheUsecase |', () {
+    const dto = KeyCacheDTO(key: 'my_key');
 
     final dataCache = DataCacheEntity.fakeConfig('cache_data');
     final listDataCache = DataCacheEntity.fakeConfig(const ['data', 'data']);

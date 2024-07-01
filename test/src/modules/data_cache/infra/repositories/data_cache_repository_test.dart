@@ -1,7 +1,6 @@
 import 'package:flutter_auto_cache/src/core/core.dart';
 import 'package:flutter_auto_cache/src/core/functional/either.dart';
-import 'package:flutter_auto_cache/src/modules/data_cache/domain/dtos/delete_cache_dto.dart';
-import 'package:flutter_auto_cache/src/modules/data_cache/domain/dtos/get_cache_dto.dart';
+import 'package:flutter_auto_cache/src/modules/data_cache/domain/dtos/key_cache_dto.dart';
 import 'package:flutter_auto_cache/src/modules/data_cache/domain/dtos/update_cache_dto.dart';
 import 'package:flutter_auto_cache/src/modules/data_cache/domain/dtos/write_cache_dto.dart';
 import 'package:flutter_auto_cache/src/modules/data_cache/domain/entities/data_cache_entity.dart';
@@ -38,7 +37,7 @@ void main() {
   });
 
   group('DataCacheRepository.get |', () {
-    const prefsDto = GetCacheDTO(key: 'my_key');
+    const prefsDto = KeyCacheDTO(key: 'my_key');
 
     test('should be able to find cache data by key in prefs successfully', () {
       when(() => datasource.get<String>('my_key')).thenReturn(DataCacheEntityFake<String>(fakeData: 'any_data'));
@@ -73,7 +72,7 @@ void main() {
 
   group('DataCacheRepository.getList |', () {
     final dataCache = DataCacheEntityFake<List<String>>(fakeData: ['data', 'data']);
-    const dto = GetCacheDTO(key: 'list_key');
+    const dto = KeyCacheDTO(key: 'list_key');
 
     test('should be able to get a list of string in prefs successfully', () {
       when(() => datasource.getList<List<String>, String>('list_key')).thenReturn(dataCache);
@@ -176,7 +175,7 @@ void main() {
   });
 
   group('DataCacheRepository.delete |', () {
-    const prefsDto = DeleteCacheDTO(key: 'my_key');
+    const prefsDto = KeyCacheDTO(key: 'my_key');
 
     test('should be able to delete prefs cache by key successfully', () async {
       when(() => datasource.delete('my_key')).thenAsyncVoid();

@@ -3,7 +3,7 @@ import '../../../../core/core.dart';
 import '../../../../core/functional/either.dart';
 import '../../../../core/extensions/type_extensions.dart';
 
-import '../dtos/get_cache_dto.dart';
+import '../dtos/key_cache_dto.dart';
 import '../entities/data_cache_entity.dart';
 import '../repositories/i_data_cache_repository.dart';
 import '../services/invalidation_service/invalidation_cache_service.dart';
@@ -19,7 +19,7 @@ abstract interface class IGetDataCacheUsecase {
   /// The method attempts to retrieve a cached entity that matches the criteria specified
   /// in the data transfer object (DTO). If successful, it returns the cached entity; otherwise,
   /// it returns an error.
-  Either<AutoCacheError, DataCacheEntity<T>?> execute<T extends Object, DataType extends Object>(GetCacheDTO dto);
+  Either<AutoCacheError, DataCacheEntity<T>?> execute<T extends Object, DataType extends Object>(KeyCacheDTO dto);
 }
 
 final class GetDataCacheUsecase implements IGetDataCacheUsecase {
@@ -29,13 +29,13 @@ final class GetDataCacheUsecase implements IGetDataCacheUsecase {
   const GetDataCacheUsecase(this._dataCacheRepository, this._invalidationCacheService);
 
   @override
-  Either<AutoCacheError, DataCacheEntity<T>?> execute<T extends Object, DataType extends Object>(GetCacheDTO dto) {
+  Either<AutoCacheError, DataCacheEntity<T>?> execute<T extends Object, DataType extends Object>(KeyCacheDTO dto) {
     final response = _getResponse<T, DataType>(dto);
 
     return response.fold(left, _validateCacheResponse);
   }
 
-  Either<AutoCacheError, DataCacheEntity<T>?> _getResponse<T extends Object, DataType extends Object>(GetCacheDTO dto) {
+  Either<AutoCacheError, DataCacheEntity<T>?> _getResponse<T extends Object, DataType extends Object>(KeyCacheDTO dto) {
     if (T.isList) return _dataCacheRepository.getList<T, DataType>(dto);
 
     return _dataCacheRepository.get<T>(dto);

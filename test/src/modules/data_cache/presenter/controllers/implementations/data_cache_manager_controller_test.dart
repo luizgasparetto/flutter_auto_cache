@@ -1,8 +1,8 @@
 import 'package:flutter_auto_cache/src/core/core.dart';
 import 'package:flutter_auto_cache/src/core/functional/either.dart';
 import 'package:flutter_auto_cache/src/core/services/service_locator/implementations/service_locator.dart';
-import 'package:flutter_auto_cache/src/modules/data_cache/domain/dtos/delete_cache_dto.dart';
-import 'package:flutter_auto_cache/src/modules/data_cache/domain/dtos/get_cache_dto.dart';
+import 'package:flutter_auto_cache/src/modules/data_cache/domain/dtos/key_cache_dto.dart';
+
 import 'package:flutter_auto_cache/src/modules/data_cache/domain/dtos/write_cache_dto.dart';
 import 'package:flutter_auto_cache/src/modules/data_cache/domain/entities/data_cache_entity.dart';
 import 'package:flutter_auto_cache/src/modules/data_cache/domain/usecases/clear_data_cache_usecase.dart';
@@ -27,9 +27,7 @@ class FakeBindClass extends Fake {}
 
 class FakeAutoCacheException extends Fake implements AutoCacheException {}
 
-class FakeGetCacheDTO extends Fake implements GetCacheDTO {}
-
-class FakeDeleteCacheDTO extends Fake implements DeleteCacheDTO {}
+class FakeKeyCacheDTO extends Fake implements KeyCacheDTO {}
 
 class DataCacheEntityFake<T extends Object> extends Fake implements DataCacheEntity<T> {
   final T fakeData;
@@ -58,9 +56,7 @@ void main() {
 
   setUp(() {
     ServiceLocator.instance.bindFactory(FakeBindClass.new);
-
-    registerFallbackValue(FakeGetCacheDTO());
-    registerFallbackValue(FakeDeleteCacheDTO());
+    registerFallbackValue(FakeKeyCacheDTO());
   });
 
   tearDown(() {
@@ -74,11 +70,11 @@ void main() {
   });
 
   Matcher getCacheDtoMatcher() {
-    return predicate<GetCacheDTO>((dto) => dto.key == 'my_key');
+    return predicate<KeyCacheDTO>((dto) => dto.key == 'my_key');
   }
 
   Matcher deleteCacheDtoMatcher() {
-    return predicate<DeleteCacheDTO>((dto) => dto.key == 'my_key');
+    return predicate<KeyCacheDTO>((dto) => dto.key == 'my_key');
   }
 
   group('DataCacheManagerController.get |', () {

@@ -1,7 +1,7 @@
 import '../../../../core/core.dart';
 import '../../../../core/functional/either.dart';
 
-import '../dtos/get_cache_dto.dart';
+import '../dtos/key_cache_dto.dart';
 import '../dtos/update_cache_dto.dart';
 import '../dtos/write_cache_dto.dart';
 
@@ -37,8 +37,8 @@ final class WriteDataCacheUsecase implements IWriteDataCacheUsecase {
 
   @override
   AsyncEither<AutoCacheError, Unit> execute<T extends Object>(WriteCacheDTO<T> dto) async {
-    final getCacheDto = GetCacheDTO(key: dto.key);
-    final getResponse = _repository.get<T>(getCacheDto);
+    final keyDto = KeyCacheDTO(key: dto.key);
+    final getResponse = _repository.get<T>(keyDto);
 
     return getResponse.fold(left, (cache) => _validateCache(cache, dto));
   }
