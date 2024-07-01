@@ -25,7 +25,7 @@ sealed class ISubstitutionCacheStrategy {
   }
 
   AsyncEither<AutoCacheError, Unit> _handleAccomodate<T extends Object>(String key, DataCacheEntity<T> data) async {
-    final accomodateResponse = repository.accomodateCache(data);
+    final accomodateResponse = await repository.accomodateCache(data, recursive: true);
 
     if (accomodateResponse.isError) return left(accomodateResponse.error);
     if (accomodateResponse.success) return right(unit);

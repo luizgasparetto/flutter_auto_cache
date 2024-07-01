@@ -30,6 +30,8 @@ final class GetDataCacheUsecase implements IGetDataCacheUsecase {
   Either<AutoCacheError, DataCacheEntity<T>?> _validateCacheResponse<T extends Object>(DataCacheEntity<T>? cache) {
     if (cache == null) return right(null);
 
-    return _invalidationCacheService.validate<T>(cache).mapRight((_) => cache);
+    final response = _invalidationCacheService.validate<T>(cache);
+
+    return response.mapRight((isValid) => isValid ? cache : null);
   }
 }

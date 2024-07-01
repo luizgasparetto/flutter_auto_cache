@@ -33,7 +33,6 @@ void main() {
       final response = sut.validate<String>(cache);
 
       expect(response.isSuccess, isTrue);
-      expect(response.fold((l) => l, (r) => r), equals(unit));
     });
   });
 }

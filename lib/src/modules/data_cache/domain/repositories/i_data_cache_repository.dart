@@ -40,7 +40,7 @@ abstract interface class IDataCacheRepository {
   /// - An [Either] containing an [AutoCacheException] on failure, or a list of strings representing the cache keys on success.
   Either<AutoCacheException, List<String>> getKeys();
 
-  Either<AutoCacheException, bool> accomodateCache<T extends Object>(DataCacheEntity<T> dataCache, {bool recursive = false});
+  AsyncEither<AutoCacheException, bool> accomodateCache<T extends Object>(DataCacheEntity<T> dataCache, {bool recursive = false});
 
   /// Saves a data object of type [T] using the data transfer object [dto].
   ///

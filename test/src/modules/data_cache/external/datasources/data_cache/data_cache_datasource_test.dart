@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter_auto_cache/src/core/core.dart';
+import 'package:flutter_auto_cache/src/core/services/cache_size_service/i_cache_size_service.dart';
 import 'package:flutter_auto_cache/src/core/services/cryptography_service/i_cryptography_service.dart';
 import 'package:flutter_auto_cache/src/core/services/kvs_service/i_kvs_service.dart';
 import 'package:flutter_auto_cache/src/modules/data_cache/domain/dtos/write_cache_dto.dart';
@@ -16,17 +17,21 @@ class PrefsServiceMock extends Mock implements IKvsService {}
 
 class CryptographyServiceMock extends Mock implements ICryptographyService {}
 
+class CacheSizeServiceMock extends Mock implements ICacheSizeService {}
+
 class FakeAutoCacheException extends Fake implements AutoCacheException {}
 
 void main() {
   final prefsService = PrefsServiceMock();
   final cryptographyService = CryptographyServiceMock();
+  final sizeService = CacheSizeServiceMock();
 
-  final sut = DataCacheDatasource(prefsService, cryptographyService);
+  final sut = DataCacheDatasource(prefsService, cryptographyService, sizeService);
 
   tearDown(() {
     reset(prefsService);
     reset(cryptographyService);
+    reset(sizeService);
   });
 
   group('DataCacheDatasource.get |', () {

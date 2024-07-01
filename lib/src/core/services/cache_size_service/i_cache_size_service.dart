@@ -18,7 +18,7 @@ abstract interface class ICacheSizeService {
   ///
   /// Returns `true` if the cache can accommodate the additional size specified in kilobytes,
   /// `false` otherwise.
-  bool canAccomodateCache(String value, {bool recursive = false});
+  Future<bool> canAccomodateCache(String value, {bool recursive = false});
 
   /// Returns the total cache size used by the application in megabytes (MB).
   ///
@@ -27,5 +27,5 @@ abstract interface class ICacheSizeService {
   ///
   /// Throws a `CacheSizeException` if there is an error in calculating
   /// the cache size.
-  double getCacheSizeUsed();
+  Future<double> getCacheSizeUsed();
 }

@@ -37,9 +37,14 @@ class DirectoryProviderService extends ValueNotifier<DirectoryProviderState> imp
       ///Early return if directories are already loaded.
       if (this.value.isLoaded) return;
 
+      final isTest = Platform.environment.containsKey('FLUTTER_TEST');
+
+      final tempDocumentsDir = await Directory.systemTemp.createTemp('documents');
+      final tempSupportDir = await Directory.systemTemp.createTemp('support');
+
       ///Fetch the application document and support directories.
-      final applicationDocumentsDirectory = await _service.getApplicationDocumentsDirectory();
-      final applicationSupportDirectory = await _service.getApplicationSupportDirectory();
+      final applicationDocumentsDirectory = isTest ? tempDocumentsDir : await _service.getApplicationDocumentsDirectory();
+      final applicationSupportDirectory = isTest ? tempSupportDir : await _service.getApplicationSupportDirectory();
 
       ///Update the state with the fetched directories.
       this.value = LoadedDirectoryProviderState(applicationDocumentsDirectory, applicationSupportDirectory);

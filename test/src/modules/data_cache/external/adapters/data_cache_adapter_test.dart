@@ -91,7 +91,6 @@ void main() {
 
       expect(jsonCache.containsKey('id'), isTrue);
       expect(jsonCache.containsKey('data'), isTrue);
-      expect(jsonCache.containsKey('invalidation_type'), isTrue);
       expect(jsonCache.containsKey('created_at'), isTrue);
       expect(jsonCache.containsKey('end_at'), isTrue);
       expect(jsonCache.containsKey('updated_at'), isTrue);

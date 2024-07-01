@@ -13,16 +13,18 @@ final class CacheSizeService implements ICacheSizeService {
   const CacheSizeService(this.directoryProvider, this.config);
 
   @override
-  bool canAccomodateCache(String value, {bool recursive = false}) {
-    final cacheSizeUsed = this.getCacheSizeUsed();
+  Future<bool> canAccomodateCache(String value, {bool recursive = false}) async {
+    final cacheSizeUsed = await this.getCacheSizeUsed();
     final newTotalCacheUsed = cacheSizeUsed + value.kbUsed;
 
     return newTotalCacheUsed < config.sizeOptions.totalKb;
   }
 
   @override
-  double getCacheSizeUsed() {
+  Future<double> getCacheSizeUsed() async {
     try {
+      await directoryProvider.getCacheDirectories();
+
       final files = directoryProvider.prefsDirectory.listSync(recursive: true);
       final totalBytes = files.whereType<File>().fold(0, (acc, file) => acc + file.lengthSync());
 

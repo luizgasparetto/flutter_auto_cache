@@ -2,9 +2,9 @@ import 'dart:convert';
 
 import 'package:encrypt/encrypt.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter_auto_cache/src/core/services/cryptography_service/exceptions/cryptography_exceptions.dart';
 
 import '../../../configuration/cache_configuration.dart';
+import '../exceptions/cryptography_exceptions.dart';
 import '../i_cryptography_service.dart';
 
 import 'factories/encrypter_factory.dart';
@@ -39,17 +39,25 @@ final class EncryptCryptographyService implements ICryptographyService {
 
   @override
   String decrypt(String value) {
-    final cryptographyOptions = configuration.cryptographyOptions;
+    try {
+      final cryptographyOptions = configuration.cryptographyOptions;
 
-    if (cryptographyOptions == null) return value;
+      if (cryptographyOptions == null) return value;
 
-    final combined = base64Decode(value);
-    final iv = IvFactory.createDecryptIv(combined);
-    final encrypted = Encrypted(Uint8List.fromList(combined.sublist(16)));
+      final combined = base64Decode(value);
 
-    final encrypter = EncrypterFactory.createEncrypter(cryptographyOptions.secretKey);
+      final iv = IvFactory.createDecryptIv(combined);
+      final encrypted = Encrypted(Uint8List.fromList(combined.sublist(16)));
 
-    return encrypter.decrypt(encrypted, iv: iv);
+      final encrypter = EncrypterFactory.createEncrypter(cryptographyOptions.secretKey);
+
+      return encrypter.decrypt(encrypted, iv: iv);
+    } catch (exception, stackTrace) {
+      throw DecryptException(
+        message: 'An error occurred while decrypting data: ${exception.toString()}',
+        stackTrace: stackTrace,
+      );
+    }
   }
 
   Uint8List _getCombinedBytes(IV iv, Uint8List encryptedBytes) {

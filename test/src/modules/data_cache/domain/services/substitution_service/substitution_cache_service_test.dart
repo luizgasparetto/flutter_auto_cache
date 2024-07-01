@@ -38,10 +38,10 @@ void main() {
 
   group('SubstitutionCacheService.substitute |', () {
     test('should be able to substitute cache when cache size cannot accomodate new data cache', () async {
+      when(() => repository.accomodateCache<String>(any())).thenReturn(right(false));
+      when(() => configuration.dataCacheOptions).thenReturn(dataOptions);
       when(() => repository.getKeys()).thenReturn(right(['key']));
       when(() => repository.delete(any())).thenAnswer((_) => right(unit));
-      when(() => configuration.dataCacheOptions).thenReturn(dataOptions);
-      when(() => repository.accomodateCache<String>(any())).thenReturn(right(false));
       when(() => repository.accomodateCache<String>(any(), recursive: true)).thenReturn(right(true));
 
       final response = await sut.substitute<String>('data');
@@ -54,85 +54,58 @@ void main() {
       verify(() => repository.delete(any())).called(1);
     });
 
-    // test('should be able to callback when cache size can accomodate new data cache', () async {
-    //   when(() => repository.getEncryptedData<String>(any())).thenReturn(right('encrypted_data'));
-    //   when(() => sizeService.canAccomodateCache('encrypted_data')).thenReturn(right(true));
+    test('should be able to callback when cache size can accomodate new data cache', () async {
+      when(() => repository.accomodateCache<String>(any())).thenReturn(right(true));
 
-    //   final response = await sut.substitute<String>('data');
+      final response = await sut.substitute<String>('data');
 
-    //   expect(response.isSuccess, isTrue);
-    //   verify(() => repository.getEncryptedData<String>(any())).called(1);
-    //   verify(() => sizeService.canAccomodateCache('encrypted_data')).called(1);
-    //   verifyNever(() => configuration.dataCacheOptions);
-    //   verifyNever(() => repository.getKeys());
-    //   verifyNever(() => repository.delete(any()));
-    // });
+      expect(response.isSuccess, isTrue);
+      verify(() => repository.accomodateCache<String>(any())).called(1);
+      verifyNever(() => configuration.dataCacheOptions);
+      verifyNever(() => repository.getKeys());
+      verifyNever(() => repository.delete(any()));
+    });
 
-    // test('should NOT be able to substitute cache when getEncryptedData fails', () async {
-    //   when(() => repository.getEncryptedData<String>(any())).thenReturn(left(FakeAutoCacheException()));
+    test('should NOT be able to substitute cache when accomodateCache fails', () async {
+      when(() => repository.accomodateCache<String>(any())).thenReturn(left(FakeAutoCacheException()));
 
-    //   final response = await sut.substitute<String>('data');
+      final response = await sut.substitute<String>('data');
 
-    //   expect(response.isError, isTrue);
-    //   expect(response.fold((l) => l, (r) => r), isA<AutoCacheException>());
-    //   verify(() => repository.getEncryptedData<String>(any())).called(1);
-    //   verifyNever(() => sizeService.canAccomodateCache('encrypted_data'));
-    //   verifyNever(() => configuration.dataCacheOptions);
-    //   verifyNever(() => repository.getKeys());
-    //   verifyNever(() => repository.delete(any()));
-    // });
+      expect(response.isError, isTrue);
+      expect(response.fold((l) => l, (r) => r), isA<AutoCacheException>());
+      verify(() => repository.accomodateCache<String>(any())).called(1);
+      verifyNever(() => configuration.dataCacheOptions);
+    });
 
-    // test('should NOT be able to substitute cachen when size service fails', () async {
-    //   when(() => repository.getEncryptedData<String>(any())).thenReturn(right('encrypted_data'));
-    //   when(() => sizeService.canAccomodateCache('encrypted_data')).thenReturn(left(FakeAutoCacheException()));
+    test('should NOT be able to substitute cache when strategy fails', () async {
+      when(() => repository.accomodateCache<String>(any())).thenReturn(right(false));
+      when(() => configuration.dataCacheOptions).thenReturn(dataOptions);
+      when(() => repository.getKeys()).thenReturn(left(FakeAutoCacheException()));
 
-    //   final response = await sut.substitute<String>('data');
+      final response = await sut.substitute<String>('data');
 
-    //   expect(response.isError, isTrue);
-    //   expect(response.fold((l) => l, (r) => r), isA<AutoCacheException>());
-    //   verify(() => repository.getEncryptedData<String>(any())).called(1);
-    //   verify(() => sizeService.canAccomodateCache('encrypted_data')).called(1);
-    //   verifyNever(() => configuration.dataCacheOptions);
-    //   verifyNever(() => repository.getKeys());
-    //   verifyNever(() => repository.delete(any()));
-    // });
+      expect(response.isError, isTrue);
+      expect(response.fold((l) => l, (r) => r), isA<AutoCacheException>());
+      verify(() => repository.accomodateCache<String>(any())).called(1);
+      verify(() => configuration.dataCacheOptions).called(1);
+      verify(() => repository.getKeys()).called(1);
+    });
 
-    // test('should NOT be able to substitute cache when strategy fails', () async {
-    //   when(() => repository.getEncryptedData<String>(any())).thenReturn(right('encrypted_data'));
-    //   when(() => sizeService.canAccomodateCache('encrypted_data')).thenReturn(right(false));
-    //   when(() => configuration.dataCacheOptions).thenReturn(dataOptions);
-    //   when(() => repository.getKeys()).thenReturn(left(FakeAutoCacheException()));
+    test('should NOT be able to substitute cache when canAccomodateCache recursive fails', () async {
+      when(() => repository.accomodateCache<String>(any())).thenReturn(right(false));
+      when(() => repository.accomodateCache<String>(any(), recursive: true)).thenReturn(left(FakeAutoCacheException()));
+      when(() => configuration.dataCacheOptions).thenReturn(dataOptions);
+      when(() => repository.getKeys()).thenReturn(right(['key']));
+      when(() => repository.delete(any())).thenAnswer((_) => right(unit));
 
-    //   final response = await sut.substitute<String>('data');
+      final response = await sut.substitute<String>('data');
 
-    //   expect(response.isError, isTrue);
-    //   expect(response.fold((l) => l, (r) => r), isA<AutoCacheException>());
-    //   verify(() => repository.getEncryptedData<String>(any())).called(1);
-    //   verify(() => sizeService.canAccomodateCache('encrypted_data')).called(1);
-    //   verify(() => configuration.dataCacheOptions).called(1);
-    //   verify(() => repository.getKeys()).called(1);
-    // });
-
-    // test('should NOT be able to substitute cache when canAccomodateCache recursive fails', () async {
-    //   when(() => repository.getEncryptedData<String>(any())).thenReturn(right('encrypted_data'));
-    //   when(() => repository.getKeys()).thenReturn(right(['key']));
-    //   when(() => repository.delete(any())).thenAnswer((_) => right(unit));
-    //   when(() => configuration.dataCacheOptions).thenReturn(dataOptions);
-    //   when(() => sizeService.canAccomodateCache('encrypted_data')).thenReturn(right(false));
-
-    //   when(() => sizeService.canAccomodateCache('encrypted_data', recursive: true)).thenReturn(
-    //     left(FakeAutoCacheException()),
-    //   );
-
-    //   final response = await sut.substitute<String>('data');
-
-    //   expect(response.isError, isTrue);
-    //   verify(() => repository.getEncryptedData<String>(any())).called(1);
-    //   verify(() => sizeService.canAccomodateCache('encrypted_data')).called(1);
-    //   verify(() => sizeService.canAccomodateCache('encrypted_data', recursive: true)).called(1);
-    //   verify(() => configuration.dataCacheOptions).called(1);
-    //   verify(() => repository.getKeys()).called(1);
-    //   verify(() => repository.delete(any())).called(1);
-    // });
+      expect(response.isError, isTrue);
+      verify(() => repository.accomodateCache<String>(any())).called(1);
+      verify(() => repository.accomodateCache<String>(any(), recursive: true)).called(1);
+      verify(() => configuration.dataCacheOptions).called(1);
+      verify(() => repository.getKeys()).called(1);
+      verify(() => repository.delete(any())).called(1);
+    });
   });
 }

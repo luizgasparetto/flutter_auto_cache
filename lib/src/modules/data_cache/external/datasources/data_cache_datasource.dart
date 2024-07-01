@@ -40,7 +40,7 @@ final class DataCacheDatasource implements IDataCacheDatasource {
   }
 
   @override
-  bool accomodateCache<T extends Object>(DataCacheEntity<T> dataCache) {
+  Future<bool> accomodateCache<T extends Object>(DataCacheEntity<T> dataCache) async {
     final data = getEncryptData<T>(dataCache);
 
     return _sizeService.canAccomodateCache(data);

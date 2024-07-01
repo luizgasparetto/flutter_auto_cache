@@ -4,8 +4,6 @@ import 'package:flutter_auto_cache/src/core/configuration/models/cache_cryptogra
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
-import '../../../../../commons/constants/cache_test_constants.dart';
-
 class CacheConfigMock extends Mock implements CacheConfiguration {}
 
 void main() {
@@ -14,7 +12,7 @@ void main() {
 
   const options = CacheCryptographyOptions(secretKey: 'mySecretKey');
 
-  const decryptedStringValue = CacheTestConstants.decryptedStringValue;
+  //const decryptedStringValue = CacheTestConstants.decryptedStringValue;
 
   tearDown(() {
     reset(cacheConfig);
@@ -26,14 +24,14 @@ void main() {
 
       final stopwatch = Stopwatch()..start();
 
-      final encryptedData = sut.encrypt(decryptedStringValue);
+      final encryptedData = sut.encrypt('value');
       final decryptedData = sut.decrypt(encryptedData);
 
       stopwatch.stop();
 
       expect(stopwatch.elapsedMilliseconds, lessThan(500));
       expect(decryptedData, isA<String>());
-      expect(decryptedData, equals(decryptedStringValue));
+      expect(decryptedData, equals('value'));
     });
   });
 }

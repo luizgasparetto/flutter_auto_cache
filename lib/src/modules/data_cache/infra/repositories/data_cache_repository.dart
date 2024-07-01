@@ -48,9 +48,9 @@ class DataCacheRepository implements IDataCacheRepository {
   }
 
   @override
-  Either<AutoCacheException, bool> accomodateCache<T extends Object>(DataCacheEntity<T> dataCache, {bool recursive = false}) {
+  AsyncEither<AutoCacheException, bool> accomodateCache<T extends Object>(DataCacheEntity<T> dataCache, {bool recursive = false}) async {
     try {
-      final response = _dataCacheDatasource.accomodateCache(dataCache);
+      final response = await _dataCacheDatasource.accomodateCache(dataCache);
 
       return right(response);
     } on AutoCacheException catch (exception) {

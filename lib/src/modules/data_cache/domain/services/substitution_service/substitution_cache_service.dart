@@ -20,7 +20,7 @@ final class SubstitutionCacheService implements ISubstitutionCacheService {
   @override
   AsyncEither<AutoCacheError, Unit> substitute<T extends Object>(T data) async {
     final dataCache = DataCacheEntity.fakeConfig(data);
-    final accomodateResponse = repository.accomodateCache<T>(dataCache);
+    final accomodateResponse = await repository.accomodateCache<T>(dataCache);
 
     return accomodateResponse.fold(left, (accomodate) => _handleSizeVerification(accomodate, dataCache));
   }
