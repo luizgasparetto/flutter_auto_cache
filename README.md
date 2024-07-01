@@ -12,8 +12,7 @@
     <img src="https://img.shields.io/github/contributors-anon/luizgasparetto/flutter_auto_cache?color=yellow&style=flat-square" alt="contributors" style="height: 20px;">
   </a>
   <a href="https://opensource.org/license/bsd-3-clause">
-    <img src="https://img.shields.io/github/license/luizgasparetto/flutter_auto_cache?style=flat-square&color=blue
-" alt="license" style="height: 20px;">
+  <img src="https://img.shields.io/github/license/luizgasparetto/flutter_auto_cache?style=flat-square&color=blue" style: "height: 20px;">
   </a>
 </h4>
 
