@@ -1,9 +1,9 @@
 import 'dart:math';
 
 import '../../../../../core/core.dart';
-
 import '../../../../../core/functional/either.dart';
-import '../../dtos/delete_cache_dto.dart';
+
+import '../../dtos/key_cache_dto.dart';
 import '../../entities/data_cache_entity.dart';
 import '../../repositories/i_data_cache_repository.dart';
 
@@ -38,7 +38,7 @@ sealed class ISubstitutionCacheStrategy {
   /// and then accommodate the new data. If accommodating the new data fails,
   /// it attempts to get a new cache key and delete data again.
   AsyncEither<AutoCacheError, Unit> deleteDataCache<T extends Object>(String key, DataCacheEntity<T> data) async {
-    final response = await repository.delete(DeleteCacheDTO(key: key));
+    final response = await repository.delete(KeyCacheDTO(key: key));
 
     return response.fold(left, (_) => _handleAccomodate<T>(key, data));
   }

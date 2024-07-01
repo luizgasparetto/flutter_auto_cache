@@ -1,8 +1,7 @@
 import '../../../../core/core.dart';
-
 import '../../../../core/functional/either.dart';
-import '../../domain/dtos/delete_cache_dto.dart';
-import '../../domain/dtos/get_cache_dto.dart';
+
+import '../../domain/dtos/key_cache_dto.dart';
 import '../../domain/dtos/update_cache_dto.dart';
 import '../../domain/dtos/write_cache_dto.dart';
 import '../../domain/entities/data_cache_entity.dart';
@@ -16,7 +15,7 @@ class DataCacheRepository implements IDataCacheRepository {
   const DataCacheRepository(this._dataCacheDatasource);
 
   @override
-  Either<AutoCacheException, DataCacheEntity<T>?> get<T extends Object>(GetCacheDTO dto) {
+  Either<AutoCacheException, DataCacheEntity<T>?> get<T extends Object>(KeyCacheDTO dto) {
     try {
       final response = _dataCacheDatasource.get<T>(dto.key);
 
@@ -27,7 +26,7 @@ class DataCacheRepository implements IDataCacheRepository {
   }
 
   @override
-  Either<AutoCacheException, DataCacheEntity<T>?> getList<T extends Object, DataType extends Object>(GetCacheDTO dto) {
+  Either<AutoCacheException, DataCacheEntity<T>?> getList<T extends Object, DataType extends Object>(KeyCacheDTO dto) {
     try {
       final response = _dataCacheDatasource.getList<T, DataType>(dto.key);
 
@@ -82,7 +81,7 @@ class DataCacheRepository implements IDataCacheRepository {
   }
 
   @override
-  AsyncEither<AutoCacheException, Unit> delete(DeleteCacheDTO dto) async {
+  AsyncEither<AutoCacheException, Unit> delete(KeyCacheDTO dto) async {
     try {
       await _dataCacheDatasource.delete(dto.key);
 
