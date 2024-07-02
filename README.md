@@ -1,12 +1,14 @@
 <h1 align="center">
     <a href="https://github.com/luizgasparetto/flutter_auto_cache">
     <img src="./docs/assets/logo.svg" alt="Logo">
-    </a>
+    </a>    
 </h1>
 
 <p align="center">
-  <i align="center">Improves cache management policies, including enhanced replacement strategies, invalidation methods and encryption in a KVS (Key-Value Store) database 🚀</i>
+  <samp>Improves cache management policies, replacement strategies, invalidation methods and encryption in a <kbd>KVS</kbd> (Key-Value Store)</samp> 🚀
 </p>
+
+<h6 align="center"><samp>#flutter, #package, #cache, #encryption, #storage</samp></h6>
 
 <h4 align="center">
   <a href="https://github.com/luizgasparetto/flutter_auto_cache/actions/workflows/ci.yaml">
@@ -70,11 +72,10 @@ Once installed, you can start using `Flutter Auto Cache` in your Flutter project
 To use `Flutter Auto Cache`, you need to initialize the cache manager before calling `runApp`. This ensures that all cache configurations are set up correctly. You also have the option to pass your custom initialization configuration.
 
 ```dart
-// Import flutter_auto_cache
 import 'package:flutter_auto_cache/flutter_auto_cache.dart';
 
 Future<void> main() async {
-  // Optional: Pass a custom CacheConfiguration if needed
+  /// Optional: Pass a custom CacheConfiguration if needed
   await AutoCacheInitializer.init(configuration: yourCustomConfiguration);
 
   runApp(MyApp());
@@ -97,7 +98,7 @@ With this setup, you can easily manage your application's cache using the method
 
 The majority of `Flutter Auto Cache` code is open-source. We are committed to a transparent development process and highly appreciate any contributions. Whether you are helping us fix bugs, proposing new features or improving our documentation.
 
-- **Bug Report:** If you see an error message or encounter an issue while using Flutter Auto Cache, please create a [bug report](https://github.com/luizgasparetto/flutter_auto_cache/issues/new?assignees=&labels=type%3A+feature+request&template=BUG-REPORT.yml).
+- **Bug Report:** If you see an error message or encounter an issue while using this package, please create a [bug report](https://github.com/luizgasparetto/flutter_auto_cache/issues/new?assignees=&labels=type%3A+feature+request&template=BUG-REPORT.yml).
 
 - **Feature Request:** If you have an idea or if there is a capability that is missing and would make development easier and more robust, please submit a [feature request](https://github.com/luizgasparetto/flutter_auto_cache/issues/new?assignees=&labels=type%3A+feature+request&template=SUGGESTION-REQUEST.yml).
 
