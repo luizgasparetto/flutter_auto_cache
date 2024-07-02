@@ -1,6 +1,6 @@
 <h1 align="center">
     <a href="https://github.com/luizgasparetto/flutter_auto_cache">
-    <img src="./.github/assets/logo.svg" alt="Logo">
+    <img src="./docs/assets/logo.svg" alt="Logo">
     </a>
 </h1>
 
