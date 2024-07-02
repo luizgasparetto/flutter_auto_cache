@@ -24,7 +24,7 @@ void main() {
   final sut = SubstitutionCacheService(configuration, repository);
 
   final fakeCacheEntity = FakeDataCacheEntity();
-  final dataOptions = DataCacheOptions(substitutionPolicy: SubstitutionPolicies.fifo);
+  const dataOptions = DataCacheOptions(substitutionPolicy: SubstitutionPolicies.fifo);
   const deleteDto = KeyCacheDTO(key: 'any');
 
   setUp(() {

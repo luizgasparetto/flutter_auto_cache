@@ -24,21 +24,21 @@ final class DataCacheDatasource implements IDataCacheDatasource {
 
   @override
   DataCacheEntity<T>? get<T extends Object>(String key) {
-    final response = getDecryptedJson(key);
+    final response = _getDecryptedJson(key);
 
     return response.let(DataCacheAdapter.fromJson<T>);
   }
 
   @override
   DataCacheEntity<T>? getList<T extends Object, DataType extends Object>(String key) {
-    final response = getDecryptedJson(key);
+    final response = _getDecryptedJson(key);
 
     return response.let(DataCacheAdapter.listFromJson<T, DataType>);
   }
 
   @override
   Future<bool> accomodateCache<T extends Object>(DataCacheEntity<T> dataCache) async {
-    final data = _getEncryptData<T>(dataCache);
+    final data = _getEncryptedData<T>(dataCache);
 
     return _sizeService.canAccomodateCache(data);
   }
@@ -46,7 +46,7 @@ final class DataCacheDatasource implements IDataCacheDatasource {
   @override
   Future<void> save<T extends Object>(WriteCacheDTO<T> dto) async {
     final dataCache = WriteCacheDtoAdapter.toEntity<T>(dto);
-    final encryptedData = _getEncryptData<T>(dataCache);
+    final encryptedData = _getEncryptedData<T>(dataCache);
 
     await _kvsService.save(key: dto.key, data: encryptedData);
   }
@@ -54,7 +54,7 @@ final class DataCacheDatasource implements IDataCacheDatasource {
   @override
   Future<void> update<T extends Object>(UpdateCacheDTO<T> dto) async {
     final dataCache = UpdateCacheDtoAdapter.toEntity<T>(dto);
-    final encryptedData = _getEncryptData<T>(dataCache);
+    final encryptedData = _getEncryptedData<T>(dataCache);
 
     await _kvsService.save(key: dto.previewCache.id, data: encryptedData);
   }
@@ -68,14 +68,14 @@ final class DataCacheDatasource implements IDataCacheDatasource {
   @override
   Future<void> clear() async => _kvsService.clear();
 
-  String _getEncryptData<T extends Object>(DataCacheEntity<T> dataCache) {
+  String _getEncryptedData<T extends Object>(DataCacheEntity<T> dataCache) {
     final data = DataCacheAdapter.toJson(dataCache);
 
     final encodedData = jsonEncode(data);
     return _cryptographyService.encrypt(encodedData);
   }
 
-  Map<String, dynamic>? getDecryptedJson(String key) {
+  Map<String, dynamic>? _getDecryptedJson(String key) {
     final response = _kvsService.get(key: key);
 
     if (response == null) return null;
