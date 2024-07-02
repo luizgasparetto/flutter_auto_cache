@@ -1,6 +1,6 @@
 <h1 align="center">
     <a href="https://github.com/luizgasparetto/flutter_auto_cache">
-    <img src="./.github/assets/logo_dark_mode.svg" alt="Logo">
+    <img src="./.github/assets/logo.svg" alt="Logo">
     </a>
 </h1>
 
@@ -19,13 +19,6 @@
   <img src="https://img.shields.io/github/license/luizgasparetto/flutter_auto_cache?style=flat-square&color=blue" alt="bsd-3-clause" style: "height: 20px;">
   </a>
   <br>
-  <a href="https://github.com/luizgasparetto/flutter_auto_cache/issues">
-    <img src="https://img.shields.io/github/issues/luizgasparetto/flutter_auto_cache?color=0f52ba" alt="issues" style="height: 20px;">
-  </a>
-  <a href="https://github.com/luizgasparetto/flutter_auto_cache/pulls">
-    <img src="https://img.shields.io/github/issues-pr/luizgasparetto/flutter_auto_cache?color=0f52ba
-    " alt="pulls" style="height: 20px;">
-  </a>
 </h4>
 
 
