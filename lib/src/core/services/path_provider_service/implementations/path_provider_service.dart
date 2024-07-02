@@ -1,13 +1,7 @@
-// coverage:ignore-file
-
 import 'dart:io';
 
+import '../i_path_provider_service.dart';
 import 'package:path_provider/path_provider.dart' as path;
-
-abstract interface class IPathProviderService {
-  Future<Directory> getApplicationDocumentsDirectory();
-  Future<Directory> getApplicationSupportDirectory();
-}
 
 class PathProviderService implements IPathProviderService {
   @override

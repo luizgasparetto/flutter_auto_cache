@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 
 import 'exceptions/directory_provider_exceptions.dart';
-import 'path_provider/path_provider_service.dart';
+import '../path_provider_service/i_path_provider_service.dart';
 import 'states/directory_provider_state.dart';
 
 /// An interface for a service that provides access to specific directories.

@@ -10,9 +10,10 @@ import 'core/services/cryptography_service/implementations/encrypt_cryptography_
 import 'core/services/cryptography_service/i_cryptography_service.dart';
 import 'core/services/cryptography_service/implementations/factories/encrypter_factory.dart';
 import 'core/services/directory_service/directory_provider_service.dart';
-import 'core/services/directory_service/path_provider/path_provider_service.dart';
+import 'core/services/path_provider_service/i_path_provider_service.dart';
 import 'core/services/kvs_service/i_kvs_service.dart';
 import 'core/services/kvs_service/implementations/shared_preferences_kvs_service.dart';
+import 'core/services/path_provider_service/implementations/path_provider_service.dart';
 import 'core/services/service_locator/implementations/service_locator.dart';
 
 import 'modules/data_cache/domain/repositories/i_data_cache_repository.dart';

@@ -1,9 +1,9 @@
 import 'dart:io';
 
 import '../../core.dart';
+import '../directory_service/directory_provider_service.dart';
 
 import 'constants/cache_size_constants.dart';
-import '../directory_service/directory_provider_service.dart';
 import 'exceptions/cache_size_exceptions.dart';
 
 /// An abstract class defining the interface for cache detail services.
