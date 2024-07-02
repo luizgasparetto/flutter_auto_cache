@@ -1,4 +1,4 @@
-import 'package:flutter_auto_cache/auto_cache.dart';
+import 'package:flutter_auto_cache/flutter_auto_cache.dart';
 import 'package:flutter_auto_cache/src/core/infrastructure/middlewares/exceptions/initializer_exceptions.dart';
 import 'package:flutter_auto_cache/src/core/services/service_locator/implementations/service_locator.dart';
 import 'package:flutter_auto_cache/src/modules/data_cache/presenter/controllers/implementations/data_cache_manager_controller.dart';

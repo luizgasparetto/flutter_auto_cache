@@ -6,7 +6,7 @@ export 'src/auto_cache_initializer.dart';
 export 'src/core/core.dart';
 export 'src/modules/data_cache/data_cache.dart';
 
-export 'auto_cache.dart';
+export 'flutter_auto_cache.dart';
 
 /// A utility class for accessing various cache management controllers.
 ///

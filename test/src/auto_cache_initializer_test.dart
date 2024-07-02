@@ -1,4 +1,4 @@
-import 'package:flutter_auto_cache/auto_cache.dart';
+import 'package:flutter_auto_cache/flutter_auto_cache.dart';
 import 'package:flutter_auto_cache/src/auto_cache_injections.dart';
 import 'package:flutter_auto_cache/src/core/configuration/stores/cache_configuration_store.dart';
 
