@@ -14,8 +14,7 @@
 
 <h4 align="center">
   <a href="https://github.com/luizgasparetto/flutter_auto_cache/actions/workflows/ci.yaml">
-    <img src="https://img.shields.io/github/actions/workflow/status/luizgasparetto/flutter_auto_cache/ci.yaml?branch=main&style=flat-square&label=pipeline&color=blue
-    " alt="continuous integration" style="height: 20px;">
+    <img src="https://img.shields.io/github/actions/workflow/status/luizgasparetto/flutter_auto_cache/ci.yaml?branch=main&label=pipeline&style=flat-square&color=blue" alt="continuous integration" style="height: 20px;">
   </a>
   <a href="https://github.com/luizgasparetto/flutter_auto_cache/stargazers">
     <img src="https://img.shields.io/github/stars/luizgasparetto/flutter_auto_cache?style=flat-square" alt="start" style="height: 20px;">
