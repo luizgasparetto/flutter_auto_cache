@@ -1,4 +1,4 @@
-import 'package:flutter_auto_cache/src/core/configuration/constants/cache_size_constants.dart';
+import 'package:flutter_auto_cache/src/core/services/cache_size_service/constants/cache_size_constants.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

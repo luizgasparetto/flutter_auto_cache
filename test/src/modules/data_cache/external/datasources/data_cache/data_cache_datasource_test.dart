@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter_auto_cache/src/core/core.dart';
-import 'package:flutter_auto_cache/src/core/services/cache_size_service/i_cache_size_service.dart';
+import 'package:flutter_auto_cache/src/core/services/cache_size_service/cache_size_service.dart';
 import 'package:flutter_auto_cache/src/core/services/cryptography_service/i_cryptography_service.dart';
 import 'package:flutter_auto_cache/src/core/services/kvs_service/i_kvs_service.dart';
 import 'package:flutter_auto_cache/src/modules/data_cache/domain/dtos/write_cache_dto.dart';

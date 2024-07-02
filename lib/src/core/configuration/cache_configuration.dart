@@ -1,8 +1,8 @@
 import 'package:meta/meta.dart';
 
 import '../../modules/data_cache/domain/value_objects/data_cache_options.dart';
-import 'models/cache_cryptography_options.dart';
-import 'models/cache_size_options.dart';
+import '../services/cryptography_service/value_objects/cache_cryptography_options.dart';
+import '../services/cache_size_service/value_objects/cache_size_options.dart';
 
 /// A configuration class for managing cache settings.
 ///
@@ -33,7 +33,7 @@ class CacheConfiguration {
     this.sizeOptions = const CacheSizeOptions(),
     this.cryptographyOptions,
     DataCacheOptions? dataCacheOptions,
-  }) : this.dataCacheOptions = dataCacheOptions ?? DataCacheOptions();
+  }) : this.dataCacheOptions = dataCacheOptions ?? const DataCacheOptions();
 
   /// Constructs a default CacheConfig object.
   ///
@@ -45,7 +45,7 @@ class CacheConfiguration {
   bool get isDefaultConfig {
     final isSameCacheSizeOptions = sizeOptions == const CacheSizeOptions();
     final isCryptographyOptionsNull = cryptographyOptions == null;
-    final isDefaultDataOptions = dataCacheOptions == DataCacheOptions();
+    final isDefaultDataOptions = dataCacheOptions == const DataCacheOptions();
 
     return isSameCacheSizeOptions && isCryptographyOptionsNull && isDefaultDataOptions;
   }

@@ -1,4 +1,4 @@
-import '../../configuration/constants/cache_size_constants.dart';
+import '../../services/cache_size_service/constants/cache_size_constants.dart';
 
 /// Extension on the [String] class to calculate approximate megabytes used.
 extension KbStringExtension on String {

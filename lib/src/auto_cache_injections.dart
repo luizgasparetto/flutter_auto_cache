@@ -5,7 +5,7 @@ import 'core/core.dart';
 
 import 'core/configuration/stores/cache_configuration_store.dart';
 
-import 'core/services/cache_size_service/i_cache_size_service.dart';
+import 'core/services/cache_size_service/cache_size_service.dart';
 import 'core/services/cryptography_service/implementations/encrypt_cryptography_service.dart';
 import 'core/services/cryptography_service/i_cryptography_service.dart';
 import 'core/services/cryptography_service/implementations/factories/encrypter_factory.dart';

@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import '../../../../core/services/cache_size_service/i_cache_size_service.dart';
+import '../../../../core/services/cache_size_service/cache_size_service.dart';
 import '../../../../core/services/cryptography_service/i_cryptography_service.dart';
 import '../../../../core/services/kvs_service/i_kvs_service.dart';
 import '../../../../core/extensions/nullable_extensions.dart';
