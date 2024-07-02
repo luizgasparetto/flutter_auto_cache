@@ -1,4 +1,4 @@
-import 'package:flutter_auto_cache/auto_cache.dart';
+import 'package:flutter_auto_cache/flutter_auto_cache.dart';
 import 'package:flutter_auto_cache/src/core/extensions/types/date_time_extensions.dart';
 import 'package:flutter_auto_cache/src/modules/data_cache/domain/dtos/write_cache_dto.dart';
 import 'package:flutter_auto_cache/src/modules/data_cache/external/adapters/dtos/write_cache_dto_adapter.dart';

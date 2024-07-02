@@ -42,11 +42,5 @@ class CacheConfiguration {
   factory CacheConfiguration.defaultConfig() => const CacheConfiguration();
 
   @visibleForTesting
-  bool get isDefaultConfig {
-    final isSameCacheSizeOptions = sizeOptions == const CacheSizeOptions();
-    final isCryptographyOptionsNull = cryptographyOptions == null;
-    final isDefaultDataOptions = dataCacheOptions == const DataCacheOptions();
-
-    return isSameCacheSizeOptions && isCryptographyOptionsNull && isDefaultDataOptions;
-  }
+  bool get isDefaultConfig => this == const CacheConfiguration();
 }

@@ -2,8 +2,6 @@ import 'dart:io';
 
 import '../../core.dart';
 
-import '../../extensions/types/string_extensions.dart';
-
 import 'constants/cache_size_constants.dart';
 import '../directory_service/directory_provider_service.dart';
 import 'exceptions/cache_size_exceptions.dart';
@@ -44,7 +42,9 @@ final class CacheSizeService implements ICacheSizeService {
   @override
   Future<bool> canAccomodateCache(String value, {bool recursive = false}) async {
     final cacheSizeUsed = await this.getCacheSizeUsed();
-    final newTotalCacheUsed = cacheSizeUsed + value.kbUsed;
+
+    final kbUsedByValue = _getKbUsedByString(value);
+    final newTotalCacheUsed = cacheSizeUsed + kbUsedByValue;
 
     return newTotalCacheUsed < config.sizeOptions.totalKb;
   }
@@ -64,5 +64,10 @@ final class CacheSizeService implements ICacheSizeService {
         stackTrace: stackTrace,
       );
     }
+  }
+
+  double _getKbUsedByString(String value) {
+    final kbPerString = value.codeUnits.length / CacheSizeConstants.bytesPerKb;
+    return double.parse(kbPerString.toStringAsFixed(4));
   }
 }
