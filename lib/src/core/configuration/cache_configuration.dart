@@ -29,17 +29,17 @@ class CacheConfiguration {
   /// [ttlMaxDuration] Maximum time-to-live duration for cache items.
   /// [cryptographyOptions] Options for cache cryptography.
   /// [useDeflateCompresser] Flag indicating whether to use Deflate compressor.
-  CacheConfiguration({
+  const CacheConfiguration({
     this.sizeOptions = const CacheSizeOptions(),
     this.cryptographyOptions,
-    DataCacheOptions? dataCacheOptions,
-  }) : this.dataCacheOptions = dataCacheOptions ?? const DataCacheOptions();
+    this.dataCacheOptions = const DataCacheOptions(),
+  });
 
   /// Constructs a default CacheConfig object.
   ///
   /// This factory method provides a default configuration
   /// for caching settings.
-  factory CacheConfiguration.defaultConfig() => CacheConfiguration();
+  factory CacheConfiguration.defaultConfig() => const CacheConfiguration();
 
   @visibleForTesting
   bool get isDefaultConfig {
