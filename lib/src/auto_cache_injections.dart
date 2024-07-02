@@ -27,25 +27,19 @@ import 'modules/data_cache/infra/datasources/i_data_cache_datasource.dart';
 import 'modules/data_cache/infra/repositories/data_cache_repository.dart';
 
 class AutoCacheInjections {
-  AutoCacheInjections._();
+  static bool get isInjectorInitialized => ServiceLocator.instance.hasBinds;
 
-  static final _instance = AutoCacheInjections._();
-
-  static AutoCacheInjections get instance => _instance;
-
-  bool get isInjectorInitialized => ServiceLocator.instance.hasBinds;
-
-  Future<void> registerBinds() async {
+  static Future<void> registerBinds() async {
     await _registerLibs();
     _registerCore();
     _registerDataCache();
   }
 
-  Future<void> _registerLibs() async {
+  static Future<void> _registerLibs() async {
     await ServiceLocator.instance.asyncBind(SharedPreferences.getInstance);
   }
 
-  void _registerCore() {
+  static void _registerCore() {
     ServiceLocator.instance.bindSingleton<CacheConfiguration>(CacheConfigurationStore.instance.config);
     ServiceLocator.instance.bindSingleton<Encrypter>(EncrypterFactory.createEncrypter(_get()));
     ServiceLocator.instance.bindSingleton<IPathProviderService>(PathProviderService());
@@ -55,7 +49,7 @@ class AutoCacheInjections {
     ServiceLocator.instance.bindSingleton<IDirectoryProviderService>(DirectoryProviderService(_get()));
   }
 
-  void _registerDataCache() {
+  static void _registerDataCache() {
     ServiceLocator.instance.bindFactory<IDataCacheDatasource>(() => DataCacheDatasource(_get(), _get(), _get()));
     ServiceLocator.instance.bindFactory<IInvalidationCacheService>(() => InvalidationCacheService(_get()));
     ServiceLocator.instance.bindFactory<IDataCacheRepository>(() => DataCacheRepository(_get()));
@@ -66,5 +60,5 @@ class AutoCacheInjections {
     ServiceLocator.instance.bindFactory<IWriteDataCacheUsecase>(() => WriteDataCacheUsecase(_get(), _get(), _get()));
   }
 
-  T _get<T extends Object>() => ServiceLocator.instance.get<T>();
+  static T _get<T extends Object>() => ServiceLocator.instance.get<T>();
 }

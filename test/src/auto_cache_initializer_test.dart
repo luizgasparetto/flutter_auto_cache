@@ -9,8 +9,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
 
-  final sut = AutoCacheInitializer.instance;
-
   setUpAll(() {
     SharedPreferences.setMockInitialValues({});
   });
@@ -21,16 +19,16 @@ void main() {
 
   group('AutoCacheManagerInitializer.init |', () {
     test('should be able to init AutoCacheManagerInitializer with base config', () async {
-      await sut.init();
+      await AutoCacheInitializer.init();
 
-      expect(AutoCacheInjections.instance.isInjectorInitialized, isTrue);
+      expect(AutoCacheInjections.isInjectorInitialized, isTrue);
       expect(CacheConfigurationStore.instance.config.isDefaultConfig, isTrue);
     });
 
     test('should be able to init AutoCacheManagerInitializer with base config, even passing NULL', () async {
-      await sut.init(configuration: null);
+      await AutoCacheInitializer.init(configuration: null);
 
-      expect(AutoCacheInjections.instance.isInjectorInitialized, isTrue);
+      expect(AutoCacheInjections.isInjectorInitialized, isTrue);
       expect(CacheConfigurationStore.instance.config.isDefaultConfig, isTrue);
     });
   });

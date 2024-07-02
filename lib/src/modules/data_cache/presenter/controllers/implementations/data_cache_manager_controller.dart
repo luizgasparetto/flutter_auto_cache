@@ -27,16 +27,6 @@ class DataCacheManagerController implements IDataCacheController {
   final IDeleteDataCacheUsecase _deleteCacheUsecase;
   final CacheConfiguration cacheConfiguration;
 
-  /// Initializes the `BaseDataCacheManagerController` with the specified use cases and cache configuration.
-  ///
-  /// This constructor requires explicit implementations of the following use cases to ensure a consistent cache
-  /// management experience across various application scenarios:
-  ///
-  /// - [_getCacheUsecase]: Provides data retrieval operations.
-  /// - [_saveCacheUsecase]: Handles saving data into the cache.
-  /// - [_clearCacheUsecase]: Facilitates clearing the entire cache.
-  /// - [_deleteCacheUsecase]: Manages the removal of specific cache entries.
-  /// - [cacheConfig]: Supplies specific cache configuration options to guide caching behavior.
   const DataCacheManagerController(
     this._getCacheUsecase,
     this._writeCacheUsecase,

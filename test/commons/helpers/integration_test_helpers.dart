@@ -57,7 +57,7 @@ Future<PrefsCacheManagerController> initializePrefsController({CacheConfiguratio
   SharedPreferences.setMockInitialValues({});
 
   const defaultConfig = CacheConfiguration(sizeOptions: CacheSizeOptions(maxMb: 10));
-  await AutoCacheInitializer.instance.init(configuration: config ?? defaultConfig);
+  await AutoCacheInitializer.init(configuration: config ?? defaultConfig);
 
   return AutoCache.prefs;
 }

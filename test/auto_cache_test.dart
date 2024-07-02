@@ -22,7 +22,7 @@ void main() {
     });
 
     test('should be able to verify instances and binds of cache controllers', () async {
-      await AutoCacheInitializer.instance.init();
+      await AutoCacheInitializer.init();
 
       expect(AutoCache.prefs, equals(PrefsCacheManagerController.instance));
     });
