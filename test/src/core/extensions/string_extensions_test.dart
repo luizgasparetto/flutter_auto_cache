@@ -1,4 +1,4 @@
-import 'package:flutter_auto_cache/src/core/extensions/string_extensions.dart';
+import 'package:flutter_auto_cache/src/core/extensions/types/string_extensions.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

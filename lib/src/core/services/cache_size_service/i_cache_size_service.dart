@@ -2,7 +2,7 @@ import 'dart:io';
 
 import '../../core.dart';
 
-import '../../extensions/string_extensions.dart';
+import '../../extensions/types/string_extensions.dart';
 
 import '../../configuration/constants/cache_size_constants.dart';
 import '../directory_service/directory_provider_service.dart';

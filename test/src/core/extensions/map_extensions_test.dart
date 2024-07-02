@@ -1,4 +1,4 @@
-import 'package:flutter_auto_cache/src/core/extensions/map_extensions.dart';
+import 'package:flutter_auto_cache/src/core/extensions/types/map_extensions.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

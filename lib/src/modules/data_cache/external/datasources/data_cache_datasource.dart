@@ -3,6 +3,7 @@ import 'dart:convert';
 import '../../../../core/services/cache_size_service/i_cache_size_service.dart';
 import '../../../../core/services/cryptography_service/i_cryptography_service.dart';
 import '../../../../core/services/kvs_service/i_kvs_service.dart';
+import '../../../../core/extensions/nullable_extensions.dart';
 
 import '../../domain/dtos/update_cache_dto.dart';
 import '../../domain/dtos/write_cache_dto.dart';
@@ -11,6 +12,7 @@ import '../../domain/entities/data_cache_entity.dart';
 import '../../infra/datasources/i_data_cache_datasource.dart';
 
 import '../adapters/data_cache_adapter.dart';
+import '../adapters/dtos/update_cache_dto_adapter.dart';
 import '../adapters/dtos/write_cache_dto_adapter.dart';
 
 final class DataCacheDatasource implements IDataCacheDatasource {
@@ -22,20 +24,16 @@ final class DataCacheDatasource implements IDataCacheDatasource {
 
   @override
   DataCacheEntity<T>? get<T extends Object>(String key) {
-    final decodedResponse = getDecryptedJson(key);
+    final response = getDecryptedJson(key);
 
-    if (decodedResponse == null) return null;
-
-    return DataCacheAdapter.fromJson<T>(decodedResponse);
+    return response.let(DataCacheAdapter.fromJson<T>);
   }
 
   @override
   DataCacheEntity<T>? getList<T extends Object, DataType extends Object>(String key) {
-    final decodedResponse = getDecryptedJson(key);
+    final response = getDecryptedJson(key);
 
-    if (decodedResponse == null) return null;
-
-    return DataCacheAdapter.listFromJson<T, DataType>(decodedResponse);
+    return response.let(DataCacheAdapter.listFromJson<T, DataType>);
   }
 
   @override
@@ -47,7 +45,7 @@ final class DataCacheDatasource implements IDataCacheDatasource {
 
   @override
   Future<void> save<T extends Object>(WriteCacheDTO<T> dto) async {
-    final dataCache = WriteCacheDTOAdapter.toSave(dto);
+    final dataCache = WriteCacheDtoAdapter.toEntity<T>(dto);
     final encryptedData = _getEncryptData<T>(dataCache);
 
     await _kvsService.save(key: dto.key, data: encryptedData);
@@ -55,7 +53,7 @@ final class DataCacheDatasource implements IDataCacheDatasource {
 
   @override
   Future<void> update<T extends Object>(UpdateCacheDTO<T> dto) async {
-    final dataCache = WriteCacheDTOAdapter.toUpdate(dto);
+    final dataCache = UpdateCacheDtoAdapter.toEntity<T>(dto);
     final encryptedData = _getEncryptData<T>(dataCache);
 
     await _kvsService.save(key: dto.previewCache.id, data: encryptedData);

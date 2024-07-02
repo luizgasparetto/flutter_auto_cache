@@ -1,7 +1,7 @@
 import '../../../../core/core.dart';
 
 import '../../../../core/functional/either.dart';
-import '../../../../core/extensions/type_extensions.dart';
+import '../../../../core/extensions/types/type_extensions.dart';
 
 import '../dtos/key_cache_dto.dart';
 import '../entities/data_cache_entity.dart';
