@@ -1,21 +1,24 @@
-<h1 align="center">
-    <a href="https://github.com/luizgasparetto/flutter_auto_cache">
-    <img src="./docs/assets/logo.svg" alt="Logo">
-    </a>    
-</h1>
-
 <p align="center">
-  <samp>Improves cache management policies, replacement strategies, invalidation methods and encryption in a <kbd>KVS</kbd> (Key-Value Store)</samp> 🚀
+  <a href="https://github.com/luizgasparetto/flutter_auto_cache">
+  <img src="./docs/assets/logo.svg">
+  </a>
 </p>
 
-<h6 align="center"><samp>#flutter, #package, #cache, #encryption, #storage</samp></h6>
+<h6 align="center"><samp>#flutter, #dart, #package, #storage, #cache, #encryption</samp></h6>
+
+
+<h4 align="center">
+  <samp>Improves cache management policies, including enhanced replacement strategies, invalidation methods and encryption in a <kbd>KVS</kbd> (Key-Value Store)</samp>
+</h4>
+
 
 <h4 align="center">
   <a href="https://github.com/luizgasparetto/flutter_auto_cache/actions/workflows/ci.yaml">
-    <img src="https://img.shields.io/github/actions/workflow/status/luizgasparetto/flutter_auto_cache/ci.yaml?branch=main&label=pipeline&style=flat-square" alt="continuous integration" style="height: 20px;">
+    <img src="https://img.shields.io/github/actions/workflow/status/luizgasparetto/flutter_auto_cache/ci.yaml?branch=main&style=flat-square&label=pipeline&color=blue
+    " alt="continuous integration" style="height: 20px;">
   </a>
-  <a href="https://github.com/luizgasparetto/flutter_auto_cache/graphs/contributors">
-    <img src="https://img.shields.io/github/contributors-anon/luizgasparetto/flutter_auto_cache?color=yellow&style=flat-square" alt="contributors" style="height: 20px;">
+  <a href="https://github.com/luizgasparetto/flutter_auto_cache/stargazers">
+    <img src="https://img.shields.io/github/stars/luizgasparetto/flutter_auto_cache?style=flat-square" alt="start" style="height: 20px;">
   </a>
   <a href="https://opensource.org/license/bsd-3-clause">
   <img src="https://img.shields.io/github/license/luizgasparetto/flutter_auto_cache?style=flat-square&color=blue" alt="bsd-3-clause" style: "height: 20px;">
