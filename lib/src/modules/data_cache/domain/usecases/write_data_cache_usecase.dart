@@ -12,6 +12,8 @@ import '../repositories/i_data_cache_repository.dart';
 import '../services/invalidation_service/invalidation_cache_service.dart';
 import '../services/substitution_service/substitution_cache_service.dart';
 
+typedef WirteDataCacheResponse = AsyncEither<AutoCacheError, Unit>;
+
 /// Interface for writing data to the cache.
 ///
 /// This interface defines a method for writing data to the cache based on the
@@ -25,7 +27,7 @@ abstract interface class IWriteDataCacheUsecase {
   /// representing a computation that can either result in an `AutoCacheError`
   /// (in case of failure) or a [Unit] (in case of success). The [dto] parameter
   /// encapsulates the necessary information for the cache data to be written.
-  AsyncEither<AutoCacheError, Unit> execute<T extends Object>(WriteCacheDTO<T> dto);
+  WirteDataCacheResponse execute<T extends Object>(WriteCacheDTO<T> dto);
 }
 
 final class WriteDataCacheUsecase implements IWriteDataCacheUsecase {
@@ -36,31 +38,31 @@ final class WriteDataCacheUsecase implements IWriteDataCacheUsecase {
   const WriteDataCacheUsecase(this._repository, this._substitutionService, this._invalidationCacheService);
 
   @override
-  AsyncEither<AutoCacheError, Unit> execute<T extends Object>(WriteCacheDTO<T> dto) async {
+  WirteDataCacheResponse execute<T extends Object>(WriteCacheDTO<T> dto) async {
     final keyDto = KeyCacheDTO(key: dto.key);
     final getResponse = _repository.get<T>(keyDto);
 
-    return getResponse.fold(left, (cache) => _validateCache(cache, dto));
+    return getResponse.fold(left, (cache) => validateDataCache(cache, dto));
   }
 
-  AsyncEither<AutoCacheError, Unit> _validateCache<T extends Object>(DataCacheEntity<T>? cache, WriteCacheDTO<T> dto) async {
-    if (cache == null) return _saveCache<T>(dto);
+  WirteDataCacheResponse validateDataCache<T extends Object>(DataCacheEntity<T>? cache, WriteCacheDTO<T> dto) async {
+    if (cache == null) return saveCache<T>(dto);
 
+    final updateDto = UpdateCacheDTO<T>(previewCache: cache, config: dto.cacheConfig);
     final validateResponse = _invalidationCacheService.validate(cache);
 
-    return validateResponse.fold(left, (isValid) => isValid ? _updateCache<T>(cache, dto) : _saveCache<T>(dto));
+    return validateResponse.fold(left, (isValid) => isValid ? updateCache<T>(updateDto) : saveCache<T>(dto));
   }
 
-  AsyncEither<AutoCacheError, Unit> _saveCache<T extends Object>(WriteCacheDTO<T> dto) async {
+  WirteDataCacheResponse saveCache<T extends Object>(WriteCacheDTO<T> dto) async {
     final response = await _substitutionService.substitute(dto.data);
 
     return response.fold(left, (_) => _repository.save<T>(dto));
   }
 
-  AsyncEither<AutoCacheError, Unit> _updateCache<T extends Object>(DataCacheEntity<T> cache, WriteCacheDTO<T> dto) async {
-    final updateDTO = UpdateCacheDTO<T>(previewCache: cache, config: dto.cacheConfig);
-    final response = await _substitutionService.substitute(dto.data);
+  WirteDataCacheResponse updateCache<T extends Object>(UpdateCacheDTO<T> dto) async {
+    final response = await _substitutionService.substitute(dto.previewCache.data);
 
-    return response.fold(left, (_) => _repository.update<T>(updateDTO));
+    return response.fold(left, (_) => _repository.update<T>(dto));
   }
 }

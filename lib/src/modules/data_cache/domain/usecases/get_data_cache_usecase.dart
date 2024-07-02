@@ -8,7 +8,7 @@ import '../entities/data_cache_entity.dart';
 import '../repositories/i_data_cache_repository.dart';
 import '../services/invalidation_service/invalidation_cache_service.dart';
 
-typedef _GetDataCacheResponse<T extends Object> = AsyncEither<AutoCacheError, DataCacheEntity<T>?>;
+typedef GetDataCacheResponse<T extends Object> = AsyncEither<AutoCacheError, DataCacheEntity<T>?>;
 
 /// An interface defining the use case for retrieving data from the cache.
 ///
@@ -21,7 +21,7 @@ abstract interface class IGetDataCacheUsecase {
   /// The method attempts to retrieve a cached entity that matches the criteria specified
   /// in the data transfer object (DTO). If successful, it returns the cached entity; otherwise,
   /// it returns an error.
-  _GetDataCacheResponse<T> execute<T extends Object, DataType extends Object>(KeyCacheDTO dto);
+  GetDataCacheResponse<T> execute<T extends Object, DataType extends Object>(KeyCacheDTO dto);
 }
 
 final class GetDataCacheUsecase implements IGetDataCacheUsecase {
@@ -31,27 +31,27 @@ final class GetDataCacheUsecase implements IGetDataCacheUsecase {
   const GetDataCacheUsecase(this._dataCacheRepository, this._invalidationCacheService);
 
   @override
-  _GetDataCacheResponse<T> execute<T extends Object, DataType extends Object>(KeyCacheDTO dto) async {
-    final response = await _getResponse<T, DataType>(dto);
+  GetDataCacheResponse<T> execute<T extends Object, DataType extends Object>(KeyCacheDTO dto) async {
+    final response = await getCacheResponse<T, DataType>(dto);
 
-    return response.fold(left, _validateCacheResponse);
+    return response.fold(left, validateCacheResponse);
   }
 
-  _GetDataCacheResponse<T> _getResponse<T extends Object, DataType extends Object>(KeyCacheDTO dto) async {
+  GetDataCacheResponse<T> getCacheResponse<T extends Object, DataType extends Object>(KeyCacheDTO dto) async {
     if (T.isList) return _dataCacheRepository.getList<T, DataType>(dto);
 
     return _dataCacheRepository.get<T>(dto);
   }
 
-  _GetDataCacheResponse<T> _validateCacheResponse<T extends Object>(DataCacheEntity<T>? cache) async {
+  GetDataCacheResponse<T> validateCacheResponse<T extends Object>(DataCacheEntity<T>? cache) async {
     if (cache == null) return right(null);
 
     final response = _invalidationCacheService.validate<T>(cache);
 
-    return response.fold(left, (isValid) => _handleValidateResponse(isValid, cache));
+    return response.fold(left, (isValid) => handleValidateResponse(isValid, cache));
   }
 
-  _GetDataCacheResponse<T> _handleValidateResponse<T extends Object>(bool isValid, DataCacheEntity<T> data) async {
+  GetDataCacheResponse<T> handleValidateResponse<T extends Object>(bool isValid, DataCacheEntity<T> data) async {
     if (isValid) return right(data);
 
     final response = await _dataCacheRepository.delete(KeyCacheDTO(key: data.id));

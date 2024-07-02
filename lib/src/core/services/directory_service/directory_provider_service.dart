@@ -29,7 +29,7 @@ class DirectoryProviderService extends ValueNotifier<DirectoryProviderState> imp
   DirectoryProviderService(this._service) : super(EmptyDirectoryProviderState());
 
   @override
-  Directory get prefsDirectory => this.value.applicationDocumentsDirectory;
+  Directory get prefsDirectory => this.value.applicationSupportDirectory;
 
   @override
   Future<void> getCacheDirectories() async {
