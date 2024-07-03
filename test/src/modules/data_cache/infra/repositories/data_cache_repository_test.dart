@@ -132,6 +132,29 @@ void main() {
     });
   });
 
+  group('DataCacheRepository.accomodateCache |', () {
+    final cache = DataCacheEntityFake(fakeData: 'fake_data');
+
+    test('should be able to verify if can accomodate cache successfully', () async {
+      when(() => queryDatasource.accomodateCache(cache)).thenAnswer((_) async => true);
+
+      final response = await sut.accomodateCache(cache);
+
+      expect(response.isSuccess, isTrue);
+      expect(response.fold((l) => l, (r) => r), isTrue);
+      verify(() => queryDatasource.accomodateCache(cache)).called(1);
+    });
+
+    test('should NOT be able to verify if can accomodate cache when datasource fails', () async {
+      when(() => queryDatasource.accomodateCache(cache)).thenThrow(FakeAutoCacheException());
+
+      final response = await sut.accomodateCache(cache);
+
+      expect(response.isError, isTrue);
+      verify(() => queryDatasource.accomodateCache(cache)).called(1);
+    });
+  });
+
   group('DataCacheRepository.save |', () {
     final prefsDto = WriteCacheDTO<String>(key: 'my_key', data: 'my_data', cacheConfig: fakeCacheConfig);
 

@@ -24,6 +24,9 @@ void main() {
 
   final sut = QueryDataCacheDatasource(kvsService, cryptographyService, sizeService);
 
+  final createdAt = DateTime.now();
+  final endAt = DateTime.now().add(const Duration(hours: 3));
+
   tearDown(() {
     reset(kvsService);
     reset(cryptographyService);
@@ -31,9 +34,6 @@ void main() {
   });
 
   group('QueryDataCacheDatasource.get |', () {
-    final createdAt = DateTime.now();
-    final endAt = DateTime.now().add(const Duration(hours: 3));
-
     final successBody = {
       'id': 'key',
       'data': 'my_data',
@@ -43,7 +43,7 @@ void main() {
 
     final stringBody = jsonEncode(successBody);
 
-    test('should be able to find cache data by key successfully', () {
+    test('should be able to get cache data by key successfully', () {
       when(() => kvsService.get(key: 'my_key')).thenReturn(stringBody);
       when(() => cryptographyService.decrypt(stringBody)).thenReturn(stringBody);
 
@@ -63,11 +63,102 @@ void main() {
       verify(() => kvsService.get(key: 'my_key')).called(1);
     });
 
-    test('should NOT be able to return data cached when service fails', () {
+    test('should NOT be able to return data cached when kvs service fails', () {
       when(() => kvsService.get(key: 'my_key')).thenThrow(FakeAutoCacheException());
 
       expect(() => sut.get<String>('my_key'), throwsA(isA<AutoCacheException>()));
       verify(() => kvsService.get(key: 'my_key')).called(1);
+    });
+
+    test('should NOT be able to return data when cryptography service fails', () {
+      when(() => kvsService.get(key: 'my_key')).thenReturn(stringBody);
+      when(() => cryptographyService.decrypt(stringBody)).thenThrow(FakeAutoCacheException());
+
+      expect(() => sut.get<String>('my_key'), throwsA(isA<AutoCacheException>()));
+      verify(() => kvsService.get(key: 'my_key')).called(1);
+      verify(() => cryptographyService.decrypt(stringBody)).called(1);
+    });
+  });
+
+  group('QueryDataCacheDatasource.getList |', () {
+    final successBody = {
+      'id': 'key',
+      'data': ['data', 'data'],
+      'created_at': createdAt.toIso8601String(),
+      'end_at': endAt.toIso8601String(),
+    };
+
+    final stringBody = jsonEncode(successBody);
+
+    test('should be able to get list data cache successfully', () {
+      when(() => kvsService.get(key: 'my_key')).thenReturn(stringBody);
+      when(() => cryptographyService.decrypt(stringBody)).thenReturn(stringBody);
+
+      final response = sut.getList<List<String>, String>('my_key');
+
+      expect(response, isA<DataCacheEntity<List<String>>>());
+      expect(response?.data, equals(['data', 'data']));
+      verify(() => kvsService.get(key: 'my_key')).called(1);
+      verify(() => cryptographyService.decrypt(stringBody)).called(1);
+    });
+
+    test('should be able to return NULL when not find list data in cache', () {
+      when(() => kvsService.get(key: 'my_key')).thenReturn(null);
+
+      final response = sut.getList<List<String>, String>('my_key');
+
+      expect(response, isNull);
+      verify(() => kvsService.get(key: 'my_key')).called(1);
+      verifyNever(() => cryptographyService.decrypt(stringBody));
+    });
+
+    test('should NOT be able to get list data when kvs service fails', () {
+      when(() => kvsService.get(key: 'my_key')).thenThrow(FakeAutoCacheException());
+
+      expect(() => sut.getList<List<String>, String>('my_key'), throwsA(isA<AutoCacheException>()));
+      verify(() => kvsService.get(key: 'my_key')).called(1);
+      verifyNever(() => cryptographyService.decrypt(stringBody));
+    });
+
+    test('should NOT be able to get list data when cryptography service fails', () {
+      when(() => kvsService.get(key: 'my_key')).thenReturn(stringBody);
+      when(() => cryptographyService.decrypt(stringBody)).thenThrow(FakeAutoCacheException());
+
+      expect(() => sut.getList<List<String>, String>('my_key'), throwsA(isA<AutoCacheException>()));
+      verify(() => kvsService.get(key: 'my_key')).called(1);
+      verify(() => cryptographyService.decrypt(stringBody)).called(1);
+    });
+  });
+
+  group('QueryDataCacheDatasource.accomodateCache |', () {
+    final cache = DataCacheEntity<String>(id: 'id', data: 'data', createdAt: createdAt, endAt: endAt);
+
+    test('should be able to verify if cache can be accomodate successfully', () async {
+      when(() => cryptographyService.encrypt(any())).thenReturn('encrypted_data');
+      when(() => sizeService.canAccomodateCache('encrypted_data')).thenAnswer((_) async => true);
+
+      final response = await sut.accomodateCache<String>(cache);
+
+      expect(response, isTrue);
+      verify(() => cryptographyService.encrypt(any())).called(1);
+      verify(() => sizeService.canAccomodateCache('encrypted_data')).called(1);
+    });
+
+    test('should NOT be able to verify if cache can be accomodate when cryptography fails', () async {
+      when(() => cryptographyService.encrypt(any())).thenThrow(FakeAutoCacheException());
+
+      expect(() => sut.accomodateCache<String>(cache), throwsA(isA<AutoCacheException>()));
+      verify(() => cryptographyService.encrypt(any())).called(1);
+      verifyNever(() => sizeService.canAccomodateCache(any()));
+    });
+
+    test('should NOT be able to verify if cache can be accomodate when size service fails', () async {
+      when(() => cryptographyService.encrypt(any())).thenReturn('encrypted_data');
+      when(() => sizeService.canAccomodateCache('encrypted_data')).thenThrow(FakeAutoCacheException());
+
+      expect(() => sut.accomodateCache<String>(cache), throwsA(isA<AutoCacheException>()));
+      verify(() => cryptographyService.encrypt(any())).called(1);
+      verify(() => sizeService.canAccomodateCache('encrypted_data')).called(1);
     });
   });
 
