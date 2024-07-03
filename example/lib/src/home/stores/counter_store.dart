@@ -12,11 +12,11 @@ class CounterStore extends ValueNotifier<int> {
     value = response ?? 0;
   }
 
-  Future<void> increment() => _writeInt(() => value += 1);
+  Future<void> increment() => _updateCount(() => value += 1);
 
-  Future<void> decrement() => _writeInt(() => value -= 1);
+  Future<void> decrement() => _updateCount(() => value -= 1);
 
-  Future<void> _writeInt(VoidCallback action) async {
+  Future<void> _updateCount(VoidCallback action) async {
     action.call();
     await AutoCache.prefs.saveInt(key: CacheConstants.countKey, data: value);
   }
