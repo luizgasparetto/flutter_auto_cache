@@ -48,8 +48,8 @@ final class WriteDataCacheUsecase implements IWriteDataCacheUsecase {
   WriteDataCacheResponse validateDataCache<T extends Object>(DataCacheEntity<T>? cache, WriteCacheDTO<T> dto) async {
     if (cache == null) return saveCache<T>(dto);
 
-    final updateDto = UpdateCacheDTO<T>(value: dto.data, config: dto.cacheConfig, previewCache: cache);
     final validateResponse = _invalidationCacheService.validate(cache);
+    final updateDto = UpdateCacheDTO<T>(value: dto.data, config: dto.cacheConfig, previewCache: cache);
 
     return validateResponse.fold(left, (isValid) => isValid ? updateCache<T>(updateDto) : saveCache<T>(dto));
   }

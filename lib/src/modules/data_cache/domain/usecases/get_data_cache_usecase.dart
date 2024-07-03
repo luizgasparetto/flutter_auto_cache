@@ -48,7 +48,7 @@ final class GetDataCacheUsecase implements IGetDataCacheUsecase {
 
     final response = _invalidationCacheService.validate<T>(cache);
 
-    return response.fold(left, (isValid) => handleValidateResponse(isValid, cache));
+    return response.fold(left, (isValid) => handleValidateResponse<T>(isValid, cache));
   }
 
   GetDataCacheResponse<T> handleValidateResponse<T extends Object>(bool isValid, DataCacheEntity<T> data) async {

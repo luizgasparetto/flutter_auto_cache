@@ -48,7 +48,7 @@ abstract interface class IDataCacheRepository {
   ///
   /// Returns:
   /// - An [AsyncEither] containing an [AutoCacheException] on failure, or a boolean indicating success.
-  AsyncEither<AutoCacheException, bool> accomodateCache<T extends Object>(DataCacheEntity<T> dataCache, {bool recursive = false});
+  AsyncEither<AutoCacheException, bool> accomodateCache<T extends Object>(DataCacheEntity<T> cache, {bool recursive = false});
 
   /// Saves a data object of type [T] using the data transfer object [dto].
   ///

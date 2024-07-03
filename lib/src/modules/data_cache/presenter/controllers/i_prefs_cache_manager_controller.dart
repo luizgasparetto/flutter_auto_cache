@@ -3,13 +3,13 @@ part of 'implementations/data_cache_manager_controller.dart';
 /// Combines query and command cache management operations
 ///
 /// This mixin unites the read and write cache operations defined in
-/// [_IQueryPrefsCacheManagerController] and [_ICommandPrefsCachaManagerController].
-mixin IPrefsCacheManagerController on _IQueryPrefsCacheManagerController, _ICommandPrefsCachaManagerController {}
+/// [IQueryPrefsCacheManagerController] and [ICommandPrefsCachaManagerController].
+mixin IPrefsCacheManagerController on IQueryPrefsCacheManagerController, ICommandPrefsCachaManagerController {}
 
 /// Interface for querying cache operations.
 ///
 /// Provides methods to retrieve cached values in different data types.
-abstract interface class _IQueryPrefsCacheManagerController {
+abstract interface class IQueryPrefsCacheManagerController {
   /// Retrieves a string value from the cache for the given [key].
   ///
   /// Returns a `String?` that completes with the string value
@@ -46,7 +46,7 @@ abstract interface class _IQueryPrefsCacheManagerController {
 /// Interface for writing cache operations.
 ///
 /// Provides methods to store values in the cache with specific keys.
-abstract interface class _ICommandPrefsCachaManagerController {
+abstract interface class ICommandPrefsCachaManagerController {
   /// Saves a string value in the cache with the specified [key].
   ///
   /// This method is asynchronous and returns a `Future<void>` that completes

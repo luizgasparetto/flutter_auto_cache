@@ -1,6 +1,6 @@
 import '../../domain/entities/data_cache_entity.dart';
 
-class DataCacheAdapter {
+final class DataCacheAdapter {
   static DataCacheEntity<T> fromJson<T extends Object>(Map<String, dynamic> json) {
     return DataCacheEntity<T>(
       id: json['id'],

@@ -16,10 +16,6 @@ import '../i_data_cache_controller.dart';
 part 'prefs_cache_manager_controller.dart';
 part '../i_prefs_cache_manager_controller.dart';
 
-/// Responsible for managing caching operations through various use cases.
-/// The `BaseDataCacheManagerController` provides an abstraction layer for interacting
-/// with cached data by offering comprehensive methods for retrieval, saving,
-/// deletion, and clearing of cache content.
 class DataCacheManagerController implements IDataCacheController {
   final IGetDataCacheUsecase _getCacheUsecase;
   final IWriteDataCacheUsecase _writeCacheUsecase;
@@ -35,11 +31,6 @@ class DataCacheManagerController implements IDataCacheController {
     this.cacheConfiguration,
   );
 
-  /// Factory method for creating a new instance of `BaseDataCacheManagerController`.
-  ///
-  /// This method utilizes a dependency injection framework to automatically
-  /// retrieve the required use cases and cache configuration, offering a ready-to-use
-  /// implementation for cache management.
   factory DataCacheManagerController.create() {
     return DataCacheManagerController(
       ServiceLocator.instance.get<IGetDataCacheUsecase>(),
