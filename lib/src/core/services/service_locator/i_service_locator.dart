@@ -26,5 +26,8 @@ abstract interface class IServiceLocator {
   /// [factoryBind] - A function that creates and returns the service instance.
   void bindFactory<T extends Object>(T Function() factoryBind);
 
+  /// Checks if there are any registered service bindings.
+  ///
+  /// Returns `true` if there are registered service bindings; otherwise, `false`.
   bool get hasBinds;
 }

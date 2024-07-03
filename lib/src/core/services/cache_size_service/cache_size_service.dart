@@ -15,7 +15,7 @@ abstract interface class ICacheSizeService {
   ///
   /// Returns `true` if the cache can accommodate the additional size specified in kilobytes,
   /// `false` otherwise.
-  Future<bool> canAccomodateCache(String value, {bool recursive = false});
+  Future<bool> canAccomodateCache(String value);
 
   /// Returns the total cache size used by the application in megabytes (MB).
   ///
@@ -27,12 +27,6 @@ abstract interface class ICacheSizeService {
   Future<double> getCacheSizeUsed();
 }
 
-/// A service class for managing cache details.
-///
-/// This class provides functionalities to calculate and retrieve
-/// the size of cache used by the application. It works by assessing
-/// the size of files stored in the application's documents and support
-/// directories, typically used for key-value storage (Prefs).
 final class CacheSizeService implements ICacheSizeService {
   final IDirectoryProviderService directoryProvider;
   final CacheConfiguration config;
@@ -40,7 +34,7 @@ final class CacheSizeService implements ICacheSizeService {
   const CacheSizeService(this.directoryProvider, this.config);
 
   @override
-  Future<bool> canAccomodateCache(String value, {bool recursive = false}) async {
+  Future<bool> canAccomodateCache(String value) async {
     final cacheSizeUsed = await this.getCacheSizeUsed();
 
     final kbUsedByValue = _getKbUsedByString(value);

@@ -14,8 +14,7 @@ class SharedPreferencesKvsService implements IKvsService {
       return prefs.getString(key);
     } catch (exception, stackTrace) {
       throw GetKvsStorageException(
-        code: 'get_prefs_storage_exception',
-        message: 'Get Prefs Storage exception',
+        message: 'An error occurred while getting data from storage: ${exception.toString()}',
         stackTrace: stackTrace,
       );
     }
@@ -26,9 +25,8 @@ class SharedPreferencesKvsService implements IKvsService {
     try {
       return prefs.getStringList(key);
     } catch (exception, stackTrace) {
-      throw GetKvsStorageException(
-        code: 'get_list_prefs_storage_exception',
-        message: 'Get List Prefs Storage exception',
+      throw GetListKvsStorageException(
+        message: 'An error occurred while retrieving storage keys: ${exception.toString()}',
         stackTrace: stackTrace,
       );
     }
@@ -40,8 +38,7 @@ class SharedPreferencesKvsService implements IKvsService {
       return prefs.getKeys().toList();
     } catch (exception, stackTrace) {
       throw GetKvsStorageKeysException(
-        code: 'get_keys_prefs_storage',
-        message: 'Failed to get keys of Prefs',
+        message: 'An error occurred while retrieving storage keys: ${exception.toString()}',
         stackTrace: stackTrace,
       );
     }
@@ -53,8 +50,7 @@ class SharedPreferencesKvsService implements IKvsService {
       await prefs.setString(key, data);
     } catch (exception, stackTrace) {
       throw SaveKvsStorageException(
-        code: 'save_prefs_storage',
-        message: 'Save Prefs Storage exception',
+        message: 'An error occurred while saving data to storage: ${exception.toString()}',
         stackTrace: stackTrace,
       );
     }
@@ -65,9 +61,8 @@ class SharedPreferencesKvsService implements IKvsService {
     try {
       await prefs.setStringList(key, data);
     } catch (exception, stackTrace) {
-      throw SaveKvsStorageException(
-        code: 'save_list_prefs_storage',
-        message: 'Save List Prefs Storage exception',
+      throw SaveListKvsStorageException(
+        message: 'An error occurred while saving a list to storage: ${exception.toString()}',
         stackTrace: stackTrace,
       );
     }
@@ -79,8 +74,7 @@ class SharedPreferencesKvsService implements IKvsService {
       await prefs.remove(key);
     } catch (exception, stackTrace) {
       throw DeleteKvsStorageException(
-        code: 'delete_storage',
-        message: 'Delete Prefs Storage exception',
+        message: 'An error occurred while deleting data from storage: ${exception.toString()}',
         stackTrace: stackTrace,
       );
     }
@@ -90,10 +84,9 @@ class SharedPreferencesKvsService implements IKvsService {
   Future<void> clear() async {
     try {
       await prefs.clear();
-    } catch (e, stackTrace) {
+    } catch (exception, stackTrace) {
       throw ClearKvsStorageException(
-        code: 'clear_prefs_storage',
-        message: 'Clear Prefs storage exception',
+        message: 'An error occurred while clearing all data from storage: ${exception.toString()}',
         stackTrace: stackTrace,
       );
     }

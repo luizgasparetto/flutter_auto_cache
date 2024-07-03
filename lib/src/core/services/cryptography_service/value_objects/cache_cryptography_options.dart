@@ -7,12 +7,8 @@ import 'package:flutter/foundation.dart';
 /// enhancing security.
 @immutable
 class CacheCryptographyOptions {
-  /// The secret key used for encrypting the cache.
   final String secretKey;
 
-  /// Constructs cache cryptography options with a customizable secret key and algorithm.
-  ///
-  /// The `secretKey` parameter is required and defines the key used for encryption.
   const CacheCryptographyOptions({required this.secretKey});
 
   @override

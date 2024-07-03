@@ -76,7 +76,7 @@ void main() {
     test('should NOT be able to GET a list of cache data when prefs throws an Exception', () async {
       when(() => prefs.getStringList('my_key')).thenThrow(Exception());
 
-      expect(() => sut.getList(key: 'my_key'), throwsA(isA<GetKvsStorageException>()));
+      expect(() => sut.getList(key: 'my_key'), throwsA(isA<GetListKvsStorageException>()));
       verify(() => prefs.getStringList('my_key')).called(1);
     });
   });
@@ -142,7 +142,7 @@ void main() {
     test('should NOT be able to SAVE cache list data when prefs throws an Exception', () async {
       when(() => prefs.setStringList('my_key', list)).thenThrow(Exception());
 
-      expect(() => sut.saveList(key: 'my_key', data: list), throwsA(isA<SaveKvsStorageException>()));
+      expect(() => sut.saveList(key: 'my_key', data: list), throwsA(isA<SaveListKvsStorageException>()));
       verify(() => prefs.setStringList('my_key', list)).called(1);
     });
   });

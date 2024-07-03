@@ -11,10 +11,7 @@ import '../constants/cache_size_constants.dart';
 /// total cache size in bytes.
 @immutable
 class CacheSizeOptions {
-  /// The maximum cache size in kilobytes. Defaults to 0 KB.
   final int maxKb;
-
-  /// The maximum cache size in megabytes. Defaults to 20 MB.
   final int maxMb;
 
   /// Constructor for creating cache size options with customizable maximum sizes.

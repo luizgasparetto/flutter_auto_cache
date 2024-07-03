@@ -6,26 +6,30 @@ import 'exceptions/directory_provider_exceptions.dart';
 import '../path_provider_service/i_path_provider_service.dart';
 import 'states/directory_provider_state.dart';
 
-/// An interface for a service that provides access to specific directories.
+/// Provides access to specific directories required by the application.
+///
+/// This service interface defines methods for retrieving and initializing
+/// directories used for storing preferences and caching data.
 abstract interface class IDirectoryProviderService {
-  /// Gets the directory for storing preference files.
+  /// The directory designated for storing preference files.
+  ///
+  /// This property should provide the path to the directory where the application's
+  /// preference files are stored. It should be initialized by the [getCacheDirectories] method.
   Directory get prefsDirectory;
 
-  /// Initializes and loads cache directories. This should set up `prefsDirectory`
-  /// and `sqlDirectory` with the correct paths.
+  /// Initializes and loads the necessary cache directories.
+  ///
+  /// This method is responsible for setting up the [prefsDirectory] and other
+  /// relevant directories such as `sqlDirectory`. It ensures that the directories
+  /// are correctly configured and accessible for use.
+  ///
+  /// Throws a [DirectoryProviderException] if the directories cannot be loaded or initialized.
   Future<void> getCacheDirectories();
 }
 
-/// A concrete implementation of `IDirectoryProviderService` that manages
-/// the retrieval of application document and support directories.
 class DirectoryProviderService extends ValueNotifier<DirectoryProviderState> implements IDirectoryProviderService {
-  /// The service used to access the path provider's functionality.
   final IPathProviderService _service;
 
-  /// Constructs a [DirectoryProviderService] which uses the given [_service]
-  /// to fetch directory paths.
-  ///
-  /// Initializes the state with an empty [DirectoryProviderState].
   DirectoryProviderService(this._service) : super(EmptyDirectoryProviderState());
 
   @override
@@ -34,7 +38,6 @@ class DirectoryProviderService extends ValueNotifier<DirectoryProviderState> imp
   @override
   Future<void> getCacheDirectories() async {
     try {
-      ///Early return if directories are already loaded.
       if (this.value.isLoaded) return;
 
       final isTest = Platform.environment.containsKey('FLUTTER_TEST');
@@ -42,15 +45,13 @@ class DirectoryProviderService extends ValueNotifier<DirectoryProviderState> imp
       final tempDocumentsDir = await Directory.systemTemp.createTemp('documents');
       final tempSupportDir = await Directory.systemTemp.createTemp('support');
 
-      ///Fetch the application document and support directories.
       final applicationDocumentsDirectory = isTest ? tempDocumentsDir : await _service.getApplicationDocumentsDirectory();
       final applicationSupportDirectory = isTest ? tempSupportDir : await _service.getApplicationSupportDirectory();
 
-      ///Update the state with the fetched directories.
       this.value = LoadedDirectoryProviderState(applicationDocumentsDirectory, applicationSupportDirectory);
-    } catch (e, stackTrace) {
+    } catch (exception, stackTrace) {
       throw DirectoryProviderException(
-        message: 'Failed do load directories',
+        message: 'An error occurred while loading directories: ${exception.toString()}',
         stackTrace: stackTrace,
       );
     }

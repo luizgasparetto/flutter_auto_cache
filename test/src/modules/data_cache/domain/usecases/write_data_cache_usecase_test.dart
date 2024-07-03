@@ -119,7 +119,7 @@ void main() {
     test('should be able to update cache data when previous cache is not expired', () async {
       when(() => repository.get<String>(any(that: cacheDtoMatcher()))).thenReturn(right(fakeCache));
       when(() => invalidationService.validate(fakeCache)).thenReturn(right(true));
-      when(() => substitutionService.substitute<String>(replaceDto.data)).thenAnswer((_) async => right(unit));
+      when(() => substitutionService.substitute<String>(any())).thenAnswer((_) async => right(unit));
       when(() => repository.update<String>(any())).thenAnswer((_) async => right(unit));
 
       final response = await sut.execute<String>(replaceDto);
@@ -128,7 +128,7 @@ void main() {
       verify(() => repository.get<String>(any(that: cacheDtoMatcher()))).called(1);
       verify(() => invalidationService.validate<String>(fakeCache)).called(1);
       verify(() => repository.update<String>(any())).called(1);
-      verify(() => substitutionService.substitute<String>(replaceDto.data)).called(1);
+      verify(() => substitutionService.substitute<String>(any())).called(1);
       verifyNever(() => repository.save<String>(replaceDto));
     });
 
@@ -172,10 +172,10 @@ void main() {
       verifyNever(() => repository.update<String>(any()));
     });
 
-    test('should NOT be able to update cache  when update method at repository fails', () async {
+    test('should NOT be able to update cache when update method at repository fails', () async {
       when(() => repository.get<String>(any(that: cacheDtoMatcher()))).thenReturn(right(fakeCache));
       when(() => invalidationService.validate(fakeCache)).thenReturn(right(true));
-      when(() => substitutionService.substitute<String>(replaceDto.data)).thenAnswer((_) async => right(unit));
+      when(() => substitutionService.substitute<String>(any())).thenAnswer((_) async => right(unit));
       when(() => repository.update<String>(any())).thenAnswer((_) async => left(AutoCacheExceptionFake()));
 
       final response = await sut.execute<String>(replaceDto);
@@ -185,7 +185,7 @@ void main() {
       verify(() => repository.get<String>(any(that: cacheDtoMatcher()))).called(1);
       verify(() => invalidationService.validate<String>(fakeCache)).called(1);
       verify(() => repository.update<String>(any())).called(1);
-      verify(() => substitutionService.substitute<String>(replaceDto.data)).called(1);
+      verify(() => substitutionService.substitute<String>(any())).called(1);
       verifyNever(() => repository.save<String>(replaceDto));
     });
 
