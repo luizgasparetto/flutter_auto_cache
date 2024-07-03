@@ -11,6 +11,10 @@
     {
       "name": "file_cache",
       "path": "../lib/src/modules/file_cache"
+    },
+    {
+      "name": "example",
+      "path": "../example",
     }
   ],
   "settings": {
@@ -26,4 +30,17 @@
       "/.fvm": true
     }
   },
+  "launch": {
+    "version": "0.2.0",
+    "configurations": [
+      {
+        "name": "Example (Debug)",
+        "type": "dart",
+        "request": "launch",
+        "cwd": "${workspaceFolder:example}",
+        "program": "./lib/main.dart",
+        "flutterMode": "debug",
+      },
+    ],
+  }
 }
