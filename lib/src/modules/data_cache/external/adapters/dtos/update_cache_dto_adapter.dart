@@ -5,7 +5,7 @@ class UpdateCacheDtoAdapter {
   static DataCacheEntity<T> toEntity<T extends Object>(UpdateCacheDTO<T> dto) {
     return DataCacheEntity<T>(
       id: dto.previewCache.id,
-      data: dto.previewCache.data,
+      data: dto.value,
       createdAt: dto.previewCache.createdAt,
       endAt: dto.config.dataCacheOptions.invalidationMethod.endAt,
       updatedAt: DateTime.now(),

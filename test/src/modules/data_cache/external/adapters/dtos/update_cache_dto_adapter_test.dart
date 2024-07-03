@@ -9,7 +9,7 @@ void main() {
   final cache = DataCacheEntity<String>(id: 'key', data: 'data', createdAt: DateTime.now(), endAt: DateTime.now());
   const config = CacheConfiguration();
 
-  final dto = UpdateCacheDTO(previewCache: cache, config: const CacheConfiguration());
+  final dto = UpdateCacheDTO(value: 'new_value', previewCache: cache, config: const CacheConfiguration());
   final options = config.dataCacheOptions;
 
   group('UpdateCacheDtoAdapter.toEntity |', () {
@@ -17,7 +17,7 @@ void main() {
       final response = UpdateCacheDtoAdapter.toEntity<String>(dto);
 
       expect(response.id, equals(cache.id));
-      expect(response.data, equals(cache.data));
+      expect(response.data, equals('new_value'));
       expect(response.createdAt, equals(cache.createdAt));
       expect(response.endAt?.withoutMilliseconds(), equals(options.invalidationMethod.endAt.withoutMilliseconds()));
       expect(response.updatedAt?.withoutMilliseconds(), equals(DateTime.now().withoutMilliseconds()));

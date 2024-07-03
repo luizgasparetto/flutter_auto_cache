@@ -151,7 +151,7 @@ void main() {
   });
 
   group('DataCacheRepository.update |', () {
-    final dto = UpdateCacheDTO(previewCache: DataCacheEntityFake(fakeData: 'fake_data'), config: FakeCacheConfig());
+    final dto = UpdateCacheDTO(value: 'new_data', previewCache: DataCacheEntityFake(fakeData: 'fake_data'), config: FakeCacheConfig());
 
     test('should be able to update data cache with prefs successfully', () async {
       when(() => datasource.update<String>(dto)).thenAsyncVoid();
