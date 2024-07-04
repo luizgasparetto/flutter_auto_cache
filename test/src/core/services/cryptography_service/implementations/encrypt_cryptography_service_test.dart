@@ -16,7 +16,7 @@ void main() {
 
   final sut = EncryptCryptographyService(cacheConfig, encrypter);
 
-  const options = CacheCryptographyOptions(secretKey: 'mySecretKey');
+  final options = CacheCryptographyOptions(secretKey: 'mySecretKey');
   final encrypted = Encrypted(Uint8List(8));
 
   setUp(() {

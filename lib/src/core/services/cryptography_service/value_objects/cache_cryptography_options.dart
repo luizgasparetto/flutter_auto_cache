@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/foundation.dart';
 
 /// Represents cache cryptography options with a configurable secret key.
@@ -9,10 +10,16 @@ import 'package:flutter/foundation.dart';
 class CacheCryptographyOptions {
   final String secretKey;
 
-  const CacheCryptographyOptions({required this.secretKey});
+  CacheCryptographyOptions({required this.secretKey}) : assert(secretKey.isNotEmpty, _assertErrorMessage);
+
+  static const String _assertErrorMessage = 'Secret key cannot be empty. Please provide a non-empty string as the secret key.';
 
   @override
-  bool operator ==(Object other) => identical(this, other);
+  bool operator ==(covariant CacheCryptographyOptions other) {
+    if (identical(this, other)) return true;
+
+    return other.secretKey == secretKey;
+  }
 
   @override
   int get hashCode => secretKey.hashCode;
