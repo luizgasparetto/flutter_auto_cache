@@ -9,7 +9,7 @@ import 'package:flutter_auto_cache/src/modules/data_cache/domain/usecases/clear_
 import 'package:flutter_auto_cache/src/modules/data_cache/domain/usecases/delete_data_cache_usecase.dart';
 import 'package:flutter_auto_cache/src/modules/data_cache/domain/usecases/get_data_cache_usecase.dart';
 import 'package:flutter_auto_cache/src/modules/data_cache/domain/usecases/write_data_cache_usecase.dart';
-import 'package:flutter_auto_cache/src/modules/data_cache/presenter/controllers/implementations/data_cache_manager_controller.dart';
+import 'package:flutter_auto_cache/src/modules/data_cache/presenter/controllers/implementations/base_data_cache_controller.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
@@ -46,7 +46,7 @@ void main() {
 
   final cacheConfigMock = CacheConfigMock();
 
-  final sut = DataCacheManagerController(
+  final sut = BaseDataCacheController(
     getCacheUsecase,
     writeCacheUsecase,
     clearCacheUsecase,

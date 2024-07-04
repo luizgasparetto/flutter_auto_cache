@@ -1,46 +1,92 @@
-import 'dart:async';
+part of 'implementations/base_data_cache_controller.dart';
 
-/// An interface that defines methods for querying and commanding a data cache.
+/// Combines query and command cache management operations
 ///
-/// This interface provides the base operations for querying and manipulating
-/// cached data, offering a unified approach for fetching, saving, deleting, and
-/// clearing cached data.
-abstract interface class IDataCacheController {
-  /// Fetches a cached object of type [T] corresponding to the specified [key].
-  ///
-  /// - [key]: A unique identifier associated with the desired cached object.
-  ///
-  /// Returns the cached object of type [T] if found, or `null` if not present.
-  ///
-  /// Throws an exception if data retrieval fails.
-  Future<T?> get<T extends Object>({required String key});
+/// This mixin unites the read and write cache operations defined in
+/// [IQueryDataCacheController] and [ICommandDataCacheController].
+mixin IDataCacheController on IQueryDataCacheController, ICommandDataCacheController {}
 
-  /// Retrieves a list of cached objects of type [T] associated with the specified [key].
+/// Interface for querying cache operations.
+///
+/// Provides methods to retrieve cached values in different data types.
+abstract interface class IQueryDataCacheController {
+  /// Retrieves a string value from the cache for the given [key].
   ///
-  /// - [key]: A unique identifier linked to the desired cached list.
-  ///
-  /// Returns a list of cached objects if found, or `null` if not present.
-  ///
-  /// Throws an exception if data retrieval encounters an issue.
-  Future<List<T>?> getList<T extends Object>({required String key});
+  /// Returns a `String?` that completes with the string value
+  /// associated with `key` if it exists, or `null` if the key is not found.
+  Future<String?> getString({required String key});
 
-  /// Saves an object of type [T] into the cache under the provided [key].
+  /// Retrieves an integer value from the cache for the given [key].
   ///
-  /// - [key]: The unique identifier to associate with the cached object.
-  /// - [data]: The object to be saved in the cache.
-  ///
-  /// Throws an exception if the cache save operation encounters an error.
-  Future<void> save<T extends Object>({required String key, required T data});
+  /// Returns a `int?` that completes with the integer value
+  /// associated with `key` if it exists, or `null` if the key is not found.
+  Future<int?> getInt({required String key});
 
-  /// Deletes a specific cached entry identified by the given [key].
+  /// Retrieves a JSON map from the cache associated with the specified [key].
   ///
-  /// - [key]: The unique identifier associated with the cache entry to be deleted.
+  /// This method is asynchronous and returns a `Map<String, dynamic>?`.
+  /// It returns the JSON map if it exists, or `null` if no data is found for the [key].
+  Future<Map<String, dynamic>?> getJson({required String key});
+
+  /// Retrieves a list of strings from the cache associated with the specified [key].
   ///
-  /// Throws an exception if the cache deletion operation encounters an error.
+  /// This method is asynchronous and returns a `Future<List<String>?>`.
+  /// If the data exists for the [key], it returns the list; otherwise,
+  /// it returns `null` if no data is found.
+  Future<List<String>?> getStringList({required String key});
+
+  /// Retrieves a list of JSON maps from the cache associated with the specified [key].
+  ///
+  /// This method returns a `List<Map<String, dynamic>>?`.
+  /// If the data exists for the [key], it returns the list of JSON maps; otherwise,
+  /// it returns `null` if no data is found.
+  Future<List<Map<String, dynamic>>?> getJsonList({required String key});
+}
+
+/// Interface for writing cache operations.
+///
+/// Provides methods to store values in the cache with specific keys.
+abstract interface class ICommandDataCacheController {
+  /// Saves a string value in the cache with the specified [key].
+  ///
+  /// This method is asynchronous and returns a `Future<void>` that completes
+  /// when the operation is finished.
+  Future<void> saveString({required String key, required String data});
+
+  /// Saves an integer value in the cache with the specified [key].
+  ///
+  /// This method is asynchronous and returns a `Future<void>` that completes
+  /// when the operation is finished.
+  Future<void> saveInt({required String key, required int data});
+
+  /// Saves a JSON map in the cache with the specified [key].
+  ///
+  /// This method is asynchronous and returns a `Future<void>` that completes
+  /// when the operation is finished. The data must be a `Map<String, dynamic>`.
+  Future<void> saveJson({required String key, required Map<String, dynamic> data});
+
+  /// Saves a list of strings in the cache with the specified [key].
+  ///
+  /// This method is asynchronous and returns a `Future<void>` that completes
+  /// when the operation is finished. The data must be a list of strings.
+  Future<void> saveStringList({required String key, required List<String> data});
+
+  /// Saves a list of JSON objects in the cache with the specified [key].
+  ///
+  /// This method is asynchronous and returns a `Future<void>` that completes
+  /// when the operation is finished. The data must be a list of JSON objects
+  /// represented as maps with `String` keys and dynamic values.
+  Future<void> saveJsonList({required String key, required List<Map<String, dynamic>> data});
+
+  /// Deletes the cache entry for the specified [key].
+  ///
+  /// This method is asynchronous and returns a `Future<void>` that completes
+  /// when the operation is finished.
   Future<void> delete({required String key});
 
-  /// Clears all cache entries stored within the cache system.
+  /// Clears all entries from the cache.
   ///
-  /// Throws an exception if the cache clearing operation encounters an error.
+  /// This method is asynchronous and returns a `Future<void>` that completes
+  /// when the cache has been cleared.
   Future<void> clear();
 }

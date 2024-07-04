@@ -10,20 +10,19 @@ import '../../../domain/usecases/clear_data_cache_usecase.dart';
 import '../../../domain/usecases/delete_data_cache_usecase.dart';
 import '../../../domain/usecases/get_data_cache_usecase.dart';
 import '../../../domain/usecases/write_data_cache_usecase.dart';
+import '../i_base_data_cache_controller.dart';
 
-import '../i_data_cache_controller.dart';
+part 'data_cache_controller.dart';
+part '../i_data_cache_controller.dart';
 
-part 'prefs_cache_manager_controller.dart';
-part '../i_prefs_cache_manager_controller.dart';
-
-class DataCacheManagerController implements IDataCacheController {
+class BaseDataCacheController implements IBaseDataCacheController {
   final IGetDataCacheUsecase _getCacheUsecase;
   final IWriteDataCacheUsecase _writeCacheUsecase;
   final IClearDataCacheUsecase _clearCacheUsecase;
   final IDeleteDataCacheUsecase _deleteCacheUsecase;
   final CacheConfiguration cacheConfiguration;
 
-  const DataCacheManagerController(
+  const BaseDataCacheController(
     this._getCacheUsecase,
     this._writeCacheUsecase,
     this._clearCacheUsecase,
@@ -31,8 +30,8 @@ class DataCacheManagerController implements IDataCacheController {
     this.cacheConfiguration,
   );
 
-  factory DataCacheManagerController.create() {
-    return DataCacheManagerController(
+  factory BaseDataCacheController.create() {
+    return BaseDataCacheController(
       ServiceLocator.instance.get<IGetDataCacheUsecase>(),
       ServiceLocator.instance.get<IWriteDataCacheUsecase>(),
       ServiceLocator.instance.get<IClearDataCacheUsecase>(),

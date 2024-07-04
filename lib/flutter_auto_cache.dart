@@ -1,6 +1,6 @@
 library flutter_auto_cache;
 
-import 'src/modules/data_cache/presenter/controllers/implementations/data_cache_manager_controller.dart';
+import 'src/modules/data_cache/presenter/controllers/implementations/base_data_cache_controller.dart';
 
 export 'src/auto_cache_initializer.dart';
 export 'src/core/core.dart';
@@ -17,5 +17,5 @@ class AutoCache {
   /// Provides access to the singleton instance of `PrefsCacheManagerController`.
   ///
   /// This property allows for centralized management of cached preferences.
-  static PrefsCacheManagerController get prefs => PrefsCacheManagerController.instance;
+  static IDataCacheController get data => DataCacheController.instance;
 }
