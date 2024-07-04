@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:math';
 import 'dart:typed_data';
 
@@ -15,9 +16,12 @@ class IvFactory {
   /// Returns:
   ///   An [IV] object containing the generated initialization vector.
   static IV createEncryptIv() {
-    final random = Random.secure().nextInt(256);
-    final ivBytes = Uint8List.fromList(List<int>.generate(16, (i) => random));
-    return IV(ivBytes);
+    final random = Random.secure();
+
+    final ivBytes = List<int>.generate(16, (i) => random.nextInt(256));
+    final base64Enconded = base64Url.encode(Uint8List.fromList(ivBytes));
+
+    return IV.fromBase64(base64Enconded);
   }
 
   /// Extracts the IV from the beginning of a combined encrypted data.

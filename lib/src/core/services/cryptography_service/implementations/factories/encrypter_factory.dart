@@ -27,6 +27,6 @@ class EncrypterFactory {
     final secretKeyHash = base64Url.encode(digest.bytes).substring(0, 32);
     final key = Key.fromUtf8(secretKeyHash);
 
-    return Encrypter(AES(key));
+    return Encrypter(AES(key, mode: AESMode.cbc));
   }
 }
