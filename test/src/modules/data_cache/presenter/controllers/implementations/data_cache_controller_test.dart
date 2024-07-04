@@ -18,7 +18,7 @@ void main() {
     reset(baseController);
   });
 
-  group('PrefsCacheManagerController.getString |', () {
+  group('DataCacheController.getString |', () {
     test('should be able to get string by key successfully', () async {
       when(() => baseController.get<String>(key: 'my_key')).thenAnswer((_) async => 'cached_data');
 
@@ -45,7 +45,7 @@ void main() {
     });
   });
 
-  group('PrefsCacheManagerController.saveString |', () {
+  group('DataCacheController.saveString |', () {
     test('should be able to save string in prefs successfully', () async {
       when(() => baseController.save<String>(key: 'my_key', data: 'my_data')).thenAsyncVoid();
 
@@ -61,7 +61,7 @@ void main() {
     });
   });
 
-  group('PrefsCacheManagerController.getInt |', () {
+  group('DataCacheController.getInt |', () {
     test('should be able to get int data in prefs successfully', () async {
       when(() => baseController.get<int>(key: 'id_key')).thenAnswer((_) async => 1);
 
@@ -88,7 +88,7 @@ void main() {
     });
   });
 
-  group('PrefsCacheManagerController.saveInt |', () {
+  group('DataCacheController.saveInt |', () {
     test('should be able to save int in prefs successfully', () async {
       when(() => baseController.save<int>(key: 'my_key', data: 1)).thenAsyncVoid();
 
@@ -104,7 +104,7 @@ void main() {
     });
   });
 
-  group('PrefsCacheManagerController.getJson |', () {
+  group('DataCacheController.getJson |', () {
     test('should be able to get json in prefs successfully', () async {
       when(() => baseController.get<Map<String, dynamic>>(key: 'key')).thenAnswer((_) async => <String, dynamic>{});
 
@@ -131,7 +131,7 @@ void main() {
     });
   });
 
-  group('PrefsCacheManagerController.saveJson |', () {
+  group('DataCacheController.saveJson |', () {
     test('should be able to save json in prefs successfully', () async {
       when(() => baseController.save<Map<String, dynamic>>(key: 'key', data: {})).thenAsyncVoid();
 
@@ -147,7 +147,7 @@ void main() {
     });
   });
 
-  group('PrefsCacheManagerController.getStringList |', () {
+  group('DataCacheController.getStringList |', () {
     test('should be able to get list of String in prefs successfully', () async {
       when(() => baseController.getList<String>(key: 'my_key')).thenAnswer((_) async => ['value']);
 
@@ -174,7 +174,7 @@ void main() {
     });
   });
 
-  group('PrefsCacheManagerController.saveStringList |', () {
+  group('DataCacheController.saveStringList |', () {
     final data = ['value_1', 'value_2'];
 
     test('should be able to save a list of String in prefs successfully', () async {
@@ -192,7 +192,7 @@ void main() {
     });
   });
 
-  group('PrefsCacheManagerController.getJsonList |', () {
+  group('DataCacheController.getJsonList |', () {
     final json = {'key': 'value'};
     final data = List.generate(5, (_) => json);
 
@@ -222,7 +222,7 @@ void main() {
     });
   });
 
-  group('PrefsCacheManagerController.saveJsonList |', () {
+  group('DataCacheController.saveJsonList |', () {
     final json = {'key': 'value'};
     final data = List.generate(5, (_) => json);
 
@@ -243,7 +243,7 @@ void main() {
     });
   });
 
-  group('PrefsCacheManagerController.delete |', () {
+  group('DataCacheController.delete |', () {
     test('should be able to delete data in cache successfully', () async {
       when(() => baseController.delete(key: 'my_key')).thenAsyncVoid();
 
@@ -259,7 +259,7 @@ void main() {
     });
   });
 
-  group('PrefsCacheManagerController.clear |', () {
+  group('DataCacheController.clear |', () {
     test('should be able to clear all cache data from prefs successfully', () async {
       when(() => baseController.clear()).thenAsyncVoid();
 

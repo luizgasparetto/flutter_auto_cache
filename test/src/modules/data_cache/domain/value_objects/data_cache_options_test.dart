@@ -8,7 +8,6 @@ void main() {
     test('should be able to validate default values of params', () {
       expect(sut.invalidationMethod, isA<TTLInvalidationMethod>());
       expect(sut.substitutionPolicy, equals(SubstitutionPolicies.fifo));
-      expect(sut.replaceExpiredCache, isTrue);
     });
   });
 }

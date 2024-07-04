@@ -77,7 +77,7 @@ void main() {
     return predicate<KeyCacheDTO>((dto) => dto.key == 'my_key');
   }
 
-  group('DataCacheManagerController.get |', () {
+  group('BaseDataCacheController.get |', () {
     test('should be able to get data in cache with a key successfully', () async {
       when(() => getCacheUsecase.execute<String, String>(any(that: getCacheDtoMatcher()))).thenReturn(
         right(DataCacheEntityFake<String>(fakeData: 'my_string_cached')),
@@ -107,7 +107,7 @@ void main() {
     });
   });
 
-  group('DataCacheManagerController.getList |', () {
+  group('BaseDataCacheController.getList |', () {
     test('should be able to get data list in cache with a key successfully', () async {
       when(() => getCacheUsecase.execute<List<String>, String>(any(that: getCacheDtoMatcher()))).thenReturn(
         right(DataCacheEntityFake<List<String>>(fakeData: ['fake_list_data'])),
@@ -140,7 +140,7 @@ void main() {
     });
   });
 
-  group('DataCacheManagerController.save |', () {
+  group('BaseDataCacheController.save |', () {
     final dto = WriteCacheDTO(key: 'my_key', data: 'my_data', cacheConfig: cacheConfigMock);
 
     test('should be able to save a data in cache with a key successfully', () async {
@@ -160,7 +160,7 @@ void main() {
     });
   });
 
-  group('DataCacheManagerController.delete |', () {
+  group('BaseDataCacheController.delete |', () {
     test('should be able to delete data in cache by key succesfully', () async {
       when(() => deleteCacheUsecase.execute(any(that: deleteCacheDtoMatcher()))).thenAnswer((_) async => right(unit));
 
@@ -178,7 +178,7 @@ void main() {
     });
   });
 
-  group('DataCacheManagerController.clear |', () {
+  group('BaseDataCacheController.clear |', () {
     test('should be able to clear all cache data successfully', () async {
       when(() => clearCacheUsecase.execute()).thenAnswer((_) async => right(unit));
 
