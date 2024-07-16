@@ -2,6 +2,7 @@ name: flutter_auto_cache
 
 packages:
   - .
+  - ./example
 
 scripts:
   clean:

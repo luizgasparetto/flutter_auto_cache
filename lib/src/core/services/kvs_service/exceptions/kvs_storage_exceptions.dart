@@ -1,4 +1,4 @@
-import '../../../core.dart';
+import '../../../errors/auto_cache_error.dart';
 
 /// Exception thrown when there is an error getting data from storage.
 ///

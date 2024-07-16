@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 
-import '../../../../core/core.dart';
+import '../../../../core/configuration/cache_configuration.dart';
 
 @immutable
 class WriteCacheDTO<T extends Object> {

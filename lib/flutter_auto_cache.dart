@@ -3,8 +3,8 @@ library flutter_auto_cache;
 import 'src/modules/data_cache/presenter/controllers/implementations/base_data_cache_controller.dart';
 
 export 'src/auto_cache_initializer.dart';
-export 'src/core/core.dart';
-export 'src/modules/data_cache/data_cache.dart';
+export 'src/core/core_module.dart' hide CoreModule;
+export 'src/modules/data_cache/data_cache_module.dart' hide DataCacheModule;
 
 export 'flutter_auto_cache.dart';
 

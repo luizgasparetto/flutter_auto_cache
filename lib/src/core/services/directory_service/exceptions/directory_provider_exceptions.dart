@@ -1,4 +1,4 @@
-import '../../../core.dart';
+import '../../../errors/auto_cache_error.dart';
 
 /// An exception that is thrown when an error occurs in the Directory Provider.
 ///

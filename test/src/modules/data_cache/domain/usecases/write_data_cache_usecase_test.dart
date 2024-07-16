@@ -1,5 +1,7 @@
+import 'package:flutter_auto_cache/src/core/configuration/cache_configuration.dart';
 import 'package:flutter_auto_cache/src/core/configuration/stores/cache_configuration_store.dart';
-import 'package:flutter_auto_cache/src/core/core.dart';
+import 'package:flutter_auto_cache/src/core/errors/auto_cache_error.dart';
+
 import 'package:flutter_auto_cache/src/core/functional/either.dart';
 import 'package:flutter_auto_cache/src/modules/data_cache/domain/dtos/key_cache_dto.dart';
 import 'package:flutter_auto_cache/src/modules/data_cache/domain/dtos/update_cache_dto.dart';

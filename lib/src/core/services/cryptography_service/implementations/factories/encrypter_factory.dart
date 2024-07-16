@@ -2,7 +2,8 @@ import 'dart:convert';
 
 import 'package:crypto/crypto.dart';
 import 'package:encrypt/encrypt.dart';
-import 'package:flutter_auto_cache/src/core/core.dart';
+
+import '../../../../configuration/cache_configuration.dart';
 
 /// A factory class for creating AES encrypters using a secret key.
 ///

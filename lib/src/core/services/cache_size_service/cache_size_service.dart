@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import '../../core.dart';
+import '../../configuration/cache_configuration.dart';
 import '../directory_service/directory_provider_service.dart';
 
 import 'constants/cache_size_constants.dart';

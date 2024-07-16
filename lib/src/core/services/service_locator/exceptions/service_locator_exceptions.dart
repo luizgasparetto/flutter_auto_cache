@@ -1,4 +1,4 @@
-import '../../../core.dart';
+import '../../../errors/auto_cache_error.dart';
 
 /// Exception thrown when a requested service binding is not found.
 ///

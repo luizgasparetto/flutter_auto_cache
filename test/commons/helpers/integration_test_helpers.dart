@@ -56,7 +56,7 @@ Future<IDataCacheController> initializeDataController({CacheConfiguration? confi
   SharedPreferences.setMockInitialValues({});
 
   const defaultConfig = CacheConfiguration(sizeOptions: CacheSizeOptions(maxMb: 10));
-  await AutoCacheInitializer.init(configuration: config ?? defaultConfig);
+  await AutoCacheInitializer.initialize(configuration: config ?? defaultConfig);
 
   return AutoCache.data;
 }

@@ -4,7 +4,7 @@ import 'package:example/src/app_widget.dart';
 import 'package:flutter/material.dart';
 
 Future<void> main() async {
-  await AutoCacheInitializer.init();
+  await AutoCacheInitializer.initialize();
 
   runApp(const AppWidget());
 }

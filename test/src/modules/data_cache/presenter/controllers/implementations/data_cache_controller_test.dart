@@ -1,4 +1,4 @@
-import 'package:flutter_auto_cache/src/core/core.dart';
+import 'package:flutter_auto_cache/src/core/errors/auto_cache_error.dart';
 import 'package:flutter_auto_cache/src/modules/data_cache/presenter/controllers/implementations/base_data_cache_controller.dart';
 import 'package:flutter_auto_cache/src/modules/data_cache/presenter/controllers/i_base_data_cache_controller.dart';
 import 'package:flutter_test/flutter_test.dart';

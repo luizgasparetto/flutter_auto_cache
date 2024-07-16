@@ -1,6 +1,6 @@
 import 'package:meta/meta.dart';
 
-import '../../../../../core/core.dart';
+import '../../../../../core/configuration/cache_configuration.dart';
 import '../../../../../core/infrastructure/middlewares/initialize_middleware.dart';
 import '../../../../../core/services/service_locator/implementations/service_locator.dart';
 
