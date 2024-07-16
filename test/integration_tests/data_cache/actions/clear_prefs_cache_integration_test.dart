@@ -3,7 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import '../../../commons/helpers/integration_test_helpers.dart';
 
 Future<void> main() async {
-  final sut = await initializePrefsController();
+  final sut = await initializeDataController();
 
   group('ClearCacheIntegrationTest |', () {
     test('should be able to call clear and NOT throw any exception when NOT found keys', () async {

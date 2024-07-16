@@ -10,5 +10,11 @@ scripts:
   test_coverage:
     run: flutter test --test-randomize-ordering-seed=random --coverage
 
+  machine_test_coverage:
+    run: chmod +x ./scripts/run_machine_tests.sh && ./scripts/run_machine_tests.sh
+
+  fitness_functions:
+    run: chmod +x ./scripts/run_fitness_functions.sh && ./scripts/run_fitness_functions.sh
+
   format:
     run: dart format --set-exit-if-changed --line-length 140 .
