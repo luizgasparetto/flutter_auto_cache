@@ -1,4 +1,5 @@
-import 'package:flutter_auto_cache/src/core/core.dart';
+import 'package:flutter_auto_cache/src/core/configuration/cache_configuration.dart';
+import 'package:flutter_auto_cache/src/core/errors/auto_cache_error.dart';
 import 'package:flutter_auto_cache/src/core/functional/either.dart';
 import 'package:flutter_auto_cache/src/core/services/service_locator/implementations/service_locator.dart';
 import 'package:flutter_auto_cache/src/modules/data_cache/domain/dtos/key_cache_dto.dart';

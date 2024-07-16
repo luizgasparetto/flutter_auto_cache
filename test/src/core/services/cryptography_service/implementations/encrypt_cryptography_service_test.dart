@@ -1,8 +1,10 @@
 import 'package:encrypt/encrypt.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter_auto_cache/src/core/core.dart';
+import 'package:flutter_auto_cache/src/core/configuration/cache_configuration.dart';
+
 import 'package:flutter_auto_cache/src/core/services/cryptography_service/exceptions/cryptography_exceptions.dart';
 import 'package:flutter_auto_cache/src/core/services/cryptography_service/implementations/encrypt_cryptography_service.dart';
+import 'package:flutter_auto_cache/src/core/services/cryptography_service/value_objects/cache_cryptography_options.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 

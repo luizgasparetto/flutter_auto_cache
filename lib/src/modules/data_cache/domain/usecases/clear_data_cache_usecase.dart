@@ -1,5 +1,4 @@
-import '../../../../core/core.dart';
-
+import '../../../../core/errors/auto_cache_error.dart';
 import '../../../../core/functional/either.dart';
 import '../repositories/i_data_cache_repository.dart';
 
