@@ -40,6 +40,17 @@ Future<void> main() async {
       expect(response.data, isNull);
       expect(response.status, equals(CacheResponseStatus.expired));
     });
+
+    test('should be able to call getString and return Expired and NotFound', () async {
+      await sut.saveString(key: 'string_key', data: 'custom_data');
+      await Future.delayed(const Duration(milliseconds: 100));
+
+      final expiredResponse = await sut.getString(key: 'string_key');
+      final notFoundResponse = await sut.getString(key: 'string_key');
+
+      expect(expiredResponse.status, equals(CacheResponseStatus.expired));
+      expect(notFoundResponse.status, equals(CacheResponseStatus.notFound));
+    });
   });
 
   group('GetDataCacheIntegrationTest.getInt |', () {
@@ -67,6 +78,17 @@ Future<void> main() async {
 
       expect(response.data, isNull);
       expect(response.status, equals(CacheResponseStatus.expired));
+    });
+
+    test('should be able to call getInt and return Expired and NotFound', () async {
+      await sut.saveInt(key: 'int_key', data: 1);
+      await Future.delayed(const Duration(milliseconds: 100));
+
+      final expiredResponse = await sut.getInt(key: 'int_key');
+      final notFoundResponse = await sut.getInt(key: 'int_key');
+
+      expect(expiredResponse.status, equals(CacheResponseStatus.expired));
+      expect(notFoundResponse.status, equals(CacheResponseStatus.notFound));
     });
   });
 
@@ -98,6 +120,17 @@ Future<void> main() async {
       expect(response.data, isNull);
       expect(response.status, equals(CacheResponseStatus.expired));
     });
+
+    test('should be able to call getJson and return Expired and NotFound', () async {
+      await sut.saveJson(key: 'json_key', data: json);
+      await Future.delayed(const Duration(milliseconds: 100));
+
+      final expiredResponse = await sut.getJson(key: 'json_key');
+      final notFoundResponse = await sut.getJson(key: 'json_key');
+
+      expect(expiredResponse.status, equals(CacheResponseStatus.expired));
+      expect(notFoundResponse.status, equals(CacheResponseStatus.notFound));
+    });
   });
 
   group('GetDataCacheIntegrationTest.getStringList |', () {
@@ -127,6 +160,17 @@ Future<void> main() async {
 
       expect(response.data, isNull);
       expect(response.status, equals(CacheResponseStatus.expired));
+    });
+
+    test('should be able to call getStringList and return Expired and NotFound', () async {
+      await sut.saveStringList(key: 'string_list_key', data: data);
+      await Future.delayed(const Duration(milliseconds: 100));
+
+      final expiredResponse = await sut.getStringList(key: 'string_list_key');
+      final notFoundResponse = await sut.getStringList(key: 'string_list_key');
+
+      expect(expiredResponse.status, equals(CacheResponseStatus.expired));
+      expect(notFoundResponse.status, equals(CacheResponseStatus.notFound));
     });
   });
 
@@ -158,6 +202,17 @@ Future<void> main() async {
 
       expect(response.data, isNull);
       expect(response.status, equals(CacheResponseStatus.expired));
+    });
+
+    test('should be able to call getJsonList and return Expired and NotFound', () async {
+      await sut.saveJsonList(key: 'json_list_key', data: data);
+      await Future.delayed(const Duration(milliseconds: 100));
+
+      final expiredResponse = await sut.getJsonList(key: 'json_list_key');
+      final notFoundResponse = await sut.getJsonList(key: 'json_list_key');
+
+      expect(expiredResponse.status, equals(CacheResponseStatus.expired));
+      expect(notFoundResponse.status, equals(CacheResponseStatus.notFound));
     });
   });
 }

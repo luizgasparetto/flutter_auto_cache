@@ -6,7 +6,7 @@ import '../../../errors/auto_cache_error.dart';
 /// of the cache. It provides details about the error encountered during this
 /// operation.
 final class CalculateCacheSizeException extends AutoCacheException {
-  const CalculateCacheSizeException({
+  CalculateCacheSizeException({
     required super.message,
     required super.stackTrace,
   }) : super(code: 'calculate_cache_size');

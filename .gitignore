@@ -37,5 +37,6 @@ pubspec.lock
 .metadata
 .DS_Store
 pubspec_overrides.yaml
+.scannerwork
 
 bin/**

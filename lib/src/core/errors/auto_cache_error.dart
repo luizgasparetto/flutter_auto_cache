@@ -1,13 +1,17 @@
+import '../services/log_service/log_service.dart';
+
 /// A base class for representing exceptions in the application.
 ///
 /// This class extends [AutoCacheError] and implements [Exception] to define specific types of exceptions.
 /// Each exception must provide a [message], [code], and a [stackTrace].
 abstract class AutoCacheException extends AutoCacheError implements Exception {
-  const AutoCacheException({
+  AutoCacheException({
     required super.message,
     required super.code,
     required super.stackTrace,
-  });
+  }) {
+    LogService.logException(code, message, stackTrace);
+  }
 }
 
 /// A base class for representing errors in the application.
