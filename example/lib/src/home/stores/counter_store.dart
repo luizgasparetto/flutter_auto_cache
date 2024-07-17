@@ -9,7 +9,7 @@ class CounterStore extends ValueNotifier<int> {
 
   Future<void> getCount() async {
     final response = await AutoCache.data.getInt(key: CacheConstants.countKey);
-    value = response ?? 0;
+    value = response.data ?? 0;
   }
 
   Future<void> increment() => _updateCount(() => value += 1);
@@ -18,6 +18,7 @@ class CounterStore extends ValueNotifier<int> {
 
   Future<void> _updateCount(VoidCallback action) async {
     action.call();
+
     await AutoCache.data.saveInt(key: CacheConstants.countKey, data: value);
   }
 }

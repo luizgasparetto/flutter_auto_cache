@@ -1,3 +1,4 @@
+import 'package:flutter_auto_cache/src/core/infrastructure/protocols/cache_response.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import '../../../commons/helpers/integration_test_helpers.dart';
@@ -5,7 +6,7 @@ import '../../../commons/helpers/integration_test_helpers.dart';
 Future<void> main() async {
   final sut = await initializeDataController();
 
-  group('ClearCacheIntegrationTest |', () {
+  group('ClearDataCacheIntegrationTest |', () {
     test('should be able to call clear and NOT throw any exception when NOT found keys', () async {
       await expectLater(sut.clear(), completes);
     });
@@ -19,8 +20,8 @@ Future<void> main() async {
       final stringResponse = await sut.getString(key: 'string_key');
       final intResponse = await sut.getInt(key: 'int_key');
 
-      expect(stringResponse, isNull);
-      expect(intResponse, isNull);
+      expect(stringResponse, isA<NotFoundCacheResponse>());
+      expect(intResponse, isA<NotFoundCacheResponse>());
     });
   });
 }

@@ -21,12 +21,6 @@ export 'services/cache_size_service/value_objects/cache_size_options.dart';
 export 'errors/auto_cache_error.dart';
 
 class CoreModule extends CacheModule {
-  CoreModule._();
-
-  static final CoreModule _instance = CoreModule._();
-
-  static CoreModule get instance => _instance;
-
   @override
   Future<void> registerBinds() async {
     await ServiceLocator.instance.asyncBind(SharedPreferences.getInstance);

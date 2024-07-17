@@ -1,17 +1,17 @@
-// ignore_for_file: avoid_function_literals_in_foreach_calls
-
+import 'package:flutter_auto_cache/flutter_auto_cache.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import '../../../../commons/extensions/matcher_extensions.dart';
 import '../../../../commons/helpers/integration_test_helpers.dart';
 
 Future<void> main() async {
-  final sut = await initializeDataController();
+  final config = CacheConfiguration(cryptographyOptions: CacheCryptographyOptions(secretKey: 'my_key'));
+  final sut = await initializeDataController(config: config);
 
-  group('WriteDataCacheFitnessFunction |', () {
+  group('CryptographyWriteDataFitnessFunction |', () {
     const writeQuantity = 10000;
 
-    test('should be able to 10000x write data cache in less than 3000ms', () async {
+    test('should be able to write 10000x cryptography data in less than 3000ms', () {
       final stopwatch = Stopwatch()..start();
 
       final valueList = List.generate(writeQuantity, (index) => 'value-$index');
