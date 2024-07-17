@@ -1,5 +1,6 @@
 import 'package:flutter_auto_cache/src/core/errors/auto_cache_error.dart';
 import 'package:flutter_auto_cache/src/core/functional/either.dart';
+import 'package:flutter_auto_cache/src/core/infrastructure/protocols/enums/cache_response_status.dart';
 import 'package:flutter_auto_cache/src/modules/data_cache/domain/dtos/key_cache_dto.dart';
 import 'package:flutter_auto_cache/src/modules/data_cache/domain/entities/data_cache_entity.dart';
 import 'package:flutter_auto_cache/src/modules/data_cache/domain/repositories/i_data_cache_repository.dart';
@@ -48,7 +49,8 @@ void main() {
       final response = await sut.execute<String, String>(dto);
 
       expect(response.isSuccess, isTrue);
-      expect(response.success, dataCache);
+      expect(response.success.data, dataCache.data);
+      expect(response.success.status, equals(CacheResponseStatus.success));
       verify(() => repository.get<String>(dto)).called(1);
       verify(() => invalidationService.validate<String>(dataCache)).called(1);
     });
@@ -59,7 +61,8 @@ void main() {
       final response = await sut.execute<String, String>(dto);
 
       expect(response.isSuccess, isTrue);
-      expect(response.success, isNull);
+      expect(response.success.data, isNull);
+      expect(response.success.status, equals(CacheResponseStatus.notFound));
       verify(() => repository.get<String>(dto)).called(1);
       verifyNever(() => invalidationService.validate<String>(any<DataCacheEntity<String>>()));
     });
@@ -71,7 +74,8 @@ void main() {
       final response = await sut.execute<List<String>, String>(dto);
 
       expect(response.isSuccess, isTrue);
-      expect(response.success, listDataCache);
+      expect(response.success.data, listDataCache.data);
+      expect(response.success.status, equals(CacheResponseStatus.success));
       verify(() => repository.getList<List<String>, String>(dto)).called(1);
       verify(() => invalidationService.validate<List<String>>(listDataCache)).called(1);
     });
@@ -84,7 +88,8 @@ void main() {
       final response = await sut.execute<String, String>(dto);
 
       expect(response.isSuccess, isTrue);
-      expect(response.success, isNull);
+      expect(response.success.data, isNull);
+      expect(response.success.status, equals(CacheResponseStatus.expired));
       verify(() => repository.get<String>(dto)).called(1);
       verify(() => invalidationService.validate<String>(dataCache)).called(1);
       verify(() => repository.delete(any())).called(1);

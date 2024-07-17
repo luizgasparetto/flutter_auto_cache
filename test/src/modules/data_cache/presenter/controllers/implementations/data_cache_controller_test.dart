@@ -1,4 +1,6 @@
 import 'package:flutter_auto_cache/src/core/errors/auto_cache_error.dart';
+import 'package:flutter_auto_cache/src/core/infrastructure/protocols/cache_response.dart';
+import 'package:flutter_auto_cache/src/core/infrastructure/protocols/enums/cache_response_status.dart';
 import 'package:flutter_auto_cache/src/modules/data_cache/presenter/controllers/implementations/base_data_cache_controller.dart';
 import 'package:flutter_auto_cache/src/modules/data_cache/presenter/controllers/i_base_data_cache_controller.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -20,20 +22,32 @@ void main() {
 
   group('DataCacheController.getString |', () {
     test('should be able to get string by key successfully', () async {
-      when(() => baseController.get<String>(key: 'my_key')).thenAnswer((_) async => 'cached_data');
+      when(() => baseController.get<String>(key: 'my_key')).thenAnswer((_) async => SuccessCacheResponse(data: 'cached_data'));
 
       final response = await sut.getString(key: 'my_key');
 
-      expect(response, equals('cached_data'));
+      expect(response.data, equals('cached_data'));
+      expect(response.status, equals(CacheResponseStatus.success));
       verify(() => baseController.get<String>(key: 'my_key')).called(1);
     });
 
     test('should be able to get NULL when request an non existent string cache', () async {
-      when(() => baseController.get<String>(key: 'my_key')).thenAnswer((_) async => null);
+      when(() => baseController.get<String>(key: 'my_key')).thenAnswer((_) async => NotFoundCacheResponse());
 
       final response = await sut.getString(key: 'my_key');
 
-      expect(response, isNull);
+      expect(response.data, isNull);
+      expect(response.status, equals(CacheResponseStatus.notFound));
+      verify(() => baseController.get<String>(key: 'my_key')).called(1);
+    });
+
+    test('should be able to get NULL when request an expired string cache', () async {
+      when(() => baseController.get<String>(key: 'my_key')).thenAnswer((_) async => ExpiredCacheResponse());
+
+      final response = await sut.getString(key: 'my_key');
+
+      expect(response.data, isNull);
+      expect(response.status, equals(CacheResponseStatus.expired));
       verify(() => baseController.get<String>(key: 'my_key')).called(1);
     });
 
@@ -63,20 +77,32 @@ void main() {
 
   group('DataCacheController.getInt |', () {
     test('should be able to get int data in prefs successfully', () async {
-      when(() => baseController.get<int>(key: 'id_key')).thenAnswer((_) async => 1);
+      when(() => baseController.get<int>(key: 'id_key')).thenAnswer((_) async => SuccessCacheResponse(data: 1));
 
       final response = await sut.getInt(key: 'id_key');
 
-      expect(response, equals(1));
+      expect(response.data, equals(1));
+      expect(response.status, equals(CacheResponseStatus.success));
       verify(() => baseController.get<int>(key: 'id_key')).called(1);
     });
 
     test('should be able to get NULL when request an non existent int cache', () async {
-      when(() => baseController.get<int>(key: 'my_key')).thenAnswer((_) async => null);
+      when(() => baseController.get<int>(key: 'my_key')).thenAnswer((_) async => NotFoundCacheResponse());
 
       final response = await sut.getInt(key: 'my_key');
 
-      expect(response, isNull);
+      expect(response.data, isNull);
+      expect(response.status, equals(CacheResponseStatus.notFound));
+      verify(() => baseController.get<int>(key: 'my_key')).called(1);
+    });
+
+    test('should be able to get NULL when request an expired int cache', () async {
+      when(() => baseController.get<int>(key: 'my_key')).thenAnswer((_) async => ExpiredCacheResponse());
+
+      final response = await sut.getInt(key: 'my_key');
+
+      expect(response.data, isNull);
+      expect(response.status, equals(CacheResponseStatus.expired));
       verify(() => baseController.get<int>(key: 'my_key')).called(1);
     });
 
@@ -106,21 +132,33 @@ void main() {
 
   group('DataCacheController.getJson |', () {
     test('should be able to get json in prefs successfully', () async {
-      when(() => baseController.get<Map<String, dynamic>>(key: 'key')).thenAnswer((_) async => <String, dynamic>{});
+      when(() => baseController.get<Map<String, dynamic>>(key: 'key')).thenAnswer((_) async => SuccessCacheResponse(data: {}));
 
       final response = await sut.getJson(key: 'key');
 
-      expect(response, equals(<String, dynamic>{}));
+      expect(response.data, equals({}));
+      expect(response.status, equals(CacheResponseStatus.success));
       verify(() => baseController.get<Map<String, dynamic>>(key: 'key')).called(1);
     });
 
     test('should be able to get NULL when request an non existent JSON cache', () async {
-      when(() => baseController.get<Map<String, dynamic>>(key: 'key')).thenAnswer((_) async => null);
+      when(() => baseController.get<Map<String, dynamic>>(key: 'key')).thenAnswer((_) async => NotFoundCacheResponse());
 
       final response = await sut.getJson(key: 'key');
 
-      expect(response, isNull);
+      expect(response.data, isNull);
+      expect(response.status, equals(CacheResponseStatus.notFound));
       verify(() => baseController.get<Map<String, dynamic>>(key: 'key')).called(1);
+    });
+
+    test('should be able to get NULL when request an expired JSON cache', () async {
+      when(() => baseController.get<Map<String, dynamic>>(key: 'my_key')).thenAnswer((_) async => ExpiredCacheResponse());
+
+      final response = await sut.getJson(key: 'my_key');
+
+      expect(response.data, isNull);
+      expect(response.status, equals(CacheResponseStatus.expired));
+      verify(() => baseController.get<Map<String, dynamic>>(key: 'my_key')).called(1);
     });
 
     test('should NOT be able to get json in prefs when base controller fails', () async {
@@ -149,20 +187,32 @@ void main() {
 
   group('DataCacheController.getStringList |', () {
     test('should be able to get list of String in prefs successfully', () async {
-      when(() => baseController.getList<String>(key: 'my_key')).thenAnswer((_) async => ['value']);
+      when(() => baseController.getList<String>(key: 'my_key')).thenAnswer((_) async => SuccessCacheResponse(data: ['value']));
 
       final response = await sut.getStringList(key: 'my_key');
 
-      expect(response?.length, equals(1));
+      expect(response.data?.length, equals(1));
+      expect(response.status, equals(CacheResponseStatus.success));
       verify(() => baseController.getList<String>(key: 'my_key')).called(1);
     });
 
     test('should be able to get NULL when request a list of String that doesnt exists in cache', () async {
-      when(() => baseController.getList<String>(key: 'my_key')).thenAnswer((_) async => null);
+      when(() => baseController.getList<String>(key: 'my_key')).thenAnswer((_) async => NotFoundCacheResponse());
 
       final response = await sut.getStringList(key: 'my_key');
 
-      expect(response, isNull);
+      expect(response.data, isNull);
+      expect(response.status, equals(CacheResponseStatus.notFound));
+      verify(() => baseController.getList<String>(key: 'my_key')).called(1);
+    });
+
+    test('should be able to get NULL when request an expired list of String', () async {
+      when(() => baseController.getList<String>(key: 'my_key')).thenAnswer((_) async => ExpiredCacheResponse());
+
+      final response = await sut.getStringList(key: 'my_key');
+
+      expect(response.data, isNull);
+      expect(response.status, equals(CacheResponseStatus.expired));
       verify(() => baseController.getList<String>(key: 'my_key')).called(1);
     });
 
@@ -197,20 +247,32 @@ void main() {
     final data = List.generate(5, (_) => json);
 
     test('should be able to get list of JSON in prefs successfully', () async {
-      when(() => baseController.getList<Map<String, dynamic>>(key: 'my_key')).thenAnswer((_) async => data);
+      when(() => baseController.getList<Map<String, dynamic>>(key: 'my_key')).thenAnswer((_) async => SuccessCacheResponse(data: data));
 
       final response = await sut.getJsonList(key: 'my_key');
 
-      expect(response, equals(data));
+      expect(response.data, equals(data));
+      expect(response.status, equals(CacheResponseStatus.success));
       verify(() => baseController.getList<Map<String, dynamic>>(key: 'my_key')).called(1);
     });
 
     test('should be able to get NULL when request a list of String that doesnt exists in cache', () async {
-      when(() => baseController.getList<Map<String, dynamic>>(key: 'my_key')).thenAnswer((_) async => null);
+      when(() => baseController.getList<Map<String, dynamic>>(key: 'my_key')).thenAnswer((_) async => NotFoundCacheResponse());
 
       final response = await sut.getJsonList(key: 'my_key');
 
-      expect(response, isNull);
+      expect(response.data, isNull);
+      expect(response.status, equals(CacheResponseStatus.notFound));
+      verify(() => baseController.getList<Map<String, dynamic>>(key: 'my_key')).called(1);
+    });
+
+    test('should be able to get NULL when request a list of String that is expired in cache', () async {
+      when(() => baseController.getList<Map<String, dynamic>>(key: 'my_key')).thenAnswer((_) async => ExpiredCacheResponse());
+
+      final response = await sut.getJsonList(key: 'my_key');
+
+      expect(response.data, isNull);
+      expect(response.status, equals(CacheResponseStatus.expired));
       verify(() => baseController.getList<Map<String, dynamic>>(key: 'my_key')).called(1);
     });
 

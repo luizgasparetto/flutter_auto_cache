@@ -22,7 +22,7 @@ final class DataCacheController implements IDataCacheController {
   /// Returns a `String?` that completes with the string value
   /// associated with `key` if it exists, or `null` if the key is not found.
   @override
-  Future<String?> getString({required String key}) async {
+  Future<CacheResponse<String?>> getString({required String key}) async {
     return _baseDataCacheController.get<String>(key: key);
   }
 
@@ -31,7 +31,7 @@ final class DataCacheController implements IDataCacheController {
   /// Returns an `int?` that completes with the integer value
   /// associated with `key` if it exists, or `null` if the key is not found.
   @override
-  Future<int?> getInt({required String key}) async {
+  Future<CacheResponse<int?>> getInt({required String key}) async {
     return _baseDataCacheController.get<int>(key: key);
   }
 
@@ -40,7 +40,7 @@ final class DataCacheController implements IDataCacheController {
   /// Returns a `Map<String, dynamic>?` that completes with the JSON map
   /// associated with `key` if it exists, or `null` if the key is not found.
   @override
-  Future<Map<String, dynamic>?> getJson({required String key}) async {
+  Future<CacheResponse<Map<String, dynamic>?>> getJson({required String key}) async {
     return _baseDataCacheController.get<Map<String, dynamic>>(key: key);
   }
 
@@ -49,7 +49,7 @@ final class DataCacheController implements IDataCacheController {
   /// Returns a `List<String>?` that completes with the list of strings
   /// associated with `key` if it exists, or `null` if the key is not found.
   @override
-  Future<List<String>?> getStringList({required String key}) async {
+  Future<CacheResponse<List<String>?>> getStringList({required String key}) async {
     return _baseDataCacheController.getList<String>(key: key);
   }
 
@@ -58,7 +58,7 @@ final class DataCacheController implements IDataCacheController {
   /// Returns a `List<Map<String, dynamic>>?` that completes with the list of JSON maps
   /// associated with `key` if it exists, or `null` if the key is not found.
   @override
-  Future<List<Map<String, dynamic>>?> getJsonList({required String key}) async {
+  Future<CacheResponse<List<Map<String, dynamic>>?>> getJsonList({required String key}) async {
     return _baseDataCacheController.getList<Map<String, dynamic>>(key: key);
   }
 

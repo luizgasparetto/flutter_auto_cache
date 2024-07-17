@@ -1,3 +1,4 @@
+import 'package:flutter_auto_cache/src/core/infrastructure/protocols/cache_response.dart';
 import 'package:meta/meta.dart';
 
 import '../../../../../core/configuration/cache_configuration.dart';
@@ -41,12 +42,12 @@ class BaseDataCacheController implements IBaseDataCacheController {
   }
 
   @override
-  Future<T?> get<T extends Object>({required String key}) async {
+  Future<CacheResponse<T?>> get<T extends Object>({required String key}) async {
     return _getDataCache.call<T, T>(key: key);
   }
 
   @override
-  Future<List<T>?> getList<T extends Object>({required String key}) async {
+  Future<CacheResponse<List<T>?>> getList<T extends Object>({required String key}) async {
     return _getDataCache<List<T>, T>(key: key);
   }
 
@@ -73,10 +74,10 @@ class BaseDataCacheController implements IBaseDataCacheController {
     return response.fold((error) => throw error, (_) {});
   }
 
-  Future<T?> _getDataCache<T extends Object, DataType extends Object>({required String key}) async {
+  Future<CacheResponse<T?>> _getDataCache<T extends Object, DataType extends Object>({required String key}) async {
     final dto = KeyCacheDTO(key: key);
 
     final response = await _getCacheUsecase.execute<T, DataType>(dto);
-    return response.fold((error) => throw error, (success) => success?.data);
+    return response.fold((error) => throw error, (success) => success);
   }
 }

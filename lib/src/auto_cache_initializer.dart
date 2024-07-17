@@ -13,6 +13,6 @@ class AutoCacheInitializer {
   /// - [config]: An optional `CacheConfiguration` to customize cache behavior.
   static Future<void> initialize({CacheConfiguration? configuration}) async {
     CacheConfigurationStore.instance.setConfiguration(configuration);
-    await AutoCacheModule.instance.registerBinds();
+    await AutoCacheModule.instance.initialize();
   }
 }
