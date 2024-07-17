@@ -21,8 +21,8 @@ class InitializeMiddleware {
 
     if (!isInitialized) {
       throw NotInitializedAutoCacheException(
-        message: 'Auto Cache is not initialized yet.',
-        stackTrace: StackTrace.current,
+        message: '''Auto Cache is not initialized yet. Please ensure that you call AutoCacheInitializer.initialize() before runApp()''',
+        stackTrace: StackTrace.empty,
       );
     }
   }
