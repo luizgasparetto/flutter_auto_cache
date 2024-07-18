@@ -10,7 +10,7 @@ abstract class AutoCacheException extends AutoCacheError implements Exception {
     required super.code,
     required super.stackTrace,
   }) {
-    LogService.logException(code, message, stackTrace);
+    LogService.logException(this);
   }
 }
 
