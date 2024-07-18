@@ -1,4 +1,4 @@
-import '../../../core.dart';
+import '../../../errors/auto_cache_error.dart';
 
 /// Exception thrown when there is an error getting data from storage.
 ///
@@ -6,14 +6,14 @@ import '../../../core.dart';
 /// storage system. It provides details about the error encountered during the
 /// get operation.
 final class GetKvsStorageException extends AutoCacheException {
-  const GetKvsStorageException({
+  GetKvsStorageException({
     required super.message,
     required super.stackTrace,
   }) : super(code: 'get_kvs_storage');
 }
 
 final class GetListKvsStorageException extends AutoCacheException {
-  const GetListKvsStorageException({
+  GetListKvsStorageException({
     required super.message,
     required super.stackTrace,
   }) : super(code: 'get_list_kvs_storage');
@@ -25,7 +25,7 @@ final class GetListKvsStorageException extends AutoCacheException {
 /// storage system. It provides details about the error encountered during the
 /// key retrieval operation.
 final class GetKvsStorageKeysException extends AutoCacheException {
-  const GetKvsStorageKeysException({
+  GetKvsStorageKeysException({
     required super.message,
     required super.stackTrace,
   }) : super(code: 'get_keys_kvs_storage');
@@ -37,7 +37,7 @@ final class GetKvsStorageKeysException extends AutoCacheException {
 /// storage system. It provides details about the error encountered during the
 /// save operation.
 final class SaveKvsStorageException extends AutoCacheException {
-  const SaveKvsStorageException({
+  SaveKvsStorageException({
     required super.message,
     required super.stackTrace,
   }) : super(code: 'save_kvs_storage');
@@ -49,7 +49,7 @@ final class SaveKvsStorageException extends AutoCacheException {
 /// storage system. It provides details about the error encountered during the
 /// save operation.
 final class SaveListKvsStorageException extends AutoCacheException {
-  const SaveListKvsStorageException({
+  SaveListKvsStorageException({
     required super.message,
     required super.stackTrace,
   }) : super(code: 'save_list_kvs_storage');
@@ -61,7 +61,7 @@ final class SaveListKvsStorageException extends AutoCacheException {
 /// storage system. It provides details about the error encountered during the
 /// delete operation.
 final class DeleteKvsStorageException extends AutoCacheException {
-  const DeleteKvsStorageException({
+  DeleteKvsStorageException({
     required super.message,
     required super.stackTrace,
   }) : super(code: 'delete_kvs_storage');
@@ -73,7 +73,7 @@ final class DeleteKvsStorageException extends AutoCacheException {
 /// storage system. It provides details about the error encountered during the
 /// clear operation.
 final class ClearKvsStorageException extends AutoCacheException {
-  const ClearKvsStorageException({
+  ClearKvsStorageException({
     required super.message,
     required super.stackTrace,
   }) : super(code: 'clear_kvs_storage');

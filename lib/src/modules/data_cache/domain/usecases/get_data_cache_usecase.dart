@@ -1,5 +1,6 @@
-import '../../../../core/core.dart';
+import 'package:flutter_auto_cache/src/core/infrastructure/protocols/cache_response.dart';
 
+import '../../../../core/errors/auto_cache_error.dart';
 import '../../../../core/functional/either.dart';
 import '../../../../core/extensions/types/type_extensions.dart';
 
@@ -8,7 +9,9 @@ import '../entities/data_cache_entity.dart';
 import '../repositories/i_data_cache_repository.dart';
 import '../services/invalidation_service/invalidation_cache_service.dart';
 
-typedef GetDataCacheResponse<T extends Object> = AsyncEither<AutoCacheError, DataCacheEntity<T>?>;
+typedef GetDataCacheResponse<T extends Object> = AsyncEither<AutoCacheError, CacheResponse<T?>>;
+
+typedef InternalDataCacheResponse<T extends Object> = AsyncEither<AutoCacheError, DataCacheEntity<T>?>;
 
 /// An interface defining the use case for retrieving data from the cache.
 ///
@@ -37,25 +40,23 @@ final class GetDataCacheUsecase implements IGetDataCacheUsecase {
     return response.fold(left, validateCacheResponse);
   }
 
-  GetDataCacheResponse<T> getCacheResponse<T extends Object, DataType extends Object>(KeyCacheDTO dto) async {
+  InternalDataCacheResponse<T> getCacheResponse<T extends Object, DataType extends Object>(KeyCacheDTO dto) async {
     if (T.isList) return _dataCacheRepository.getList<T, DataType>(dto);
 
     return _dataCacheRepository.get<T>(dto);
   }
 
   GetDataCacheResponse<T> validateCacheResponse<T extends Object>(DataCacheEntity<T>? cache) async {
-    if (cache == null) return right(null);
+    if (cache == null) return right(NotFoundCacheResponse());
 
     final response = _invalidationCacheService.validate<T>(cache);
-
     return response.fold(left, (isValid) => handleValidateResponse<T>(isValid, cache));
   }
 
-  GetDataCacheResponse<T> handleValidateResponse<T extends Object>(bool isValid, DataCacheEntity<T> data) async {
-    if (isValid) return right(data);
+  GetDataCacheResponse<T> handleValidateResponse<T extends Object>(bool isValid, DataCacheEntity<T> cache) async {
+    if (isValid) return right(SuccessCacheResponse(data: cache.data));
 
-    final response = await _dataCacheRepository.delete(KeyCacheDTO(key: data.id));
-
-    return response.mapRight((_) => null);
+    final response = await _dataCacheRepository.delete(KeyCacheDTO(key: cache.id));
+    return response.mapRight((_) => ExpiredCacheResponse());
   }
 }

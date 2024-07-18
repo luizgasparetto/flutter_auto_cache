@@ -5,11 +5,14 @@ scripts/**
 docs/**
 build/**
 coverage/**
+scripts/**
 
 .vscode/**
 .github/**
 
 melos.yaml
+melos_flutter_auto_cache.iml
+sonar-project.properties
 
 example/**
 test/**

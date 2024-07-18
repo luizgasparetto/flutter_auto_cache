@@ -13,7 +13,7 @@ final class TTLInvalidationMethod extends InvalidationMethod {
   /// Creates a [TTLInvalidationMethod] with an optional [maxDuration].
   ///
   /// If [maxDuration] is not provided, it defaults to 1 day.
-  const TTLInvalidationMethod([this.maxDuration = const Duration(days: 1)]);
+  const TTLInvalidationMethod({this.maxDuration = const Duration(days: 1)});
 
   @override
   DateTime get endAt => DateTime.now().add(maxDuration);

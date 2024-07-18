@@ -15,9 +15,10 @@ extension UpdateMapValueExtension<K extends Object, V> on Map<K, V> {
   /// key does not exist in the map, it will add the key with the `newValue`.
   /// The method returns the updated map, allowing for chaining of updates.
   Map<K, V> updateValueByKey({required K key, required V newValue}) {
-    final Map<K, V> newMap = Map<K, V>.from(this);
-    newMap[key] = newValue;
-    return newMap;
+    final copyMap = Map<K, V>.from(this);
+
+    copyMap[key] = newValue;
+    return copyMap;
   }
 }
 
@@ -39,14 +40,14 @@ extension UpdateMapKeyExtension<K extends Object, V> on Map<K, V> {
   /// remains unchanged. This method facilitates key updates and supports chaining of
   /// operations on the map.
   Map<K, V> updateKey({required K oldKey, required K newKey}) {
-    final Map<K, V> newMap = Map<K, V>.from(this);
+    final copyMap = Map<K, V>.from(this);
 
-    if (newMap.containsKey(oldKey)) {
-      final value = newMap[oldKey] as V;
-      newMap.remove(oldKey);
-      newMap[newKey] = value;
+    if (copyMap.containsKey(oldKey)) {
+      final value = copyMap[oldKey] as V;
+      copyMap.remove(oldKey);
+      copyMap[newKey] = value;
     }
 
-    return newMap;
+    return copyMap;
   }
 }

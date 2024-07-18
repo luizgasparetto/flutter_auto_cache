@@ -9,10 +9,8 @@ import 'package:fake_async/fake_async.dart';
 /// The method captures the result of the asynchronous function and returns it,
 /// ensuring all microtasks are flushed before concluding the test step.
 extension FakeAsyncMethodExtension on FakeAsync {
-  T integrationAsync<T>(Future<T> Function() callback) {
-    late final T response;
-
-    callback.call().then((value) => response = value);
+  Future<T> integrationAsync<T>(Future<T> Function() callback) async {
+    final response = await callback.call();
 
     this.elapse(const Duration(seconds: 1));
     this.flushMicrotasks();

@@ -1,5 +1,8 @@
-import 'package:flutter_auto_cache/src/core/core.dart';
+import 'package:flutter_auto_cache/src/core/configuration/cache_configuration.dart';
+import 'package:flutter_auto_cache/src/core/errors/auto_cache_error.dart';
 import 'package:flutter_auto_cache/src/core/functional/either.dart';
+import 'package:flutter_auto_cache/src/core/infrastructure/protocols/cache_response.dart';
+import 'package:flutter_auto_cache/src/core/infrastructure/protocols/enums/cache_response_status.dart';
 import 'package:flutter_auto_cache/src/core/services/service_locator/implementations/service_locator.dart';
 import 'package:flutter_auto_cache/src/modules/data_cache/domain/dtos/key_cache_dto.dart';
 
@@ -78,62 +81,84 @@ void main() {
   }
 
   group('BaseDataCacheController.get |', () {
+    final successData = DataCacheEntityFake<String>(fakeData: 'my_string_cached');
+
     test('should be able to get data in cache with a key successfully', () async {
       when(() => getCacheUsecase.execute<String, String>(any(that: getCacheDtoMatcher()))).thenReturn(
-        right(DataCacheEntityFake<String>(fakeData: 'my_string_cached')),
+        right(SuccessCacheResponse(data: successData.data)),
       );
 
       final response = await sut.get<String>(key: 'my_key');
 
-      expect(response, equals('my_string_cached'));
+      expect(response.data, equals('my_string_cached'));
+      expect(response.status, equals(CacheResponseStatus.success));
       verify(() => getCacheUsecase.execute<String, String>(any(that: getCacheDtoMatcher()))).called(1);
     });
 
     test('should be able to get item in cache and return NULL when not find cache item', () async {
-      when(() => getCacheUsecase.execute<String, String>(any(that: getCacheDtoMatcher()))).thenReturn(right(null));
+      when(() => getCacheUsecase.execute<String, String>(any(that: getCacheDtoMatcher()))).thenReturn(right(NotFoundCacheResponse()));
 
       final response = await sut.get<String>(key: 'my_key');
 
-      expect(response, isNull);
+      expect(response.data, isNull);
+      expect(response.status, equals(CacheResponseStatus.notFound));
+      verify(() => getCacheUsecase.execute<String, String>(any(that: getCacheDtoMatcher()))).called(1);
+    });
+
+    test('should be able to get item in cache and return NULL when cache item is expired', () async {
+      when(() => getCacheUsecase.execute<String, String>(any(that: getCacheDtoMatcher()))).thenReturn(right(ExpiredCacheResponse()));
+
+      final response = await sut.get<String>(key: 'my_key');
+
+      expect(response.data, isNull);
+      expect(response.status, equals(CacheResponseStatus.expired));
       verify(() => getCacheUsecase.execute<String, String>(any(that: getCacheDtoMatcher()))).called(1);
     });
 
     test('should NOT be able to get item in cache when UseCase throws an AutoCacheException', () {
-      when(() => getCacheUsecase.execute<String, String>(any(that: getCacheDtoMatcher()))).thenReturn(
-        left(FakeAutoCacheException()),
-      );
+      when(() => getCacheUsecase.execute<String, String>(any(that: getCacheDtoMatcher()))).thenReturn(left(FakeAutoCacheException()));
 
       expect(() => sut.get<String>(key: 'my_key'), throwsA(isA<AutoCacheException>()));
     });
   });
 
   group('BaseDataCacheController.getList |', () {
+    final successData = DataCacheEntityFake<List<String>>(fakeData: ['fake_list_data']);
+
     test('should be able to get data list in cache with a key successfully', () async {
       when(() => getCacheUsecase.execute<List<String>, String>(any(that: getCacheDtoMatcher()))).thenReturn(
-        right(DataCacheEntityFake<List<String>>(fakeData: ['fake_list_data'])),
+        right(SuccessCacheResponse(data: successData.data)),
       );
 
       final response = await sut.getList<String>(key: 'my_key');
 
-      expect(response, equals(['fake_list_data']));
+      expect(response.data, equals(['fake_list_data']));
+      expect(response.status, equals(CacheResponseStatus.success));
       verify(() => getCacheUsecase.execute<List<String>, String>(any(that: getCacheDtoMatcher()))).called(1);
     });
 
     test('should be able to return NULL on get data list when not find cache item', () async {
-      when(() => getCacheUsecase.execute<List<String>, String>(any(that: getCacheDtoMatcher()))).thenReturn(
-        right(null),
-      );
+      when(() => getCacheUsecase.execute<List<String>, String>(any(that: getCacheDtoMatcher()))).thenReturn(right(NotFoundCacheResponse()));
 
       final response = await sut.getList<String>(key: 'my_key');
 
-      expect(response, isNull);
+      expect(response.data, isNull);
+      expect(response.status, equals(CacheResponseStatus.notFound));
+      verify(() => getCacheUsecase.execute<List<String>, String>(any(that: getCacheDtoMatcher()))).called(1);
+    });
+
+    test('should be able to return NULL on get data list when cache item is expired', () async {
+      when(() => getCacheUsecase.execute<List<String>, String>(any(that: getCacheDtoMatcher()))).thenReturn(right(ExpiredCacheResponse()));
+
+      final response = await sut.getList<String>(key: 'my_key');
+
+      expect(response.data, isNull);
+      expect(response.status, equals(CacheResponseStatus.expired));
       verify(() => getCacheUsecase.execute<List<String>, String>(any(that: getCacheDtoMatcher()))).called(1);
     });
 
     test('should NOT be able to get data list when usecase fails', () {
-      when(() => getCacheUsecase.execute<List<String>, String>(any(that: getCacheDtoMatcher()))).thenReturn(
-        left(FakeAutoCacheException()),
-      );
+      when(() => getCacheUsecase.execute<List<String>, String>(any(that: getCacheDtoMatcher()))).thenReturn(left(FakeAutoCacheException()));
 
       expect(() => sut.getList<String>(key: 'my_key'), throwsA(isA<AutoCacheException>()));
       verify(() => getCacheUsecase.execute<List<String>, String>(any(that: getCacheDtoMatcher()))).called(1);
@@ -169,9 +194,7 @@ void main() {
     });
 
     test('should NOT be able to delete data in cache when usecase fails', () async {
-      when(() => deleteCacheUsecase.execute(any(that: deleteCacheDtoMatcher()))).thenAnswer(
-        (_) async => left(FakeAutoCacheException()),
-      );
+      when(() => deleteCacheUsecase.execute(any(that: deleteCacheDtoMatcher()))).thenAnswer((_) async => left(FakeAutoCacheException()));
 
       expect(() => sut.delete(key: 'my_key'), throwsA(isA<AutoCacheException>()));
       verify(() => deleteCacheUsecase.execute(any(that: deleteCacheDtoMatcher()))).called(1);

@@ -1,4 +1,4 @@
-import '../../../../core/core.dart';
+import '../../../../core/errors/auto_cache_error.dart';
 import '../../../../core/functional/either.dart';
 
 import '../dtos/key_cache_dto.dart';

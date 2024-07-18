@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import '../../../../core/infrastructure/protocols/cache_response.dart';
+
 /// An interface that defines methods for querying and commanding a data cache.
 ///
 /// This interface provides the base operations for querying and manipulating
@@ -13,7 +15,7 @@ abstract interface class IBaseDataCacheController {
   /// Returns the cached object of type [T] if found, or `null` if not present.
   ///
   /// Throws an exception if data retrieval fails.
-  Future<T?> get<T extends Object>({required String key});
+  Future<CacheResponse<T?>> get<T extends Object>({required String key});
 
   /// Retrieves a list of cached objects of type [T] associated with the specified [key].
   ///
@@ -22,7 +24,7 @@ abstract interface class IBaseDataCacheController {
   /// Returns a list of cached objects if found, or `null` if not present.
   ///
   /// Throws an exception if data retrieval encounters an issue.
-  Future<List<T>?> getList<T extends Object>({required String key});
+  Future<CacheResponse<List<T>?>> getList<T extends Object>({required String key});
 
   /// Saves an object of type [T] into the cache under the provided [key].
   ///

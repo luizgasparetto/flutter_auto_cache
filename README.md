@@ -78,7 +78,7 @@ import 'package:flutter_auto_cache/flutter_auto_cache.dart';
 
 Future<void> main() async {
   /// Optional: Pass a custom CacheConfiguration if needed
-  await AutoCacheInitializer.init(configuration: yourCustomConfiguration);
+  await AutoCacheInitializer.initialize(configuration: yourCustomConfiguration);
 
   runApp(MyApp());
 }

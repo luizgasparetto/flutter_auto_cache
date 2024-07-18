@@ -6,4 +6,6 @@ extension TypeExtensions on Type {
   bool get isList {
     return this.toString().startsWith('List');
   }
+
+  bool isSameType(Type type) => this == type;
 }

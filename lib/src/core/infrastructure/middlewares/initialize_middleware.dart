@@ -1,5 +1,4 @@
-import '../../../auto_cache_injections.dart';
-
+import '../../services/service_locator/implementations/service_locator.dart';
 import 'exceptions/initializer_exceptions.dart';
 
 /// A class to handle initialization and configuration verifications.
@@ -18,12 +17,12 @@ class InitializeMiddleware {
   /// This method checks if the auto cache manager is initialized.
   /// If not, it throws a [NotInitializedAutoCacheException] with a message and the current stack trace.
   static void _initializedConfigVerification() {
-    final isInitialized = AutoCacheInjections.isInjectorInitialized;
+    final isInitialized = ServiceLocator.instance.hasBinds;
 
     if (!isInitialized) {
       throw NotInitializedAutoCacheException(
-        message: 'Auto Cache is not initialized yet.',
-        stackTrace: StackTrace.current,
+        message: '''Auto Cache is not initialized yet. Please ensure that you call AutoCacheInitializer.initialize() before runApp()''',
+        stackTrace: StackTrace.empty,
       );
     }
   }

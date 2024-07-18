@@ -50,13 +50,13 @@ void fakeAsyncTest(String description, FakeAsyncCallback callback, {bool skip = 
 ///
 /// Returns a `Future` that completes with an instance of `PrefsCacheManagerController`.
 @visibleForTesting
-Future<IDataCacheController> initializePrefsController({CacheConfiguration? config}) async {
+Future<IDataCacheController> initializeDataController({CacheConfiguration? config}) async {
   TestWidgetsFlutterBinding.ensureInitialized();
 
   SharedPreferences.setMockInitialValues({});
 
   const defaultConfig = CacheConfiguration(sizeOptions: CacheSizeOptions(maxMb: 10));
-  await AutoCacheInitializer.init(configuration: config ?? defaultConfig);
+  await AutoCacheInitializer.initialize(configuration: config ?? defaultConfig);
 
   return AutoCache.data;
 }

@@ -3,7 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import '../../../commons/helpers/integration_test_helpers.dart';
 
 Future<void> main() async {
-  final sut = await initializePrefsController();
+  final sut = await initializeDataController();
 
   group('SaveCacheIntegrationTest.saveString |', () {
     test('should be able to save a string in prefs cache and completes operation', () async {
@@ -15,8 +15,8 @@ Future<void> main() async {
 
       final response = await sut.getString(key: 'string_key');
 
-      expect(response, isNotNull);
-      expect(response, equals('string_data'));
+      expect(response.data, isNotNull);
+      expect(response.data, equals('string_data'));
     });
   });
 
@@ -30,8 +30,8 @@ Future<void> main() async {
 
       final response = await sut.getInt(key: 'int_key');
 
-      expect(response, isNotNull);
-      expect(response, equals(1));
+      expect(response.data, isNotNull);
+      expect(response.data, equals(1));
     });
   });
 
@@ -55,11 +55,11 @@ Future<void> main() async {
       final simpleResponse = await sut.getJson(key: 'json_key');
       final complexResponse = await sut.getJson(key: 'complex_json_key');
 
-      expect(simpleResponse, isNotNull);
-      expect(simpleResponse, equals(simpleJson));
+      expect(simpleResponse.data, isNotNull);
+      expect(simpleResponse.data, equals(simpleJson));
 
-      expect(complexResponse, isNotNull);
-      expect(complexResponse, equals(complexJson));
+      expect(complexResponse.data, isNotNull);
+      expect(complexResponse.data, equals(complexJson));
     });
   });
 
@@ -71,8 +71,8 @@ Future<void> main() async {
 
       final response = await sut.getStringList(key: 'string_list_key');
 
-      expect(response, isNotNull);
-      expect(response, equals(stringList));
+      expect(response.data, isNotNull);
+      expect(response.data, equals(stringList));
     });
   });
 
@@ -85,8 +85,8 @@ Future<void> main() async {
 
       final response = await sut.getJsonList(key: 'json_list_key');
 
-      expect(response, isNotNull);
-      expect(response, equals(jsonList));
+      expect(response.data, isNotNull);
+      expect(response.data, equals(jsonList));
     });
   });
 }

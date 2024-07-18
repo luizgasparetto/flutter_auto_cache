@@ -22,7 +22,7 @@ void main() {
     });
 
     test('should be able to verify instances and binds of cache controllers', () async {
-      await AutoCacheInitializer.init();
+      await AutoCacheInitializer.initialize();
 
       expect(AutoCache.data, equals(DataCacheController.instance));
     });

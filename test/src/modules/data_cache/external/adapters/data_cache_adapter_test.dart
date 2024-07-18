@@ -1,3 +1,4 @@
+import 'package:flutter_auto_cache/src/modules/data_cache/external/exceptions/data_cache_adapter_exceptions.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:flutter_auto_cache/src/core/extensions/types/map_extensions.dart';
@@ -32,13 +33,13 @@ void main() {
     test('should NOT be able to get DataCacheEntity from json when invalid values', () {
       final invalidJson = jsonCache.updateValueByKey(key: 'created_at', newValue: 'invalid_value');
 
-      expect(() => DataCacheAdapter.fromJson(invalidJson), throwsFormatException);
+      expect(() => DataCacheAdapter.fromJson(invalidJson), throwsA(isA<DataCacheFromJsonException>()));
     });
 
     test('should NOT be able to get DataCacheEntity from json when invalid keys', () {
       final jsonInvalidKeys = jsonCache.updateKey(oldKey: 'created_at', newKey: 'invalid_created_at');
 
-      expect(() => DataCacheAdapter.fromJson(jsonInvalidKeys), throwsA(isA<TypeError>()));
+      expect(() => DataCacheAdapter.fromJson<String>(jsonInvalidKeys), throwsA(isA<DataCacheFromJsonException>()));
     });
   });
 
@@ -67,13 +68,13 @@ void main() {
     test('should NOT be able to get DataCacheEntity from json with data list when has invalid values', () {
       final invalidJson = listJson.updateValueByKey(key: 'created_at', newValue: 'invalid_value');
 
-      expect(() => DataCacheAdapter.listFromJson<List<String>, String>(invalidJson), throwsFormatException);
+      expect(() => DataCacheAdapter.listFromJson<List<String>, String>(invalidJson), throwsA(isA<DataCacheListFromJsonException>()));
     });
 
     test('should NOT be able to get DataCacheEntity from json with data list when has invalid keys', () {
       final invalidJson = listJson.updateValueByKey(key: 'created_at', newValue: 'invalid_value');
 
-      expect(() => DataCacheAdapter.listFromJson<List<String>, String>(invalidJson), throwsFormatException);
+      expect(() => DataCacheAdapter.listFromJson<List<String>, String>(invalidJson), throwsA(isA<DataCacheListFromJsonException>()));
     });
   });
 

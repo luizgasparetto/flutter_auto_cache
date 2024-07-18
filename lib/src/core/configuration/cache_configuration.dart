@@ -23,19 +23,18 @@ class CacheConfiguration {
   /// to cache data, ensuring its security.
   final CacheCryptographyOptions? cryptographyOptions;
 
-  /// Constructs a CacheConfig object.
+  /// Constructs a CacheConfiguration object.
   ///
   /// [sizeOptions] Options for cache size.
   /// [ttlMaxDuration] Maximum time-to-live duration for cache items.
   /// [cryptographyOptions] Options for cache cryptography.
-  /// [useDeflateCompresser] Flag indicating whether to use Deflate compressor.
   const CacheConfiguration({
     this.sizeOptions = const CacheSizeOptions(),
     this.cryptographyOptions,
     this.dataCacheOptions = const DataCacheOptions(),
   });
 
-  /// Constructs a default CacheConfig object.
+  /// Constructs a default CacheConfiguration object.
   ///
   /// This factory method provides a default configuration
   /// for caching settings.
