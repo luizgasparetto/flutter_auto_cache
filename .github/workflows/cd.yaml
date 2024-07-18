@@ -33,5 +33,15 @@ jobs:
       - name: "Flutter Pub Get"
         run: flutter pub get
 
+      - name: "Set up Enviroment"
+        run: |
+          echo "OAUTH_ACCESS_TOKEN=${{ secrets.OAUTH_ACCESS_TOKEN }}" >> $GITHUB_ENV
+          echo "OAUTH_REFRESH_TOKEN=${{ secrets.OAUTH_REFRESH_TOKEN }}" >> $GITHUB_ENV
+          echo "TOKEN_ENDPOINT=${{ secrets.TOKEN_ENDPOINT }}" >> $GITHUB_ENV
+          echo "AUTH_SCOPES=${{ secrets.AUTH_SCOPES }}" >> $GITHUB_ENV
+
+      - name: "Create Credentials"
+        run: chmod +x ./.github/scripts/create_credentials.sh && ./.github/scripts/create_credentials.sh
+
       - name: "Publish"
         run: "dart pub publish --dry-run"
