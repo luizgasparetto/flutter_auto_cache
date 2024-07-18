@@ -3,7 +3,7 @@ description: Package that automates cache management policies, using shared pref
 homepage: https://github.com/luizgasparetto/flutter_auto_cache
 repository: https://github.com/luizgasparetto/flutter_auto_cache.git
 topics: ["cache", "cache-management", "cryptography"]
-version: 0.0.2
+version: 0.0.3
 
 environment:
   sdk: ">=3.1.0 <4.0.0"
