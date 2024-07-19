@@ -2,7 +2,7 @@
 
 workspaces/**
 scripts/**
-docs/**
+
 build/**
 coverage/**
 scripts/**
@@ -14,9 +14,15 @@ melos.yaml
 melos_flutter_auto_cache.iml
 sonar-project.properties
 
-example/**
 test/**
 
 *.md
 !README.md
 !CHANGELOG.md
+
+docs/.nojekyll
+docs/index.html
+docs/README.md
+
+example/windows
+example/android

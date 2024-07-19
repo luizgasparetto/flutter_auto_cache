@@ -1,15 +1,8 @@
 <p align="center">
   <a href="https://github.com/luizgasparetto/flutter_auto_cache">
-  <img src="./docs/assets/logo.svg">
+  <img src="https://raw.githubusercontent.com/luizgasparetto/flutter_auto_cache/main/docs/assets/logo_solo.png">
   </a>
 </p>
-
-<h6 align="center"><samp>#flutter, #dart, #package, #storage, #cache, #encryption</samp></h6>
-
-
-<h4 align="center">
-  <samp>Improves cache management policies, including enhanced replacement strategies, invalidation methods and encryption in a <kbd>KVS</kbd> (Key-Value Store)</samp>
-</h4>
 
 
 <h4 align="center">

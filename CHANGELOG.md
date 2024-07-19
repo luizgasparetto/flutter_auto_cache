@@ -1,3 +1,12 @@
+## 0.0.3
+
+- Flutter Auto Cache's Logo
+
+## 0.0.2
+
+- Improve README.md
+- Removed items from .pubignore
+
 ## 0.0.1
 
 - Initial release of Flutter Auto Cache.
