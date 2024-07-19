@@ -1,4 +1,4 @@
-<p align="center"><img src="./assets/logo_solo.png"></p>
+<p align="center"><img src="./assets/logo.png"></p>
 
 # Introduction
 
