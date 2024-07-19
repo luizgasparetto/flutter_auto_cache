@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://github.com/luizgasparetto/flutter_auto_cache">
-  <img src="https://raw.githubusercontent.com/luizgasparetto/flutter_auto_cache/main/docs/assets/logo.png">
+  <img src="https://raw.githubusercontent.com/luizgasparetto/flutter_auto_cache/main/docs/assets/logo_solo.png">
   </a>
 </p>
 
