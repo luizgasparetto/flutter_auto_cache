@@ -1,6 +1,6 @@
 part of 'i_data_cache_repository.dart';
 
-abstract interface class ISubstituteDataCacheRepository {
+abstract interface class ISubstitutionDataCacheRepository {
   /// Retrieves all keys associated with a specific storage type.
   ///
   /// Returns:

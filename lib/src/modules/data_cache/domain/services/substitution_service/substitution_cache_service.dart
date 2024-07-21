@@ -26,7 +26,7 @@ abstract interface class ISubstitutionCacheService {
 final class SubstitutionCacheService implements ISubstitutionCacheService {
   final CacheConfiguration configuration;
   final IDataCacheRepository dataRepository;
-  final ISubstituteDataCacheRepository substituteRepository;
+  final ISubstitutionDataCacheRepository substituteRepository;
 
   const SubstitutionCacheService(this.configuration, this.dataRepository, this.substituteRepository);
 

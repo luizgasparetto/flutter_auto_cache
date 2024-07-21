@@ -15,6 +15,7 @@ import 'external/datasources/query_data_cache_datasource.dart';
 import 'infra/datasources/i_command_data_cache_datasource.dart';
 import 'infra/datasources/i_query_data_cache_datasource.dart';
 import 'infra/repositories/data_cache_repository.dart';
+import 'infra/repositories/substitution_data_cache_repository.dart';
 
 export 'presenter/controllers/implementations/base_data_cache_controller.dart' show IDataCacheController;
 export 'domain/value_objects/data_cache_options.dart';
@@ -28,7 +29,8 @@ class DataCacheModule extends CacheModule {
     ServiceLocator.instance.bindFactory<ICommandDataCacheDatasource>(() => CommandDataCacheDatasource(get(), get()));
     ServiceLocator.instance.bindFactory<IInvalidationCacheService>(() => InvalidationCacheService(get()));
     ServiceLocator.instance.bindFactory<IDataCacheRepository>(() => DataCacheRepository(get(), get()));
-    ServiceLocator.instance.bindFactory<ISubstitutionCacheService>(() => SubstitutionCacheService(get(), get()));
+    ServiceLocator.instance.bindFactory<ISubstitutionDataCacheRepository>(() => SubstitutionDataCacheRepository(get()));
+    ServiceLocator.instance.bindFactory<ISubstitutionCacheService>(() => SubstitutionCacheService(get(), get(), get()));
     ServiceLocator.instance.bindFactory<IDeleteDataCacheUsecase>(() => DeleteDataCacheUsecase(get()));
     ServiceLocator.instance.bindFactory<IClearDataCacheUsecase>(() => ClearDataCacheUsecase(get()));
     ServiceLocator.instance.bindFactory<IGetDataCacheUsecase>(() => GetDataCacheUsecase(get(), get()));

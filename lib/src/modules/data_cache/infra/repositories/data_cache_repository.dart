@@ -38,28 +38,6 @@ class DataCacheRepository implements IDataCacheRepository {
   }
 
   @override
-  Either<AutoCacheException, List<String>> getKeys() {
-    try {
-      final response = queryDatasource.getKeys();
-
-      return right(response);
-    } on AutoCacheException catch (exception) {
-      return left(exception);
-    }
-  }
-
-  @override
-  AsyncEither<AutoCacheException, bool> accomodateCache<T extends Object>(DataCacheEntity<T> cache, {bool recursive = false}) async {
-    try {
-      final response = await queryDatasource.accomodateCache(cache);
-
-      return right(response);
-    } on AutoCacheException catch (exception) {
-      return left(exception);
-    }
-  }
-
-  @override
   AsyncEither<AutoCacheException, Unit> save<T extends Object>(WriteCacheDTO<T> dto) async {
     try {
       await commandDatasource.save<T>(dto);

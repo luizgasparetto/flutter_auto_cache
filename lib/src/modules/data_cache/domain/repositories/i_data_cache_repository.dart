@@ -7,7 +7,7 @@ import '../dtos/write_cache_dto.dart';
 
 import '../entities/data_cache_entity.dart';
 
-part 'i_substitute_data_cache_repository.dart';
+part 'i_substitution_data_cache_repository.dart';
 
 /// An interface defining the repository for managing cache operations.
 ///
