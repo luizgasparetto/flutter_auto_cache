@@ -9,6 +9,7 @@ import '../../repositories/i_data_cache_repository.dart';
 
 part './strategies/fifo_substitution_cache_strategy.dart';
 part './strategies/random_substitution_cache_strategy.dart';
+part './strategies/lru_substitution_cache_strategy.dart';
 
 /// An sealed class for substitution cache strategies.
 ///
