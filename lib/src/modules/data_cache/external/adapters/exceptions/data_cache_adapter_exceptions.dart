@@ -1,4 +1,4 @@
-import '../../../../core/errors/auto_cache_error.dart';
+import '../../../../../core/errors/auto_cache_error.dart';
 
 sealed class DataCacheAdapterException extends AutoCacheException {
   DataCacheAdapterException({
