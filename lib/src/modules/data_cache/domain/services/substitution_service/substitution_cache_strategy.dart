@@ -1,5 +1,7 @@
 import 'dart:math';
 
+import 'package:flutter_auto_cache/src/modules/data_cache/domain/repositories/i_substitute_data_cache_repository.dart';
+
 import '../../../../../core/errors/auto_cache_error.dart';
 import '../../../../../core/functional/either.dart';
 
@@ -17,9 +19,10 @@ part './strategies/lru_substitution_cache_strategy.dart';
 /// ensuring they implement methods for substituting cache data,
 /// retrieving cache keys, and deleting data from the cache.
 sealed class ISubstitutionCacheStrategy {
-  final IDataCacheRepository repository;
+  final IDataCacheRepository dataRepository;
+  final ISubstituteDataCacheRepository substituteRepository;
 
-  const ISubstitutionCacheStrategy(this.repository);
+  const ISubstitutionCacheStrategy(this.dataRepository, this.substituteRepository);
 
   /// Substitutes data in the cache.
   ///
@@ -39,7 +42,7 @@ sealed class ISubstitutionCacheStrategy {
   /// and then accommodate the new data. If accommodating the new data fails,
   /// it attempts to get a new cache key and delete data again.
   AsyncEither<AutoCacheError, Unit> deleteDataCache<T extends Object>(String key, DataCacheEntity<T> data) async {
-    final response = await repository.delete(KeyCacheDTO(key: key));
+    final response = await dataRepository.delete(KeyCacheDTO(key: key));
 
     return response.fold(left, (_) => _handleAccomodate<T>(key, data));
   }
@@ -49,7 +52,7 @@ sealed class ISubstitutionCacheStrategy {
   /// This method attempts to accommodate the new data in the cache. If it fails,
   /// it tries to get a new cache key and delete data again.
   AsyncEither<AutoCacheError, Unit> _handleAccomodate<T extends Object>(String key, DataCacheEntity<T> data) async {
-    final accomodateResponse = await repository.accomodateCache(data, recursive: true);
+    final accomodateResponse = await substituteRepository.accomodateCache(data, recursive: true);
 
     if (accomodateResponse.isError) return left(accomodateResponse.error);
     if (accomodateResponse.success) return right(unit);
