@@ -7,6 +7,8 @@ import '../dtos/write_cache_dto.dart';
 
 import '../entities/data_cache_entity.dart';
 
+part 'i_substitute_data_cache_repository.dart';
+
 /// An interface defining the repository for managing cache operations.
 ///
 /// This repository provides methods for retrieving, saving, updating, deleting, and clearing
@@ -32,23 +34,23 @@ abstract interface class IDataCacheRepository {
   /// - An [Either] containing an [AutoCacheException] on failure, or a nullable list of [DataCacheEntity] of type [T] on success.
   Either<AutoCacheException, DataCacheEntity<T>?> getList<T extends Object, DataType extends Object>(KeyCacheDTO dto);
 
-  /// Retrieves all keys associated with a specific storage type.
-  ///
-  /// Returns:
-  /// - An [Either] containing an [AutoCacheException] on failure, or a list of strings representing the cache keys on success.
-  Either<AutoCacheException, List<String>> getKeys();
+  // /// Retrieves all keys associated with a specific storage type.
+  // ///
+  // /// Returns:
+  // /// - An [Either] containing an [AutoCacheException] on failure, or a list of strings representing the cache keys on success.
+  // Either<AutoCacheException, List<String>> getKeys();
 
-  /// Attempts to accommodate the given data cache entity.
-  ///
-  /// This method checks if the cache can accommodate the new data. If `recursive` is true,
-  /// it will recursively attempt to make space for the new data.
-  ///
-  /// - Parameter [dataCache]: The data cache entity to be accommodated.
-  /// - Parameter [recursive]: Whether to attempt accommodating recursively. Default is false.
-  ///
-  /// Returns:
-  /// - An [AsyncEither] containing an [AutoCacheException] on failure, or a boolean indicating success.
-  AsyncEither<AutoCacheException, bool> accomodateCache<T extends Object>(DataCacheEntity<T> cache, {bool recursive = false});
+  // /// Attempts to accommodate the given data cache entity.
+  // ///
+  // /// This method checks if the cache can accommodate the new data. If `recursive` is true,
+  // /// it will recursively attempt to make space for the new data.
+  // ///
+  // /// - Parameter [dataCache]: The data cache entity to be accommodated.
+  // /// - Parameter [recursive]: Whether to attempt accommodating recursively. Default is false.
+  // ///
+  // /// Returns:
+  // /// - An [AsyncEither] containing an [AutoCacheException] on failure, or a boolean indicating success.
+  // AsyncEither<AutoCacheException, bool> accomodateCache<T extends Object>(DataCacheEntity<T> cache, {bool recursive = false});
 
   /// Saves a data object of type [T] using the data transfer object [dto].
   ///

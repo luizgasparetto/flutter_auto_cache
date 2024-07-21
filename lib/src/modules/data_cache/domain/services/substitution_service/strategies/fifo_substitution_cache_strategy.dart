@@ -1,7 +1,7 @@
 part of '../substitution_cache_strategy.dart';
 
 final class FifoSubstitutionCacheStrategy extends ISubstitutionCacheStrategy {
-  const FifoSubstitutionCacheStrategy(super.repository);
+  const FifoSubstitutionCacheStrategy(super.dataRepository, super.substituteRepository);
 
   @override
   AsyncEither<AutoCacheError, Unit> substitute<T extends Object>(DataCacheEntity<T> value) async {
@@ -11,7 +11,7 @@ final class FifoSubstitutionCacheStrategy extends ISubstitutionCacheStrategy {
 
   @override
   Either<AutoCacheError, String> getCacheKey() {
-    final keysResponse = repository.getKeys();
+    final keysResponse = substituteRepository.getKeys();
     return keysResponse.mapRight((keys) => keys.first);
   }
 }

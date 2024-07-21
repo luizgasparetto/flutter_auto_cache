@@ -9,6 +9,10 @@
 ///   were added, akin to a queue.
 /// - `random`: A random entry is selected for removal. This policy does not
 ///   necessarily consider the use or order of entries.
+/// - `lru`: Least Recently Used. The entry that has not been accessed for the
+///   longest time is removed first. This policy prioritizes keeping entries
+///   that are accessed more frequently and is commonly used in caching systems
+///   to improve hit rates.
 enum SubstitutionPolicies {
   /// First In, First Out (FIFO) policy.
   ///
@@ -23,5 +27,14 @@ enum SubstitutionPolicies {
   /// entries or how frequently they have been accessed. This policy is the
   /// simplest in terms of implementation and computational overhead but may
   /// not always provide the best performance in terms of cache hit rate.
-  random
+  random,
+
+  /// Least Recently Used (LRU) policy.
+  ///
+  /// The entry that has not been accessed for the longest time is removed first.
+  /// This policy helps to ensure that frequently accessed entries remain in the
+  /// cache while less frequently used entries are evicted, thus potentially
+  /// improving cache performance by prioritizing entries that are more likely to
+  /// be accessed again soon.
+  lru
 }
