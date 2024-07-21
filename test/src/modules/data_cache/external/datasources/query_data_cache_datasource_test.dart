@@ -37,6 +37,7 @@ void main() {
     final successBody = {
       'id': 'key',
       'data': 'my_data',
+      'usage_count': 0,
       'created_at': createdAt.toIso8601String(),
       'end_at': endAt.toIso8601String(),
     };
@@ -84,6 +85,7 @@ void main() {
     final successBody = {
       'id': 'key',
       'data': ['data', 'data'],
+      'usage_count': 0,
       'created_at': createdAt.toIso8601String(),
       'end_at': endAt.toIso8601String(),
     };
