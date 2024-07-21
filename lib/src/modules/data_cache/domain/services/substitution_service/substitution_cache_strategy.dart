@@ -1,7 +1,5 @@
 import 'dart:math';
 
-import 'package:flutter_auto_cache/src/modules/data_cache/domain/repositories/i_substitute_data_cache_repository.dart';
-
 import '../../../../../core/errors/auto_cache_error.dart';
 import '../../../../../core/functional/either.dart';
 
@@ -20,9 +18,9 @@ part './strategies/lru_substitution_cache_strategy.dart';
 /// retrieving cache keys, and deleting data from the cache.
 sealed class ISubstitutionCacheStrategy {
   final IDataCacheRepository dataRepository;
-  final ISubstituteDataCacheRepository substituteRepository;
+  final ISubstitutionDataCacheRepository substitutionRepository;
 
-  const ISubstitutionCacheStrategy(this.dataRepository, this.substituteRepository);
+  const ISubstitutionCacheStrategy(this.dataRepository, this.substitutionRepository);
 
   /// Substitutes data in the cache.
   ///
@@ -52,7 +50,7 @@ sealed class ISubstitutionCacheStrategy {
   /// This method attempts to accommodate the new data in the cache. If it fails,
   /// it tries to get a new cache key and delete data again.
   AsyncEither<AutoCacheError, Unit> _handleAccomodate<T extends Object>(String key, DataCacheEntity<T> data) async {
-    final accomodateResponse = await substituteRepository.accomodateCache(data, recursive: true);
+    final accomodateResponse = await substitutionRepository.accomodateCache(data, recursive: true);
 
     if (accomodateResponse.isError) return left(accomodateResponse.error);
     if (accomodateResponse.success) return right(unit);
