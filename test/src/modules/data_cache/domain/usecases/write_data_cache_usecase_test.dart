@@ -4,9 +4,9 @@ import 'package:flutter_auto_cache/src/core/errors/auto_cache_error.dart';
 
 import 'package:flutter_auto_cache/src/core/functional/either.dart';
 import 'package:flutter_auto_cache/src/modules/data_cache/domain/dtos/key_cache_dto.dart';
-import 'package:flutter_auto_cache/src/modules/data_cache/domain/dtos/update_cache_dto.dart';
 import 'package:flutter_auto_cache/src/modules/data_cache/domain/dtos/write_cache_dto.dart';
 import 'package:flutter_auto_cache/src/modules/data_cache/domain/entities/data_cache_entity.dart';
+import 'package:flutter_auto_cache/src/modules/data_cache/domain/factories/data_cache_factory.dart';
 import 'package:flutter_auto_cache/src/modules/data_cache/domain/repositories/i_data_cache_repository.dart';
 import 'package:flutter_auto_cache/src/modules/data_cache/domain/services/invalidation_service/invalidation_cache_service.dart';
 import 'package:flutter_auto_cache/src/modules/data_cache/domain/services/substitution_service/substitution_cache_service.dart';
@@ -15,17 +15,19 @@ import 'package:flutter_auto_cache/src/modules/data_cache/domain/value_objects/d
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
+import '../services/substitution_service/strategies/fifo_substitution_cache_strategy_test.dart';
+
 class CacheRepositoryMock extends Mock implements IDataCacheRepository {}
 
 class InvalidationCacheServiceMock extends Mock implements IInvalidationCacheService {}
 
 class SubstitutionCacheServiceMock extends Mock implements ISubstitutionCacheService {}
 
+class DataCacheFactoryMock extends Mock implements IDataCacheFactory {}
+
 class AutoCacheExceptionFake extends Fake implements AutoCacheException {}
 
 class FakeKeyCacheDTO extends Fake implements KeyCacheDTO {}
-
-class FakeUpdateCacheDTO extends Fake implements UpdateCacheDTO<String> {}
 
 class FakeCacheConfig extends Fake implements CacheConfiguration {
   @override
@@ -50,14 +52,14 @@ void main() {
   final repository = CacheRepositoryMock();
   final invalidationService = InvalidationCacheServiceMock();
   final substitutionService = SubstitutionCacheServiceMock();
+  final dataCacheFactory = DataCacheFactoryMock();
 
-  final sut = WriteDataCacheUsecase(repository, substitutionService, invalidationService);
+  final sut = WriteDataCacheUsecase(repository, substitutionService, invalidationService, dataCacheFactory);
 
   final fakeCache = DataCacheEntityFake<String>('my_string');
-  final cacheConfig = FakeCacheConfig();
+  final updatedFakeCache = DataCacheEntityFake<String>('my_data');
 
   final fakeGetCacheDto = FakeKeyCacheDTO();
-  final fakeUpdateCacheDto = FakeUpdateCacheDTO();
 
   setUpAll(() {
     CacheConfigurationStore.instance.setConfiguration(BaseConfigFake());
@@ -66,13 +68,13 @@ void main() {
   setUp(() {
     registerFallbackValue(fakeCache);
     registerFallbackValue(fakeGetCacheDto);
-    registerFallbackValue(fakeUpdateCacheDto);
   });
 
   tearDown(() {
     reset(repository);
     reset(substitutionService);
     reset(invalidationService);
+    reset(dataCacheFactory);
   });
 
   Matcher cacheDtoMatcher() {
@@ -80,67 +82,41 @@ void main() {
   }
 
   group('WriteCacheUsecase |', () {
-    final dto = WriteCacheDTO(key: 'my_key', data: 'my_data', cacheConfig: cacheConfig);
+    const dto = WriteCacheDTO(key: 'my_key', data: 'my_data');
 
     test('should be able to save cache data successfully when not find any previous cache with same key', () async {
       when(() => repository.get<String>(any(that: cacheDtoMatcher()))).thenReturn(right(null));
-      when(() => substitutionService.substitute(dto.data)).thenAnswer((_) async => right(unit));
-      when(() => repository.save<String>(dto)).thenAnswer((_) async => right(unit));
+      when(() => dataCacheFactory.save<String>(dto)).thenReturn(fakeCache);
+      when(() => substitutionService.substitute(fakeCache.data)).thenAnswer((_) async => right(unit));
+      when(() => repository.write<String>(fakeCache)).thenAnswer((_) async => right(unit));
 
       final response = await sut.execute<String>(dto);
 
       expect(response.isSuccess, isTrue);
       verify(() => repository.get<String>(any(that: cacheDtoMatcher()))).called(1);
-      verify(() => repository.save<String>(dto)).called(1);
+      verify(() => dataCacheFactory.save<String>(dto)).called(1);
+      verify(() => repository.write<String>(fakeCache)).called(1);
       verifyNever(() => invalidationService.validate<String>(fakeCache));
-    });
-
-    test('should be able to save cache data when is expired and config allows replace expired cache', () async {
-      when(() => repository.get<String>(any(that: cacheDtoMatcher()))).thenReturn(right(fakeCache));
-      when(() => invalidationService.validate(fakeCache)).thenReturn(right(false));
-      when(() => substitutionService.substitute<String>(dto.data)).thenAnswer((_) async => right(unit));
-      when(() => repository.save(dto)).thenAnswer((_) async => right(unit));
-
-      final response = await sut.execute<String>(dto);
-
-      expect(response.isSuccess, isTrue);
-      verify(() => repository.get<String>(any(that: cacheDtoMatcher()))).called(1);
-      verify(() => invalidationService.validate<String>(fakeCache)).called(1);
-      verify(() => repository.save<String>(dto)).called(1);
-      verify(() => substitutionService.substitute<String>(dto.data)).called(1);
-      verifyNever(() => repository.update<String>(any()));
     });
 
     test('should be able to update cache data when previous cache is not expired', () async {
       when(() => repository.get<String>(any(that: cacheDtoMatcher()))).thenReturn(right(fakeCache));
       when(() => invalidationService.validate(fakeCache)).thenReturn(right(true));
-      when(() => substitutionService.substitute<String>(any())).thenAnswer((_) async => right(unit));
-      when(() => repository.update<String>(any())).thenAnswer((_) async => right(unit));
+      when(() => dataCacheFactory.update<String>(dto.data, fakeCache)).thenReturn(updatedFakeCache);
+      when(() => substitutionService.substitute<String>(updatedFakeCache.data)).thenAnswer((_) async => right(unit));
+      when(() => repository.write<String>(updatedFakeCache)).thenAnswer((_) async => right(unit));
 
       final response = await sut.execute<String>(dto);
 
       expect(response.isSuccess, isTrue);
       verify(() => repository.get<String>(any(that: cacheDtoMatcher()))).called(1);
       verify(() => invalidationService.validate<String>(fakeCache)).called(1);
-      verify(() => repository.update<String>(any())).called(1);
-      verify(() => substitutionService.substitute<String>(any())).called(1);
-      verifyNever(() => repository.save<String>(dto));
+      verify(() => dataCacheFactory.update<String>(dto.data, fakeCache)).called(1);
+      verify(() => substitutionService.substitute<String>(updatedFakeCache.data)).called(1);
+      verify(() => repository.write<String>(updatedFakeCache)).called(1);
     });
 
-    test('should NOT be abel to save cache when is expired and config dont allow replacement', () async {
-      when(() => repository.get<String>(any(that: cacheDtoMatcher()))).thenReturn(right(fakeCache));
-      when(() => invalidationService.validate(fakeCache)).thenReturn(left(AutoCacheExceptionFake()));
-
-      final response = await sut.execute<String>(dto);
-
-      expect(response.isError, isTrue);
-      verify(() => repository.get<String>(any(that: cacheDtoMatcher()))).called(1);
-      verify(() => invalidationService.validate<String>(fakeCache)).called(1);
-      verifyNever(() => repository.save<String>(dto));
-      verifyNever(() => repository.update<String>(any()));
-    });
-
-    test('should NOT be able to save cache repository when findByKey fails', () async {
+    test('should NOT be able to write cache when findByKey fails', () async {
       when(() => repository.get<String>(any(that: cacheDtoMatcher()))).thenReturn(left(AutoCacheExceptionFake()));
 
       final response = await sut.execute<String>(dto);
@@ -148,54 +124,48 @@ void main() {
       expect(response.isError, isTrue);
       expect(response.error, isA<AutoCacheException>());
       verify(() => repository.get<String>(any(that: cacheDtoMatcher()))).called(1);
-      verifyNever(() => invalidationService.validate<String>(any()));
-      verifyNever(() => repository.save<String>(dto));
-      verifyNever(() => repository.update<String>(any()));
     });
 
-    test('should NOT be able to save cache when save method at repository fails', () async {
-      when(() => repository.get<String>(any(that: cacheDtoMatcher()))).thenReturn(right(null));
-      when(() => substitutionService.substitute<String>(dto.data)).thenAnswer((_) async => right(unit));
-      when(() => repository.save<String>(dto)).thenAnswer((_) async => left(AutoCacheExceptionFake()));
-
-      final response = await sut.execute<String>(dto);
-
-      expect(response.isError, isTrue);
-      expect(response.error, isA<AutoCacheException>());
-      verify(() => repository.get<String>(any(that: cacheDtoMatcher()))).called(1);
-      verify(() => repository.save<String>(dto)).called(1);
-      verifyNever(() => repository.update<String>(any()));
-    });
-
-    test('should NOT be able to update cache when update method at repository fails', () async {
+    test('should NOT be able to write cache when invalidation fails', () async {
       when(() => repository.get<String>(any(that: cacheDtoMatcher()))).thenReturn(right(fakeCache));
-      when(() => invalidationService.validate(fakeCache)).thenReturn(right(true));
-      when(() => substitutionService.substitute<String>(any())).thenAnswer((_) async => right(unit));
-      when(() => repository.update<String>(any())).thenAnswer((_) async => left(AutoCacheExceptionFake()));
+      when(() => invalidationService.validate(fakeCache)).thenReturn(left(FakeAutoCacheException()));
 
       final response = await sut.execute<String>(dto);
 
       expect(response.isError, isTrue);
-      expect(response.error, isA<AutoCacheException>());
+      expect(response.fold((l) => l, (r) => r), isA<AutoCacheException>());
       verify(() => repository.get<String>(any(that: cacheDtoMatcher()))).called(1);
       verify(() => invalidationService.validate<String>(fakeCache)).called(1);
-      verify(() => repository.update<String>(any())).called(1);
-      verify(() => substitutionService.substitute<String>(any())).called(1);
-      verifyNever(() => repository.save<String>(dto));
     });
 
-    test('should NOT be able to write cache when substitution service fails', () async {
+    test('should NOT be able to save cache when substitution fails', () async {
       when(() => repository.get<String>(any(that: cacheDtoMatcher()))).thenReturn(right(null));
-      when(() => substitutionService.substitute<String>(dto.data)).thenAnswer((_) async => left(AutoCacheExceptionFake()));
+      when(() => dataCacheFactory.save<String>(dto)).thenReturn(fakeCache);
+      when(() => substitutionService.substitute<String>(fakeCache.data)).thenAnswer((_) async => left(AutoCacheExceptionFake()));
 
       final response = await sut.execute<String>(dto);
 
       expect(response.isError, isTrue);
       expect(response.error, isA<AutoCacheException>());
       verify(() => repository.get<String>(any(that: cacheDtoMatcher()))).called(1);
-      verify(() => substitutionService.substitute<String>(dto.data)).called(1);
-      verifyNever(() => repository.save<String>(dto));
-      verifyNever(() => repository.update<String>(any()));
+      verify(() => dataCacheFactory.save<String>(dto)).called(1);
+      verify(() => substitutionService.substitute<String>(fakeCache.data)).called(1);
+    });
+
+    test('should NOT be able to save cache when write method at repository fails', () async {
+      when(() => repository.get<String>(any(that: cacheDtoMatcher()))).thenReturn(right(null));
+      when(() => dataCacheFactory.save<String>(dto)).thenReturn(fakeCache);
+      when(() => substitutionService.substitute<String>(fakeCache.data)).thenAnswer((_) async => right(unit));
+      when(() => repository.write<String>(fakeCache)).thenAnswer((_) async => left(AutoCacheExceptionFake()));
+
+      final response = await sut.execute<String>(dto);
+
+      expect(response.isError, isTrue);
+      expect(response.error, isA<AutoCacheException>());
+      verify(() => repository.get<String>(any(that: cacheDtoMatcher()))).called(1);
+      verify(() => dataCacheFactory.save<String>(dto)).called(1);
+      verify(() => substitutionService.substitute<String>(fakeCache.data)).called(1);
+      verify(() => repository.write<String>(fakeCache)).called(1);
     });
   });
 }

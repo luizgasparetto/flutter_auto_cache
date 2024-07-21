@@ -1,8 +1,8 @@
-import 'package:flutter_auto_cache/src/core/infrastructure/protocols/cache_response.dart';
 import 'package:meta/meta.dart';
 
 import '../../../../../core/configuration/cache_configuration.dart';
 import '../../../../../core/infrastructure/middlewares/initialize_middleware.dart';
+import '../../../../../core/infrastructure/protocols/cache_response.dart';
 import '../../../../../core/services/service_locator/implementations/service_locator.dart';
 
 import '../../../domain/dtos/key_cache_dto.dart';
@@ -53,7 +53,7 @@ class BaseDataCacheController implements IBaseDataCacheController {
 
   @override
   Future<void> save<T extends Object>({required String key, required T data}) async {
-    final dto = WriteCacheDTO<T>(key: key, data: data, cacheConfig: cacheConfiguration);
+    final dto = WriteCacheDTO<T>(key: key, data: data);
     final response = await _writeCacheUsecase.execute(dto);
 
     return response.fold((error) => throw error, (_) {});

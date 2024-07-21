@@ -1,9 +1,8 @@
-import 'package:flutter_auto_cache/src/core/infrastructure/protocols/cache_response.dart';
-
 import '../../../../core/errors/auto_cache_error.dart';
 import '../../../../core/functional/either.dart';
 import '../../../../core/extensions/types/type_extensions.dart';
 
+import '../../../../core/infrastructure/protocols/cache_response.dart';
 import '../dtos/key_cache_dto.dart';
 import '../entities/data_cache_entity.dart';
 import '../repositories/i_data_cache_repository.dart';
@@ -59,4 +58,8 @@ final class GetDataCacheUsecase implements IGetDataCacheUsecase {
     final response = await _dataCacheRepository.delete(KeyCacheDTO(key: cache.id));
     return response.mapRight((_) => ExpiredCacheResponse());
   }
+
+  // GetDataCacheResponse<T> updateUsageCount<T extends Object>(DataCacheEntity<T> cache) async {
+  //   final dto = UpdateCacheDTO(cache: cache.incrementCount(), config: config);
+  // }
 }
