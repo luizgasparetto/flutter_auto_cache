@@ -2,11 +2,11 @@ import '../../../../core/errors/auto_cache_error.dart';
 import '../../../../core/functional/either.dart';
 
 import '../dtos/key_cache_dto.dart';
-import '../dtos/update_cache_dto.dart';
 import '../dtos/write_cache_dto.dart';
 
 import '../entities/data_cache_entity.dart';
 
+import '../factories/data_cache_factory.dart';
 import '../repositories/i_data_cache_repository.dart';
 
 import '../services/invalidation_service/invalidation_cache_service.dart';
@@ -33,9 +33,10 @@ abstract interface class IWriteDataCacheUsecase {
 final class WriteDataCacheUsecase implements IWriteDataCacheUsecase {
   final IDataCacheRepository _repository;
   final ISubstitutionCacheService _substitutionService;
-  final IInvalidationCacheService _invalidationCacheService;
+  final IInvalidationCacheService _invalidationService;
+  final IDataCacheFactory _cacheFactory;
 
-  const WriteDataCacheUsecase(this._repository, this._substitutionService, this._invalidationCacheService);
+  const WriteDataCacheUsecase(this._repository, this._substitutionService, this._invalidationService, this._cacheFactory);
 
   @override
   WriteDataCacheResponse execute<T extends Object>(WriteCacheDTO<T> dto) async {
@@ -48,21 +49,22 @@ final class WriteDataCacheUsecase implements IWriteDataCacheUsecase {
   WriteDataCacheResponse validateDataCache<T extends Object>(DataCacheEntity<T>? cache, WriteCacheDTO<T> dto) async {
     if (cache == null) return saveCache<T>(dto);
 
-    final validateResponse = _invalidationCacheService.validate(cache);
-    final updateDto = UpdateCacheDTO<T>(value: dto.data, config: dto.cacheConfig, previewCache: cache);
+    final validateResponse = _invalidationService.validate(cache);
 
-    return validateResponse.fold(left, (isValid) => isValid ? updateCache<T>(updateDto) : saveCache<T>(dto));
+    return validateResponse.fold(left, (isValid) => isValid ? updateCache<T>(dto.data, cache) : saveCache<T>(dto));
   }
 
   WriteDataCacheResponse saveCache<T extends Object>(WriteCacheDTO<T> dto) async {
-    final response = await _substitutionService.substitute(dto.data);
+    final saveCache = _cacheFactory.save<T>(dto);
+    final response = await _substitutionService.substitute(saveCache.data);
 
-    return response.fold(left, (_) => _repository.save<T>(dto));
+    return response.fold(left, (_) => _repository.write<T>(saveCache));
   }
 
-  WriteDataCacheResponse updateCache<T extends Object>(UpdateCacheDTO<T> dto) async {
-    final response = await _substitutionService.substitute(dto.previewCache.data);
+  WriteDataCacheResponse updateCache<T extends Object>(T data, DataCacheEntity<T> cache) async {
+    final updateCache = _cacheFactory.update<T>(data, cache);
+    final response = await _substitutionService.substitute(updateCache.data);
 
-    return response.fold(left, (_) => _repository.update<T>(dto));
+    return response.fold(left, (_) => _repository.write<T>(updateCache));
   }
 }

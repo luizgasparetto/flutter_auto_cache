@@ -1,9 +1,6 @@
-import 'package:flutter_auto_cache/src/core/configuration/cache_configuration.dart';
 import 'package:flutter_auto_cache/src/core/errors/auto_cache_error.dart';
 import 'package:flutter_auto_cache/src/core/functional/either.dart';
 import 'package:flutter_auto_cache/src/modules/data_cache/domain/dtos/key_cache_dto.dart';
-import 'package:flutter_auto_cache/src/modules/data_cache/domain/dtos/update_cache_dto.dart';
-import 'package:flutter_auto_cache/src/modules/data_cache/domain/dtos/write_cache_dto.dart';
 import 'package:flutter_auto_cache/src/modules/data_cache/domain/entities/data_cache_entity.dart';
 import 'package:flutter_auto_cache/src/modules/data_cache/infra/datasources/i_command_data_cache_datasource.dart';
 import 'package:flutter_auto_cache/src/modules/data_cache/infra/datasources/i_query_data_cache_datasource.dart';
@@ -19,8 +16,6 @@ class CommandDataCacheDatasourceMock extends Mock implements ICommandDataCacheDa
 
 class FakeAutoCacheException extends Fake implements AutoCacheException {}
 
-class FakeCacheConfig extends Fake implements CacheConfiguration {}
-
 class DataCacheEntityFake<T extends Object> extends Fake implements DataCacheEntity<T> {
   final T fakeData;
 
@@ -31,7 +26,6 @@ class DataCacheEntityFake<T extends Object> extends Fake implements DataCacheEnt
 }
 
 void main() {
-  final fakeCacheConfig = FakeCacheConfig();
   final queryDatasource = QueryDataCacheDatasourceMock();
   final commandDatasource = CommandDataCacheDatasourceMock();
 
@@ -111,50 +105,26 @@ void main() {
     });
   });
 
-  group('DataCacheRepository.save |', () {
-    final prefsDto = WriteCacheDTO<String>(key: 'my_key', data: 'my_data', cacheConfig: fakeCacheConfig);
+  group('DataCacheRepository.write |', () {
+    final cache = DataCacheEntity.fakeConfig('fake_data');
 
-    test('should be able to save cache data with prefs successfully', () async {
-      when(() => commandDatasource.save<String>(prefsDto)).thenAsyncVoid();
+    test('should be able to write cache data with prefs successfully', () async {
+      when(() => commandDatasource.write<String>(cache)).thenAsyncVoid();
 
-      final response = await sut.save<String>(prefsDto);
+      final response = await sut.write<String>(cache);
 
       expect(response.isSuccess, isTrue);
-      verify(() => commandDatasource.save<String>(prefsDto)).called(1);
+      verify(() => commandDatasource.write<String>(cache)).called(1);
     });
 
-    test('should NOT be able to save cache when prefs datasource throws an AutoCacheManagerException', () async {
-      when(() => commandDatasource.save<String>(prefsDto)).thenThrow(FakeAutoCacheException());
+    test('should NOT be able to write cache when prefs datasource throws an AutoCacheManagerException', () async {
+      when(() => commandDatasource.write<String>(cache)).thenThrow(FakeAutoCacheException());
 
-      final response = await sut.save<String>(prefsDto);
+      final response = await sut.write<String>(cache);
 
       expect(response.isError, isTrue);
       expect(response.error, isA<AutoCacheException>());
-      verify(() => commandDatasource.save<String>(prefsDto)).called(1);
-    });
-  });
-
-  group('DataCacheRepository.update |', () {
-    final dto = UpdateCacheDTO(value: 'new_data', previewCache: DataCacheEntityFake(fakeData: 'fake_data'), config: FakeCacheConfig());
-
-    test('should be able to update data cache with prefs successfully', () async {
-      when(() => commandDatasource.update<String>(dto)).thenAsyncVoid();
-
-      final response = await sut.update<String>(dto);
-
-      expect(response.isSuccess, isTrue);
-      expect(response.success, isA<Unit>());
-      verify(() => commandDatasource.update<String>(dto)).called(1);
-    });
-
-    test('should NOT be able to update data cache when datasource fails', () async {
-      when(() => commandDatasource.update<String>(dto)).thenThrow(FakeAutoCacheException());
-
-      final response = await sut.update<String>(dto);
-
-      expect(response.isError, isTrue);
-      expect(response.error, isA<AutoCacheException>());
-      verify(() => commandDatasource.update<String>(dto)).called(1);
+      verify(() => commandDatasource.write<String>(cache)).called(1);
     });
   });
 

@@ -1,4 +1,4 @@
-import 'package:flutter_auto_cache/src/modules/data_cache/external/exceptions/data_cache_adapter_exceptions.dart';
+import 'package:flutter_auto_cache/src/modules/data_cache/external/adapters/exceptions/data_cache_adapter_exceptions.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:flutter_auto_cache/src/core/extensions/types/map_extensions.dart';

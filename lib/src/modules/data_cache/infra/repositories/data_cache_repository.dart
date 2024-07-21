@@ -2,8 +2,6 @@ import '../../../../core/errors/auto_cache_error.dart';
 import '../../../../core/functional/either.dart';
 
 import '../../domain/dtos/key_cache_dto.dart';
-import '../../domain/dtos/update_cache_dto.dart';
-import '../../domain/dtos/write_cache_dto.dart';
 import '../../domain/entities/data_cache_entity.dart';
 import '../../domain/repositories/i_data_cache_repository.dart';
 import '../datasources/i_command_data_cache_datasource.dart';
@@ -38,20 +36,9 @@ class DataCacheRepository implements IDataCacheRepository {
   }
 
   @override
-  AsyncEither<AutoCacheException, Unit> save<T extends Object>(WriteCacheDTO<T> dto) async {
+  AsyncEither<AutoCacheException, Unit> write<T extends Object>(DataCacheEntity<T> cache) async {
     try {
-      await commandDatasource.save<T>(dto);
-
-      return right(unit);
-    } on AutoCacheException catch (exception) {
-      return left(exception);
-    }
-  }
-
-  @override
-  AsyncEither<AutoCacheException, Unit> update<T extends Object>(UpdateCacheDTO<T> dto) async {
-    try {
-      await commandDatasource.update<T>(dto);
+      await commandDatasource.write<T>(cache);
 
       return right(unit);
     } on AutoCacheException catch (exception) {

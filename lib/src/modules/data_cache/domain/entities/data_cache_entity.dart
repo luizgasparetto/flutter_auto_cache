@@ -1,4 +1,3 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/foundation.dart';
 
 /// A class representing a cache entity with associated data and timestamps.
@@ -36,20 +35,14 @@ class DataCacheEntity<T extends Object> {
 
   DataCacheEntity<T> incrementCount() => _copyWith(usageCount: usageCount + 1);
 
-  DataCacheEntity<T> _copyWith({
-    T? data,
-    int? usageCount,
-    DateTime? createdAt,
-    DateTime? updatedAt,
-    DateTime? endAt,
-  }) {
+  DataCacheEntity<T> _copyWith({int? usageCount}) {
     return DataCacheEntity<T>(
       id: id,
-      data: data ?? this.data,
+      data: data,
       usageCount: usageCount ?? this.usageCount,
-      createdAt: createdAt ?? this.createdAt,
-      updatedAt: updatedAt ?? this.updatedAt,
-      endAt: endAt ?? this.endAt,
+      createdAt: createdAt,
+      updatedAt: updatedAt,
+      endAt: endAt,
     );
   }
 
