@@ -22,13 +22,6 @@ final class CommandDataCacheDatasource implements ICommandDataCacheDatasource {
   }
 
   @override
-  Future<void> updateUsageCount<T extends Object>(DataCacheEntity<T> cache) async {
-    final encryptedData = getEncryptedData<T>(cache);
-
-    await kvsService.save(key: cache.id, data: encryptedData);
-  }
-
-  @override
   Future<void> clear() => kvsService.clear();
 
   @override

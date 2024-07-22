@@ -20,15 +20,23 @@ abstract interface class IQueryDataCacheDatasource {
   /// are of the expected data type.
   DataCacheEntity<T>? getList<T extends Object, DataType extends Object>(String key);
 
-  /// Attempts to accommodate a data cache entity in the cache.
+  // Retrieves a list of all cached entities.
   ///
-  /// This asynchronous operation checks if the cache can accommodate the provided data cache entity. It handles
-  /// necessary adjustments to ensure the entity fits within the cache constraints.
-  Future<bool> accomodateCache<T extends Object>(DataCacheEntity<T> dataCache);
+  /// This method returns a comprehensive list of all entities currently stored in the cache.
+  /// Each entity in the list may be of a different type, and the method ensures type-safety by returning
+  /// a list of nullable `DataCacheEntity` objects. This can be useful for examining the entire cache contents
+  /// for debugging or bulk processing.
+  List<DataCacheEntity?> getAll();
 
   /// Retrieves a comprehensive list of all keys currently stored in the cache.
   ///
   /// This method provides an overview of the cache's contents by listing all the keys. It can be useful for
   /// debugging purposes or when performing bulk operations on the cache.
   List<String> getKeys();
+
+  /// Attempts to accommodate a data cache entity in the cache.
+  ///
+  /// This asynchronous operation checks if the cache can accommodate the provided data cache entity. It handles
+  /// necessary adjustments to ensure the entity fits within the cache constraints.
+  Future<bool> accomodateCache<T extends Object>(DataCacheEntity<T> dataCache);
 }

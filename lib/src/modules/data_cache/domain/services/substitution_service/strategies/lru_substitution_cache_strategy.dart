@@ -1,7 +1,9 @@
 part of '../substitution_cache_strategy.dart';
 
 final class LruSubstitutionCacheStrategy extends ISubstitutionCacheStrategy {
-  const LruSubstitutionCacheStrategy(super.dataRepository, super.substitutionRepository);
+  LruSubstitutionCacheStrategy(super.dataRepository, super.substitutionRepository);
+
+  final mementoDataCache = AutoCacheNotifier<List<DataCacheEntity>>([]);
 
   @override
   AsyncEither<AutoCacheError, Unit> substitute<T extends Object>(DataCacheEntity<T> value) {

@@ -13,14 +13,16 @@ class DataCacheEntity<T extends Object> {
   final DateTime createdAt;
   final DateTime? updatedAt;
   final DateTime? endAt;
+  final DateTime? usedAt;
 
   const DataCacheEntity({
     required this.id,
     required this.data,
-    this.usageCount = 0,
     required this.createdAt,
-    this.updatedAt,
     required this.endAt,
+    this.usageCount = 0,
+    this.updatedAt,
+    this.usedAt,
   });
 
   factory DataCacheEntity.fakeConfig(T data) {
@@ -30,19 +32,6 @@ class DataCacheEntity<T extends Object> {
       createdAt: DateTime.now(),
       endAt: DateTime.now(),
       updatedAt: DateTime.now(),
-    );
-  }
-
-  DataCacheEntity<T> incrementCount() => _copyWith(usageCount: usageCount + 1);
-
-  DataCacheEntity<T> _copyWith({int? usageCount}) {
-    return DataCacheEntity<T>(
-      id: id,
-      data: data,
-      usageCount: usageCount ?? this.usageCount,
-      createdAt: createdAt,
-      updatedAt: updatedAt,
-      endAt: endAt,
     );
   }
 
