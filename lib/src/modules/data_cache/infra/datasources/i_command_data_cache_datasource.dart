@@ -13,13 +13,6 @@ abstract interface class ICommandDataCacheDatasource {
   /// the provided DTO. It ensures data integrity and type safety during the save operation.
   Future<void> write<T extends Object>(DataCacheEntity<T> cache);
 
-  /// Increments the access count of a cached data entity.
-  ///
-  /// This asynchronous operation increases the usage count of a specific cache entity. It is typically used
-  /// for tracking the frequency of access to cached items, which can inform cache eviction policies and
-  /// help optimize cache management strategies.
-  Future<void> updateUsageCount<T extends Object>(DataCacheEntity<T> cache);
-
   /// Deletes a specific cache entry identified by its key.
   ///
   /// This asynchronous operation removes a cache entry corresponding to the specified key. It is typically used

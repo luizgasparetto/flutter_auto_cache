@@ -1,3 +1,5 @@
+import 'package:flutter_auto_cache/src/modules/data_cache/domain/factories/data_cache_factory.dart';
+
 import '../../../../core/errors/auto_cache_error.dart';
 import '../../../../core/functional/either.dart';
 import '../../../../core/extensions/types/type_extensions.dart';
@@ -27,10 +29,11 @@ abstract interface class IGetDataCacheUsecase {
 }
 
 final class GetDataCacheUsecase implements IGetDataCacheUsecase {
-  final IDataCacheRepository _dataCacheRepository;
-  final IInvalidationCacheService _invalidationCacheService;
+  final IDataCacheRepository _repository;
+  final IInvalidationCacheService _invalidationService;
+  final IDataCacheFactory _dataCacheFactory;
 
-  const GetDataCacheUsecase(this._dataCacheRepository, this._invalidationCacheService);
+  const GetDataCacheUsecase(this._repository, this._invalidationService, this._dataCacheFactory);
 
   @override
   GetDataCacheResponse<T> execute<T extends Object, DataType extends Object>(KeyCacheDTO dto) async {
@@ -40,26 +43,29 @@ final class GetDataCacheUsecase implements IGetDataCacheUsecase {
   }
 
   InternalDataCacheResponse<T> getCacheResponse<T extends Object, DataType extends Object>(KeyCacheDTO dto) async {
-    if (T.isList) return _dataCacheRepository.getList<T, DataType>(dto);
+    if (T.isList) return _repository.getList<T, DataType>(dto);
 
-    return _dataCacheRepository.get<T>(dto);
+    return _repository.get<T>(dto);
   }
 
   GetDataCacheResponse<T> validateCacheResponse<T extends Object>(DataCacheEntity<T>? cache) async {
     if (cache == null) return right(NotFoundCacheResponse());
 
-    final response = _invalidationCacheService.validate<T>(cache);
+    final response = _invalidationService.validate<T>(cache);
     return response.fold(left, (isValid) => handleValidateResponse<T>(isValid, cache));
   }
 
   GetDataCacheResponse<T> handleValidateResponse<T extends Object>(bool isValid, DataCacheEntity<T> cache) async {
-    if (isValid) return right(SuccessCacheResponse(data: cache.data));
+    if (isValid) return updateUsageCount(cache);
 
-    final response = await _dataCacheRepository.delete(KeyCacheDTO(key: cache.id));
+    final response = await _repository.delete(KeyCacheDTO(key: cache.id));
     return response.mapRight((_) => ExpiredCacheResponse());
   }
 
-  // GetDataCacheResponse<T> updateUsageCount<T extends Object>(DataCacheEntity<T> cache) async {
-  //   final dto = UpdateCacheDTO(cache: cache.incrementCount(), config: config);
-  // }
+  GetDataCacheResponse<T> updateUsageCount<T extends Object>(DataCacheEntity<T> cache) async {
+    final usedCache = _dataCacheFactory.used<T>(cache);
+    final response = await _repository.write(usedCache);
+
+    return response.mapRight((_) => SuccessCacheResponse(data: cache.data));
+  }
 }

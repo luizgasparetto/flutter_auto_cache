@@ -5,6 +5,7 @@ import '../entities/data_cache_entity.dart';
 abstract interface class IDataCacheFactory {
   DataCacheEntity<T> save<T extends Object>(WriteCacheDTO<T> dto);
   DataCacheEntity<T> update<T extends Object>(T data, DataCacheEntity<T> cache);
+  DataCacheEntity<T> used<T extends Object>(DataCacheEntity<T> cache);
 }
 
 final class DataCacheFactory implements IDataCacheFactory {
@@ -31,6 +32,19 @@ final class DataCacheFactory implements IDataCacheFactory {
       createdAt: cache.createdAt,
       endAt: configuration.dataCacheOptions.invalidationMethod.endAt,
       updatedAt: DateTime.now(),
+    );
+  }
+
+  @override
+  DataCacheEntity<T> used<T extends Object>(DataCacheEntity<T> cache) {
+    return DataCacheEntity<T>(
+      id: cache.id,
+      data: cache.data,
+      usageCount: cache.usageCount + 1,
+      createdAt: cache.createdAt,
+      endAt: cache.endAt,
+      updatedAt: cache.updatedAt,
+      usedAt: DateTime.now(),
     );
   }
 }

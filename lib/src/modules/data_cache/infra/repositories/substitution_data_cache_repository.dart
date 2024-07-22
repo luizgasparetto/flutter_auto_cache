@@ -22,6 +22,17 @@ final class SubstitutionDataCacheRepository implements ISubstitutionDataCacheRep
   }
 
   @override
+  Either<AutoCacheException, List<DataCacheEntity?>> getAll() {
+    try {
+      final response = datasource.getAll();
+
+      return right(response);
+    } on AutoCacheException catch (exception) {
+      return left(exception);
+    }
+  }
+
+  @override
   AsyncEither<AutoCacheException, bool> accomodateCache<T extends Object>(DataCacheEntity<T> cache, {bool recursive = false}) async {
     try {
       final response = await datasource.accomodateCache(cache);
