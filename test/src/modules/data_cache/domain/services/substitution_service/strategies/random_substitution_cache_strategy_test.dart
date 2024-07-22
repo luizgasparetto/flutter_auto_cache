@@ -39,14 +39,14 @@ void main() {
     test('should be able to substitute data cache successfully', () async {
       when(() => substitutionRepository.getKeys()).thenReturn(right(keys));
       when(() => repository.delete(any())).thenAnswer((_) async => right(unit));
-      when(() => substitutionRepository.accomodateCache(cache, recursive: true)).thenAnswer((_) async => right(true));
+      when(() => substitutionRepository.accomodateCache(cache, key: any(named: 'key'))).thenAnswer((_) async => right(true));
 
       final response = await sut.substitute<String>(cache);
 
       expect(response.isSuccess, isTrue);
       verify(() => substitutionRepository.getKeys()).called(1);
       verify(() => repository.delete(any())).called(1);
-      verify(() => substitutionRepository.accomodateCache(cache, recursive: true)).called(1);
+      verify(() => substitutionRepository.accomodateCache(cache, key: any(named: 'key'))).called(1);
     });
 
     test('should NOT be able to substitute data cache when get keys failed', () async {
@@ -74,14 +74,14 @@ void main() {
     test('should NOT be able to complete substitution method when accomodate cache fails', () async {
       when(() => substitutionRepository.getKeys()).thenReturn(right(keys));
       when(() => repository.delete(any())).thenAnswer((_) => right(unit));
-      when(() => substitutionRepository.accomodateCache(cache, recursive: true)).thenAnswer((_) => left(FakeAutoCacheException()));
+      when(() => substitutionRepository.accomodateCache(cache, key: any(named: 'key'))).thenAnswer((_) => left(FakeAutoCacheException()));
 
       final response = await sut.substitute<String>(cache);
 
       expect(response.isError, isTrue);
       verify(() => substitutionRepository.getKeys()).called(1);
       verify(() => repository.delete(any())).called(1);
-      verify(() => substitutionRepository.accomodateCache(cache, recursive: true)).called(1);
+      verify(() => substitutionRepository.accomodateCache(cache, key: any(named: 'key'))).called(1);
     });
   });
 

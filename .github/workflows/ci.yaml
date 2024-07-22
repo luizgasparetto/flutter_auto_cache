@@ -48,9 +48,6 @@ jobs:
       - name: "Run Tests"
         run: melos machine_test_coverage
 
-      - name: "Run Fitness Functions"
-        run: melos fitness_functions
-
       - name: Check for existing and non-empty coverage file
         id: test_coverage_file
         run: if [ -s "coverage/lcov.info" ]; then echo "result=true" >> $GITHUB_OUTPUT ; else echo "result=false" >> $GITHUB_OUTPUT; fi

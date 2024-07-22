@@ -13,6 +13,10 @@
 ///   longest time is removed first. This policy prioritizes keeping entries
 ///   that are accessed more frequently and is commonly used in caching systems
 ///   to improve hit rates.
+///  - `mru`: Most Recently Used. The entry that was most recently accessed is
+///   removed first. This policy assumes that the most recently used entries
+///   are less likely to be accessed again soon compared to entries that have
+///   not been accessed for a while.
 enum SubstitutionPolicies {
   /// First In, First Out (FIFO) policy.
   ///
@@ -36,5 +40,14 @@ enum SubstitutionPolicies {
   /// cache while less frequently used entries are evicted, thus potentially
   /// improving cache performance by prioritizing entries that are more likely to
   /// be accessed again soon.
-  lru
+  lru,
+
+  /// Most Recently Used (MRU) policy.
+  ///
+  /// The entry that was most recently accessed is removed first. This policy
+  /// assumes that the most recently used entries are less likely to be accessed
+  /// again soon compared to entries that have not been accessed for a while.
+  /// It can be useful in certain scenarios where the most recent accesses are
+  /// deemed to be less important than older ones.
+  mru,
 }

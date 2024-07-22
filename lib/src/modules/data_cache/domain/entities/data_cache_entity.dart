@@ -25,13 +25,15 @@ class DataCacheEntity<T extends Object> {
     this.usedAt,
   });
 
-  factory DataCacheEntity.fakeConfig(T data) {
+  factory DataCacheEntity.fakeConfig(T data, {String? key, int? usageCount}) {
     return DataCacheEntity<T>(
-      id: String.fromCharCode(20),
+      id: key ?? String.fromCharCode(20),
       data: data,
+      usageCount: usageCount ?? 0,
       createdAt: DateTime.now(),
       endAt: DateTime.now(),
       updatedAt: DateTime.now(),
+      usedAt: DateTime.now(),
     );
   }
 
