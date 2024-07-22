@@ -49,13 +49,13 @@ void main() {
       when(() => configuration.dataCacheOptions).thenReturn(dataOptions);
       when(() => substitutionRepository.getKeys()).thenReturn(right(['key']));
       when(() => repository.delete(any())).thenAnswer((_) => right(unit));
-      when(() => substitutionRepository.accomodateCache<String>(any(), recursive: true)).thenReturn(right(true));
+      when(() => substitutionRepository.accomodateCache<String>(any(), key: 'key')).thenReturn(right(true));
 
       final response = await sut.substitute<String>('data');
 
       expect(response.isSuccess, isTrue);
       verify(() => substitutionRepository.accomodateCache<String>(any())).called(1);
-      verify(() => substitutionRepository.accomodateCache<String>(any(), recursive: true)).called(1);
+      verify(() => substitutionRepository.accomodateCache<String>(any(), key: 'key')).called(1);
       verify(() => configuration.dataCacheOptions).called(1);
       verify(() => substitutionRepository.getKeys()).called(1);
       verify(() => repository.delete(any())).called(1);
@@ -100,7 +100,7 @@ void main() {
 
     test('should NOT be able to substitute cache when canAccomodateCache recursive fails', () async {
       when(() => substitutionRepository.accomodateCache<String>(any())).thenReturn(right(false));
-      when(() => substitutionRepository.accomodateCache<String>(any(), recursive: true)).thenReturn(left(FakeAutoCacheException()));
+      when(() => substitutionRepository.accomodateCache<String>(any(), key: 'key')).thenReturn(left(FakeAutoCacheException()));
       when(() => configuration.dataCacheOptions).thenReturn(dataOptions);
       when(() => substitutionRepository.getKeys()).thenReturn(right(['key']));
       when(() => repository.delete(any())).thenAnswer((_) => right(unit));
@@ -109,7 +109,7 @@ void main() {
 
       expect(response.isError, isTrue);
       verify(() => substitutionRepository.accomodateCache<String>(any())).called(1);
-      verify(() => substitutionRepository.accomodateCache<String>(any(), recursive: true)).called(1);
+      verify(() => substitutionRepository.accomodateCache<String>(any(), key: 'key')).called(1);
       verify(() => configuration.dataCacheOptions).called(1);
       verify(() => substitutionRepository.getKeys()).called(1);
       verify(() => repository.delete(any())).called(1);

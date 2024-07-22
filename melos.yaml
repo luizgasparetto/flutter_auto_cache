@@ -12,7 +12,7 @@ scripts:
     run: flutter test --test-randomize-ordering-seed=random --coverage
 
   machine_test_coverage:
-    run: chmod +x ./scripts/run_machine_tests.sh && ./scripts/run_machine_tests.sh
+    run: flutter test --test-randomize-ordering-seed=random --coverage --machine > test-results.json
 
   fitness_functions:
     run: chmod +x ./scripts/run_fitness_functions.sh && ./scripts/run_fitness_functions.sh

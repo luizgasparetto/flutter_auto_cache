@@ -33,7 +33,7 @@ final class SubstitutionDataCacheRepository implements ISubstitutionDataCacheRep
   }
 
   @override
-  AsyncEither<AutoCacheException, bool> accomodateCache<T extends Object>(DataCacheEntity<T> cache, {bool recursive = false}) async {
+  AsyncEither<AutoCacheException, bool> accomodateCache<T extends Object>(DataCacheEntity<T> cache, {String? key}) async {
     try {
       final response = await datasource.accomodateCache(cache);
 
