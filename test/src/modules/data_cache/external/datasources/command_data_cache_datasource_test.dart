@@ -56,36 +56,6 @@ void main() {
     });
   });
 
-  group('CommandDataCacheDatasource.updateUsageCount |', () {
-    final dataCache = DataCacheEntity.fakeConfig('fake_data');
-
-    test('should be able to update usage count in kvs cache successfully', () async {
-      when(() => cryptographyService.encrypt(any())).thenReturn('any_encrypted');
-      when(() => kvsService.save(key: any(named: 'key'), data: 'any_encrypted')).thenAsyncVoid();
-
-      await expectLater(sut.updateUsageCount<String>(dataCache), completes);
-      verify(() => cryptographyService.encrypt(any())).called(1);
-      verify(() => kvsService.save(key: any(named: 'key'), data: 'any_encrypted')).called(1);
-    });
-
-    test('should NOT be able to update usage count when cryptography fails', () async {
-      when(() => cryptographyService.encrypt(any())).thenThrow(FakeAutoCacheException());
-
-      expect(() => sut.updateUsageCount(dataCache), throwsA(isA<AutoCacheException>()));
-      verify(() => cryptographyService.encrypt(any())).called(1);
-      verifyNever(() => kvsService.save(key: any(named: 'key'), data: 'any_encrypted'));
-    });
-
-    test('should NOT be able to update usage count when service fails', () async {
-      when(() => cryptographyService.encrypt(any())).thenReturn('any_encrypted');
-      when(() => kvsService.save(key: any(named: 'key'), data: 'any_encrypted')).thenThrow(FakeAutoCacheException());
-
-      expect(() => sut.updateUsageCount(dataCache), throwsA(isA<AutoCacheException>()));
-      verify(() => cryptographyService.encrypt(any())).called(1);
-      verify(() => kvsService.save(key: any(named: 'key'), data: 'any_encrypted')).called(1);
-    });
-  });
-
   group('CommandDataCacheDatasource.delete |', () {
     test('should be able to delete data in prefs cache successfully', () async {
       when(() => kvsService.delete(key: 'my_key')).thenAsyncVoid();

@@ -41,6 +41,13 @@ final class QueryDataCacheDatasource implements IQueryDataCacheDatasource {
   }
 
   @override
+  List<DataCacheEntity<Object>?> getAll() {
+    final keys = kvsService.getKeys();
+
+    return keys.map((key) => get(key)).toList();
+  }
+
+  @override
   List<String> getKeys() => kvsService.getKeys();
 
   Map<String, dynamic>? getDecryptedJson(String key) {

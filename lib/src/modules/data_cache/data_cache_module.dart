@@ -35,7 +35,7 @@ class DataCacheModule extends CacheModule {
     ServiceLocator.instance.bindFactory<ISubstitutionCacheService>(() => SubstitutionCacheService(get(), get(), get()));
     ServiceLocator.instance.bindFactory<IDeleteDataCacheUsecase>(() => DeleteDataCacheUsecase(get()));
     ServiceLocator.instance.bindFactory<IClearDataCacheUsecase>(() => ClearDataCacheUsecase(get()));
-    ServiceLocator.instance.bindFactory<IGetDataCacheUsecase>(() => GetDataCacheUsecase(get(), get()));
+    ServiceLocator.instance.bindFactory<IGetDataCacheUsecase>(() => GetDataCacheUsecase(get(), get(), get()));
     ServiceLocator.instance.bindFactory<IWriteDataCacheUsecase>(() => WriteDataCacheUsecase(get(), get(), get(), get()));
   }
 }
