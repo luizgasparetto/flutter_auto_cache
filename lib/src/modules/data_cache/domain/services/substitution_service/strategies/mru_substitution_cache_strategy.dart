@@ -12,21 +12,21 @@ final class MruSubstitutionCacheStrategy extends ISubstitutionCacheStrategy {
   }
 
   @override
-  Either<AutoCacheError, String> getCacheKey() {
-    if (dataCacheEntries.value.isEmpty) {
-      final cacheEntriesResponse = substitutionRepository.getAll();
-      return cacheEntriesResponse.fold(left, _callbackGetCacheKey);
-    }
+  Either<AutoCacheError, String> getCacheKey({bool recursive = false}) {
+    if (dataCacheEntries.value.isEmpty) return _getAllEntries();
+    if (recursive) _removeFirstDataCacheEntrie();
 
     return right(dataCacheEntries.value.first.id);
   }
 
-  @override
-  AsyncEither<AutoCacheError, Unit> deleteDataCache<T extends Object>(String key, DataCacheEntity<T> data) {
+  void _removeFirstDataCacheEntrie() {
     final updatedCacheList = dataCacheEntries.value.removeFirst();
     dataCacheEntries.setData(updatedCacheList);
+  }
 
-    return super.deleteDataCache(key, data);
+  Either<AutoCacheError, String> _getAllEntries() {
+    final cacheEntriesResponse = substitutionRepository.getAll();
+    return cacheEntriesResponse.fold(left, _callbackGetCacheKey);
   }
 
   Either<AutoCacheError, String> _callbackGetCacheKey(List<DataCacheEntity?> entries) {

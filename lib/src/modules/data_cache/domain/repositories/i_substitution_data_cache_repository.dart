@@ -24,5 +24,5 @@ abstract interface class ISubstitutionDataCacheRepository {
   ///
   /// Returns:
   /// - An [AsyncEither] containing an [AutoCacheException] on failure, or a boolean indicating success.
-  AsyncEither<AutoCacheException, bool> accomodateCache<T extends Object>(DataCacheEntity<T> cache, {bool recursive = false});
+  AsyncEither<AutoCacheException, bool> accomodateCache<T extends Object>(DataCacheEntity<T> cache, {String? key});
 }

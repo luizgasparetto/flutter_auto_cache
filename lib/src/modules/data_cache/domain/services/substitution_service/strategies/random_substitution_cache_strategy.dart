@@ -10,7 +10,7 @@ final class RandomSubstitutionCacheStrategy extends ISubstitutionCacheStrategy {
   }
 
   @override
-  Either<AutoCacheError, String> getCacheKey() {
+  Either<AutoCacheError, String> getCacheKey({bool recursive = false}) {
     final keysResponse = substitutionRepository.getKeys();
     return keysResponse.mapRight(_generateCacheKey);
   }

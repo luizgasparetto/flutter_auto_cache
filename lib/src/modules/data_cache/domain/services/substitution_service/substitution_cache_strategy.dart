@@ -35,7 +35,7 @@ sealed class ISubstitutionCacheStrategy {
   ///
   /// This method should be implemented by subclasses to define how a cache key
   /// is retrieved based on the substitution strategy.
-  Either<AutoCacheError, String> getCacheKey();
+  Either<AutoCacheError, String> getCacheKey({bool recursive = false});
 
   /// Deletes data from the cache.
   ///
@@ -53,12 +53,12 @@ sealed class ISubstitutionCacheStrategy {
   /// This method attempts to accommodate the new data in the cache. If it fails,
   /// it tries to get a new cache key and delete data again.
   AsyncEither<AutoCacheError, Unit> _handleAccomodate<T extends Object>(String key, DataCacheEntity<T> data) async {
-    final accomodateResponse = await substitutionRepository.accomodateCache(data, recursive: true);
+    final accomodateResponse = await substitutionRepository.accomodateCache(data, key: key);
 
     if (accomodateResponse.isError) return left(accomodateResponse.error);
     if (accomodateResponse.success) return right(unit);
 
-    final keyResponse = this.getCacheKey();
+    final keyResponse = this.getCacheKey(recursive: true);
 
     return keyResponse.fold(left, (newKey) => deleteDataCache(newKey, data));
   }
