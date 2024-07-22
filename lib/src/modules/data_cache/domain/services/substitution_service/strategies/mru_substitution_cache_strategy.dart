@@ -1,12 +1,12 @@
 part of '../substitution_cache_strategy.dart';
 
-final class LruSubstitutionCacheStrategy extends ISubstitutionCacheStrategy {
-  LruSubstitutionCacheStrategy(super.dataRepository, super.substitutionRepository);
+final class MruSubstitutionCacheStrategy extends ISubstitutionCacheStrategy {
+  MruSubstitutionCacheStrategy(super.dataRepository, super.substitutionRepository);
 
   final dataCacheEntries = AutoCacheNotifier<List<DataCacheEntity>>([]);
 
   @override
-  AsyncEither<AutoCacheError, Unit> substitute<T extends Object>(DataCacheEntity<T> value) {
+  AsyncEither<AutoCacheError, Unit> substitute<T extends Object>(DataCacheEntity<T> value) async {
     final keyResponse = this.getCacheKey();
     return keyResponse.fold(left, (key) => super.deleteDataCache<T>(key, value));
   }
@@ -38,6 +38,8 @@ final class LruSubstitutionCacheStrategy extends ISubstitutionCacheStrategy {
 
   List<DataCacheEntity> _sortDataCacheEntries({required List<DataCacheEntity?> entries}) {
     final cacheList = entries.whereType<DataCacheEntity>().toList();
-    return cacheList.sorted((a, b) => b.usageCount.compareTo(a.usageCount));
+    final defaultDateTime = DateTime.fromMillisecondsSinceEpoch(0);
+
+    return cacheList.sorted((a, b) => (b.usedAt ?? defaultDateTime).compareTo(a.usedAt ?? defaultDateTime));
   }
 }

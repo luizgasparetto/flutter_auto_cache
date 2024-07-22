@@ -5,8 +5,8 @@ final class FifoSubstitutionCacheStrategy extends ISubstitutionCacheStrategy {
 
   @override
   AsyncEither<AutoCacheError, Unit> substitute<T extends Object>(DataCacheEntity<T> value) async {
-    final keysResponse = this.getCacheKey();
-    return keysResponse.fold(left, (key) => super.deleteDataCache<T>(key, value));
+    final keyResponse = this.getCacheKey();
+    return keyResponse.fold(left, (key) => super.deleteDataCache<T>(key, value));
   }
 
   @override

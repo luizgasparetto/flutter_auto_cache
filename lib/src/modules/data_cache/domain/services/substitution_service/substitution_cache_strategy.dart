@@ -3,6 +3,7 @@ import 'dart:math';
 import '../../../../../core/contracts/auto_cache_notifier.dart';
 import '../../../../../core/errors/auto_cache_error.dart';
 import '../../../../../core/functional/either.dart';
+import '../../../../../core/extensions/types/list_extensions.dart';
 
 import '../../dtos/key_cache_dto.dart';
 import '../../entities/data_cache_entity.dart';
@@ -11,6 +12,7 @@ import '../../repositories/i_data_cache_repository.dart';
 part './strategies/fifo_substitution_cache_strategy.dart';
 part './strategies/random_substitution_cache_strategy.dart';
 part './strategies/lru_substitution_cache_strategy.dart';
+part './strategies/mru_substitution_cache_strategy.dart';
 
 /// An sealed class for substitution cache strategies.
 ///
