@@ -4,12 +4,6 @@ final class RandomSubstitutionCacheStrategy extends ISubstitutionCacheStrategy {
   const RandomSubstitutionCacheStrategy(super.dataRepository, super.substitutionRepository);
 
   @override
-  AsyncEither<AutoCacheError, Unit> substitute<T extends Object>(DataCacheEntity<T> value) {
-    final keyResponse = this.getCacheKey();
-    return keyResponse.fold(left, (key) => super.deleteDataCache<T>(key, value));
-  }
-
-  @override
   Either<AutoCacheError, String> getCacheKey({bool recursive = false}) {
     final keysResponse = substitutionRepository.getKeys();
     return keysResponse.mapRight(_generateCacheKey);
