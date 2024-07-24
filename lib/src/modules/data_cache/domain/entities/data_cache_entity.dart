@@ -9,25 +9,31 @@ import 'package:flutter/foundation.dart';
 class DataCacheEntity<T extends Object> {
   final String id;
   final T data;
+  final int usageCount;
   final DateTime createdAt;
   final DateTime? updatedAt;
   final DateTime? endAt;
+  final DateTime? usedAt;
 
   const DataCacheEntity({
     required this.id,
     required this.data,
     required this.createdAt,
-    this.updatedAt,
     required this.endAt,
+    this.usageCount = 0,
+    this.updatedAt,
+    this.usedAt,
   });
 
-  factory DataCacheEntity.fakeConfig(T data) {
+  factory DataCacheEntity.fakeConfig(T data, {String? key, int? usageCount}) {
     return DataCacheEntity<T>(
-      id: String.fromCharCode(20),
+      id: key ?? String.fromCharCode(20),
       data: data,
+      usageCount: usageCount ?? 0,
       createdAt: DateTime.now(),
       endAt: DateTime.now(),
       updatedAt: DateTime.now(),
+      usedAt: DateTime.now(),
     );
   }
 

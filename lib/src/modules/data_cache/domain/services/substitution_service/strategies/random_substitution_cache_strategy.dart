@@ -1,17 +1,11 @@
 part of '../substitution_cache_strategy.dart';
 
 final class RandomSubstitutionCacheStrategy extends ISubstitutionCacheStrategy {
-  const RandomSubstitutionCacheStrategy(super.repository);
+  const RandomSubstitutionCacheStrategy(super.dataRepository, super.substitutionRepository);
 
   @override
-  AsyncEither<AutoCacheError, Unit> substitute<T extends Object>(DataCacheEntity<T> value) {
-    final keysResponse = this.getCacheKey();
-    return keysResponse.fold(left, (key) => super.deleteDataCache<T>(key, value));
-  }
-
-  @override
-  Either<AutoCacheError, String> getCacheKey() {
-    final keysResponse = repository.getKeys();
+  Either<AutoCacheError, String> getCacheKey({bool recursive = false}) {
+    final keysResponse = substitutionRepository.getKeys();
     return keysResponse.mapRight(_generateCacheKey);
   }
 

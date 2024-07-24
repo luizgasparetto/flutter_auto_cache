@@ -25,14 +25,15 @@ abstract interface class ISubstitutionCacheService {
 
 final class SubstitutionCacheService implements ISubstitutionCacheService {
   final CacheConfiguration configuration;
-  final IDataCacheRepository repository;
+  final IDataCacheRepository dataRepository;
+  final ISubstitutionDataCacheRepository substitutionRepository;
 
-  const SubstitutionCacheService(this.configuration, this.repository);
+  const SubstitutionCacheService(this.configuration, this.dataRepository, this.substitutionRepository);
 
   @override
   AsyncEither<AutoCacheError, Unit> substitute<T extends Object>(T data) async {
     final dataCache = DataCacheEntity.fakeConfig(data);
-    final accomodateResponse = await repository.accomodateCache<T>(dataCache);
+    final accomodateResponse = await substitutionRepository.accomodateCache<T>(dataCache);
 
     return accomodateResponse.fold(left, (accomodate) => _handleSizeVerification(accomodate, dataCache));
   }
@@ -45,8 +46,10 @@ final class SubstitutionCacheService implements ISubstitutionCacheService {
 
   ISubstitutionCacheStrategy get _strategy {
     return switch (configuration.dataCacheOptions.substitutionPolicy) {
-      SubstitutionPolicies.fifo => FifoSubstitutionCacheStrategy(repository),
-      SubstitutionPolicies.random => RandomSubstitutionCacheStrategy(repository),
+      SubstitutionPolicies.fifo => FifoSubstitutionCacheStrategy(dataRepository, substitutionRepository),
+      SubstitutionPolicies.lru => LruSubstitutionCacheStrategy(dataRepository, substitutionRepository),
+      SubstitutionPolicies.mru => MruSubstitutionCacheStrategy(dataRepository, substitutionRepository),
+      SubstitutionPolicies.random => RandomSubstitutionCacheStrategy(dataRepository, substitutionRepository)
     };
   }
 }

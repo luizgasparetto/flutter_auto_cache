@@ -166,7 +166,7 @@ void main() {
   });
 
   group('BaseDataCacheController.save |', () {
-    final dto = WriteCacheDTO(key: 'my_key', data: 'my_data', cacheConfig: cacheConfigMock);
+    const dto = WriteCacheDTO(key: 'my_key', data: 'my_data');
 
     test('should be able to save a data in cache with a key successfully', () async {
       when(() => writeCacheUsecase.execute<String>(dto)).thenAnswer((_) async => right(unit));

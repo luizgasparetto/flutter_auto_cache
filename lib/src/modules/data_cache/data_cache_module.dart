@@ -1,6 +1,7 @@
 import '../../core/infrastructure/modules/cache_module.dart';
 import '../../core/services/service_locator/implementations/service_locator.dart';
 
+import 'domain/factories/data_cache_factory.dart';
 import 'domain/repositories/i_data_cache_repository.dart';
 import 'domain/services/invalidation_service/invalidation_cache_service.dart';
 import 'domain/services/substitution_service/substitution_cache_service.dart';
@@ -15,6 +16,7 @@ import 'external/datasources/query_data_cache_datasource.dart';
 import 'infra/datasources/i_command_data_cache_datasource.dart';
 import 'infra/datasources/i_query_data_cache_datasource.dart';
 import 'infra/repositories/data_cache_repository.dart';
+import 'infra/repositories/substitution_data_cache_repository.dart';
 
 export 'presenter/controllers/implementations/base_data_cache_controller.dart' show IDataCacheController;
 export 'domain/value_objects/data_cache_options.dart';
@@ -28,10 +30,12 @@ class DataCacheModule extends CacheModule {
     ServiceLocator.instance.bindFactory<ICommandDataCacheDatasource>(() => CommandDataCacheDatasource(get(), get()));
     ServiceLocator.instance.bindFactory<IInvalidationCacheService>(() => InvalidationCacheService(get()));
     ServiceLocator.instance.bindFactory<IDataCacheRepository>(() => DataCacheRepository(get(), get()));
-    ServiceLocator.instance.bindFactory<ISubstitutionCacheService>(() => SubstitutionCacheService(get(), get()));
+    ServiceLocator.instance.bindFactory<ISubstitutionDataCacheRepository>(() => SubstitutionDataCacheRepository(get()));
+    ServiceLocator.instance.bindFactory<IDataCacheFactory>(() => DataCacheFactory(get()));
+    ServiceLocator.instance.bindFactory<ISubstitutionCacheService>(() => SubstitutionCacheService(get(), get(), get()));
     ServiceLocator.instance.bindFactory<IDeleteDataCacheUsecase>(() => DeleteDataCacheUsecase(get()));
     ServiceLocator.instance.bindFactory<IClearDataCacheUsecase>(() => ClearDataCacheUsecase(get()));
-    ServiceLocator.instance.bindFactory<IGetDataCacheUsecase>(() => GetDataCacheUsecase(get(), get()));
-    ServiceLocator.instance.bindFactory<IWriteDataCacheUsecase>(() => WriteDataCacheUsecase(get(), get(), get()));
+    ServiceLocator.instance.bindFactory<IGetDataCacheUsecase>(() => GetDataCacheUsecase(get(), get(), get()));
+    ServiceLocator.instance.bindFactory<IWriteDataCacheUsecase>(() => WriteDataCacheUsecase(get(), get(), get(), get()));
   }
 }
