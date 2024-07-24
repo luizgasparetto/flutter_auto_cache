@@ -25,17 +25,20 @@ sealed class ISubstitutionCacheStrategy {
 
   const ISubstitutionCacheStrategy(this.dataRepository, this.substitutionRepository);
 
-  /// Substitutes data in the cache.
-  ///
-  /// This method should be implemented by subclasses to define the strategy
-  /// for substituting the given data in the cache.
-  AsyncEither<AutoCacheError, Unit> substitute<T extends Object>(DataCacheEntity<T> value);
-
   /// Retrieves a cache key.
   ///
   /// This method should be implemented by subclasses to define how a cache key
   /// is retrieved based on the substitution strategy.
   Either<AutoCacheError, String> getCacheKey({bool recursive = false});
+
+  /// Substitutes data in the cache.
+  ///
+  /// This method should be implemented by subclasses to define the strategy
+  /// for substituting the given data in the cache.
+  AsyncEither<AutoCacheError, Unit> substitute<T extends Object>(DataCacheEntity<T> value) {
+    final keyResponse = this.getCacheKey();
+    return keyResponse.fold(left, (key) => deleteDataCache<T>(key, value));
+  }
 
   /// Deletes data from the cache.
   ///

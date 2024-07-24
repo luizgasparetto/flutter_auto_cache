@@ -6,12 +6,6 @@ final class LruSubstitutionCacheStrategy extends ISubstitutionCacheStrategy {
   final dataCacheEntries = AutoCacheNotifier<List<DataCacheEntity>>([]);
 
   @override
-  AsyncEither<AutoCacheError, Unit> substitute<T extends Object>(DataCacheEntity<T> value) {
-    final keyResponse = this.getCacheKey();
-    return keyResponse.fold(left, (key) => super.deleteDataCache<T>(key, value));
-  }
-
-  @override
   Either<AutoCacheError, String> getCacheKey({bool recursive = false}) {
     if (dataCacheEntries.value.isEmpty) return _getAllEntries();
     if (recursive) _removeFirstDataCacheEntrie();

@@ -1,5 +1,16 @@
 part of 'i_data_cache_repository.dart';
 
+/// An interface for a substitution data cache repository, providing methods
+/// to interact with and manage cached data entities.
+///
+/// This interface defines methods to:
+/// - Retrieve all keys associated with a specific storage type.
+/// - Retrieve all cached entities.
+/// - Attempt to accommodate a given data cache entity, with optional recursive handling.
+///
+/// Error handling is performed using the [Either] and [AsyncEither] types, which encapsulate
+/// the result or an [AutoCacheException] in case of failure, ensuring type safety and
+/// robust error management.
 abstract interface class ISubstitutionDataCacheRepository {
   /// Retrieves all keys associated with a specific storage type.
   ///
