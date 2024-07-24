@@ -1,3 +1,10 @@
+## 0.0.4
+
+- Implemented LRU (Least Recently Used) Substitution Algorithm.
+- Implemented MRU (Most Recently Used) Substitution Algorithm.
+- Closed issues related to cache size verification.
+- Improved logging functionality for better diagnostics and monitoring.
+
 ## 0.0.3
 
 - Flutter Auto Cache's Logo
