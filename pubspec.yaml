@@ -4,7 +4,7 @@ homepage: https://github.com/luizgasparetto/flutter_auto_cache
 repository: https://github.com/luizgasparetto/flutter_auto_cache.git
 documentation: https://autocache.luizgasparetto.dev
 topics: ["cache", "cache-management", "cryptography"]
-version: 0.0.3
+version: 0.0.4
 
 environment:
   sdk: ">=3.0.0 <4.0.0"
