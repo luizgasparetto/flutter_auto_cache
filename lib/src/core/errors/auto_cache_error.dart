@@ -1,4 +1,4 @@
-import '../services/log_service/log_service.dart';
+import '../services/log_service/implementations/log_service.dart';
 
 /// A base class for representing exceptions in the application.
 ///
@@ -10,7 +10,7 @@ abstract class AutoCacheException extends AutoCacheError implements Exception {
     required super.code,
     required super.stackTrace,
   }) {
-    LogService.logException(this);
+    LogService.instance.logException(this);
   }
 }
 

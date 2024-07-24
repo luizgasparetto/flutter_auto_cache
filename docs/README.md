@@ -187,7 +187,7 @@ Currently, the primary invalidation method available is `TTL` *(Time-To-Live)*. 
 
 ### Substitution Methods
 `Flutter Auto Cache` provides several substitution methods to manage how cached data is replaced when the cache reaches its size limit. These methods ensure that the cache remains efficient by replacing old or less important data with new data. Currently, `Flutter Auto Cache` supports two primary substitution methods: `FIFO` *(First In, First Out)* and `Rnadom`.
-
+mail.luizgasparetto.devpop.hostinger.com
 #### FIFO (First In, First Out)
 
 The `FIFO` *(First In, First Out)* substitution method is a straightforward and widely used strategy. It ensures that the oldest data in the cache is replaced first when new data needs to be added. This method is ideal for applications where the chronological order of data entry is important and where older data is less likely to be needed.
@@ -196,6 +196,22 @@ The `FIFO` *(First In, First Out)* substitution method is a straightforward and 
     • **Order-based Replacement**: Replaces the oldest data entries first. </br>
     • **Predictability**: Provides a predictable replacement pattern, making it easy to understand and manage. </br>
     • **Simplicity**: Simple to implement and suitable for many common use cases.
+
+#### LRU (Least Recently Used)
+The Least Recently Used (LRU) substitution method replaces the least recently used data in the cache first. This method prioritizes keeping frequently accessed data in the cache, making it useful for applications where recent data usage is a good indicator of future data usage.
+
+**Key Characteristics:** </br>
+    • **Usage-Based Replacement**: Data that has not been accessed for the longest time is replaced first.</br>
+    • **Efficient for Temporal Locality**: Works well in scenarios where recently accessed data is likely to be accessed again soon.</br>
+    • **Managed Cache Size**: Helps in managing the cache size by regularly evicting older, less frequently accessed data.
+
+#### MRU (Most Recently Used )
+The Most Recently Used (MRU) substitution method replaces the most recently used data in the cache first. This method is the opposite of LRU and is beneficial in scenarios where data accessed recently is less likely to be accessed again soon.
+
+**Key Characteristics:** </br>
+    • **Inverse Usage-Based Replacement**: Data that has been accessed most recently is replaced first.</br>
+    • **Efficient for Certain Patterns**: Suitable for workloads where recently accessed data is less important than older data.</br>
+    • **Cache Turnover**: Ensures frequent turnover of cached data, which can be beneficial for specific use cases.
 
 #### Random
 The `Random` substitution method replaces data in the cache randomly, without considering the age or usage frequency of the data. This method can be useful in scenarios where there is no specific preference for which data should be replaced, or where a uniform distribution of data replacement is desired.
