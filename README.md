@@ -80,7 +80,7 @@ Future<void> main() async {
 After initialization, you can use the cache management methods directly from the `AutoCache` class. Here is an example of how to access the preferences cache manager:
 
 ```dart
-await AutoCache.prefs.getString(key: "my_string_cached");
+await AutoCache.data.getString(key: "my_string_cached");
 ```
 
 With this setup, you can easily manage your application's cache using the methods provided by `AutoCache`.
