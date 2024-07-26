@@ -1,10 +1,11 @@
-import 'package:flutter_auto_cache/flutter_auto_cache.dart';
-
 import 'package:flutter/material.dart';
+import 'package:flutter_auto_cache/flutter_auto_cache.dart';
 
 import 'src/constants/cache_constants.dart';
 
 Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
   await AutoCacheInitializer.initialize();
 
   runApp(const AppWidget());
