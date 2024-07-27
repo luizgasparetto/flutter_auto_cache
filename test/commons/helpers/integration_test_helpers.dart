@@ -1,9 +1,12 @@
-import 'package:flutter_auto_cache/flutter_auto_cache.dart';
 import 'package:meta/meta.dart';
 import 'package:fake_async/fake_async.dart';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import 'package:flutter_auto_cache/flutter_auto_cache.dart';
+import 'package:flutter_auto_cache/src/core/shared/configuration/cache_configuration.dart';
+import 'package:flutter_auto_cache/src/core/shared/services/cache_size_service/value_objects/cache_size_options.dart';
 
 @visibleForTesting
 typedef FakeAsyncCallback = void Function(FakeAsync fakeAsync);

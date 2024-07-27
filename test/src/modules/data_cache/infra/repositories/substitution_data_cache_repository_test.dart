@@ -1,4 +1,4 @@
-import 'package:flutter_auto_cache/src/core/errors/auto_cache_error.dart';
+import 'package:flutter_auto_cache/src/core/shared/errors/auto_cache_error.dart';
 import 'package:flutter_auto_cache/src/modules/data_cache/domain/entities/data_cache_entity.dart';
 import 'package:flutter_auto_cache/src/modules/data_cache/infra/datasources/i_query_data_cache_datasource.dart';
 import 'package:flutter_auto_cache/src/modules/data_cache/infra/repositories/substitution_data_cache_repository.dart';

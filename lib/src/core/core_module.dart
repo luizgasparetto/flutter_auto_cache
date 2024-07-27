@@ -1,24 +1,19 @@
 import 'package:encrypt/encrypt.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'configuration/cache_configuration.dart';
-import 'configuration/stores/cache_configuration_store.dart';
-import 'infrastructure/modules/cache_module.dart';
-import 'services/cache_size_service/cache_size_service.dart';
-import 'services/cryptography_service/i_cryptography_service.dart';
-import 'services/cryptography_service/implementations/encrypt_cryptography_service.dart';
-import 'services/cryptography_service/implementations/factories/encrypter_factory.dart';
-import 'services/directory_service/directory_provider_service.dart';
-import 'services/kvs_service/i_kvs_service.dart';
-import 'services/kvs_service/implementations/shared_preferences_kvs_service.dart';
-import 'services/path_provider_service/i_path_provider_service.dart';
-import 'services/path_provider_service/implementations/path_provider_service.dart';
-import 'services/service_locator/implementations/service_locator.dart';
-
-export 'configuration/cache_configuration.dart';
-export 'services/cryptography_service/value_objects/cache_cryptography_options.dart';
-export 'services/cache_size_service/value_objects/cache_size_options.dart';
-export 'errors/auto_cache_error.dart';
+import 'infrastructure/contracts/module_contracts.dart';
+import 'shared/configuration/cache_configuration.dart';
+import 'shared/configuration/stores/cache_configuration_store.dart';
+import 'shared/services/cache_size_service/cache_size_service.dart';
+import 'shared/services/cryptography_service/i_cryptography_service.dart';
+import 'shared/services/cryptography_service/implementations/encrypt_cryptography_service.dart';
+import 'shared/services/cryptography_service/implementations/factories/encrypter_factory.dart';
+import 'shared/services/directory_service/directory_provider_service.dart';
+import 'shared/services/kvs_service/i_kvs_service.dart';
+import 'shared/services/kvs_service/implementations/shared_preferences_kvs_service.dart';
+import 'shared/services/path_provider_service/i_path_provider_service.dart';
+import 'shared/services/path_provider_service/implementations/path_provider_service.dart';
+import 'shared/services/service_locator/implementations/service_locator.dart';
 
 class CoreModule extends CacheModule {
   @override

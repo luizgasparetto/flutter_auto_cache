@@ -1,7 +1,7 @@
 import 'auto_cache_module.dart';
 
-import 'core/configuration/stores/cache_configuration_store.dart';
-import 'core/core_module.dart';
+import 'core/shared/configuration/cache_configuration.dart';
+import 'core/shared/configuration/stores/cache_configuration_store.dart';
 
 /// A singleton class responsible for initializing and configuring the auto cache manager.
 /// It provides a central point of access to manage cache configurations and ensures

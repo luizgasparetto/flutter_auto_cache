@@ -1,6 +1,6 @@
-import 'package:flutter_auto_cache/src/core/configuration/cache_configuration.dart';
-import 'package:flutter_auto_cache/src/core/errors/auto_cache_error.dart';
-import 'package:flutter_auto_cache/src/core/functional/either.dart';
+import 'package:flutter_auto_cache/src/core/shared/configuration/cache_configuration.dart';
+import 'package:flutter_auto_cache/src/core/shared/errors/auto_cache_error.dart';
+import 'package:flutter_auto_cache/src/core/shared/functional/either.dart';
 import 'package:flutter_auto_cache/src/modules/data_cache/domain/dtos/key_cache_dto.dart';
 import 'package:flutter_auto_cache/src/modules/data_cache/domain/entities/data_cache_entity.dart';
 import 'package:flutter_auto_cache/src/modules/data_cache/domain/enums/substitution_policies.dart';

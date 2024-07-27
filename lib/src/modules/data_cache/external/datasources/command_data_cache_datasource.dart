@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import '../../../../core/services/cryptography_service/i_cryptography_service.dart';
-import '../../../../core/services/kvs_service/i_kvs_service.dart';
+import '../../../../core/shared/services/cryptography_service/i_cryptography_service.dart';
+import '../../../../core/shared/services/kvs_service/i_kvs_service.dart';
 
 import '../../domain/entities/data_cache_entity.dart';
 

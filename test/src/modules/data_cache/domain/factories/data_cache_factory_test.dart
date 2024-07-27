@@ -1,5 +1,5 @@
-import 'package:flutter_auto_cache/flutter_auto_cache.dart';
-import 'package:flutter_auto_cache/src/core/extensions/types/date_time_extensions.dart';
+import 'package:flutter_auto_cache/src/core/shared/configuration/cache_configuration.dart';
+import 'package:flutter_auto_cache/src/core/shared/extensions/types/date_time_extensions.dart';
 import 'package:flutter_auto_cache/src/modules/data_cache/domain/dtos/write_cache_dto.dart';
 import 'package:flutter_auto_cache/src/modules/data_cache/domain/entities/data_cache_entity.dart';
 import 'package:flutter_auto_cache/src/modules/data_cache/domain/factories/data_cache_factory.dart';

@@ -1,10 +1,10 @@
 import 'package:meta/meta.dart';
 
-import '../../../../../core/configuration/cache_configuration.dart';
 import '../../../../../core/infrastructure/middlewares/initialize_middleware.dart';
 import '../../../../../core/infrastructure/protocols/cache_response.dart';
-import '../../../../../core/services/service_locator/implementations/service_locator.dart';
 
+import '../../../../../core/shared/configuration/cache_configuration.dart';
+import '../../../../../core/shared/services/service_locator/implementations/service_locator.dart';
 import '../../../domain/dtos/key_cache_dto.dart';
 import '../../../domain/dtos/write_cache_dto.dart';
 import '../../../domain/usecases/clear_data_cache_usecase.dart';

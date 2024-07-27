@@ -1,7 +1,6 @@
 import 'core/core_module.dart';
-import 'core/infrastructure/modules/cache_module.dart';
 
-import 'core/infrastructure/modules/package_module.dart';
+import 'core/infrastructure/contracts/module_contracts.dart';
 import 'modules/data_cache/data_cache_module.dart';
 
 class AutoCacheModule extends PackageModule {

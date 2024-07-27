@@ -1,8 +1,9 @@
 import 'package:flutter_auto_cache/flutter_auto_cache.dart';
-import 'package:flutter_auto_cache/src/core/configuration/stores/cache_configuration_store.dart';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_auto_cache/src/core/services/service_locator/implementations/service_locator.dart';
+import 'package:flutter_auto_cache/src/core/shared/configuration/cache_configuration.dart';
+import 'package:flutter_auto_cache/src/core/shared/configuration/stores/cache_configuration_store.dart';
+import 'package:flutter_auto_cache/src/core/shared/services/service_locator/implementations/service_locator.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

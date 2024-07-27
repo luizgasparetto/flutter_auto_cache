@@ -1,5 +1,5 @@
-import 'package:flutter_auto_cache/src/core/errors/auto_cache_error.dart';
-import 'package:flutter_auto_cache/src/core/functional/either.dart';
+import 'package:flutter_auto_cache/src/core/shared/errors/auto_cache_error.dart';
+import 'package:flutter_auto_cache/src/core/shared/functional/either.dart';
 import 'package:flutter_auto_cache/src/modules/data_cache/domain/repositories/i_data_cache_repository.dart';
 import 'package:flutter_auto_cache/src/modules/data_cache/domain/usecases/clear_data_cache_usecase.dart';
 import 'package:flutter_test/flutter_test.dart';

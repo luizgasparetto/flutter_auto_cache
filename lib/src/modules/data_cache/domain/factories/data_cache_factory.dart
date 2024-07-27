@@ -1,4 +1,4 @@
-import '../../../../../flutter_auto_cache.dart';
+import '../../../../core/shared/configuration/cache_configuration.dart';
 import '../dtos/write_cache_dto.dart';
 import '../entities/data_cache_entity.dart';
 

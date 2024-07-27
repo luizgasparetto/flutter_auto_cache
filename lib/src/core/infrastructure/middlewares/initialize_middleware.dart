@@ -1,4 +1,4 @@
-import '../../services/service_locator/implementations/service_locator.dart';
+import '../../shared/services/service_locator/implementations/service_locator.dart';
 import 'exceptions/initializer_exceptions.dart';
 
 /// A class to handle initialization and configuration verifications.

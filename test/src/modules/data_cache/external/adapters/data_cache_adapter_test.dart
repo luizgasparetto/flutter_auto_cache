@@ -1,7 +1,7 @@
+import 'package:flutter_auto_cache/src/core/shared/extensions/types/map_extensions.dart';
 import 'package:flutter_auto_cache/src/modules/data_cache/external/adapters/exceptions/data_cache_adapter_exceptions.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:flutter_auto_cache/src/core/extensions/types/map_extensions.dart';
 import 'package:flutter_auto_cache/src/modules/data_cache/domain/entities/data_cache_entity.dart';
 import 'package:flutter_auto_cache/src/modules/data_cache/external/adapters/data_cache_adapter.dart';
 

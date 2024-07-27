@@ -1,6 +1,5 @@
-import '../../../../core/errors/auto_cache_error.dart';
-import '../../../../core/functional/either.dart';
-
+import '../../../../core/shared/errors/auto_cache_error.dart';
+import '../../../../core/shared/functional/either.dart';
 import '../../domain/dtos/key_cache_dto.dart';
 import '../../domain/entities/data_cache_entity.dart';
 import '../../domain/repositories/i_data_cache_repository.dart';

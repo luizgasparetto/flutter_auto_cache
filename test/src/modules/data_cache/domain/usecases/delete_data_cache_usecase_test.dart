@@ -1,5 +1,5 @@
-import 'package:flutter_auto_cache/src/core/errors/auto_cache_error.dart';
-import 'package:flutter_auto_cache/src/core/functional/either.dart';
+import 'package:flutter_auto_cache/src/core/shared/errors/auto_cache_error.dart';
+import 'package:flutter_auto_cache/src/core/shared/functional/either.dart';
 import 'package:flutter_auto_cache/src/modules/data_cache/domain/dtos/key_cache_dto.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';

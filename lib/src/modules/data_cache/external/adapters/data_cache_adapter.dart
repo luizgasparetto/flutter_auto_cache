@@ -1,6 +1,8 @@
+import '../../../../core/shared/extensions/types/type_extensions.dart';
+
 import '../../domain/entities/data_cache_entity.dart';
+
 import 'exceptions/data_cache_adapter_exceptions.dart';
-import '../../../../core/extensions/types/type_extensions.dart';
 
 final class DataCacheAdapter {
   static DataCacheEntity<T> fromJson<T extends Object>(Map<String, dynamic> json) {

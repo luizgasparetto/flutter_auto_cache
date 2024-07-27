@@ -1,6 +1,6 @@
-import '../../../../../core/configuration/cache_configuration.dart';
-import '../../../../../core/errors/auto_cache_error.dart';
-import '../../../../../core/functional/either.dart';
+import '../../../../../core/shared/configuration/cache_configuration.dart';
+import '../../../../../core/shared/errors/auto_cache_error.dart';
+import '../../../../../core/shared/functional/either.dart';
 
 import '../../entities/data_cache_entity.dart';
 import '../../value_objects/invalidation_methods/invalidation_method.dart';

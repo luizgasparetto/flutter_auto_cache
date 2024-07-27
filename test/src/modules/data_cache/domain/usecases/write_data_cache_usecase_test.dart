@@ -1,8 +1,7 @@
-import 'package:flutter_auto_cache/src/core/configuration/cache_configuration.dart';
-import 'package:flutter_auto_cache/src/core/configuration/stores/cache_configuration_store.dart';
-import 'package:flutter_auto_cache/src/core/errors/auto_cache_error.dart';
-
-import 'package:flutter_auto_cache/src/core/functional/either.dart';
+import 'package:flutter_auto_cache/src/core/shared/configuration/cache_configuration.dart';
+import 'package:flutter_auto_cache/src/core/shared/configuration/stores/cache_configuration_store.dart';
+import 'package:flutter_auto_cache/src/core/shared/errors/auto_cache_error.dart';
+import 'package:flutter_auto_cache/src/core/shared/functional/either.dart';
 import 'package:flutter_auto_cache/src/modules/data_cache/domain/dtos/key_cache_dto.dart';
 import 'package:flutter_auto_cache/src/modules/data_cache/domain/dtos/write_cache_dto.dart';
 import 'package:flutter_auto_cache/src/modules/data_cache/domain/entities/data_cache_entity.dart';
@@ -14,8 +13,6 @@ import 'package:flutter_auto_cache/src/modules/data_cache/domain/usecases/write_
 import 'package:flutter_auto_cache/src/modules/data_cache/domain/value_objects/data_cache_options.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-
-import '../services/substitution_service/strategies/fifo_substitution_cache_strategy_test.dart';
 
 class CacheRepositoryMock extends Mock implements IDataCacheRepository {}
 
@@ -128,7 +125,7 @@ void main() {
 
     test('should NOT be able to write cache when invalidation fails', () async {
       when(() => repository.get<String>(any(that: cacheDtoMatcher()))).thenReturn(right(fakeCache));
-      when(() => invalidationService.validate(fakeCache)).thenReturn(left(FakeAutoCacheException()));
+      when(() => invalidationService.validate(fakeCache)).thenReturn(left(AutoCacheExceptionFake()));
 
       final response = await sut.execute<String>(dto);
 

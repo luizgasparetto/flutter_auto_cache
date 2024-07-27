@@ -1,9 +1,9 @@
-import 'package:flutter_auto_cache/src/core/configuration/cache_configuration.dart';
-import 'package:flutter_auto_cache/src/core/errors/auto_cache_error.dart';
-import 'package:flutter_auto_cache/src/core/functional/either.dart';
 import 'package:flutter_auto_cache/src/core/infrastructure/protocols/cache_response.dart';
 import 'package:flutter_auto_cache/src/core/infrastructure/protocols/enums/cache_response_status.dart';
-import 'package:flutter_auto_cache/src/core/services/service_locator/implementations/service_locator.dart';
+import 'package:flutter_auto_cache/src/core/shared/configuration/cache_configuration.dart';
+import 'package:flutter_auto_cache/src/core/shared/errors/auto_cache_error.dart';
+import 'package:flutter_auto_cache/src/core/shared/functional/either.dart';
+import 'package:flutter_auto_cache/src/core/shared/services/service_locator/implementations/service_locator.dart';
 import 'package:flutter_auto_cache/src/modules/data_cache/domain/dtos/key_cache_dto.dart';
 
 import 'package:flutter_auto_cache/src/modules/data_cache/domain/dtos/write_cache_dto.dart';

@@ -1,6 +1,6 @@
-import 'package:flutter_auto_cache/flutter_auto_cache.dart';
-import 'package:flutter_auto_cache/src/core/services/cryptography_service/i_cryptography_service.dart';
-import 'package:flutter_auto_cache/src/core/services/kvs_service/i_kvs_service.dart';
+import 'package:flutter_auto_cache/src/core/shared/errors/auto_cache_error.dart';
+import 'package:flutter_auto_cache/src/core/shared/services/cryptography_service/i_cryptography_service.dart';
+import 'package:flutter_auto_cache/src/core/shared/services/kvs_service/i_kvs_service.dart';
 import 'package:flutter_auto_cache/src/modules/data_cache/domain/entities/data_cache_entity.dart';
 import 'package:flutter_auto_cache/src/modules/data_cache/external/datasources/command_data_cache_datasource.dart';
 import 'package:flutter_test/flutter_test.dart';

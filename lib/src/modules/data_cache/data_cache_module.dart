@@ -1,6 +1,6 @@
-import '../../core/infrastructure/modules/cache_module.dart';
-import '../../core/services/service_locator/implementations/service_locator.dart';
+import '../../core/infrastructure/contracts/module_contracts.dart';
 
+import '../../core/shared/services/service_locator/implementations/service_locator.dart';
 import 'domain/factories/data_cache_factory.dart';
 import 'domain/repositories/i_data_cache_repository.dart';
 import 'domain/services/invalidation_service/invalidation_cache_service.dart';
