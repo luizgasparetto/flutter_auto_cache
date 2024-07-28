@@ -1,3 +1,4 @@
+import 'package:flutter_auto_cache/src/core/domain/value_objects/cache_metadata.dart';
 import 'package:flutter_auto_cache/src/core/shared/extensions/types/map_extensions.dart';
 import 'package:flutter_auto_cache/src/modules/data_cache/external/adapters/exceptions/data_cache_adapter_exceptions.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -11,15 +12,19 @@ void main() {
   final createdAt = DateTime.now();
   final updatedAt = DateTime.now();
   final endAt = createdAt.add(const Duration(days: 3));
+  final usedAt = createdAt.add(const Duration(days: 1));
 
   group('DataCacheAdapter.fromJson |', () {
     final jsonCache = <String, dynamic>{
       'id': id,
       'data': data,
       'usage_count': 0,
-      'created_at': createdAt.toIso8601String(),
-      'end_at': endAt.toIso8601String(),
-      'updated_at': updatedAt.toIso8601String(),
+      'metadata': {
+        'created_at': createdAt.toIso8601String(),
+        'end_at': endAt.toIso8601String(),
+        'updated_at': updatedAt.toIso8601String(),
+        'used_at': usedAt.toIso8601String(),
+      }
     };
 
     test('should be able to get DataCacheEntity from json successfully', () {
@@ -28,19 +33,14 @@ void main() {
       expect(cache.id, equals(id));
       expect(cache.data, equals(data));
       expect(cache.usageCount, equals(0));
-      expect(cache.createdAt, equals(createdAt));
-      expect(cache.endAt, equals(endAt));
-      expect(cache.updatedAt, equals(updatedAt));
-    });
-
-    test('should NOT be able to get DataCacheEntity from json when invalid values', () {
-      final invalidJson = jsonCache.updateValueByKey(key: 'created_at', newValue: 'invalid_value');
-
-      expect(() => DataCacheAdapter.fromJson(invalidJson), throwsA(isA<DataCacheFromJsonException>()));
+      expect(cache.metadata.createdAt, equals(createdAt));
+      expect(cache.metadata.endAt, equals(endAt));
+      expect(cache.metadata.updatedAt, equals(updatedAt));
+      expect(cache.metadata.usedAt, equals(usedAt));
     });
 
     test('should NOT be able to get DataCacheEntity from json when invalid keys', () {
-      final jsonInvalidKeys = jsonCache.updateKey(oldKey: 'created_at', newKey: 'invalid_created_at');
+      final jsonInvalidKeys = jsonCache.updateKey(oldKey: 'metadata', newKey: 'invalid_created_at');
 
       expect(() => DataCacheAdapter.fromJson<String>(jsonInvalidKeys), throwsA(isA<DataCacheFromJsonException>()));
     });
@@ -53,9 +53,12 @@ void main() {
       'id': id,
       'data': listData,
       'usage_count': 0,
-      'created_at': createdAt.toIso8601String(),
-      'end_at': endAt.toIso8601String(),
-      'updated_at': updatedAt.toIso8601String(),
+      'metadata': {
+        'created_at': createdAt.toIso8601String(),
+        'end_at': endAt.toIso8601String(),
+        'updated_at': updatedAt.toIso8601String(),
+        'used_at': usedAt.toIso8601String(),
+      }
     };
 
     test('should be able to serialize JSON into a DataCacheEntity with List as data content', () {
@@ -65,26 +68,36 @@ void main() {
       expect(response.data, equals(listData));
       expect(response.data, isA<List<String>>());
       expect(response.usageCount, equals(0));
-      expect(response.createdAt, equals(createdAt));
-      expect(response.endAt, equals(endAt));
-      expect(response.updatedAt, equals(updatedAt));
+      expect(response.metadata.createdAt, equals(createdAt));
+      expect(response.metadata.endAt, equals(endAt));
+      expect(response.metadata.updatedAt, equals(updatedAt));
+      expect(response.metadata.usedAt, equals(usedAt));
     });
 
     test('should NOT be able to get DataCacheEntity from json with data list when has invalid values', () {
-      final invalidJson = listJson.updateValueByKey(key: 'created_at', newValue: 'invalid_value');
+      final invalidJson = listJson.updateValueByKey(key: 'metadata', newValue: 'invalid_value');
 
       expect(() => DataCacheAdapter.listFromJson<List<String>, String>(invalidJson), throwsA(isA<DataCacheListFromJsonException>()));
     });
 
     test('should NOT be able to get DataCacheEntity from json with data list when has invalid keys', () {
-      final invalidJson = listJson.updateValueByKey(key: 'created_at', newValue: 'invalid_value');
+      final invalidJson = listJson.updateValueByKey(key: 'metadata', newValue: 'invalid_value');
 
       expect(() => DataCacheAdapter.listFromJson<List<String>, String>(invalidJson), throwsA(isA<DataCacheListFromJsonException>()));
     });
   });
 
   group('DataCacheAdapter.toJson |', () {
-    final cache = DataCacheEntity(id: id, data: data, createdAt: createdAt, endAt: endAt, updatedAt: updatedAt);
+    final cache = DataCacheEntity(
+      id: id,
+      data: data,
+      metadata: CacheMetadata(
+        createdAt: createdAt,
+        endAt: endAt,
+        updatedAt: updatedAt,
+        usedAt: usedAt,
+      ),
+    );
 
     test('should be able to parse DataCacheEntity to json and verify keys', () {
       final jsonCache = DataCacheAdapter.toJson(cache);
@@ -92,9 +105,7 @@ void main() {
       expect(jsonCache.containsKey('id'), isTrue);
       expect(jsonCache.containsKey('data'), isTrue);
       expect(jsonCache.containsKey('usage_count'), isTrue);
-      expect(jsonCache.containsKey('created_at'), isTrue);
-      expect(jsonCache.containsKey('end_at'), isTrue);
-      expect(jsonCache.containsKey('updated_at'), isTrue);
+      expect(jsonCache.containsKey('metadata'), isTrue);
     });
 
     test('should be able to parse DataCacheEntity to json and verify values', () {
@@ -103,9 +114,10 @@ void main() {
       expect(jsonCache['id'], equals(id));
       expect(jsonCache['data'], equals(data));
       expect(jsonCache['usage_count'], equals(0));
-      expect(jsonCache['created_at'], equals(createdAt.toIso8601String()));
-      expect(jsonCache['end_at'], equals(endAt.toIso8601String()));
-      expect(jsonCache['updated_at'], equals(updatedAt.toIso8601String()));
+      expect(jsonCache['metadata']['created_at'], equals(createdAt.toIso8601String()));
+      expect(jsonCache['metadata']['end_at'], equals(endAt.toIso8601String()));
+      expect(jsonCache['metadata']['updated_at'], equals(updatedAt.toIso8601String()));
+      expect(jsonCache['metadata']['used_at'], equals(usedAt.toIso8601String()));
     });
   });
 }

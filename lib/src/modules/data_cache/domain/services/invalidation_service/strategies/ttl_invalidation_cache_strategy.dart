@@ -3,10 +3,9 @@ part of '../invalidation_cache_strategy.dart';
 final class TTLInvalidationCacheStrategy implements InvalidationCacheStrategy {
   @override
   Either<AutoCacheError, InvalidationStatus> validate<T extends Object>(DataCacheEntity<T> cache) {
-    final isExpired = cache.endAt?.isBefore(DateTime.now());
+    final isExpired = cache.metadata.endAt.isBefore(DateTime.now());
+    final status = isExpired ? InvalidationStatus.invalid : InvalidationStatus.valid;
 
-    if (isExpired ?? true) return right(InvalidationStatus.invalid);
-
-    return right(InvalidationStatus.valid);
+    return right(status);
   }
 }

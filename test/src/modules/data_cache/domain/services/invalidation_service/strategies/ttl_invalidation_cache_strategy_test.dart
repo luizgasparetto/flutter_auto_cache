@@ -1,3 +1,4 @@
+import 'package:flutter_auto_cache/src/core/domain/value_objects/cache_metadata.dart';
 import 'package:flutter_auto_cache/src/modules/data_cache/domain/entities/data_cache_entity.dart';
 import 'package:flutter_auto_cache/src/modules/data_cache/domain/enums/invalidation_status.dart';
 import 'package:flutter_auto_cache/src/modules/data_cache/domain/services/invalidation_service/invalidation_cache_strategy.dart';
@@ -5,12 +6,22 @@ import 'package:flutter_test/flutter_test.dart';
 
 class FakeNonExpiredDataCacheEntity extends Fake implements DataCacheEntity<String> {
   @override
-  DateTime get endAt => DateTime.now().add(const Duration(days: 1));
+  CacheMetadata get metadata {
+    return CacheMetadata(
+      createdAt: DateTime.now(),
+      endAt: DateTime.now().add(const Duration(days: 1)),
+    );
+  }
 }
 
 class FakeExpiredDataCacheEntity extends Fake implements DataCacheEntity<String> {
   @override
-  DateTime get endAt => DateTime.now().subtract(const Duration(days: 1));
+  CacheMetadata get metadata {
+    return CacheMetadata(
+      createdAt: DateTime.now(),
+      endAt: DateTime.now().subtract(const Duration(days: 1)),
+    );
+  }
 }
 
 void main() {

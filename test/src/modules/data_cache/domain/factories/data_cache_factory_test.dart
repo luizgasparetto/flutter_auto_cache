@@ -9,6 +9,8 @@ void main() {
   final config = CacheConfiguration.defaultConfig();
   final sut = DataCacheFactory(config);
 
+  DateTime endAt() => config.dataCacheOptions.invalidationMethod.endAt;
+
   group('DataCacheFactory.save |', () {
     const dto = WriteCacheDTO(key: 'personal_key', data: 'cache_data');
 
@@ -18,10 +20,10 @@ void main() {
       expect(response.id, equals('personal_key'));
       expect(response.data, equals('cache_data'));
       expect(response.usageCount, equals(0));
-      expect(response.createdAt.withoutMilliseconds(), equals(DateTime.now().withoutMilliseconds()));
-      expect(response.endAt?.withoutMilliseconds(), equals(config.dataCacheOptions.invalidationMethod.endAt.withoutMilliseconds()));
-      expect(response.updatedAt, isNull);
-      expect(response.usedAt, isNull);
+      expect(response.metadata.createdAt.withoutMilliseconds(), equals(DateTime.now().withoutMilliseconds()));
+      expect(response.metadata.endAt.withoutMilliseconds(), equals(endAt().withoutMilliseconds()));
+      expect(response.metadata.updatedAt, isNull);
+      expect(response.metadata.usedAt, isNull);
     });
   });
 
@@ -34,10 +36,10 @@ void main() {
       expect(response.id, equals(cache.id));
       expect(response.data, equals('new_data'));
       expect(response.usageCount, equals(cache.usageCount));
-      expect(response.createdAt, equals(cache.createdAt));
-      expect(response.endAt?.withoutMilliseconds(), equals(config.dataCacheOptions.invalidationMethod.endAt.withoutMilliseconds()));
-      expect(response.updatedAt?.withoutMilliseconds(), equals(DateTime.now().withoutMilliseconds()));
-      expect(response.usedAt, equals(cache.usedAt));
+      expect(response.metadata.createdAt, equals(cache.metadata.createdAt));
+      expect(response.metadata.endAt.withoutMilliseconds(), equals(endAt().withoutMilliseconds()));
+      expect(response.metadata.updatedAt?.withoutMilliseconds(), equals(DateTime.now().withoutMilliseconds()));
+      expect(response.metadata.usedAt, equals(cache.metadata.usedAt));
     });
   });
 
@@ -50,10 +52,10 @@ void main() {
       expect(response.id, equals(cache.id));
       expect(response.data, equals(cache.data));
       expect(response.usageCount, equals(cache.usageCount + 1));
-      expect(response.createdAt, equals(cache.createdAt));
-      expect(response.endAt, equals(cache.endAt));
-      expect(response.updatedAt, equals(cache.updatedAt));
-      expect(response.usedAt?.withoutMilliseconds(), equals(DateTime.now().withoutMilliseconds()));
+      expect(response.metadata.createdAt, equals(cache.metadata.createdAt));
+      expect(response.metadata.endAt, equals(cache.metadata.endAt));
+      expect(response.metadata.updatedAt, equals(cache.metadata.updatedAt));
+      expect(response.metadata.usedAt?.withoutMilliseconds(), equals(DateTime.now().withoutMilliseconds()));
     });
   });
 }

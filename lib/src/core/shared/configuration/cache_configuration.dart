@@ -1,8 +1,6 @@
-import 'package:meta/meta.dart';
-
 import '../../../modules/data_cache/domain/value_objects/data_cache_options.dart';
-import '../services/cryptography_service/value_objects/cache_cryptography_options.dart';
 import '../services/cache_size_service/value_objects/cache_size_options.dart';
+import '../services/cryptography_service/value_objects/cache_cryptography_options.dart';
 
 /// A configuration class for managing cache settings.
 ///
@@ -40,6 +38,23 @@ class CacheConfiguration {
   /// for caching settings.
   factory CacheConfiguration.defaultConfig() => const CacheConfiguration();
 
-  @visibleForTesting
+  CacheConfiguration _copyWith({
+    DataCacheOptions? dataCacheOptions,
+    CacheSizeOptions? sizeOptions,
+    CacheCryptographyOptions? cryptographyOptions,
+  }) {
+    return CacheConfiguration(
+      dataCacheOptions: dataCacheOptions ?? this.dataCacheOptions,
+      sizeOptions: sizeOptions ?? this.sizeOptions,
+      cryptographyOptions: cryptographyOptions ?? this.cryptographyOptions,
+    );
+  }
+}
+
+extension PrivateGettersCacheConfiguration on CacheConfiguration {
   bool get isDefaultConfig => this == const CacheConfiguration();
+}
+
+extension PrivateSettersCacheConfiguration on CacheConfiguration {
+  CacheConfiguration setDataOptions(DataCacheOptions options) => _copyWith(dataCacheOptions: options);
 }

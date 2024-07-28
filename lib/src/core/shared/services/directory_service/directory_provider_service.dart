@@ -1,9 +1,11 @@
 import 'dart:io';
 
-import 'package:flutter/foundation.dart';
+import 'package:meta/meta.dart';
+
+import '../../contracts/auto_cache_notifier.dart';
+import '../path_provider_service/i_path_provider_service.dart';
 
 import 'exceptions/directory_provider_exceptions.dart';
-import '../path_provider_service/i_path_provider_service.dart';
 import 'states/directory_provider_state.dart';
 
 /// Provides access to specific directories required by the application.
@@ -27,7 +29,7 @@ abstract interface class IDirectoryProviderService {
   Future<void> getCacheDirectories();
 }
 
-class DirectoryProviderService extends ValueNotifier<DirectoryProviderState> implements IDirectoryProviderService {
+class DirectoryProviderService extends AutoCacheNotifier<DirectoryProviderState> implements IDirectoryProviderService {
   final IPathProviderService _service;
 
   DirectoryProviderService(this._service) : super(EmptyDirectoryProviderState());
@@ -48,7 +50,7 @@ class DirectoryProviderService extends ValueNotifier<DirectoryProviderState> imp
       final applicationDocumentsDirectory = isTest ? tempDocumentsDir : await _service.getApplicationDocumentsDirectory();
       final applicationSupportDirectory = isTest ? tempSupportDir : await _service.getApplicationSupportDirectory();
 
-      this.value = LoadedDirectoryProviderState(applicationDocumentsDirectory, applicationSupportDirectory);
+      super.setData(LoadedDirectoryProviderState(applicationDocumentsDirectory, applicationSupportDirectory));
     } catch (exception, stackTrace) {
       throw DirectoryProviderException(
         message: 'An error occurred while loading directories: ${exception.toString()}',
@@ -57,6 +59,7 @@ class DirectoryProviderService extends ValueNotifier<DirectoryProviderState> imp
     }
   }
 
+  @override
   @visibleForTesting
-  void reset() => this.value = EmptyDirectoryProviderState();
+  void reset() => super.setData(EmptyDirectoryProviderState());
 }

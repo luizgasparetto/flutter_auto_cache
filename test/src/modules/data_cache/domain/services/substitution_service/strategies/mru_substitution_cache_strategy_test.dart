@@ -1,3 +1,4 @@
+import 'package:flutter_auto_cache/src/core/domain/value_objects/cache_metadata.dart';
 import 'package:flutter_auto_cache/src/core/shared/errors/auto_cache_error.dart';
 import 'package:flutter_auto_cache/src/core/shared/functional/either.dart';
 import 'package:flutter_auto_cache/src/modules/data_cache/domain/dtos/key_cache_dto.dart';
@@ -25,7 +26,7 @@ class FakeDataCacheEntity extends Fake implements DataCacheEntity<String> {
   String get data => 'fake_data';
 
   @override
-  DateTime? get usedAt => DateTime(2024 + index);
+  CacheMetadata get metadata => CacheMetadata.createDefault().copyWith(usedAt: DateTime(2024 + index));
 }
 
 void main() {
@@ -52,7 +53,7 @@ void main() {
     final previewList = List.generate(3, (index) => FakeDataCacheEntity(index: index));
     final cacheList = [...previewList, null];
 
-    test('should be able to substitute data cache using LRU successfully', () async {
+    test('should be able to substitute data cache using MRU successfully', () async {
       when(() => substitutionRepository.getAll()).thenReturn(right(cacheList));
       when(() => dataRepository.delete(any(that: keyMatcher('key_2')))).thenAnswer((_) => right(unit));
       when(() => substitutionRepository.accomodateCache(cache, key: 'key_2')).thenAnswer((_) => right(true));

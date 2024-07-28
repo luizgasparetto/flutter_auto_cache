@@ -58,13 +58,13 @@ final class GetDataCacheUsecase implements IGetDataCacheUsecase {
     if (isValid) return updateUsageCount(cache);
 
     final response = await _repository.delete(KeyCacheDTO(key: cache.id));
-    return response.mapRight((_) => ExpiredCacheResponse());
+    return response.mapRight((_) => ExpiredCacheResponse(metadata: cache.metadata));
   }
 
   GetDataCacheResponse<T> updateUsageCount<T extends Object>(DataCacheEntity<T> cache) async {
     final usedCache = _dataCacheFactory.used<T>(cache);
     final response = await _repository.write(usedCache);
 
-    return response.mapRight((_) => SuccessCacheResponse(data: cache.data));
+    return response.mapRight((_) => SuccessCacheResponse(data: cache.data, metadata: cache.metadata));
   }
 }

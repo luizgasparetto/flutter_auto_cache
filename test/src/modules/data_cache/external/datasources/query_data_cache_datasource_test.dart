@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter_auto_cache/src/core/domain/value_objects/cache_metadata.dart';
 import 'package:flutter_auto_cache/src/core/shared/errors/auto_cache_error.dart';
 import 'package:flutter_auto_cache/src/core/shared/services/cache_size_service/cache_size_service.dart';
 import 'package:flutter_auto_cache/src/core/shared/services/cryptography_service/i_cryptography_service.dart';
@@ -38,8 +39,10 @@ void main() {
       'id': 'key',
       'data': 'my_data',
       'usage_count': 0,
-      'created_at': createdAt.toIso8601String(),
-      'end_at': endAt.toIso8601String(),
+      'metadata': {
+        'created_at': createdAt.toIso8601String(),
+        'end_at': endAt.toIso8601String(),
+      }
     };
 
     final stringBody = jsonEncode(successBody);
@@ -86,8 +89,10 @@ void main() {
       'id': 'key',
       'data': ['data', 'data'],
       'usage_count': 0,
-      'created_at': createdAt.toIso8601String(),
-      'end_at': endAt.toIso8601String(),
+      'metadata': {
+        'created_at': createdAt.toIso8601String(),
+        'end_at': endAt.toIso8601String(),
+      }
     };
 
     final stringBody = jsonEncode(successBody);
@@ -133,7 +138,7 @@ void main() {
   });
 
   group('QueryDataCacheDatasource.accomodateCache |', () {
-    final cache = DataCacheEntity<String>(id: 'id', data: 'data', createdAt: createdAt, endAt: endAt);
+    final cache = DataCacheEntity<String>(id: 'id', data: 'data', metadata: CacheMetadata(createdAt: createdAt, endAt: endAt));
 
     test('should be able to verify if cache can be accomodate successfully', () async {
       when(() => cryptographyService.encrypt(any())).thenReturn('encrypted_data');

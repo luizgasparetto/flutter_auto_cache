@@ -1,43 +1,10 @@
 import 'package:meta/meta.dart';
-import 'package:fake_async/fake_async.dart';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:flutter_auto_cache/flutter_auto_cache.dart';
-import 'package:flutter_auto_cache/src/core/shared/configuration/cache_configuration.dart';
 import 'package:flutter_auto_cache/src/core/shared/services/cache_size_service/value_objects/cache_size_options.dart';
-
-@visibleForTesting
-typedef FakeAsyncCallback = void Function(FakeAsync fakeAsync);
-
-/// Executes an integration test with a controlled asynchronous environment.
-///
-/// This function utilizes `FakeAsync` to allow fine-grained control over time-based operations
-/// within the test. It is ideal for testing features that depend on timing or asynchronous logic.
-///
-/// - [description] provides a string description of what the test is expected to accomplish.
-/// - [callback] is an asynchronous function that takes a `FakeAsync` instance. This callback
-///   should contain the test logic, including any asynchronous operations and time manipulations.
-///   The callback must return a `Future` to handle asynchronous operations properly.
-///
-/// Usage example:
-/// ```dart
-/// fakeAsyncTest('should handle timeouts correctly', (fakeAsync) async {
-///   // Simulate passing time
-///   fakeAsync.elapse(Duration(seconds: 1));
-///
-///   // Test assertions or other logic here
-/// });
-/// ```
-@isTest
-void fakeAsyncTest(String description, FakeAsyncCallback callback, {bool skip = false}) {
-  test(description, () {
-    fakeAsync((fakeAsync) {
-      callback(fakeAsync);
-    });
-  }, skip: skip);
-}
 
 /// Initializes the preferences controller with optional configuration.
 ///

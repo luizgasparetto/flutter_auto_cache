@@ -1,5 +1,16 @@
 import '../services/log_service/implementations/log_service.dart';
 
+/// Represents a failure in the auto cache system.
+///
+/// This abstract class extends [AutoCacheError] and provides
+/// additional context specific to failures within the auto cache system.
+abstract class AutoCacheFailure extends AutoCacheError {
+  AutoCacheFailure({
+    required super.message,
+    required super.code,
+  }) : super(stackTrace: StackTrace.empty);
+}
+
 /// A base class for representing exceptions in the application.
 ///
 /// This class extends [AutoCacheError] and implements [Exception] to define specific types of exceptions.
@@ -10,7 +21,9 @@ abstract class AutoCacheException extends AutoCacheError implements Exception {
     required super.code,
     required super.stackTrace,
   }) {
-    LogService.instance.logException(this);
+    {
+      LogService.instance.logError(this);
+    }
   }
 }
 
@@ -27,7 +40,7 @@ sealed class AutoCacheError {
   /// The code of the error, used to identify the type of error without knowing the specific implementation.
   final String code;
 
-  const AutoCacheError({
+  AutoCacheError({
     required this.message,
     required this.code,
     required this.stackTrace,

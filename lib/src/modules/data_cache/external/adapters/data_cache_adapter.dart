@@ -1,3 +1,4 @@
+import '../../../../core/infrastructure/adapters/cache_metadata_adapter.dart';
 import '../../../../core/shared/extensions/types/type_extensions.dart';
 
 import '../../domain/entities/data_cache_entity.dart';
@@ -11,9 +12,7 @@ final class DataCacheAdapter {
         id: json['id'],
         data: json['data'],
         usageCount: json['usage_count'],
-        createdAt: DateTime.parse(json['created_at']),
-        endAt: DateTime.parse(json['end_at']),
-        updatedAt: DateTime.tryParse(json['updated_at'] ?? ''),
+        metadata: CacheMetadataAdapter.fromJson(json['metadata']),
       );
     } on TypeError catch (error, stackTrace) {
       final dataCacheType = json['data'].runtimeType;
@@ -33,9 +32,7 @@ final class DataCacheAdapter {
         id: json['id'],
         data: List.from(json['data']).whereType<DataType>().toList() as T,
         usageCount: json['usage_count'],
-        createdAt: DateTime.parse(json['created_at']),
-        endAt: DateTime.parse(json['end_at']),
-        updatedAt: DateTime.tryParse(json['updated_at'] ?? ''),
+        metadata: CacheMetadataAdapter.fromJson(json['metadata']),
       );
     } on TypeError catch (error, stackTrace) {
       final dataCacheType = json['data'].runtimeType;
@@ -54,9 +51,7 @@ final class DataCacheAdapter {
       'id': cache.id,
       'data': cache.data,
       'usage_count': cache.usageCount,
-      'created_at': cache.createdAt.toIso8601String(),
-      'end_at': cache.endAt?.toIso8601String(),
-      'updated_at': cache.updatedAt?.toIso8601String(),
+      'metadata': CacheMetadataAdapter.toJson(cache.metadata),
     };
   }
 }

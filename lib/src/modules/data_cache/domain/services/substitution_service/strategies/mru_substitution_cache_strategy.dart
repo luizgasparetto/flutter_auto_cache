@@ -29,8 +29,8 @@ final class MruSubstitutionCacheStrategy extends ISubstitutionCacheStrategy {
 
   List<DataCacheEntity> _sortDataCacheEntries({required List<DataCacheEntity?> entries}) {
     final cacheList = entries.whereType<DataCacheEntity>().toList();
-    final defaultDateTime = DateTime.fromMillisecondsSinceEpoch(0);
+    final defaultTime = DateTime.fromMillisecondsSinceEpoch(0);
 
-    return cacheList.sorted((a, b) => (b.usedAt ?? defaultDateTime).compareTo(a.usedAt ?? defaultDateTime));
+    return cacheList.sorted((a, b) => (b.metadata.usedAt ?? defaultTime).compareTo(a.metadata.usedAt ?? defaultTime));
   }
 }

@@ -1,9 +1,9 @@
 import 'package:encrypt/encrypt.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'infrastructure/contracts/module_contracts.dart';
 import 'shared/configuration/cache_configuration.dart';
 import 'shared/configuration/stores/cache_configuration_store.dart';
+import 'shared/contracts/modules/package_module.dart';
 import 'shared/services/cache_size_service/cache_size_service.dart';
 import 'shared/services/cryptography_service/i_cryptography_service.dart';
 import 'shared/services/cryptography_service/implementations/encrypt_cryptography_service.dart';
@@ -14,6 +14,8 @@ import 'shared/services/kvs_service/implementations/shared_preferences_kvs_servi
 import 'shared/services/path_provider_service/i_path_provider_service.dart';
 import 'shared/services/path_provider_service/implementations/path_provider_service.dart';
 import 'shared/services/service_locator/implementations/service_locator.dart';
+
+export 'shared/configuration/cache_configuration.dart' hide PrivateGettersCacheConfiguration, PrivateSettersCacheConfiguration;
 
 class CoreModule extends CacheModule {
   @override

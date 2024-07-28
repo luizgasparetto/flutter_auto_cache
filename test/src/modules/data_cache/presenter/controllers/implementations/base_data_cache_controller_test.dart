@@ -1,3 +1,4 @@
+import 'package:flutter_auto_cache/src/core/domain/value_objects/cache_metadata.dart';
 import 'package:flutter_auto_cache/src/core/infrastructure/protocols/cache_response.dart';
 import 'package:flutter_auto_cache/src/core/infrastructure/protocols/enums/cache_response_status.dart';
 import 'package:flutter_auto_cache/src/core/shared/configuration/cache_configuration.dart';
@@ -48,6 +49,7 @@ void main() {
   final deleteCacheUsecase = DeleteDataCacheUsecaseMock();
 
   final cacheConfigMock = CacheConfigMock();
+  final metadata = CacheMetadata.createDefault();
 
   final sut = BaseDataCacheController(
     getCacheUsecase,
@@ -85,7 +87,7 @@ void main() {
 
     test('should be able to get data in cache with a key successfully', () async {
       when(() => getCacheUsecase.execute<String, String>(any(that: getCacheDtoMatcher()))).thenReturn(
-        right(SuccessCacheResponse(data: successData.data)),
+        right(SuccessCacheResponse(data: successData.data, metadata: metadata)),
       );
 
       final response = await sut.get<String>(key: 'my_key');
@@ -106,7 +108,9 @@ void main() {
     });
 
     test('should be able to get item in cache and return NULL when cache item is expired', () async {
-      when(() => getCacheUsecase.execute<String, String>(any(that: getCacheDtoMatcher()))).thenReturn(right(ExpiredCacheResponse()));
+      when(() => getCacheUsecase.execute<String, String>(any(that: getCacheDtoMatcher()))).thenReturn(
+        right(ExpiredCacheResponse(metadata: metadata)),
+      );
 
       final response = await sut.get<String>(key: 'my_key');
 
@@ -127,7 +131,7 @@ void main() {
 
     test('should be able to get data list in cache with a key successfully', () async {
       when(() => getCacheUsecase.execute<List<String>, String>(any(that: getCacheDtoMatcher()))).thenReturn(
-        right(SuccessCacheResponse(data: successData.data)),
+        right(SuccessCacheResponse(data: successData.data, metadata: metadata)),
       );
 
       final response = await sut.getList<String>(key: 'my_key');
@@ -148,7 +152,9 @@ void main() {
     });
 
     test('should be able to return NULL on get data list when cache item is expired', () async {
-      when(() => getCacheUsecase.execute<List<String>, String>(any(that: getCacheDtoMatcher()))).thenReturn(right(ExpiredCacheResponse()));
+      when(() => getCacheUsecase.execute<List<String>, String>(any(that: getCacheDtoMatcher()))).thenReturn(
+        right(ExpiredCacheResponse(metadata: metadata)),
+      );
 
       final response = await sut.getList<String>(key: 'my_key');
 

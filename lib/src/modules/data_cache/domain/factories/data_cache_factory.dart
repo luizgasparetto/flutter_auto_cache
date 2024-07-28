@@ -1,4 +1,6 @@
+import '../../../../core/domain/value_objects/cache_metadata.dart';
 import '../../../../core/shared/configuration/cache_configuration.dart';
+
 import '../dtos/write_cache_dto.dart';
 import '../entities/data_cache_entity.dart';
 
@@ -40,8 +42,7 @@ final class DataCacheFactory implements IDataCacheFactory {
     return DataCacheEntity(
       id: dto.key,
       data: dto.data,
-      createdAt: DateTime.now(),
-      endAt: configuration.dataCacheOptions.invalidationMethod.endAt,
+      metadata: CacheMetadata.save(endAt: configuration.dataCacheOptions.invalidationMethod.endAt),
     );
   }
 
@@ -51,10 +52,7 @@ final class DataCacheFactory implements IDataCacheFactory {
       id: cache.id,
       data: data,
       usageCount: cache.usageCount,
-      createdAt: cache.createdAt,
-      endAt: configuration.dataCacheOptions.invalidationMethod.endAt,
-      usedAt: cache.usedAt,
-      updatedAt: DateTime.now(),
+      metadata: cache.metadata.update(endAt: configuration.dataCacheOptions.invalidationMethod.endAt),
     );
   }
 
@@ -64,10 +62,7 @@ final class DataCacheFactory implements IDataCacheFactory {
       id: cache.id,
       data: cache.data,
       usageCount: cache.usageCount + 1,
-      createdAt: cache.createdAt,
-      endAt: cache.endAt,
-      updatedAt: cache.updatedAt,
-      usedAt: DateTime.now(),
+      metadata: cache.metadata.used(),
     );
   }
 }

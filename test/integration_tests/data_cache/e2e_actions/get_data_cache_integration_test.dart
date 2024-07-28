@@ -1,6 +1,5 @@
 import 'package:flutter_auto_cache/flutter_auto_cache.dart';
 import 'package:flutter_auto_cache/src/core/infrastructure/protocols/enums/cache_response_status.dart';
-import 'package:flutter_auto_cache/src/core/shared/configuration/cache_configuration.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import '../../../commons/helpers/integration_test_helpers.dart';

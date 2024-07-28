@@ -1,5 +1,5 @@
 import 'package:flutter_auto_cache/flutter_auto_cache.dart';
-import 'package:flutter_auto_cache/src/core/shared/configuration/cache_configuration.dart';
+import 'package:flutter_auto_cache/src/core/domain/value_objects/cache_metadata.dart';
 import 'package:flutter_auto_cache/src/modules/data_cache/domain/entities/data_cache_entity.dart';
 import 'package:flutter_auto_cache/src/modules/data_cache/domain/services/invalidation_service/invalidation_cache_service.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -9,10 +9,12 @@ class CacheConfigMock extends Mock implements CacheConfiguration {}
 
 class FakeDataCacheEntity extends Fake implements DataCacheEntity<String> {
   @override
-  DateTime get createdAt => DateTime.now().subtract(const Duration(days: 10));
-
-  @override
-  DateTime get endAt => DateTime.now().add(const Duration(days: 10));
+  CacheMetadata get metadata {
+    return CacheMetadata(
+      createdAt: DateTime.now().subtract(const Duration(days: 10)),
+      endAt: DateTime.now().add(const Duration(days: 10)),
+    );
+  }
 }
 
 void main() {

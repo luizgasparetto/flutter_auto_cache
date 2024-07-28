@@ -1,3 +1,4 @@
+import 'package:flutter_auto_cache/src/core/domain/value_objects/cache_metadata.dart';
 import 'package:flutter_auto_cache/src/core/infrastructure/protocols/cache_response.dart';
 import 'package:flutter_auto_cache/src/core/infrastructure/protocols/enums/cache_response_status.dart';
 import 'package:flutter_auto_cache/src/core/shared/errors/auto_cache_error.dart';
@@ -16,17 +17,19 @@ void main() {
   final baseController = BaseDataCacheControllerMock();
   final sut = DataCacheController(baseController);
 
+  final metadata = CacheMetadata.createDefault();
+
   tearDown(() {
     reset(baseController);
   });
 
   group('DataCacheController.getString |', () {
     test('should be able to get string by key successfully', () async {
-      when(() => baseController.get<String>(key: 'my_key')).thenAnswer((_) async => SuccessCacheResponse(data: 'cached_data'));
+      when(() => baseController.get<String>(key: 'my_key')).thenAnswer((_) async => SuccessCacheResponse(data: 'data', metadata: metadata));
 
       final response = await sut.getString(key: 'my_key');
 
-      expect(response.data, equals('cached_data'));
+      expect(response.data, equals('data'));
       expect(response.status, equals(CacheResponseStatus.success));
       verify(() => baseController.get<String>(key: 'my_key')).called(1);
     });
@@ -42,7 +45,8 @@ void main() {
     });
 
     test('should be able to get NULL when request an expired string cache', () async {
-      when(() => baseController.get<String>(key: 'my_key')).thenAnswer((_) async => ExpiredCacheResponse());
+      when(() => baseController.get<String>(key: 'my_key'))
+          .thenAnswer((_) async => ExpiredCacheResponse(metadata: CacheMetadata.createDefault()));
 
       final response = await sut.getString(key: 'my_key');
 
@@ -77,7 +81,7 @@ void main() {
 
   group('DataCacheController.getInt |', () {
     test('should be able to get int data in prefs successfully', () async {
-      when(() => baseController.get<int>(key: 'id_key')).thenAnswer((_) async => SuccessCacheResponse(data: 1));
+      when(() => baseController.get<int>(key: 'id_key')).thenAnswer((_) async => SuccessCacheResponse(data: 1, metadata: metadata));
 
       final response = await sut.getInt(key: 'id_key');
 
@@ -97,7 +101,7 @@ void main() {
     });
 
     test('should be able to get NULL when request an expired int cache', () async {
-      when(() => baseController.get<int>(key: 'my_key')).thenAnswer((_) async => ExpiredCacheResponse());
+      when(() => baseController.get<int>(key: 'my_key')).thenAnswer((_) async => ExpiredCacheResponse(metadata: metadata));
 
       final response = await sut.getInt(key: 'my_key');
 
@@ -132,7 +136,9 @@ void main() {
 
   group('DataCacheController.getJson |', () {
     test('should be able to get json in prefs successfully', () async {
-      when(() => baseController.get<Map<String, dynamic>>(key: 'key')).thenAnswer((_) async => SuccessCacheResponse(data: {}));
+      when(() => baseController.get<Map<String, dynamic>>(key: 'key')).thenAnswer(
+        (_) async => SuccessCacheResponse(data: {}, metadata: metadata),
+      );
 
       final response = await sut.getJson(key: 'key');
 
@@ -152,7 +158,7 @@ void main() {
     });
 
     test('should be able to get NULL when request an expired JSON cache', () async {
-      when(() => baseController.get<Map<String, dynamic>>(key: 'my_key')).thenAnswer((_) async => ExpiredCacheResponse());
+      when(() => baseController.get<Map<String, dynamic>>(key: 'my_key')).thenAnswer((_) async => ExpiredCacheResponse(metadata: metadata));
 
       final response = await sut.getJson(key: 'my_key');
 
@@ -187,7 +193,9 @@ void main() {
 
   group('DataCacheController.getStringList |', () {
     test('should be able to get list of String in prefs successfully', () async {
-      when(() => baseController.getList<String>(key: 'my_key')).thenAnswer((_) async => SuccessCacheResponse(data: ['value']));
+      when(() => baseController.getList<String>(key: 'my_key')).thenAnswer(
+        (_) async => SuccessCacheResponse(data: ['value'], metadata: metadata),
+      );
 
       final response = await sut.getStringList(key: 'my_key');
 
@@ -207,7 +215,7 @@ void main() {
     });
 
     test('should be able to get NULL when request an expired list of String', () async {
-      when(() => baseController.getList<String>(key: 'my_key')).thenAnswer((_) async => ExpiredCacheResponse());
+      when(() => baseController.getList<String>(key: 'my_key')).thenAnswer((_) async => ExpiredCacheResponse(metadata: metadata));
 
       final response = await sut.getStringList(key: 'my_key');
 
@@ -247,7 +255,9 @@ void main() {
     final data = List.generate(5, (_) => json);
 
     test('should be able to get list of JSON in prefs successfully', () async {
-      when(() => baseController.getList<Map<String, dynamic>>(key: 'my_key')).thenAnswer((_) async => SuccessCacheResponse(data: data));
+      when(() => baseController.getList<Map<String, dynamic>>(key: 'my_key')).thenAnswer(
+        (_) async => SuccessCacheResponse(data: data, metadata: metadata),
+      );
 
       final response = await sut.getJsonList(key: 'my_key');
 
@@ -267,7 +277,9 @@ void main() {
     });
 
     test('should be able to get NULL when request a list of String that is expired in cache', () async {
-      when(() => baseController.getList<Map<String, dynamic>>(key: 'my_key')).thenAnswer((_) async => ExpiredCacheResponse());
+      when(() => baseController.getList<Map<String, dynamic>>(key: 'my_key')).thenAnswer(
+        (_) async => ExpiredCacheResponse(metadata: metadata),
+      );
 
       final response = await sut.getJsonList(key: 'my_key');
 

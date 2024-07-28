@@ -1,6 +1,6 @@
 import 'dart:math';
 
-import '../../../../../core/infrastructure/contracts/auto_cache_notifier.dart';
+import '../../../../../core/shared/contracts/auto_cache_notifier.dart';
 import '../../../../../core/shared/extensions/types/list_extensions.dart';
 
 import '../../../../../core/shared/errors/auto_cache_error.dart';
