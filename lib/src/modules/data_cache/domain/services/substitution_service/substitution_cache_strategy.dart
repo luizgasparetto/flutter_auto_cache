@@ -2,9 +2,9 @@ import 'dart:math';
 
 import '../../../../../core/shared/contracts/auto_cache_notifier.dart';
 import '../../../../../core/shared/extensions/types/list_extensions.dart';
-
 import '../../../../../core/shared/errors/auto_cache_error.dart';
 import '../../../../../core/shared/functional/either.dart';
+
 import '../../dtos/key_cache_dto.dart';
 import '../../entities/data_cache_entity.dart';
 import '../../repositories/i_data_cache_repository.dart';

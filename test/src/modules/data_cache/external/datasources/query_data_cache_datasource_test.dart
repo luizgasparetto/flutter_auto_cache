@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter_auto_cache/src/core/domain/value_objects/cache_metadata.dart';
 import 'package:flutter_auto_cache/src/core/shared/errors/auto_cache_error.dart';
 import 'package:flutter_auto_cache/src/core/shared/services/cache_size_service/cache_size_service.dart';
@@ -27,6 +28,10 @@ void main() {
 
   final createdAt = DateTime.now();
   final endAt = DateTime.now().add(const Duration(hours: 3));
+
+  setUp(() {
+    registerFallbackValue(Uint8List(0));
+  });
 
   tearDown(() {
     reset(kvsService);
@@ -139,16 +144,17 @@ void main() {
 
   group('QueryDataCacheDatasource.accomodateCache |', () {
     final cache = DataCacheEntity<String>(id: 'id', data: 'data', metadata: CacheMetadata(createdAt: createdAt, endAt: endAt));
+    final bytes = Uint8List.fromList(utf8.encode('encrypted_data'));
 
     test('should be able to verify if cache can be accomodate successfully', () async {
       when(() => cryptographyService.encrypt(any())).thenReturn('encrypted_data');
-      when(() => sizeService.canAccomodateCache('encrypted_data')).thenAnswer((_) async => true);
+      when(() => sizeService.canAccomodateCache(bytes)).thenAnswer((_) async => true);
 
       final response = await sut.accomodateCache<String>(cache);
 
       expect(response, isTrue);
       verify(() => cryptographyService.encrypt(any())).called(1);
-      verify(() => sizeService.canAccomodateCache('encrypted_data')).called(1);
+      verify(() => sizeService.canAccomodateCache(bytes)).called(1);
     });
 
     test('should NOT be able to verify if cache can be accomodate when cryptography fails', () async {
@@ -161,11 +167,11 @@ void main() {
 
     test('should NOT be able to verify if cache can be accomodate when size service fails', () async {
       when(() => cryptographyService.encrypt(any())).thenReturn('encrypted_data');
-      when(() => sizeService.canAccomodateCache('encrypted_data')).thenThrow(FakeAutoCacheException());
+      when(() => sizeService.canAccomodateCache(bytes)).thenThrow(FakeAutoCacheException());
 
       expect(() => sut.accomodateCache<String>(cache), throwsA(isA<AutoCacheException>()));
       verify(() => cryptographyService.encrypt(any())).called(1);
-      verify(() => sizeService.canAccomodateCache('encrypted_data')).called(1);
+      verify(() => sizeService.canAccomodateCache(bytes)).called(1);
     });
   });
 

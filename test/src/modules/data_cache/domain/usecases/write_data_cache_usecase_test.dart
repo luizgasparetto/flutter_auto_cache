@@ -1,5 +1,5 @@
 import 'package:flutter_auto_cache/src/core/shared/configuration/cache_configuration.dart';
-import 'package:flutter_auto_cache/src/core/shared/configuration/stores/cache_configuration_store.dart';
+import 'package:flutter_auto_cache/src/core/shared/configuration/notifiers/cache_configuration_notifier.dart';
 import 'package:flutter_auto_cache/src/core/shared/errors/auto_cache_error.dart';
 import 'package:flutter_auto_cache/src/core/shared/functional/either.dart';
 import 'package:flutter_auto_cache/src/modules/data_cache/domain/dtos/key_cache_dto.dart';
@@ -59,7 +59,7 @@ void main() {
   final fakeGetCacheDto = FakeKeyCacheDTO();
 
   setUpAll(() {
-    CacheConfigurationStore.instance.setConfiguration(BaseConfigFake());
+    CacheConfigurationNotifier.instance.setConfiguration(BaseConfigFake());
   });
 
   setUp(() {

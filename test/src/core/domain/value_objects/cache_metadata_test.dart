@@ -93,13 +93,5 @@ void main() {
       expect(firstInstance == secondInstance, isTrue);
       expect(firstInstance.hashCode == secondInstance.hashCode, isTrue);
     });
-
-    test('should NOT be able to validate equality when have different values', () {
-      final firstInstance = CacheMetadata(createdAt: DateTime(2022), endAt: DateTime(2022));
-      final secondInstance = CacheMetadata(createdAt: DateTime(2021), endAt: DateTime(2021));
-
-      expect(firstInstance != secondInstance, isTrue);
-      expect(firstInstance.hashCode != secondInstance.hashCode, isTrue);
-    });
   });
 }

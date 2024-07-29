@@ -6,9 +6,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_auto_cache/flutter_auto_cache.dart';
 import 'package:flutter_auto_cache/src/core/shared/services/cache_size_service/value_objects/cache_size_options.dart';
 
-/// Initializes the preferences controller with optional configuration.
+/// Initializes the data controller with optional configuration.
 ///
-/// This asynchronous method sets up the preferences controller using shared preferences
+/// This asynchronous method sets up the data controller using shared preferences
 /// with mock initial values and initializes the cache manager with a potentially custom configuration.
 /// This setup is essential for managing application-specific preferences and cached data efficiently.
 ///
@@ -18,7 +18,7 @@ import 'package:flutter_auto_cache/src/core/shared/services/cache_size_service/v
 /// - [config] allows for customization of the cache configuration. If no config is provided,
 ///   the cache will be initialized with default settings.
 ///
-/// Returns a `Future` that completes with an instance of `PrefsCacheManagerController`.
+/// Returns a `Future` that completes with an instance of `IDataCacheController`.
 @visibleForTesting
 Future<IDataCacheController> initializeDataController({CacheConfiguration? config}) async {
   TestWidgetsFlutterBinding.ensureInitialized();

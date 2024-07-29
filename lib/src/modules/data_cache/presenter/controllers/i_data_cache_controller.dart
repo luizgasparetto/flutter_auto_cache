@@ -51,32 +51,32 @@ abstract interface class ICommandDataCacheController {
   ///
   /// This method is asynchronous and returns a `Future<void>` that completes
   /// when the operation is finished.
-  Future<void> saveString({required String key, required String data});
+  Future<void> saveString({required String key, required String data, DataCacheOptions? options});
 
   /// Saves an integer value in the cache with the specified [key].
   ///
   /// This method is asynchronous and returns a `Future<void>` that completes
   /// when the operation is finished.
-  Future<void> saveInt({required String key, required int data});
+  Future<void> saveInt({required String key, required int data, DataCacheOptions? options});
 
   /// Saves a JSON map in the cache with the specified [key].
   ///
   /// This method is asynchronous and returns a `Future<void>` that completes
   /// when the operation is finished. The data must be a `Map<String, dynamic>`.
-  Future<void> saveJson({required String key, required Map<String, dynamic> data});
+  Future<void> saveJson({required String key, required Map<String, dynamic> data, DataCacheOptions? options});
 
   /// Saves a list of strings in the cache with the specified [key].
   ///
   /// This method is asynchronous and returns a `Future<void>` that completes
   /// when the operation is finished. The data must be a list of strings.
-  Future<void> saveStringList({required String key, required List<String> data});
+  Future<void> saveStringList({required String key, required List<String> data, DataCacheOptions? options});
 
   /// Saves a list of JSON objects in the cache with the specified [key].
   ///
   /// This method is asynchronous and returns a `Future<void>` that completes
   /// when the operation is finished. The data must be a list of JSON objects
   /// represented as maps with `String` keys and dynamic values.
-  Future<void> saveJsonList({required String key, required List<Map<String, dynamic>> data});
+  Future<void> saveJsonList({required String key, required List<Map<String, dynamic>> data, DataCacheOptions? options});
 
   /// Deletes the cache entry for the specified [key].
   ///

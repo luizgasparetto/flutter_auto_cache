@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:flutter_auto_cache/flutter_auto_cache.dart';
+
 import '../../../../core/infrastructure/protocols/cache_response.dart';
 
 /// An interface that defines methods for querying and commanding a data cache.
@@ -32,11 +34,11 @@ abstract interface class IBaseDataCacheController {
   /// - [data]: The object to be saved in the cache.
   ///
   /// Throws an exception if the cache save operation encounters an error.
-  Future<void> save<T extends Object>({required String key, required T data});
+  Future<void> save<T extends Object>({required String key, required T data, DataCacheOptions? options});
 
   /// Deletes a specific cached entry identified by the given [key].
   ///
-  /// - [key]: The unique identifier associated with the cache entry to be deleted.
+  /// - [key]: The unique identifier associated with the cache entry to b|e deleted.
   ///
   /// Throws an exception if the cache deletion operation encounters an error.
   Future<void> delete({required String key});

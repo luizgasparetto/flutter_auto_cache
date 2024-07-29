@@ -66,40 +66,40 @@ final class DataCacheController implements IDataCacheController {
   ///
   /// Returns a `Future<void>` that completes when the operation is finished.
   @override
-  Future<void> saveString({required String key, required String data}) async {
-    return _baseDataCacheController.save<String>(key: key, data: data);
+  Future<void> saveString({required String key, required String data, DataCacheOptions? options}) async {
+    return _baseDataCacheController.save<String>(key: key, data: data, options: options);
   }
 
   /// Saves an `int` in the cache with the specified [key].
   ///
   /// Returns a `Future<void>` that completes when the operation is finished.
   @override
-  Future<void> saveInt({required String key, required int data}) async {
-    return _baseDataCacheController.save<int>(key: key, data: data);
+  Future<void> saveInt({required String key, required int data, DataCacheOptions? options}) async {
+    return _baseDataCacheController.save<int>(key: key, data: data, options: options);
   }
 
   /// Saves a JSON map in the cache with the specified [key].
   ///
   /// Returns a `Future<void>` that completes when the operation is finished.
   @override
-  Future<void> saveJson({required String key, required Map<String, dynamic> data}) async {
-    return _baseDataCacheController.save<Map<String, dynamic>>(key: key, data: data);
+  Future<void> saveJson({required String key, required Map<String, dynamic> data, DataCacheOptions? options}) async {
+    return _baseDataCacheController.save<Map<String, dynamic>>(key: key, data: data, options: options);
   }
 
   /// Saves a list of strings in the cache with the specified [key].
   ///
   /// Returns a `Future<void>` that completes when the operation is finished.
   @override
-  Future<void> saveStringList({required String key, required List<String> data}) async {
-    return _baseDataCacheController.save<List<String>>(key: key, data: data);
+  Future<void> saveStringList({required String key, required List<String> data, DataCacheOptions? options}) async {
+    return _baseDataCacheController.save<List<String>>(key: key, data: data, options: options);
   }
 
   /// Saves a list of JSON maps in the cache with the specified [key].
   ///
   /// Returns a `Future<void>` that completes when the operation is finished.
   @override
-  Future<void> saveJsonList({required String key, required List<Map<String, dynamic>> data}) async {
-    return _baseDataCacheController.save<List<Map<String, dynamic>>>(key: key, data: data);
+  Future<void> saveJsonList({required String key, required List<Map<String, dynamic>> data, DataCacheOptions? options}) async {
+    return _baseDataCacheController.save<List<Map<String, dynamic>>>(key: key, data: data, options: options);
   }
 
   /// Deletes the specified cache entry.

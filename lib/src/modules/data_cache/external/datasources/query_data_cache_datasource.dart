@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:typed_data';
 
 import '../../../../core/shared/extensions/nullable_extensions.dart';
 
@@ -34,11 +35,12 @@ final class QueryDataCacheDatasource implements IQueryDataCacheDatasource {
   @override
   Future<bool> accomodateCache<T extends Object>(DataCacheEntity<T> dataCache) async {
     final data = DataCacheAdapter.toJson<T>(dataCache);
-
     final encodedData = jsonEncode(data);
-    final encryptedData = cryptographyService.encrypt(encodedData);
 
-    return sizeService.canAccomodateCache(encryptedData);
+    final encryptedData = cryptographyService.encrypt(encodedData);
+    final bytes = Uint8List.fromList(utf8.encode(encryptedData));
+
+    return sizeService.canAccomodateCache(bytes);
   }
 
   @override

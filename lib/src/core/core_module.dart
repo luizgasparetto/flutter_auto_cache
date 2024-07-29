@@ -2,7 +2,7 @@ import 'package:encrypt/encrypt.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'shared/configuration/cache_configuration.dart';
-import 'shared/configuration/stores/cache_configuration_store.dart';
+import 'shared/configuration/notifiers/cache_configuration_notifier.dart';
 import 'shared/contracts/modules/package_module.dart';
 import 'shared/services/cache_size_service/cache_size_service.dart';
 import 'shared/services/cryptography_service/i_cryptography_service.dart';
@@ -21,7 +21,7 @@ class CoreModule extends CacheModule {
   @override
   Future<void> registerBinds() async {
     await ServiceLocator.instance.asyncBind(SharedPreferences.getInstance);
-    ServiceLocator.instance.bindSingleton<CacheConfiguration>(CacheConfigurationStore.instance.config);
+    ServiceLocator.instance.bindSingleton<CacheConfiguration>(CacheConfigurationNotifier.instance.config);
     ServiceLocator.instance.bindSingleton<Encrypter>(EncrypterFactory.createEncrypter(get()));
     ServiceLocator.instance.bindFactory<IPathProviderService>(() => PathProviderService());
     ServiceLocator.instance.bindFactory<ICacheSizeService>(() => CacheSizeService(get(), get()));

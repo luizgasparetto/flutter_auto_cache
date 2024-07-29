@@ -4,6 +4,7 @@ import '../../../../../core/infrastructure/middlewares/initialize_middleware.dar
 import '../../../../../core/infrastructure/protocols/cache_response.dart';
 
 import '../../../../../core/shared/configuration/cache_configuration.dart';
+import '../../../../../core/shared/configuration/notifiers/cache_configuration_notifier.dart';
 import '../../../../../core/shared/services/service_locator/implementations/service_locator.dart';
 import '../../../domain/dtos/key_cache_dto.dart';
 import '../../../domain/dtos/write_cache_dto.dart';
@@ -11,6 +12,8 @@ import '../../../domain/usecases/clear_data_cache_usecase.dart';
 import '../../../domain/usecases/delete_data_cache_usecase.dart';
 import '../../../domain/usecases/get_data_cache_usecase.dart';
 import '../../../domain/usecases/write_data_cache_usecase.dart';
+import '../../../domain/value_objects/data_cache_options.dart';
+
 import '../i_base_data_cache_controller.dart';
 
 part 'data_cache_controller.dart';
@@ -52,11 +55,13 @@ class BaseDataCacheController implements IBaseDataCacheController {
   }
 
   @override
-  Future<void> save<T extends Object>({required String key, required T data}) async {
+  Future<void> save<T extends Object>({required String key, required T data, DataCacheOptions? options}) async {
+    CacheConfigurationNotifier.instance.setDataOptions(options);
+
     final dto = WriteCacheDTO<T>(key: key, data: data);
     final response = await _writeCacheUsecase.execute(dto);
 
-    return response.fold((error) => throw error, (_) {});
+    if (response.isError) throw response.error;
   }
 
   @override
@@ -64,14 +69,14 @@ class BaseDataCacheController implements IBaseDataCacheController {
     final dto = KeyCacheDTO(key: key);
     final response = await _deleteCacheUsecase.execute(dto);
 
-    return response.fold((error) => throw error, (_) {});
+    if (response.isError) throw response.error;
   }
 
   @override
   Future<void> clear() async {
     final response = await _clearCacheUsecase.execute();
 
-    return response.fold((error) => throw error, (_) {});
+    if (response.isError) throw response.error;
   }
 
   Future<CacheResponse<T?>> _getDataCache<T extends Object, DataType extends Object>({required String key}) async {
