@@ -1,0 +1,1 @@
+enum AnimationDirection { forward, reverse }

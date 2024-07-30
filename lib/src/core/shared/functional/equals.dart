@@ -13,5 +13,5 @@ abstract class Equals {
   }
 
   @override
-  int get hashCode => props.fold(0, (prev, next) => prev ^ next.hashCode);
+  int get hashCode => props.fold(0, (prev, next) => Object.hash(prev, next));
 }
