@@ -11,20 +11,17 @@ import '../constants/cache_size_constants.dart';
 /// total cache size in bytes.
 @immutable
 class CacheSizeOptions {
-  final int maxKb;
   final int maxMb;
 
   /// Constructor for creating cache size options with customizable maximum sizes.
   /// If no values are provided, it defaults to 0 KB for maxKb and 20 MB for maxMb.
   ///
   /// - Parameters:
-  ///   - maxKb: The maximum cache size in kilobytes. Must be non-negative.
   ///   - maxMb: The maximum cache size in megabytes. Must be non-negative.
   const CacheSizeOptions({
-    this.maxKb = CacheSizeConstants.defaultMaxKb,
     this.maxMb = CacheSizeConstants.defaultMaxMb,
-  })  : assert(maxKb >= 0, 'maxKb must be non-negative'),
-        assert(maxMb > 0, 'maxMb must be non-negative');
+  })  : assert(maxMb > 0, 'maxMb must be non-negative'),
+        assert(!kIsWeb || maxMb <= 5, 'For web, maxMb must be at most 5');
 
   /// Calculates the total cache size in kilobytes.
   ///
@@ -34,12 +31,9 @@ class CacheSizeOptions {
   /// Returns:
   ///   The total cache size in kilobytes (double).
   double get totalKb {
-    final totalMbBytes = maxMb * CacheSizeConstants.bytesPerMb;
-    final totalKbBytes = maxKb * CacheSizeConstants.bytesPerKb;
-
-    final totalBytes = totalMbBytes + totalKbBytes;
-
+    final totalBytes = maxMb * CacheSizeConstants.bytesPerMb;
     final totalKb = totalBytes.toDouble() / CacheSizeConstants.bytesPerKb;
+
     return totalKb.roundToDecimal();
   }
 
@@ -47,9 +41,9 @@ class CacheSizeOptions {
   bool operator ==(covariant CacheSizeOptions other) {
     if (identical(this, other)) return true;
 
-    return other.maxKb == maxKb && other.maxMb == maxMb;
+    return other.maxMb == maxMb;
   }
 
   @override
-  int get hashCode => maxKb.hashCode ^ maxMb.hashCode;
+  int get hashCode => maxMb.hashCode;
 }
