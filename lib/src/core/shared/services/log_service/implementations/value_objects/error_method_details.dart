@@ -1,7 +1,9 @@
 import 'package:flutter/foundation.dart';
 
+import '../../../../functional/equals.dart';
+
 @immutable
-final class ErrorMethodDetails {
+final class ErrorMethodDetails extends Equals {
   final String method;
   final String errorLine;
 
@@ -11,12 +13,5 @@ final class ErrorMethodDetails {
   });
 
   @override
-  bool operator ==(covariant ErrorMethodDetails other) {
-    if (identical(this, other)) return true;
-
-    return other.method == method && other.errorLine == errorLine;
-  }
-
-  @override
-  int get hashCode => method.hashCode ^ errorLine.hashCode;
+  List<Object?> get props => [method, errorLine];
 }

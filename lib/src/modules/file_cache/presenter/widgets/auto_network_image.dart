@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'statefuls/multi_state_image.dart';
-
 class AutoNetworkImage extends StatelessWidget {
   final String imageUrl;
   final Alignment alignment;
@@ -20,10 +18,6 @@ class AutoNetworkImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // return MultiStateImage(
-    //   image: ,
-    // );
-
     return const SizedBox.shrink();
   }
 }

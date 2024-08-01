@@ -1,6 +1,7 @@
 import 'package:flutter/widgets.dart';
 
 import '../../transitions/auto_transition_widget.dart';
+import '../../transitions/enums/animation_direction.dart';
 
 class StackMultiStateImage extends StatefulWidget {
   final Widget revealing;

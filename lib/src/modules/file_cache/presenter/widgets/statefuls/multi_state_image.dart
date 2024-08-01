@@ -37,21 +37,30 @@ class _MultiStateImageState extends State<MultiStateImage> {
       image: widget.image,
       fit: widget.fit,
       errorBuilder: (ctx, _, __) => widget.errorBuilder.let((error) => error.call(ctx)) ?? const SizedBox.shrink(),
-      frameBuilder: _imageBuilder,
+      frameBuilder: (_, child, frame, wasLoaded) => _ImageBuilder(child, frame, wasLoaded, builder: widget.placeholderBuilder),
       filterQuality: widget.filterQuality,
     );
   }
+}
 
-  Widget _imageBuilder(BuildContext ctx, Widget child, int? frame, bool wasLoaded) {
-    if (widget.placeholderBuilder == null) return child;
+class _ImageBuilder extends StatelessWidget {
+  final Widget child;
+  final bool wasLoaded;
+  final int? frame;
+  final MultiStateWidgetCallback? builder;
 
-    return _placeholderBuilder(ctx, child, frame, wasLoaded);
-  }
+  const _ImageBuilder(
+    this.child,
+    this.frame,
+    this.wasLoaded, {
+    required this.builder,
+  });
 
-  Widget _placeholderBuilder(BuildContext ctx, Widget child, int? frame, bool wasLoaded) {
-    if (wasLoaded) return child;
-    if (frame == null) return widget.placeholderBuilder?.call(context) ?? const SizedBox.shrink();
+  @override
+  Widget build(BuildContext context) {
+    if (builder == null || wasLoaded) return child;
+    if (frame == null) return builder?.call(context) ?? const SizedBox.shrink();
 
-    return StackMultiStateImage(revealing: child, disappearing: widget.placeholderBuilder?.call(context));
+    return StackMultiStateImage(revealing: child, disappearing: builder?.call(context));
   }
 }

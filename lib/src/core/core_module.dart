@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:encrypt/encrypt.dart';
+
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'shared/configuration/cache_configuration.dart';
@@ -9,6 +12,8 @@ import 'shared/services/cryptography_service/i_cryptography_service.dart';
 import 'shared/services/cryptography_service/implementations/encrypt_cryptography_service.dart';
 import 'shared/services/cryptography_service/implementations/factories/encrypter_factory.dart';
 import 'shared/services/directory_service/directory_provider_service.dart';
+import 'shared/services/http_service/i_http_service.dart';
+import 'shared/services/http_service/implementations/http_service.dart';
 import 'shared/services/kvs_service/i_kvs_service.dart';
 import 'shared/services/kvs_service/implementations/shared_preferences_kvs_service.dart';
 import 'shared/services/path_provider_service/i_path_provider_service.dart';
@@ -23,6 +28,8 @@ class CoreModule extends CacheModule {
     await ServiceLocator.instance.asyncBind(SharedPreferences.getInstance);
     ServiceLocator.instance.bindSingleton<CacheConfiguration>(CacheConfigurationNotifier.instance.config);
     ServiceLocator.instance.bindSingleton<Encrypter>(EncrypterFactory.createEncrypter(get()));
+    ServiceLocator.instance.bindFactory(() => HttpClient());
+    ServiceLocator.instance.bindFactory<IHttpService>(() => HttpService(get()));
     ServiceLocator.instance.bindFactory<IPathProviderService>(() => PathProviderService());
     ServiceLocator.instance.bindFactory<ICacheSizeService>(() => CacheSizeService(get(), get()));
     ServiceLocator.instance.bindFactory<IKvsService>(() => SharedPreferencesKvsService(get()));
