@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
-import '../file_response/http_file_response.dart';
+import '../file_responses/http_file_response.dart';
 import '../i_http_service.dart';
 
 import '../../../extensions/infrastructure/http/http_headers_extensions.dart';
