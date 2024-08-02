@@ -4,7 +4,7 @@ import 'package:flutter_auto_cache/src/core/shared/configuration/cache_configura
 import 'package:flutter_auto_cache/src/core/shared/services/cryptography_service/exceptions/cryptography_exceptions.dart';
 import 'package:flutter_auto_cache/src/core/shared/services/cryptography_service/implementations/encrypt_cryptography_service.dart';
 import 'package:flutter_auto_cache/src/core/shared/services/cryptography_service/value_objects/cache_cryptography_options.dart';
-
+import 'package:flutter_auto_cache/src/core/shared/services/cryptography_service/value_objects/enums/cache_cryptography_methods.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
@@ -18,7 +18,7 @@ void main() {
 
   final sut = EncryptCryptographyService(cacheConfig, encrypter);
 
-  final options = CacheCryptographyOptions(secretKey: 'mySecretKey');
+  final options = CacheCryptographyOptions(secretKey: 'mySecretKey', cryptographyMethod: CacheCryptographyMethods.aes);
   final encrypted = Encrypted(Uint8List(8));
 
   setUp(() {
@@ -33,14 +33,19 @@ void main() {
 
   group('EncryptCryptographyService.encrypt |', () {
     test('should be able to encrypt data successfully', () {
-      when(() => cacheConfig.cryptographyOptions).thenReturn(options);
-      when(() => encrypter.encrypt('value', iv: any(named: 'iv'))).thenReturn(Encrypted(Uint8List(8)));
+      for (int i = 0; i < CacheCryptographyMethods.values.length; i++) {
+        final method = CacheCryptographyMethods.values[i];
+        final options = CacheCryptographyOptions(secretKey: 'mySecretKey', cryptographyMethod: method);
 
-      final response = sut.encrypt('value');
+        when(() => cacheConfig.cryptographyOptions).thenReturn(options);
+        when(() => encrypter.encrypt('value', iv: any(named: 'iv'))).thenReturn(Encrypted(Uint8List(8)));
 
-      expect(response.length, equals(32));
-      verify(() => cacheConfig.cryptographyOptions).called(1);
-      verify(() => encrypter.encrypt('value', iv: any(named: 'iv'))).called(1);
+        final response = sut.encrypt('value');
+
+        expect(response.length, equals(32));
+        verify(() => cacheConfig.cryptographyOptions).called(1);
+        verify(() => encrypter.encrypt('value', iv: any(named: 'iv'))).called(1);
+      }
     });
 
     test('should be able to return NULL when cryptography options is not setted', () {
