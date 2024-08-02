@@ -1,16 +1,38 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/foundation.dart';
 
-/// Represents cache cryptography options with a configurable secret key.
+import 'enums/cache_cryptography_methods.dart';
+
+/// Defines options for cache cryptography, including a secret key and encryption method.
 ///
-/// This class allows the definition of cache cryptography options for applications,
-/// providing a flexible way to define the secret key for cryptography,
-/// enhancing security.
+/// This class configures cache encryption and decryption by specifying the
+/// cryptographic method and a secret key. It ensures that the secret key is
+/// not empty, enhancing security.
 @immutable
 class CacheCryptographyOptions {
+  /// The secret key used for cryptographic operations.
+  ///
+  /// This key must be a non-empty string and is used with the chosen cryptography
+  /// method to secure cache data.
   final String secretKey;
 
-  CacheCryptographyOptions({required this.secretKey}) : assert(secretKey.isNotEmpty, _assertErrorMessage);
+  /// The cryptography method applied for encrypting and decrypting cache data.
+  ///
+  /// Determines the algorithm used for securing the cache. Options are defined
+  /// in [CacheCryptographyMethods].
+  final CacheCryptographyMethods cryptographyMethod;
+
+  /// Creates a [CacheCryptographyOptions] instance with the provided [secretKey]
+  /// and [cryptographyMethod].
+  ///
+  /// The [secretKey] must be non-empty. An assertion will be triggered if an
+  /// empty string is provided.
+  ///
+  /// [secretKey] The non-empty secret key for cryptographic operations.
+  /// [cryptographyMethod] The method to use for cache encryption and decryption.
+  CacheCryptographyOptions({
+    required this.secretKey,
+    required this.cryptographyMethod,
+  }) : assert(secretKey.isNotEmpty, _assertErrorMessage);
 
   static const String _assertErrorMessage = 'Secret key cannot be empty. Please provide a non-empty string as the secret key.';
 
