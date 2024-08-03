@@ -7,13 +7,13 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'shared/configuration/cache_configuration.dart';
 import 'shared/configuration/notifiers/cache_configuration_notifier.dart';
 import 'shared/contracts/modules/package_module.dart';
+import 'shared/controllers/token_bucket/token_bucket_controller.dart';
 import 'shared/services/cache_size_service/cache_size_service.dart';
 import 'shared/services/cryptography_service/i_cryptography_service.dart';
 import 'shared/services/cryptography_service/implementations/encrypt_cryptography_service.dart';
 import 'shared/services/cryptography_service/implementations/factories/encrypter_factory.dart';
 import 'shared/services/directory_service/directory_provider_service.dart';
-import 'shared/services/http_service/i_http_service.dart';
-import 'shared/services/http_service/implementations/http_service.dart';
+import 'shared/services/http_service/http_service.dart';
 import 'shared/services/kvs_service/i_kvs_service.dart';
 import 'shared/services/kvs_service/implementations/shared_preferences_kvs_service.dart';
 import 'shared/services/path_provider_service/i_path_provider_service.dart';
@@ -35,5 +35,6 @@ class CoreModule extends CacheModule {
     ServiceLocator.instance.bindFactory<IKvsService>(() => SharedPreferencesKvsService(get()));
     ServiceLocator.instance.bindFactory<ICryptographyService>(() => EncryptCryptographyService(get(), get()));
     ServiceLocator.instance.bindSingleton<IDirectoryProviderService>(DirectoryProviderService(get()));
+    ServiceLocator.instance.bindFactory<ITokenBucketController>(() => TokenBucketController());
   }
 }

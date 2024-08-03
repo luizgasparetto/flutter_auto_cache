@@ -1,13 +1,16 @@
 import 'dart:async';
 import 'dart:io';
 
-import '../file_responses/http_file_response.dart';
-import '../i_http_service.dart';
+import 'responses/http_file_response.dart';
 
-import '../../../extensions/infrastructure/http/http_headers_extensions.dart';
-import '../../../extensions/infrastructure/http/http_response_extensions.dart';
+import '../../extensions/infrastructure/http/http_headers_extensions.dart';
+import '../../extensions/infrastructure/http/http_response_extensions.dart';
 
-import '../../../extensions/infrastructure/streams/stream_extensions.dart';
+import '../../extensions/infrastructure/streams/stream_extensions.dart';
+
+abstract interface class IHttpService {
+  Future<FileResponse> getFile(String url, {Map<String, dynamic>? headers});
+}
 
 final class HttpService implements IHttpService {
   final HttpClient client;
