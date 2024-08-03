@@ -1,9 +1,13 @@
+import '../constants/token_request_constants.dart';
+
 sealed class TokenBucketState {
   final int availableTokens;
 
   const TokenBucketState({required this.availableTokens});
 
-  bool get isAvailable => this is AvailableTokenBucketState;
+  bool get isAvailable => availableTokens >= TokenRequestConstants.minAvailableCalls;
+
+  //bool get isAvailable => this is AvailableTokenBucketState;
 }
 
 final class InitialTokenBucketState extends TokenBucketState {

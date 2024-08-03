@@ -7,7 +7,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'shared/configuration/cache_configuration.dart';
 import 'shared/configuration/notifiers/cache_configuration_notifier.dart';
 import 'shared/contracts/modules/package_module.dart';
-import 'shared/controllers/token_bucket/token_bucket_controller.dart';
 import 'shared/services/cache_size_service/cache_size_service.dart';
 import 'shared/services/cryptography_service/i_cryptography_service.dart';
 import 'shared/services/cryptography_service/implementations/encrypt_cryptography_service.dart';
@@ -35,6 +34,5 @@ class CoreModule extends CacheModule {
     ServiceLocator.instance.bindFactory<IKvsService>(() => SharedPreferencesKvsService(get()));
     ServiceLocator.instance.bindFactory<ICryptographyService>(() => EncryptCryptographyService(get(), get()));
     ServiceLocator.instance.bindSingleton<IDirectoryProviderService>(DirectoryProviderService(get()));
-    ServiceLocator.instance.bindFactory<ITokenBucketController>(() => TokenBucketController());
   }
 }

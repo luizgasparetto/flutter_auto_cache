@@ -23,7 +23,7 @@ export 'domain/value_objects/data_cache_options.dart';
 export 'domain/enums/substitution_policies.dart';
 export 'domain/value_objects/invalidation_methods/invalidation_method.dart';
 
-class DataCacheModule extends CacheModule {
+final class DataCacheModule extends CacheModule {
   @override
   Future<void> registerBinds() async {
     ServiceLocator.instance.bindFactory<IQueryDataCacheDatasource>(() => QueryDataCacheDatasource(get(), get(), get()));
