@@ -1,0 +1,1 @@
+enum CacheType { data, file }

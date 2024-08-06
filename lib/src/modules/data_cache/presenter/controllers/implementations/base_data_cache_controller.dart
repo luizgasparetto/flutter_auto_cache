@@ -5,6 +5,7 @@ import '../../../../../core/infrastructure/protocols/cache_response.dart';
 
 import '../../../../../core/shared/configuration/cache_configuration.dart';
 import '../../../../../core/shared/configuration/notifiers/cache_configuration_notifier.dart';
+import '../../../../../core/shared/errors/handlers/error_handler.dart';
 import '../../../../../core/shared/services/service_locator/implementations/service_locator.dart';
 import '../../../domain/dtos/key_cache_dto.dart';
 import '../../../domain/dtos/write_cache_dto.dart';
@@ -61,7 +62,7 @@ class BaseDataCacheController implements IBaseDataCacheController {
     final dto = WriteCacheDTO<T>(key: key, data: data);
     final response = await _writeCacheUsecase.execute(dto);
 
-    if (response.isError) throw response.error;
+    if (response.isError) throw ErrorHandler.handle(response.error);
   }
 
   @override
@@ -69,20 +70,20 @@ class BaseDataCacheController implements IBaseDataCacheController {
     final dto = KeyCacheDTO(key: key);
     final response = await _deleteCacheUsecase.execute(dto);
 
-    if (response.isError) throw response.error;
+    if (response.isError) throw ErrorHandler.handle(response.error);
   }
 
   @override
   Future<void> clear() async {
     final response = await _clearCacheUsecase.execute();
 
-    if (response.isError) throw response.error;
+    if (response.isError) throw ErrorHandler.handle(response.error);
   }
 
   Future<CacheResponse<T?>> _getDataCache<T extends Object, DataType extends Object>({required String key}) async {
     final dto = KeyCacheDTO(key: key);
 
     final response = await _getCacheUsecase.execute<T, DataType>(dto);
-    return response.fold((error) => throw error, (success) => success);
+    return response.fold((error) => throw ErrorHandler.handle(error), (success) => success);
   }
 }

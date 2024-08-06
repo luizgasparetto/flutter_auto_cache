@@ -1,15 +1,14 @@
 import 'dart:async';
 
-import 'package:flutter_auto_cache/flutter_auto_cache.dart';
-
 import '../../../../core/infrastructure/protocols/cache_response.dart';
+import '../../domain/value_objects/data_cache_options.dart';
 
 /// An interface that defines methods for querying and commanding a data cache.
 ///
 /// This interface provides the base operations for querying and manipulating
 /// cached data, offering a unified approach for fetching, saving, deleting, and
 /// clearing cached data.
-abstract interface class IBaseDataCacheController {
+abstract class IBaseDataCacheController {
   /// Fetches a cached object of type [T] corresponding to the specified [key].
   ///
   /// - [key]: A unique identifier associated with the desired cached object.

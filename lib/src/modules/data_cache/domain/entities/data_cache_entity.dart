@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 
 import '../../../../core/domain/entities/cache_entity.dart';
+import '../../../../core/domain/enums/cache_type.dart';
 import '../../../../core/domain/value_objects/cache_metadata.dart';
 
 /// A class representing a cache entity with associated data and timestamps.
@@ -9,13 +10,15 @@ import '../../../../core/domain/value_objects/cache_metadata.dart';
 /// creation time, last update time, and expiration time. It is immutable,
 /// ensuring that once an instance is created, it cannot be modified.
 @immutable
-class DataCacheEntity<T extends Object> extends CacheEntity<T> {
+class DataCacheEntity<T extends Object> extends CacheEntity {
+  final T data;
+
   const DataCacheEntity({
     required super.id,
-    required super.data,
+    required this.data,
     required super.metadata,
     super.usageCount,
-  });
+  }) : super(cacheType: CacheType.data);
 
   factory DataCacheEntity.fakeConfig(T data, {String? key, int? usageCount}) {
     return DataCacheEntity<T>(

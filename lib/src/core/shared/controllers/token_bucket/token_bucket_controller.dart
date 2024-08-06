@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import '../../../../../core/shared/contracts/auto_cache_notifier.dart';
+import '../../contracts/auto_cache_notifier.dart';
 import 'constants/token_request_constants.dart';
 
 import 'states/token_bucket_state.dart';
