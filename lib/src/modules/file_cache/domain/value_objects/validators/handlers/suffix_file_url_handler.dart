@@ -1,18 +1,17 @@
+import '../../../../../../core/shared/contracts/handlers/chain_handler.dart';
 import '../../../../../../core/shared/errors/auto_cache_error.dart';
 import '../../../../../../core/shared/functional/either.dart';
 
 import '../../../enums/file_extensions.dart';
 import '../../../failures/url_failures.dart';
-import '../url_handler.dart';
 
-final class SuffixFileUrlHandler extends UrlHandler {
+final class SuffixFileUrlHandler extends SyncChainHandler<Unit> {
   @override
   Either<AutoCacheFailure, Unit> handle(String url) {
-    final values = FileExtensions.values.map((file) => file.name).toList();
-    final separatedFiles = values.join('|');
+    final extensions = FileExtensions.values.map((file) => file.name).toList();
+    final fileExtension = url.split('/').last.split('.').last.toLowerCase();
 
-    final fileRegex = RegExp('\\.($separatedFiles)\$', caseSensitive: false);
-    final hasMatch = fileRegex.hasMatch(url);
+    final hasMatch = extensions.contains(fileExtension);
 
     if (hasMatch) return nextHandler?.handle(url) ?? right(unit);
 
