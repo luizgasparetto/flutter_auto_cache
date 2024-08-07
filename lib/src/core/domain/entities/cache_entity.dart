@@ -1,8 +1,9 @@
 import 'package:flutter/foundation.dart';
-import 'package:flutter_auto_cache/src/core/domain/enums/cache_type.dart';
 
 import '../../shared/functional/equals.dart';
+
 import '../value_objects/cache_metadata.dart';
+import '../enums/cache_type.dart';
 
 @immutable
 abstract class CacheEntity extends Equals {
@@ -17,8 +18,6 @@ abstract class CacheEntity extends Equals {
     required this.cacheType,
     this.usageCount = 0,
   });
-
-  String get key => '${cacheType.name}-$id';
 
   @override
   List<Object?> get props => [id];

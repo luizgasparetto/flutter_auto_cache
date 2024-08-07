@@ -1,4 +1,4 @@
-import 'package:flutter_auto_cache/src/modules/data_cache/domain/value_objects/invalidation_methods/invalidation_method.dart';
+import 'package:flutter_auto_cache/src/core/domain/value_objects/invalidation_methods/invalidation_method.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

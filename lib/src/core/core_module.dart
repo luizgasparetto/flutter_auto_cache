@@ -4,6 +4,7 @@ import 'package:encrypt/encrypt.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'domain/services/invalidation_service/invalidation_cache_service.dart';
 import 'shared/configuration/cache_configuration.dart';
 import 'shared/configuration/notifiers/cache_configuration_notifier.dart';
 import 'shared/contracts/modules/package_module.dart';
@@ -20,6 +21,7 @@ import 'shared/services/path_provider_service/implementations/path_provider_serv
 import 'shared/services/service_locator/implementations/service_locator.dart';
 
 export 'shared/configuration/cache_configuration.dart' hide PrivateGettersCacheConfiguration, PrivateSettersCacheConfiguration;
+export 'domain/value_objects/invalidation_methods/invalidation_method.dart';
 
 class CoreModule extends CacheModule {
   @override
@@ -34,5 +36,6 @@ class CoreModule extends CacheModule {
     ServiceLocator.instance.bindFactory<IKvsService>(() => SharedPreferencesKvsService(get()));
     ServiceLocator.instance.bindFactory<ICryptographyService>(() => EncryptCryptographyService(get(), get()));
     ServiceLocator.instance.bindSingleton<IDirectoryProviderService>(DirectoryProviderService(get()));
+    ServiceLocator.instance.bindFactory<IInvalidationCacheService>(() => InvalidationCacheService(get()));
   }
 }

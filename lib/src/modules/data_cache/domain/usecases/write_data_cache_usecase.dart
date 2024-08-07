@@ -1,3 +1,4 @@
+import '../../../../core/domain/services/invalidation_service/invalidation_cache_service.dart';
 import '../../../../core/shared/errors/auto_cache_error.dart';
 import '../../../../core/shared/functional/either.dart';
 import '../dtos/key_cache_dto.dart';
@@ -8,7 +9,6 @@ import '../entities/data_cache_entity.dart';
 import '../factories/data_cache_factory.dart';
 import '../repositories/i_data_cache_repository.dart';
 
-import '../services/invalidation_service/invalidation_cache_service.dart';
 import '../services/substitution_service/substitution_cache_service.dart';
 
 typedef WriteDataCacheResponse = AsyncEither<AutoCacheError, Unit>;
