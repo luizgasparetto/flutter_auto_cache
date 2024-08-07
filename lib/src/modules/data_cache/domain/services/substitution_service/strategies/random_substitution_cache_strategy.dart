@@ -1,4 +1,4 @@
-part of '../substitution_cache_strategy.dart';
+part of '../data_cache_substitution_strategy.dart';
 
 final class RandomSubstitutionCacheStrategy extends ISubstitutionCacheStrategy {
   const RandomSubstitutionCacheStrategy(super.dataRepository, super.substitutionRepository);

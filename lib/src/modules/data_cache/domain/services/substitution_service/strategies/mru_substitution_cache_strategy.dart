@@ -1,4 +1,4 @@
-part of '../substitution_cache_strategy.dart';
+part of '../data_cache_substitution_strategy.dart';
 
 final class MruSubstitutionCacheStrategy extends ISubstitutionCacheStrategy {
   MruSubstitutionCacheStrategy(super.dataRepository, super.substitutionRepository);

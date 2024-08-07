@@ -4,7 +4,7 @@ import 'package:flutter_auto_cache/src/core/shared/functional/either.dart';
 import 'package:flutter_auto_cache/src/modules/data_cache/domain/dtos/key_cache_dto.dart';
 import 'package:flutter_auto_cache/src/modules/data_cache/domain/entities/data_cache_entity.dart';
 import 'package:flutter_auto_cache/src/modules/data_cache/domain/repositories/i_data_cache_repository.dart';
-import 'package:flutter_auto_cache/src/modules/data_cache/domain/services/substitution_service/substitution_cache_strategy.dart';
+import 'package:flutter_auto_cache/src/modules/data_cache/domain/services/substitution_service/data_cache_substitution_strategy.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 

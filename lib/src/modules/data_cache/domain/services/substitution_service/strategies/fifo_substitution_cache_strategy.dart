@@ -1,4 +1,4 @@
-part of '../substitution_cache_strategy.dart';
+part of '../data_cache_substitution_strategy.dart';
 
 final class FifoSubstitutionCacheStrategy extends ISubstitutionCacheStrategy {
   const FifoSubstitutionCacheStrategy(super.dataRepository, super.substitutionRepository);
