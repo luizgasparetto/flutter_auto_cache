@@ -1,18 +1,21 @@
+// ignore_for_file: unnecessary_getters_setters
+
+import 'dart:async';
+
 import '../../errors/auto_cache_error.dart';
 import '../../functional/either.dart';
 
-abstract class SyncChainHandler<T extends Object> {
-  SyncChainHandler<T>? nextHandler;
+part 'internals/sync_chain_handler.dart';
+part 'internals/async_chain_handler.dart';
 
-  void setNext(SyncChainHandler<T> handler) => nextHandler = handler;
+sealed class ChainHandler<ReturnType extends FutureOr<Either>, Value extends Object> {
+  ChainHandler? _nextHandler;
 
-  Either<AutoCacheFailure, T> handle(String url);
-}
+  ChainHandler? get nextHandler => _nextHandler;
 
-abstract class AsyncChainHandler<T extends Object> {
-  AsyncChainHandler<T>? nextHandler;
+  set nextHandler(ChainHandler? handler) => _nextHandler = handler;
 
-  void setNext(AsyncChainHandler<T> handler) => nextHandler = handler;
+  void setNext(ChainHandler handler) => nextHandler = handler;
 
-  AsyncEither<AutoCacheFailure, T> handle(String url);
+  ReturnType handle(Value value);
 }

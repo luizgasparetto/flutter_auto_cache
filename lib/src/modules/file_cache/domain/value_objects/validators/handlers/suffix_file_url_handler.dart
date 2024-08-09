@@ -5,15 +5,15 @@ import '../../../../../../core/shared/functional/either.dart';
 import '../../../enums/file_types.dart';
 import '../../../failures/url_failures.dart';
 
-final class SuffixFileUrlHandler extends SyncChainHandler<Unit> {
+final class SuffixFileUrlHandler extends SyncChainHandler<Unit, String> {
   @override
-  Either<AutoCacheFailure, Unit> handle(String url) {
+  Either<AutoCacheFailure, Unit> handle(String value) {
     final extensions = FileTypes.values.map((file) => file.name).toList();
-    final fileExtension = url.split('/').last.split('.').last.toLowerCase();
+    final fileExtension = value.split('/').last.split('.').last.toLowerCase();
 
     final hasMatch = extensions.contains(fileExtension);
 
-    if (hasMatch) return nextHandler?.handle(url) ?? right(unit);
+    if (hasMatch) return nextHandler?.handle(value) ?? right(unit);
 
     return left(InvalidUrlSuffixFileFailure());
   }

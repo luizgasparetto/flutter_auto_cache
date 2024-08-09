@@ -4,12 +4,13 @@ import '../../../../../../core/shared/functional/either.dart';
 
 import '../../../failures/url_failures.dart';
 
-final class ProtocolUrlHandler extends SyncChainHandler<Unit> {
+final class ProtocolUrlHandler extends SyncChainHandler<Unit, String> {
   @override
-  Either<AutoCacheFailure, Unit> handle(String url) {
+  Either<AutoCacheFailure, Unit> handle(String value) {
     final protocolRegex = RegExp(r'^(https?:\/\/)');
-    final hasMatch = protocolRegex.hasMatch(url);
-    if (hasMatch) return nextHandler?.handle(url) ?? right(unit);
+
+    final hasMatch = protocolRegex.hasMatch(value);
+    if (hasMatch) return nextHandler?.handle(value) ?? right(unit);
 
     return left(InvalidUrlProtocolFailure());
   }
