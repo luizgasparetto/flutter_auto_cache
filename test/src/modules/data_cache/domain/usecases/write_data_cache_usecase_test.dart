@@ -1,3 +1,4 @@
+import 'package:flutter_auto_cache/src/core/domain/services/invalidation_service/invalidation_cache_service.dart';
 import 'package:flutter_auto_cache/src/core/shared/configuration/cache_configuration.dart';
 import 'package:flutter_auto_cache/src/core/shared/configuration/notifiers/cache_configuration_notifier.dart';
 import 'package:flutter_auto_cache/src/core/shared/errors/auto_cache_error.dart';
@@ -7,7 +8,7 @@ import 'package:flutter_auto_cache/src/modules/data_cache/domain/dtos/write_cach
 import 'package:flutter_auto_cache/src/modules/data_cache/domain/entities/data_cache_entity.dart';
 import 'package:flutter_auto_cache/src/modules/data_cache/domain/factories/data_cache_factory.dart';
 import 'package:flutter_auto_cache/src/modules/data_cache/domain/repositories/i_data_cache_repository.dart';
-import 'package:flutter_auto_cache/src/modules/data_cache/domain/services/invalidation_service/invalidation_cache_service.dart';
+
 import 'package:flutter_auto_cache/src/modules/data_cache/domain/services/substitution_service/substitution_cache_service.dart';
 import 'package:flutter_auto_cache/src/modules/data_cache/domain/usecases/write_data_cache_usecase.dart';
 import 'package:flutter_auto_cache/src/modules/data_cache/domain/value_objects/data_cache_options.dart';

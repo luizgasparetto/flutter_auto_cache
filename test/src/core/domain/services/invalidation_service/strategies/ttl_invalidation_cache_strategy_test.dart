@@ -1,7 +1,8 @@
+import 'package:flutter_auto_cache/src/core/domain/services/invalidation_service/invalidation_cache_strategy.dart';
 import 'package:flutter_auto_cache/src/core/domain/value_objects/cache_metadata.dart';
 import 'package:flutter_auto_cache/src/modules/data_cache/domain/entities/data_cache_entity.dart';
-import 'package:flutter_auto_cache/src/modules/data_cache/domain/enums/invalidation_status.dart';
-import 'package:flutter_auto_cache/src/modules/data_cache/domain/services/invalidation_service/invalidation_cache_strategy.dart';
+import 'package:flutter_auto_cache/src/core/domain/enums/invalidation_status.dart';
+
 import 'package:flutter_test/flutter_test.dart';
 
 class FakeNonExpiredDataCacheEntity extends Fake implements DataCacheEntity<String> {

@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 
+import '../../../../core/domain/value_objects/invalidation_methods/invalidation_method.dart';
 import '../enums/substitution_policies.dart';
-import 'invalidation_methods/invalidation_method.dart';
 
 @immutable
 class DataCacheOptions {

@@ -3,7 +3,6 @@ import '../../core/shared/services/service_locator/implementations/service_locat
 
 import 'domain/factories/data_cache_factory.dart';
 import 'domain/repositories/i_data_cache_repository.dart';
-import 'domain/services/invalidation_service/invalidation_cache_service.dart';
 import 'domain/services/substitution_service/substitution_cache_service.dart';
 import 'domain/usecases/clear_data_cache_usecase.dart';
 import 'domain/usecases/delete_data_cache_usecase.dart';
@@ -21,14 +20,12 @@ import 'infra/repositories/substitution_data_cache_repository.dart';
 export 'presenter/controllers/implementations/base_data_cache_controller.dart' show IDataCacheController;
 export 'domain/value_objects/data_cache_options.dart';
 export 'domain/enums/substitution_policies.dart';
-export 'domain/value_objects/invalidation_methods/invalidation_method.dart';
 
 final class DataCacheModule extends CacheModule {
   @override
   Future<void> registerBinds() async {
     ServiceLocator.instance.bindFactory<IQueryDataCacheDatasource>(() => QueryDataCacheDatasource(get(), get(), get()));
     ServiceLocator.instance.bindFactory<ICommandDataCacheDatasource>(() => CommandDataCacheDatasource(get(), get()));
-    ServiceLocator.instance.bindFactory<IInvalidationCacheService>(() => InvalidationCacheService(get()));
     ServiceLocator.instance.bindFactory<IDataCacheRepository>(() => DataCacheRepository(get(), get()));
     ServiceLocator.instance.bindFactory<ISubstitutionDataCacheRepository>(() => SubstitutionDataCacheRepository(get()));
     ServiceLocator.instance.bindFactory<IDataCacheFactory>(() => DataCacheFactory(get()));
