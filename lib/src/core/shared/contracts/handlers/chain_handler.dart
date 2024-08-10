@@ -6,10 +6,10 @@ import '../../functional/either.dart';
 part 'internals/sync_chain_handler.dart';
 part 'internals/async_chain_handler.dart';
 
-sealed class ChainHandler<ReturnType extends FutureOr<Either>, Value extends Object> {
+sealed class ChainHandler<Value extends Object> {
   ChainHandler? nextHandler;
 
   void setNext(ChainHandler handler) => nextHandler = handler;
 
-  ReturnType handle(Value value);
+  FutureOr<Either<AutoCacheFailure, Unit>> handle(Value value);
 }

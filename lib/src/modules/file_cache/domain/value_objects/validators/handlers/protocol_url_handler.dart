@@ -4,7 +4,7 @@ import '../../../../../../core/shared/functional/either.dart';
 
 import '../../../failures/url_failures.dart';
 
-final class ProtocolUrlHandler extends SyncChainHandler<Unit, String> {
+final class ProtocolUrlHandler extends SyncChainHandler<String> {
   @override
   Either<AutoCacheFailure, Unit> handle(String value) {
     final protocolRegex = RegExp(r'^(https?:\/\/)');

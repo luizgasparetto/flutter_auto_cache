@@ -1,11 +1,14 @@
 part of '../chain_handler.dart';
 
-abstract class SyncChainHandler<T extends Object, V extends Object> extends ChainHandler<Either<AutoCacheFailure, T>, V> {
-  covariant SyncChainHandler<T, V>? _nextHandler;
+abstract class SyncChainHandler<Value extends Object> extends ChainHandler<Value> {
+  covariant SyncChainHandler<Value>? _nextHandler;
 
   @override
-  SyncChainHandler<T, V>? get nextHandler => _nextHandler;
+  SyncChainHandler<Value>? get nextHandler => _nextHandler;
 
   @override
-  void setNext(covariant SyncChainHandler<T, V> handler) => _nextHandler = handler;
+  void setNext(covariant SyncChainHandler<Value> handler) => _nextHandler = handler;
+
+  @override
+  Either<AutoCacheFailure, Unit> handle(Value value);
 }
