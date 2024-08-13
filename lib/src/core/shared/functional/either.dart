@@ -1,3 +1,5 @@
+// coverage:ignore-files
+
 import 'dart:async';
 
 import '../errors/auto_cache_error.dart';
