@@ -2,22 +2,19 @@ import '../../../../core/shared/errors/auto_cache_error.dart';
 import '../../../../core/shared/functional/either.dart';
 import '../dtos/key_cache_dto.dart';
 import '../dtos/write_cache_dto.dart';
-
 import '../entities/data_cache_entity.dart';
-
 import '../factories/data_cache_factory.dart';
 import '../repositories/i_data_cache_repository.dart';
-
 import '../services/invalidation_service/invalidation_cache_service.dart';
 import '../services/substitution_service/substitution_cache_service.dart';
 
-typedef WriteDataCacheResponse = AsyncEither<AutoCacheError, Unit>;
+typedef WriteDataCacheResponse = AsyncResult<Unit>;
 
 /// Interface for writing data to the cache.
 ///
 /// This interface defines a method for writing data to the cache based on the
 /// provided [WriteCacheDTO] data transfer object. The operation returns an
-/// `AsyncEither` type that represents either an [AutoCacheError] in case of
+/// `AsyncResult` type that represents either an [AutoCacheError] in case of
 /// failure, or a [Unit] in case of success.
 abstract interface class IWriteDataCacheUsecase {
   /// Writes data to the cache based on the provided [dto].

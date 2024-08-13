@@ -1,10 +1,12 @@
-// coverage:ignore-file
-
 import 'dart:async';
 
-typedef AsyncEither<TLeft, TRight> = FutureOr<Either<TLeft, TRight>>;
+import '../errors/auto_cache_error.dart';
 
-abstract class Either<TLeft, TRight> {
+typedef Result<TRight> = _Either<AutoCacheError, TRight>;
+
+typedef AsyncResult<TRight> = FutureOr<_Either<AutoCacheError, TRight>>;
+
+abstract class _Either<TLeft, TRight> {
   bool get isError;
   bool get isSuccess;
 
@@ -13,10 +15,10 @@ abstract class Either<TLeft, TRight> {
 
   T fold<T>(T Function(TLeft l) leftFn, T Function(TRight r) rightFn);
 
-  Either<TLeft, TNewRight> mapRight<TNewRight>(TNewRight Function(TRight r) rightFn);
+  _Either<TLeft, TNewRight> mapRight<TNewRight>(TNewRight Function(TRight r) rightFn);
 }
 
-class _Left<TLeft, TRight> extends Either<TLeft, TRight> {
+class _Left<TLeft, TRight> extends _Either<TLeft, TRight> {
   final TLeft value;
 
   @override
@@ -39,12 +41,12 @@ class _Left<TLeft, TRight> extends Either<TLeft, TRight> {
   TRight get success => throw UnimplementedError();
 
   @override
-  Either<TLeft, TNewRight> mapRight<TNewRight>(TNewRight Function(TRight r) rightFn) {
+  _Either<TLeft, TNewRight> mapRight<TNewRight>(TNewRight Function(TRight r) rightFn) {
     return _Left<TLeft, TNewRight>(value);
   }
 }
 
-class _Right<TLeft, TRight> extends Either<TLeft, TRight> {
+class _Right<TLeft, TRight> extends _Either<TLeft, TRight> {
   final TRight value;
 
   @override
@@ -67,16 +69,16 @@ class _Right<TLeft, TRight> extends Either<TLeft, TRight> {
   TRight get success => value;
 
   @override
-  Either<TLeft, TNewRight> mapRight<TNewRight>(TNewRight Function(TRight r) rightFn) {
+  _Either<TLeft, TNewRight> mapRight<TNewRight>(TNewRight Function(TRight r) rightFn) {
     return _Right<TLeft, TNewRight>(rightFn(value));
   }
 }
 
-Either<TLeft, TRight> right<TLeft, TRight>(TRight r) {
+_Either<TLeft, TRight> right<TLeft, TRight>(TRight r) {
   return _Right<TLeft, TRight>(r);
 }
 
-Either<TLeft, TRight> left<TLeft, TRight>(TLeft l) {
+_Either<TLeft, TRight> left<TLeft, TRight>(TLeft l) {
   return _Left<TLeft, TRight>(l);
 }
 

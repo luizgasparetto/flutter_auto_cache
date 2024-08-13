@@ -1,11 +1,9 @@
 import '../../../../../core/shared/configuration/cache_configuration.dart';
 import '../../../../../core/shared/errors/auto_cache_error.dart';
 import '../../../../../core/shared/functional/either.dart';
-
 import '../../entities/data_cache_entity.dart';
-import '../../value_objects/invalidation_methods/invalidation_method.dart';
 import '../../enums/invalidation_status.dart';
-
+import '../../value_objects/invalidation_methods/invalidation_method.dart';
 import 'invalidation_cache_strategy.dart';
 
 /// This abstract interface defines the contract for cache invalidation contexts.
@@ -13,9 +11,9 @@ import 'invalidation_cache_strategy.dart';
 abstract interface class IInvalidationCacheService {
   /// Executes the cache invalidation logic.
   ///
-  /// This method takes a [DataCacheEntity] of a generic type [T] and returns an [Either] type,
+  /// This method takes a [DataCacheEntity] of a generic type [T] and returns an [Result] type,
   /// indicating either a failure of type [AutoCacheFailure] or success as a [Unit].
-  Either<AutoCacheError, bool> validate<T extends Object>(DataCacheEntity<T> cache);
+  Result<bool> validate<T extends Object>(DataCacheEntity<T> cache);
 }
 
 final class InvalidationCacheService implements IInvalidationCacheService {
@@ -24,7 +22,7 @@ final class InvalidationCacheService implements IInvalidationCacheService {
   const InvalidationCacheService(this.configuration);
 
   @override
-  Either<AutoCacheError, bool> validate<T extends Object>(DataCacheEntity<T> cache) {
+  Result<bool> validate<T extends Object>(DataCacheEntity<T> cache) {
     return invalidationCacheStrategy.validate<T>(cache).mapRight((status) => status == InvalidationStatus.valid);
   }
 
