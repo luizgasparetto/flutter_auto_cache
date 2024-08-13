@@ -12,7 +12,7 @@ abstract interface class IInvalidationCacheService {
   /// Executes the cache invalidation logic.
   ///
   /// This method takes a [DataCacheEntity] of a generic type [T] and returns an [Result] type,
-  /// indicating either a failure of type [AutoCacheFailure] or success as a [Unit].
+  /// indicating either a failure of type [AutoCacheError] or success as a [Unit].
   Result<bool> validate<T extends Object>(DataCacheEntity<T> cache);
 }
 

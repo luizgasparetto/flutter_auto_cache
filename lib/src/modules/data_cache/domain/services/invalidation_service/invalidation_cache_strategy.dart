@@ -11,7 +11,7 @@ abstract interface class InvalidationCacheStrategy {
   /// Validates the given [cache] entity of a generic type [T].
   ///
   /// This method takes a [DataCacheEntity] and returns an [Result] type, indicating either
-  /// a failure of type [AutoCacheFailure] or success as a [Unit]. The validation logic
+  /// a failure of type [AutoCacheError] or success as a [Unit]. The validation logic
   /// should determine whether the cache entity is still valid or needs invalidation.
   Result<InvalidationStatus> validate<T extends Object>(DataCacheEntity<T> cache);
 }

@@ -17,7 +17,7 @@ abstract interface class IDataCacheRepository {
   /// - Parameter [dto]: An object of type [KeyCacheDTO] that contains the criteria to locate the cache.
   ///
   /// Returns:
-  /// - An [Result] containing an [AutoCacheException] on failure, or a nullable [DataCacheEntity] of type [T] on success.
+  /// - An [Result] containing an [AutoCacheError] on failure, or a nullable [DataCacheEntity] of type [T] on success.
   Result<DataCacheEntity<T>?> get<T extends Object>(KeyCacheDTO dto);
 
   /// Retrieves a list of cached entities of type [T] using the data transfer object [dto].
@@ -27,7 +27,7 @@ abstract interface class IDataCacheRepository {
   /// - Parameter [dto]: An object of type [KeyCacheDTO] that contains the criteria to locate the cache.
   ///
   /// Returns:
-  /// - An [Result] containing an [AutoCacheException] on failure, or a nullable list of [DataCacheEntity] of type [T] on success.
+  /// - An [Result] containing an [AutoCacheError] on failure, or a nullable list of [DataCacheEntity] of type [T] on success.
   Result<DataCacheEntity<T>?> getList<T extends Object, DataType extends Object>(KeyCacheDTO dto);
 
   /// Saves a data object of type [T] using the data transfer object [dto].
@@ -35,7 +35,7 @@ abstract interface class IDataCacheRepository {
   /// The [dto] parameter provides the data and metadata required for caching.
   ///
   /// Returns:
-  /// - An [AsyncResult] containing an [AutoCacheException] on failure, or a [Unit] indicating success.
+  /// - An [AsyncResult] containing an [AutoCacheError] on failure, or a [Unit] indicating success.
   AsyncResult<Unit> write<T extends Object>(DataCacheEntity<T> cache);
 
   /// Deletes a cached data entry based on the criteria in [dto].
@@ -45,7 +45,7 @@ abstract interface class IDataCacheRepository {
   /// - Parameter [dto]: An object of type [KeyCacheDTO] containing the criteria to delete the cache.
   ///
   /// Returns:
-  /// - An [AsyncResult] containing an [AutoCacheException] on failure, or a [Unit] indicating success.
+  /// - An [AsyncResult] containing an [AutoCacheError] on failure, or a [Unit] indicating success.
   AsyncResult<Unit> delete(KeyCacheDTO dto);
 
   /// Clears all cached data.
@@ -53,6 +53,6 @@ abstract interface class IDataCacheRepository {
   /// This method clears all cached data regardless of specific criteria.
   ///
   /// Returns:
-  /// - An [AsyncResult] containing an [AutoCacheException] on failure, or a [Unit] indicating success.
+  /// - An [AsyncResult] containing an [AutoCacheError] on failure, or a [Unit] indicating success.
   AsyncResult<Unit> clear();
 }
