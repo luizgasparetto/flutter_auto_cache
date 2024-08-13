@@ -13,7 +13,7 @@ class DataCacheRepository implements IDataCacheRepository {
   const DataCacheRepository(this.queryDatasource, this.commandDatasource);
 
   @override
-  Either<AutoCacheException, DataCacheEntity<T>?> get<T extends Object>(KeyCacheDTO dto) {
+  Result<DataCacheEntity<T>?> get<T extends Object>(KeyCacheDTO dto) {
     try {
       final response = queryDatasource.get<T>(dto.key);
 
@@ -24,7 +24,7 @@ class DataCacheRepository implements IDataCacheRepository {
   }
 
   @override
-  Either<AutoCacheException, DataCacheEntity<T>?> getList<T extends Object, DataType extends Object>(KeyCacheDTO dto) {
+  Result<DataCacheEntity<T>?> getList<T extends Object, DataType extends Object>(KeyCacheDTO dto) {
     try {
       final response = queryDatasource.getList<T, DataType>(dto.key);
 
@@ -35,7 +35,7 @@ class DataCacheRepository implements IDataCacheRepository {
   }
 
   @override
-  AsyncEither<AutoCacheException, Unit> write<T extends Object>(DataCacheEntity<T> cache) async {
+  AsyncResult<Unit> write<T extends Object>(DataCacheEntity<T> cache) async {
     try {
       await commandDatasource.write<T>(cache);
 
@@ -46,7 +46,7 @@ class DataCacheRepository implements IDataCacheRepository {
   }
 
   @override
-  AsyncEither<AutoCacheException, Unit> delete(KeyCacheDTO dto) async {
+  AsyncResult<Unit> delete(KeyCacheDTO dto) async {
     try {
       await commandDatasource.delete(dto.key);
 
@@ -57,7 +57,7 @@ class DataCacheRepository implements IDataCacheRepository {
   }
 
   @override
-  AsyncEither<AutoCacheException, Unit> clear() async {
+  AsyncResult<Unit> clear() async {
     try {
       await commandDatasource.clear();
 

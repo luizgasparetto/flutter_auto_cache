@@ -1,7 +1,6 @@
 import '../../../../core/shared/errors/auto_cache_error.dart';
 import '../../../../core/shared/functional/either.dart';
 import '../../domain/entities/data_cache_entity.dart';
-
 import '../../domain/repositories/i_data_cache_repository.dart';
 import '../datasources/i_query_data_cache_datasource.dart';
 
@@ -11,7 +10,7 @@ final class SubstitutionDataCacheRepository implements ISubstitutionDataCacheRep
   const SubstitutionDataCacheRepository(this.datasource);
 
   @override
-  Either<AutoCacheException, List<String>> getKeys() {
+  Result<List<String>> getKeys() {
     try {
       final response = datasource.getKeys();
 
@@ -22,7 +21,7 @@ final class SubstitutionDataCacheRepository implements ISubstitutionDataCacheRep
   }
 
   @override
-  Either<AutoCacheException, List<DataCacheEntity?>> getAll() {
+  Result<List<DataCacheEntity?>> getAll() {
     try {
       final response = datasource.getAll();
 
@@ -33,7 +32,7 @@ final class SubstitutionDataCacheRepository implements ISubstitutionDataCacheRep
   }
 
   @override
-  AsyncEither<AutoCacheException, bool> accomodateCache<T extends Object>(DataCacheEntity<T> cache, {String? key}) async {
+  AsyncResult<bool> accomodateCache<T extends Object>(DataCacheEntity<T> cache, {String? key}) async {
     try {
       final response = await datasource.accomodateCache(cache);
 

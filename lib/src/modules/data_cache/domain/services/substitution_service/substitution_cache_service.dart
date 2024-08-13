@@ -1,12 +1,8 @@
 import '../../../../../core/shared/configuration/cache_configuration.dart';
-import '../../../../../core/shared/errors/auto_cache_error.dart';
 import '../../../../../core/shared/functional/either.dart';
-
 import '../../entities/data_cache_entity.dart';
 import '../../enums/substitution_policies.dart';
-
 import '../../repositories/i_data_cache_repository.dart';
-
 import 'substitution_cache_strategy.dart';
 
 /// An interface for a cache service that handles data substitution policies.
@@ -17,10 +13,10 @@ abstract interface class ISubstitutionCacheService {
   /// Substitutes data in the cache.
   ///
   /// This method attempts to substitute the given data in the cache and returns
-  /// either an error or a success unit wrapped in an [AsyncEither].
+  /// either an error or a success unit wrapped in an [AsyncResult].
   ///
   /// [data]: The data to be substituted in the cache.
-  AsyncEither<AutoCacheError, Unit> substitute<T extends Object>(T data);
+  AsyncResult<Unit> substitute<T extends Object>(T data);
 }
 
 final class SubstitutionCacheService implements ISubstitutionCacheService {
@@ -31,14 +27,14 @@ final class SubstitutionCacheService implements ISubstitutionCacheService {
   const SubstitutionCacheService(this.configuration, this.dataRepository, this.substitutionRepository);
 
   @override
-  AsyncEither<AutoCacheError, Unit> substitute<T extends Object>(T data) async {
+  AsyncResult<Unit> substitute<T extends Object>(T data) async {
     final dataCache = DataCacheEntity.fakeConfig(data);
     final accomodateResponse = await substitutionRepository.accomodateCache<T>(dataCache);
 
     return accomodateResponse.fold(left, (accomodate) => _handleSizeVerification(accomodate, dataCache));
   }
 
-  AsyncEither<AutoCacheError, Unit> _handleSizeVerification<T extends Object>(bool canAccomodate, DataCacheEntity<T> data) async {
+  AsyncResult<Unit> _handleSizeVerification<T extends Object>(bool canAccomodate, DataCacheEntity<T> data) async {
     if (canAccomodate) return right(unit);
 
     return _strategy.substitute(data);

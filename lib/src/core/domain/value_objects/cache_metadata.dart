@@ -1,7 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:meta/meta.dart';
 
-import '../../shared/errors/auto_cache_error.dart';
 import '../../shared/functional/either.dart';
 import '../../shared/functional/equals.dart';
 import '../failures/cache_time_details_failure.dart';
@@ -34,7 +33,7 @@ final class CacheMetadata extends Equals {
 
   CacheMetadata used() => copyWith(usedAt: DateTime.now());
 
-  Either<AutoCacheError, Unit> validate() {
+  Result<Unit> validate() {
     if (endAt.isBefore(createdAt)) return left(EndBeforeCreatedAtFailure());
     if (updatedAt?.isBefore(createdAt) ?? false) return left(UpdatedBeforeCreatedAtFailure());
     if (usedAt?.isBefore(createdAt) ?? false) return left(UsedBeforeCreatedAtFailure());

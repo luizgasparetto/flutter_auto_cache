@@ -6,7 +6,7 @@ final class LruSubstitutionCacheStrategy extends ISubstitutionCacheStrategy {
   final dataCacheEntries = AutoCacheNotifier<List<DataCacheEntity>>([]);
 
   @override
-  Either<AutoCacheError, String> getCacheKey({bool recursive = false}) {
+  Result<String> getCacheKey({bool recursive = false}) {
     if (dataCacheEntries.value.isEmpty) return _getAllEntries();
     if (recursive) _removeFirstDataCacheEntrie();
 
@@ -18,12 +18,12 @@ final class LruSubstitutionCacheStrategy extends ISubstitutionCacheStrategy {
     dataCacheEntries.setData(updatedCacheList);
   }
 
-  Either<AutoCacheError, String> _getAllEntries() {
+  Result<String> _getAllEntries() {
     final cacheEntriesResponse = substitutionRepository.getAll();
     return cacheEntriesResponse.fold(left, _callbackGetCacheKey);
   }
 
-  Either<AutoCacheError, String> _callbackGetCacheKey(List<DataCacheEntity?> entries) {
+  Result<String> _callbackGetCacheKey(List<DataCacheEntity?> entries) {
     final sortedList = _sortDataCacheEntries(entries: entries);
     dataCacheEntries.setData(sortedList);
 

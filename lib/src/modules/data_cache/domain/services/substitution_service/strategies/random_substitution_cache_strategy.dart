@@ -4,7 +4,7 @@ final class RandomSubstitutionCacheStrategy extends ISubstitutionCacheStrategy {
   const RandomSubstitutionCacheStrategy(super.dataRepository, super.substitutionRepository);
 
   @override
-  Either<AutoCacheError, String> getCacheKey({bool recursive = false}) {
+  Result<String> getCacheKey({bool recursive = false}) {
     final keysResponse = substitutionRepository.getKeys();
     return keysResponse.mapRight(_generateCacheKey);
   }
