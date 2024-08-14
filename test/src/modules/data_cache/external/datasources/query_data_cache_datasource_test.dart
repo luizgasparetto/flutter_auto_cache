@@ -5,13 +5,13 @@ import 'package:flutter_auto_cache/src/core/domain/value_objects/cache_metadata.
 import 'package:flutter_auto_cache/src/core/shared/errors/auto_cache_error.dart';
 import 'package:flutter_auto_cache/src/core/shared/services/cache_size_service/cache_size_service.dart';
 import 'package:flutter_auto_cache/src/core/shared/services/cryptography_service/i_cryptography_service.dart';
-import 'package:flutter_auto_cache/src/core/shared/services/kvs_service/i_kvs_service.dart';
+import 'package:flutter_auto_cache/src/core/shared/services/storage_service/i_storage_service.dart';
 import 'package:flutter_auto_cache/src/modules/data_cache/domain/entities/data_cache_entity.dart';
 import 'package:flutter_auto_cache/src/modules/data_cache/external/datasources/query_data_cache_datasource.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
-class KvsServiceMock extends Mock implements IKvsService {}
+class StorageServiceMock extends Mock implements IStorageService {}
 
 class CryptographyServiceMock extends Mock implements ICryptographyService {}
 
@@ -20,7 +20,7 @@ class CacheSizeServiceMock extends Mock implements ICacheSizeService {}
 class FakeAutoCacheException extends Fake implements AutoCacheException {}
 
 void main() {
-  final kvsService = KvsServiceMock();
+  final kvsService = StorageServiceMock();
   final cryptographyService = CryptographyServiceMock();
   final sizeService = CacheSizeServiceMock();
 

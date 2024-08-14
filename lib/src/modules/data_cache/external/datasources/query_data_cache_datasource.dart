@@ -2,21 +2,19 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import '../../../../core/shared/extensions/nullable_extensions.dart';
-
 import '../../../../core/shared/services/cache_size_service/cache_size_service.dart';
 import '../../../../core/shared/services/cryptography_service/i_cryptography_service.dart';
-import '../../../../core/shared/services/kvs_service/i_kvs_service.dart';
-
+import '../../../../core/shared/services/storage_service/i_storage_service.dart';
 import '../../domain/entities/data_cache_entity.dart';
 import '../../infra/datasources/i_query_data_cache_datasource.dart';
 import '../adapters/data_cache_adapter.dart';
 
 final class QueryDataCacheDatasource implements IQueryDataCacheDatasource {
-  final IKvsService kvsService;
+  final IStorageService storageService;
   final ICryptographyService cryptographyService;
   final ICacheSizeService sizeService;
 
-  const QueryDataCacheDatasource(this.kvsService, this.cryptographyService, this.sizeService);
+  const QueryDataCacheDatasource(this.storageService, this.cryptographyService, this.sizeService);
 
   @override
   DataCacheEntity<T>? get<T extends Object>(String key) {
@@ -45,16 +43,16 @@ final class QueryDataCacheDatasource implements IQueryDataCacheDatasource {
 
   @override
   List<DataCacheEntity<Object>?> getAll() {
-    final keys = kvsService.getKeys();
+    final keys = storageService.getKeys();
 
     return keys.map((key) => get(key)).toList();
   }
 
   @override
-  List<String> getKeys() => kvsService.getKeys();
+  List<String> getKeys() => storageService.getKeys();
 
   Map<String, dynamic>? getDecryptedJson(String key) {
-    final response = kvsService.get(key: key);
+    final response = storageService.get(key: key);
 
     if (response == null) return null;
 

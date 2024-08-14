@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import 'package:flutter_auto_cache/src/core/shared/services/kvs_service/exceptions/kvs_storage_exceptions.dart';
-import 'package:flutter_auto_cache/src/core/shared/services/kvs_service/implementations/shared_preferences_kvs_service.dart';
+import 'package:flutter_auto_cache/src/core/shared/services/storage_service/exceptions/storage_storage_exceptions.dart';
+import 'package:flutter_auto_cache/src/core/shared/services/storage_service/implementations/shared_preferences_storage_service.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -10,7 +10,7 @@ class SharedPreferencesMock extends Mock implements SharedPreferences {}
 
 void main() {
   final prefs = SharedPreferencesMock();
-  final sut = SharedPreferencesKvsService(prefs);
+  final sut = SharedPreferencesStorageService(prefs);
 
   tearDown(() {
     reset(prefs);
@@ -46,7 +46,7 @@ void main() {
     test('should NOT be able to GET cache data when prefs throws an Exception', () async {
       when(() => prefs.getString('my_key')).thenThrow(Exception());
 
-      expect(() => sut.get(key: 'my_key'), throwsA(isA<GetKvsStorageException>()));
+      expect(() => sut.get(key: 'my_key'), throwsA(isA<GetStorageStorageException>()));
       verify(() => prefs.getString('my_key')).called(1);
     });
   });
@@ -76,7 +76,7 @@ void main() {
     test('should NOT be able to GET a list of cache data when prefs throws an Exception', () async {
       when(() => prefs.getStringList('my_key')).thenThrow(Exception());
 
-      expect(() => sut.getList(key: 'my_key'), throwsA(isA<GetListKvsStorageException>()));
+      expect(() => sut.getList(key: 'my_key'), throwsA(isA<GetListStorageStorageException>()));
       verify(() => prefs.getStringList('my_key')).called(1);
     });
   });
@@ -105,7 +105,7 @@ void main() {
     test('should NOT be able to get keys when prefs failed', () {
       when(() => prefs.getKeys()).thenThrow(Exception());
 
-      expect(() => sut.getKeys(), throwsA(isA<GetKvsStorageKeysException>()));
+      expect(() => sut.getKeys(), throwsA(isA<GetStorageStorageKeysException>()));
       verify(() => prefs.getKeys()).called(1);
     });
   });
@@ -124,7 +124,7 @@ void main() {
     test('should NOT be able to SAVE cache data with key when prefs throws an Exception', () async {
       when(() => prefs.setString('my_key', any(that: isA<String>()))).thenThrow(Exception());
 
-      expect(() => sut.save(key: 'my_key', data: encondedData), throwsA(isA<SaveKvsStorageException>()));
+      expect(() => sut.save(key: 'my_key', data: encondedData), throwsA(isA<SaveStorageStorageException>()));
       verify(() => prefs.setString('my_key', any(that: isA<String>()))).called(1);
     });
   });
@@ -142,7 +142,7 @@ void main() {
     test('should NOT be able to SAVE cache list data when prefs throws an Exception', () async {
       when(() => prefs.setStringList('my_key', list)).thenThrow(Exception());
 
-      expect(() => sut.saveList(key: 'my_key', data: list), throwsA(isA<SaveListKvsStorageException>()));
+      expect(() => sut.saveList(key: 'my_key', data: list), throwsA(isA<SaveListStorageStorageException>()));
       verify(() => prefs.setStringList('my_key', list)).called(1);
     });
   });
@@ -158,7 +158,7 @@ void main() {
     test('should NOT be able to delete cache data when prefs fails', () async {
       when(() => prefs.remove('key')).thenThrow(Exception());
 
-      expect(() => sut.delete(key: 'key'), throwsA(isA<DeleteKvsStorageException>()));
+      expect(() => sut.delete(key: 'key'), throwsA(isA<DeleteStorageStorageException>()));
       verify(() => prefs.remove('key')).called(1);
     });
   });
@@ -174,7 +174,7 @@ void main() {
     test('should NOT be able to clear cache of prefs when SharedPreferences fails', () async {
       when(prefs.clear).thenThrow(Exception());
 
-      expect(sut.clear, throwsA(isA<ClearKvsStorageException>()));
+      expect(sut.clear, throwsA(isA<ClearStorageStorageException>()));
       verify(prefs.clear).called(1);
     });
   });

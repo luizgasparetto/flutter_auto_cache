@@ -1,13 +1,13 @@
-/// A mixin that combines the capabilities of both `_ICommandKVSService`
-/// and `_IQueryKVSService`, providing a comprehensive interface for
+/// A mixin that combines the capabilities of both `_ICommandStorageService`
+/// and `_IQueryStorageService`, providing a comprehensive interface for
 /// key-value storage operations.
 ///
 /// This mixin should be applied to classes that implement both command
 /// and query operations for key-value storage.
-mixin IKvsService on _ICommandKvsService, _IQueryKvsService {}
+mixin IStorageService on _ICommandStorageService, _IQueryStorageService {}
 
 /// An abstract interface class that defines a contract for command operations on a key-value storage service.
-abstract interface class _ICommandKvsService {
+abstract interface class _ICommandStorageService {
   /// Saves a single value associated with the provided key to the key-value storage.
   ///
   /// - [key]: A string representing the key under which the data will be stored.
@@ -38,7 +38,7 @@ abstract interface class _ICommandKvsService {
 }
 
 /// An abstract interface class that defines a contract for querying a key-value storage service.
-abstract interface class _IQueryKvsService {
+abstract interface class _IQueryStorageService {
   /// Retrieves a single value associated with the provided key from the key-value storage.
   ///
   /// - [key]: A string representing the key whose value is to be fetched.
