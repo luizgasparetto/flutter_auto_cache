@@ -10,7 +10,7 @@ import '../../../../core/domain/value_objects/cache_metadata.dart';
 /// creation time, last update time, and expiration time. It is immutable,
 /// ensuring that once an instance is created, it cannot be modified.
 @immutable
-class DataCacheEntity<T extends Object> extends CacheEntity {
+class DataCacheEntity<T extends Object> extends CacheEntity<String> {
   final T data;
 
   const DataCacheEntity({

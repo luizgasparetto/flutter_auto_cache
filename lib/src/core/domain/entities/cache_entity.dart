@@ -6,8 +6,8 @@ import '../value_objects/cache_metadata.dart';
 import '../enums/cache_type.dart';
 
 @immutable
-abstract class CacheEntity extends Equals {
-  final String id;
+abstract class CacheEntity<IdType extends String?> extends Equals {
+  final IdType id;
   final int usageCount;
   final CacheMetadata metadata;
   final CacheType cacheType;
