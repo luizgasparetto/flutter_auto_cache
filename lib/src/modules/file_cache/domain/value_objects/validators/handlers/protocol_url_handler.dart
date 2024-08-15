@@ -1,12 +1,14 @@
+import 'dart:async';
+
 import '../../../../../../core/shared/contracts/handlers/chain_handler.dart';
 import '../../../../../../core/shared/errors/auto_cache_error.dart';
 import '../../../../../../core/shared/functional/either.dart';
 
 import '../../../failures/url_failures.dart';
 
-final class ProtocolUrlHandler extends SyncChainHandler<String> {
+final class ProtocolUrlHandler extends ChainHandler<String, AutoCacheFailure> {
   @override
-  Either<AutoCacheFailure, Unit> handle(String value) {
+  FutureOr<Either<AutoCacheFailure, Unit>> handle(String value) {
     final protocolRegex = RegExp(r'^(https?:\/\/)');
 
     final hasMatch = protocolRegex.hasMatch(value);
