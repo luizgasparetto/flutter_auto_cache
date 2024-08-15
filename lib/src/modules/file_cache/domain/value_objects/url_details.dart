@@ -11,15 +11,15 @@ import 'validators/url_validator.dart';
 
 @immutable
 final class UrlDetails implements ValueObject {
-  final String url;
+  final String value;
 
-  const UrlDetails(this.url);
-
-  @override
-  Either<AutoCacheFailure, Unit> validate() => UrlValidator.validate(url);
-
-  String get fileName => url.split('/').last.split('.').first.toLowerCase();
+  const UrlDetails(this.value);
 
   @override
-  List<Object?> get props => [url];
+  Either<AutoCacheFailure, Unit> validate() => UrlValidator.validate(value);
+
+  String get fileName => value.split('/').last.split('.').first.toLowerCase();
+
+  @override
+  List<Object?> get props => [value];
 }

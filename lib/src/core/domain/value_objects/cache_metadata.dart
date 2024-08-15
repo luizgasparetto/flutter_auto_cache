@@ -1,9 +1,9 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:meta/meta.dart';
 
 import '../../shared/errors/auto_cache_error.dart';
 import '../../shared/functional/either.dart';
 import '../../shared/functional/equals.dart';
+
 import '../failures/cache_time_details_failure.dart';
 
 @immutable
