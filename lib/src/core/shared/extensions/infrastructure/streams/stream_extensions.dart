@@ -5,7 +5,7 @@ extension InteractStreamExtension<T> on Stream<T> {
     this.listen(
       (event) => controller.add(event),
       onDone: () => controller.close(),
-      onError: (error) {
+      onError: (covariant Object error) {
         controller.addError(error);
         controller.close();
       },

@@ -35,13 +35,11 @@ final class SubstitutionCacheService implements ISubstitutionCacheService {
     final dataCache = DataCacheEntity.fakeConfig(data);
     final accomodateResponse = await substitutionRepository.accomodateCache<T>(dataCache);
 
-    return accomodateResponse.fold(left, (accomodate) => _handleSizeVerification(accomodate, dataCache));
+    return accomodateResponse.fold(left, (accomodate) => _handleSizeVerification<T>(accomodate, dataCache));
   }
 
   AsyncEither<AutoCacheError, Unit> _handleSizeVerification<T extends Object>(bool canAccomodate, DataCacheEntity<T> data) async {
-    if (canAccomodate) return right(unit);
-
-    return _strategy.substitute(data);
+    return canAccomodate ? right(unit) : _strategy.substitute<T>(data);
   }
 
   ISubstitutionCacheStrategy get _strategy {

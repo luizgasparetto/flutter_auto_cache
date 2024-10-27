@@ -9,5 +9,6 @@
   },
   "files.watcherExclude": {
     "/.fvm": true
-  }
+  },
+  "cmake.sourceDirectory": "E:/programming/flutter/projects/flutter_auto_cache/example/windows"
 }

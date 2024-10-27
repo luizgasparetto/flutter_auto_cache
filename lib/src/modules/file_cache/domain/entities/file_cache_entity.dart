@@ -13,6 +13,4 @@ final class FileCacheEntity extends CacheEntity<String?> {
     required this.url,
     required this.relativePath,
   }) : super(cacheType: CacheType.file);
-
-  String get key => super.id ?? url.value;
 }

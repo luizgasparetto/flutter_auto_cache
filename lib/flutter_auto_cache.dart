@@ -20,3 +20,4 @@ class AutoCache {
   /// This property allows for centralized management of cached preferences.
   static IDataCacheController get data => DataCacheController.instance;
 }
+
